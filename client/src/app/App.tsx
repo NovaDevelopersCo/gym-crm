@@ -1,17 +1,14 @@
-import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 
-import { setupStore } from '@store/index'
+// import { StoreProvider } from '@store/index'
 
 import { router } from './routes/router'
 
-const store = setupStore()
-
 function App() {
 	return (
-		<Provider store={store}>
+		// <StoreProvider>
 			<RouterProvider router={router} />
-		</Provider>
+		// </StoreProvider>
 	)
 }
 
