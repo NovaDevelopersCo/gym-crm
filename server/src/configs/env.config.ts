@@ -7,7 +7,22 @@ export class EnvironmentVariables {
 	PORT: number
 
 	@IsString()
+	POSTGRES_HOST: string
+
+	@IsString()
 	DATABASE_URL: string
+
+	@IsNumber()
+	POSTGRES_PORT: number
+
+	@IsString()
+	POSTGRES_USER: string
+
+	@IsString()
+	POSTGRES_PASSWORD: string
+
+	@IsString()
+	POSTGRES_DATABASE: string
 }
 
 export const EnvConfigOptions: ConfigModuleOptions = {
