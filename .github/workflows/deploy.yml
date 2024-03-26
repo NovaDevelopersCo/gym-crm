@@ -64,4 +64,3 @@ jobs:
             password: ${{env.SSH_PASSWORD}}
             source: "client/dist/*"
             target: ${{env.SSH_CLIENT_DIST}}
-            rm: true
