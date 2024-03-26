@@ -2,6 +2,7 @@ import {
 	BaseQueryFn,
 	FetchArgs,
 	FetchBaseQueryError,
+	// FetchBaseQueryMeta,
 	createApi,
 	fetchBaseQuery
 } from '@reduxjs/toolkit/query/react'
@@ -40,9 +41,9 @@ const baseQueryWithReauth: BaseQueryFn<
 	if (result.error && result.error.status === 401) {
 		const refreshResult = await baseQuery('/refresh', api, extraOptions)
 		if (refreshResult.data) {
-			api.dispatch(
-				authSlice.actions.setToken(refreshResult.data.accessToken)
-			)
+			// api.dispatch(
+			// 	authSlice.actions.setToken(refreshResult.data.accessToken)
+			// )
 			result = await baseQuery(args, api, extraOptions)
 		} else {
 			api.dispatch(authSlice.actions.logout())

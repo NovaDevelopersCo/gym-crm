@@ -1,3 +1,5 @@
-type TLoginResponse = {}
+type TLoginResponse = {
+	accessToken: string
+}
 
 export default TLoginResponse
