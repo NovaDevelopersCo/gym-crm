@@ -41,7 +41,7 @@ jobs:
               host: ${{env.SSH_HOST}}
               username: ${{env.SSH_USERNAME}}
               password: ${{env.SSH_PASSWORD}}
-              script: bash deploy-metall-admin.sh
+              script: bash ${{env.SSH_SERVER_SCRIPT}}
 
     client_build_deploy:
       runs-on: ubuntu-latest
