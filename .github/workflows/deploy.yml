@@ -63,4 +63,5 @@ jobs:
             username: ${{env.SSH_USERNAME}}
             password: ${{env.SSH_PASSWORD}}
             source: "client/dist/*"
-            target: ${{env.SSH_CLIENT_DIST}} --overwrite
+            target: ${{env.SSH_CLIENT_DIST}}
+            rm: true
