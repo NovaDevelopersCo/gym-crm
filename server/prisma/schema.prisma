@@ -7,25 +7,25 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  Coach
-  Manager
-  Director
-}
-
 model Staff {
   id        Int      @id @default(autoincrement())
   email     String   @unique
   name      String
   password  String
   role      Role
-  session   Session? @relation(fields: [sessionId], references: [id])
   sessionId Int?
+  session   Session? @relation(fields: [sessionId], references: [id])
 }
 
 model Session {
   id      Int     @id
   token   String  @unique
-  user    Staff[]
   staffId Int
+  user    Staff[]
+}
+
+enum Role {
+  Coach
+  Manager
+  Director
 }
