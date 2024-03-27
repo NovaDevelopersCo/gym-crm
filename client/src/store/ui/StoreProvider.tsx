@@ -3,10 +3,9 @@ import { Provider } from 'react-redux'
 
 import { setupStore } from '..'
 
-const store = setupStore()
-
-const StoreProvider: FC<PropsWithChildren> = ({ children }) => (
-	<Provider store={store}>{children}</Provider>
-)
+const StoreProvider: FC<PropsWithChildren> = ({ children }) => {
+	const store = setupStore()
+	return <Provider store={store}>{children}</Provider>
+}
 
 export default StoreProvider

@@ -1,5 +1,8 @@
+import { IUser } from "../.."
+
 type TRegistrationResponse = {
-	accessToken: string
+	user: IUser | null
+	accessToken: string | null
 }
 
 export default TRegistrationResponse
