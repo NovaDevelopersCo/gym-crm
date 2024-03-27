@@ -1,23 +1,32 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import cl from './RegistrationForm.module.scss'
-import { Button } from './ui/@button'
-import { Input } from './ui/@input'
+import Button from './@button/Button'
+import Input from './@input/Input'
+import { LoginUserDto, useAppDispatch, authApi, useAppSelector } from '@store/index'
+import { useEffect } from 'react'
+import { redirect } from 'react-router-dom'
 
-interface formData {
-	Login: string
-	Password: string
-}
-
-export const RegistrationForm = () => {
+export const LoginForm = () => {
 	const {
 		register,
 		formState: { errors },
 		handleSubmit
-	} = useForm<formData>()
+	} = useForm<LoginUserDto>()
 
-	const onSubmit: SubmitHandler<formData> = data => {
+	const dispatch = useAppDispatch()
+	const isAuth = useAppSelector(state => state['auth/slice'].isAuth)
+
+	useEffect(() => {
+		if (isAuth) {
+			redirect('/')
+		}
+	}, [isAuth])
+
+	const onSubmit: SubmitHandler<LoginUserDto> = data => {
 		console.log(data)
+		// return resp
+		dispatch(authApi.endpoints.loginUser.initiate(data))
 	}
 
 	return (
@@ -28,22 +37,22 @@ export const RegistrationForm = () => {
 			>
 				<span className={cl.root__container__validate}>
 					<Input
-						error={errors?.Login?.message}
+						error={errors?.login?.message}
 						type='text'
-						register={register('Login', {
+						register={register('login', {
 							required: 'Поле Логин обязательно к заполнению!'
 						})}
 						label='Логин'
 					/>
 					<span className={cl.root__container__validate_textErr}>
-						{errors?.Login?.message}
+						{errors?.login?.message}
 					</span>
 				</span>
 				<span className={cl.root__container__validate}>
 					<Input
-						error={errors?.Password?.message}
+						error={errors?.password?.message}
 						type='password'
-						register={register('Password', {
+						register={register('password', {
 							required: 'Поле Пароль обязательно к заполнению!',
 							minLength: {
 								value: 6,
@@ -54,11 +63,11 @@ export const RegistrationForm = () => {
 						label='Пароль'
 					/>
 					<span className={cl.root__container__validate_textErr}>
-						{errors?.Password?.message}
+						{errors?.password?.message}
 					</span>
 				</span>
 				<Button
-					error={errors?.Password?.message || errors?.Login?.message}
+					error={errors?.password?.message || errors?.login?.message}
 					text='Вход'
 				/>
 			</form>
