@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common'
 
-import { StaffEntity } from './entities'
+import { StaffEntity } from '@/modules/staff/entities'
 
 import { JwtService } from '@nestjs/jwt'
 import { ConfigService } from '@nestjs/config'
-import { ValidateRefreshDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { SessionEntity } from './entities'
 
@@ -35,24 +34,35 @@ export class TokenService {
 		return { accessToken, refreshToken }
 	}
 
-	async saveTokenToDb({ token, user }: { token: string; user: number }) {
-		const candidate = await this.sessionRepository.findOne({ where: { token } })
-		if (candidate) {
+	async saveTokenToDb(token: string, user: number) {
+		const oldSession = await this.sessionRepository.findOne({ where: { user } })
+
+		if (oldSession) {
 			return this.sessionRepository.save({
-				...candidate,
+				...oldSession,
 				token
 			})
 		}
-		return this.sessionRepository.create({ token, user })
+		const session = this.sessionRepository.create({ token, user })
+
+		return this.sessionRepository.save(session)
 	}
 
-	async validateRefreshToken({ refresh }: ValidateRefreshDto) {
+	async validateRefreshToken(refresh: string) {
 		return this.jwtService.verify<{ id: string }>(refresh, {
 			secret: this.configService.get('ACCESS_JWT_SECRET')
 		})
 	}
 
-	async findToken({ token }: { token: string }) {
+	async findToken(token: string) {
 		return this.sessionRepository.findOne({ where: { token } })
+	}
+
+	async byToken(refresh: string) {
+		return this.sessionRepository.findOne({ where: { token: refresh } })
+	}
+
+	async removeTokenFromDb(refresh: string) {
+		return this.sessionRepository.delete({ token: refresh })
 	}
 }

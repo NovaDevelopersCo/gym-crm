@@ -1,35 +1,28 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 
-import { LoginDto, RegistrationDto } from './dto'
-import { InjectRepository } from '@nestjs/typeorm'
+import { LoginDto, RefreshDto } from './dto'
 
-import { StaffEntity } from './entities'
-import { Repository } from 'typeorm'
-
-import bcrypt from 'bcrypt'
+import { compare } from 'bcrypt'
 import { TokenService } from './token.service'
 
 import { StaffService } from '@/modules/staff/staff.service'
+import { StaffEntity } from '@/modules/staff/entities'
 
 @Injectable()
 export class AuthService {
 	constructor(
-		@InjectRepository(StaffEntity) private readonly staffRepository: Repository<StaffEntity>,
 		private readonly tokenService: TokenService,
 		private readonly staffService: StaffService
 	) {}
-	async registration(dto: RegistrationDto) {
-		console.log(dto)
-	}
 
 	async login({ email, password }: LoginDto) {
-		const candidate = await this.staffRepository.findOne({ where: { email } })
+		const candidate = await this.staffService.byEmail(email)
 
 		if (!candidate) {
 			throw new BadRequestException('Профиль не найден')
 		}
 
-		const isPasswordValid = bcrypt.compare(password, candidate.password)
+		const isPasswordValid = await compare(password, candidate.password)
 
 		if (!isPasswordValid) {
 			throw new BadRequestException('Неверный пароль')
@@ -37,27 +30,40 @@ export class AuthService {
 
 		const tokens = this.tokenService.generateTokens(candidate)
 
+		await this.tokenService.saveTokenToDb(tokens.refreshToken, candidate.id)
+
 		return tokens
 	}
 
-	async refresh({ refresh }: { refresh: string }) {
-		const tokenFromDb = await this.tokenService.findToken({ token: refresh })
-		const validate = await this.tokenService.validateRefreshToken({ refresh })
+	async refresh(
+		refresh: string,
+		userId: string
+	): Promise<{
+		tokens: RefreshDto
+		profile: Pick<StaffEntity, 'email' | 'id' | 'role' | 'name'>
+	} | null> {
+		const tokenFromDb = await this.tokenService.findToken(refresh)
+		const user = await this.staffService.byId(+userId)
 
-		if (!tokenFromDb || !validate.id) {
-			throw new UnauthorizedException()
-		}
-
-		const user = await this.staffService.getById({ id: +validate.id })
-
-		if (!user) {
-			throw new UnauthorizedException()
+		if (!tokenFromDb || !user) {
+			return null
 		}
 
 		const tokens = this.tokenService.generateTokens(user)
 
-		await this.tokenService.saveTokenToDb({ token: tokens.refreshToken, user: user.id })
+		await this.tokenService.saveTokenToDb(tokens.refreshToken, user.id)
 
-		return tokens
+		// updateDate and createDate don't need into the client
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		const { password, createDate, updateDate, ...data } = user
+		return { tokens, profile: data }
+	}
+
+	async logout(refresh: string) {
+		const candidate = await this.tokenService.byToken(refresh)
+
+		if (candidate) {
+			await this.tokenService.removeTokenFromDb(refresh)
+		}
 	}
 }

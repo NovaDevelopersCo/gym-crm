@@ -5,16 +5,19 @@ import {
 	UsePipes,
 	ValidationPipe,
 	Res,
+	Get,
 	UnauthorizedException
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
 
-import { CookieOptions, Response } from 'express'
+import type { CookieOptions, Response } from 'express'
 
-import { Cookie } from '@/core/decorators'
+import { Cookie, Staff } from '@/core/decorators'
 
-import { LoginDto, RegistrationDto } from './dto'
+import { LoginDto } from './dto'
+import { RefreshGuard } from './guards'
 
+@UsePipes(new ValidationPipe({ whitelist: true }))
 @Controller('auth')
 export class AuthController {
 	constructor(private readonly authService: AuthService) {}
@@ -25,32 +28,42 @@ export class AuthController {
 		path: '/api/auth'
 	}
 
-	@UsePipes(new ValidationPipe())
 	@Post('login')
-	async login(@Body() dto: LoginDto, @Res() res: Response) {
+	async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
 		const { accessToken, refreshToken } = await this.authService.login(dto)
 
 		res.cookie('refresh', refreshToken, this.refreshCookieOptions)
 		return { accessToken }
 	}
 
-	@UsePipes(new ValidationPipe())
-	@Post('registration')
-	registration(@Body() dto: RegistrationDto) {
-		return this.registration(dto)
-	}
+	@RefreshGuard()
+	@Get('refresh')
+	async refresh(
+		@Staff('id') user: string,
+		@Cookie('refresh') refresh: string,
+		@Res({ passthrough: true }) res: Response
+	) {
+		const data = await this.authService.refresh(refresh, user)
 
-	@UsePipes(new ValidationPipe())
-	@Post('refresh')
-	async refresh(@Cookie('refresh') refresh: string | null, @Res() res: Response) {
-		if (!refresh) {
+		if (!data) {
+			res.clearCookie('refresh', { path: this.refreshCookieOptions.path })
 			throw new UnauthorizedException()
 		}
 
-		const { accessToken, refreshToken } = await this.authService.refresh({ refresh })
+		const {
+			tokens: { accessToken, refreshToken },
+			profile
+		} = data
 
 		res.cookie('refresh', refreshToken, this.refreshCookieOptions)
 
-		return { accessToken }
+		return { accessToken, profile }
+	}
+
+	@Get('logout')
+	async logout(@Cookie('refresh') refresh: string, @Res({ passthrough: true }) res: Response) {
+		this.authService.logout(refresh)
+		res.clearCookie('refresh', { path: this.refreshCookieOptions.path })
+		return
 	}
 }

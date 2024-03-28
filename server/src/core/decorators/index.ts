@@ -1,2 +1,2 @@
-export * from './user.decorator'
+export * from './staff.decorator'
 export * from './cookie.decorator'

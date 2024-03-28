@@ -3,8 +3,8 @@ import { Column, Entity } from 'typeorm'
 
 import { EStaffRole } from '@/core/enums'
 
-@Entity()
-export class Staff extends BaseEntity {
+@Entity('Staff')
+export class StaffEntity extends BaseEntity {
 	@Column()
 	name: string
 

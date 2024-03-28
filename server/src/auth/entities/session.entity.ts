@@ -1,9 +1,9 @@
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
-import { StaffEntity } from './index'
+import { StaffEntity } from '@/modules/staff/entities'
 import { BaseEntity } from '@core/database'
 
-@Entity()
-export class Session extends BaseEntity {
+@Entity('Session')
+export class SessionEntity extends BaseEntity {
 	@Column()
 	token: string
 
