@@ -1,5 +1,11 @@
+import { ListOfClients } from '@widgets/ListOfClients'
+
 const Home = () => {
-	return <div>Main</div>
+	return (
+		<div>
+			<ListOfClients />
+		</div>
+	)
 }
 
 export default Home

@@ -1,0 +1,49 @@
+.root {
+	user-select: none;
+
+	&__list {
+		margin: 0;
+		padding: 20px 20px;
+		outline: 1px solid gray;
+		list-style: none;
+		display: flex;
+		justify-content: space-around;
+		align-items: center;
+
+		&_listItem {
+			max-width: 50px;
+			display: flex;
+			flex-direction: column;
+			font-weight: 500;
+
+			&_item {
+				display: flex;
+
+				&_status {
+					max-width: 18px;
+					width: 18px;
+					max-height: 18px;
+					height: 18px;
+				}
+			}
+
+			&_opacity {
+				color: gray;
+			}
+		}
+
+		&_listItem:nth-child(2) {
+			width: 56px;
+			height: 56px;
+		}
+
+		&_listItem:nth-child(3) {
+			color: #4acaa2;
+		}
+
+		&_listItem:nth-child(6) {
+			column-gap: 10px;
+			max-width: 200px;
+		}
+	}
+}
