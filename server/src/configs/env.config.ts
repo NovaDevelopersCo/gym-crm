@@ -10,9 +10,6 @@ export class EnvironmentVariables {
 	POSTGRES_HOST: string
 
 	@IsString()
-	DATABASE_URL: string
-
-	@IsNumber()
 	POSTGRES_PORT: number
 
 	@IsString()
@@ -23,6 +20,12 @@ export class EnvironmentVariables {
 
 	@IsString()
 	POSTGRES_DATABASE: string
+
+	@IsString()
+	ACCESS_JWT_SECRET: string
+
+	@IsString()
+	REFRESH_JWT_SECRET: string
 }
 
 export const EnvConfigOptions: ConfigModuleOptions = {

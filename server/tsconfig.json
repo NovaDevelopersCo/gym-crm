@@ -18,12 +18,24 @@
 		"forceConsistentCasingInFileNames": false,
 		"noFallthroughCasesInSwitch": false,
 		"paths": {
-			"@/*": ["./src/*"],
-			"@auth/*": ["./src/auth/*"],
-			"@modules/*": ["./src/modules/*"],
-			"@core/*": ["./src/core/*"],
-			"@config": ["./src/configs"],
-			"@database/*": ["./src/database/*"]
+			"@/*": [
+				"./src/*"
+			],
+			"@auth/*": [
+				"./src/auth/*"
+			],
+			"@modules/*": [
+				"./src/modules/*"
+			],
+			"@core/*": [
+				"./src/core/*"
+			],
+			"@configs": [
+				"./src/configs"
+			],
+			"@database/*": [
+				"./src/database/*"
+			]
 		}
 	}
 }
