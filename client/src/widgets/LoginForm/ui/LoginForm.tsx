@@ -11,7 +11,7 @@ import {
 
 import Button from './@button/Button'
 import Input from './@input/Input'
-import cl from './RegistrationForm.module.scss'
+import cl from './LoginForm.module.scss'
 
 export const LoginForm = () => {
 	const {
