@@ -2,14 +2,13 @@ import {
 	BaseQueryFn,
 	FetchArgs,
 	FetchBaseQueryError,
-	// FetchBaseQueryMeta,
 	createApi,
 	fetchBaseQuery
 } from '@reduxjs/toolkit/query/react'
 
 import {
+	CreateUserDto,
 	LoginUserDto,
-	RegistrateUserDto,
 	TLoginResponse,
 	TRegistrationResponse,
 	authSlice
@@ -52,27 +51,23 @@ const baseQueryWithReauth: BaseQueryFn<
 	return result
 }
 
-const authApi = createApi({
+export const authApi = createApi({
 	reducerPath: 'auth/api',
 	baseQuery: baseQueryWithReauth,
 	tagTypes: ['Auth'],
 	endpoints: build => ({
-		registrateUser: build.query<TRegistrationResponse, RegistrateUserDto>({
+		createUser: build.query<TRegistrationResponse, CreateUserDto>({
 			query: user => ({
 				method: 'POST',
 				url: `registration`,
-				body: {
-					...user
-				}
+				body: user
 			})
 		}),
 		loginUser: build.query<TLoginResponse, LoginUserDto>({
 			query: user => ({
 				method: 'POST',
 				url: 'login',
-				body: {
-					...user
-				}
+				body: user
 			})
 		}),
 		logoutUser: build.query({
@@ -89,10 +84,8 @@ const authApi = createApi({
 })
 
 export const {
-	useRegistrateUserQuery,
+	useCreateUserQuery,
 	useLoginUserQuery,
 	useLogoutUserQuery,
 	useRefreshTokenQuery
 } = authApi
-
-export default authApi

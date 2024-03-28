@@ -1,14 +1,14 @@
 import { RouterProvider } from 'react-router-dom'
 
-// import { StoreProvider } from '@store/index'
+import { StoreProvider } from '@store/index'
 
 import { router } from './routes/router'
 
 function App() {
 	return (
-		// <StoreProvider>
+		<StoreProvider>
 			<RouterProvider router={router} />
-		// </StoreProvider>
+		</StoreProvider>
 	)
 }
 
