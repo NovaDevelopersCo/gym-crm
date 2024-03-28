@@ -5,8 +5,8 @@ export enum EUserRoles {
 }
 
 export default interface IUser {
+	id: number
 	name: string
 	email: string
-	id: number
 	role: EUserRoles
 }

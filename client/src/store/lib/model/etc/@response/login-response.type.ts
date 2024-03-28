@@ -1,4 +1,4 @@
-import { IUser } from "../.."
+import { IUser } from '../..'
 
 type TLoginResponse = {
 	user: IUser | null

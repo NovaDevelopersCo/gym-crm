@@ -1,8 +1,7 @@
-interface CreateUserDto {
-	name: string
-	surname: string
-	email: string
-	phone: string
+import { IUser } from '../..'
+
+interface CreateUserDto extends Omit<IUser, 'id'> {
+	password: string
 }
 
 export default CreateUserDto

@@ -1,11 +1,17 @@
+import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { redirect } from 'react-router-dom'
 
-import cl from './RegistrationForm.module.scss'
+import {
+	LoginUserDto,
+	authApi,
+	useAppDispatch,
+	useAppSelector
+} from '@store/index'
+
 import Button from './@button/Button'
 import Input from './@input/Input'
-import { LoginUserDto, useAppDispatch, authApi, useAppSelector } from '@store/index'
-import { useEffect } from 'react'
-import { redirect } from 'react-router-dom'
+import cl from './RegistrationForm.module.scss'
 
 export const LoginForm = () => {
 	const {

@@ -1,4 +1,4 @@
-import { IUser } from "../.."
+import { IUser } from '../..'
 
 type TRegistrationResponse = {
 	user: IUser | null

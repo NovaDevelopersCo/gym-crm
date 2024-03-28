@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-import { authApi, IUser } from '@store/index'
+import { IUser, authApi } from '@store/index'
 
 interface IAuthState {
 	user: IUser | null
