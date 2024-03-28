@@ -2,15 +2,19 @@ import { Navigate, useLocation } from 'react-router-dom'
 
 const isAuthenticated = true
 const user = {
-	role: 'user'
+	role: 'admin'
 }
 
 export const ProtectedRoute = ({
 	children,
-	allowedRoles
+	allowedRoles,
+	redirectPath = '/login',
+	isReverse = false
 }: {
 	children: JSX.Element
 	allowedRoles: string[]
+	redirectPath?: string
+	isReverse?: boolean
 }) => {
 	const location = useLocation()
 
@@ -18,9 +22,17 @@ export const ProtectedRoute = ({
 		isAuthenticated &&
 		(allowedRoles.includes(user.role) || allowedRoles.includes('*'))
 
-	return isAllowed ? (
-		children
-	) : (
-		<Navigate to='/login' state={{ from: location }} replace />
-	)
+	if (isReverse) {
+		return isAllowed ? (
+			<Navigate to={redirectPath} state={{ from: location }} replace />
+		) : (
+			children
+		)
+	} else {
+		return isAllowed ? (
+			children
+		) : (
+			<Navigate to={redirectPath} state={{ from: location }} replace />
+		)
+	}
 }
