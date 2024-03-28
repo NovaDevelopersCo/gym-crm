@@ -1,4 +1,4 @@
 import IClient from './Client.schema'
-import IUser from './User.schema'
+import IUser, {EUserRoles} from './User.schema'
 
-export type { IClient, IUser }
+export type { IClient, IUser, EUserRoles }
