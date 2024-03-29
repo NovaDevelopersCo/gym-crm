@@ -1,0 +1,11 @@
+version: '3.5'
+
+services:
+    postgres:
+        restart: always
+        image: postgres:16-alpine
+        env_file:
+            - path: ./.env
+              required: true
+        ports:
+            - '${POSTGRES_PORT}:5432'
