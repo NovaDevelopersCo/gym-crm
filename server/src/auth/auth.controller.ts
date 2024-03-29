@@ -11,7 +11,13 @@ import {
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
 
-import { ApiTags, ApiOperation, ApiOkResponse, ApiUnauthorizedResponse } from '@nestjs/swagger'
+import {
+	ApiTags,
+	ApiOperation,
+	ApiOkResponse,
+	ApiUnauthorizedResponse,
+	ApiBadRequestResponse
+} from '@nestjs/swagger'
 
 import { LoginDto } from './dto'
 
@@ -37,6 +43,7 @@ export class AuthController {
 
 	@ApiOperation({ summary: 'Логин в профиле управляющего' })
 	@ApiOkResponse({ description: 'Access токен', type: AuthOk })
+	@ApiBadRequestResponse({ status: 400, description: ESwaggerMessages.LOGIN_ERROR })
 	@Post('login')
 	async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
 		const { accessToken, refreshToken } = await this.authService.login(dto)

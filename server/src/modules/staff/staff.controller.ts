@@ -12,7 +12,8 @@ import {
 	ApiOperation,
 	ApiTags,
 	ApiUnauthorizedResponse,
-	ApiForbiddenResponse
+	ApiForbiddenResponse,
+	ApiBadRequestResponse
 } from '@nestjs/swagger'
 
 @ApiTags('Управляющие')
@@ -27,6 +28,7 @@ export class StaffController {
 	@ApiOkResponse({ description: 'Профиль успешно создан', type: CreateStaffOk })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
+	@ApiBadRequestResponse({ description: ESwaggerMessages.STAFF_CREATE })
 	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	@Post()
 	create(@Body() dto: CreateDto) {
