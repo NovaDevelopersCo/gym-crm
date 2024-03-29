@@ -10,6 +10,20 @@ export class AuthOk {
 	accessToken: string
 }
 
+class Profile {
+	@ApiProperty()
+	name: string
+
+	@ApiProperty()
+	role: ECreateStaffRole
+
+	@ApiProperty()
+	email: string
+
+	@ApiProperty()
+	id: string
+}
+
 export class RefreshOk extends AuthOk {
 	@ApiProperty({
 		default: {
@@ -19,7 +33,7 @@ export class RefreshOk extends AuthOk {
 			id: '35'
 		}
 	})
-	profile: Pick<StaffEntity, 'name' | 'role' | 'email' | 'id'>
+	profile: Profile
 }
 
 export class CreateStaffOk {
