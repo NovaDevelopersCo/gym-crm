@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
-import { IUser, authApi } from '@store/index'
+import { IUser, TLoginResponse, authApi } from '@store/index'
 
 interface IAuthState {
 	user: IUser | null
@@ -21,17 +21,7 @@ const authSlice = createSlice({
 	name: 'auth/slice',
 	initialState,
 	reducers: {
-		logout: () => initialState,
-		setToken: (state, action: PayloadAction<string>) => {
-			state.accessToken = action.payload
-			localStorage.setItem('token', action.payload)
-		},
-		setUser: (state, action: PayloadAction<IUser>) => {
-			state.user = action.payload
-		},
-		checkAuth: () => {
-
-		}
+		logout: () => initialState
 	},
 	extraReducers(builder) {
 		builder
@@ -39,7 +29,6 @@ const authSlice = createSlice({
 				authApi.endpoints.loginUser.matchFulfilled,
 				(state, { payload }) => {
 					state.accessToken = payload.accessToken
-					localStorage.setItem('token', payload.accessToken as string)
 					state.isAuth = true
 				}
 			)
@@ -51,20 +40,17 @@ const authSlice = createSlice({
 					}
 				}
 			)
+			.addMatcher(
+				authApi.endpoints.refreshToken.matchFulfilled,
+				(state, { payload }: PayloadAction<TLoginResponse>) => {
+					state.accessToken = payload.accessToken
+					state.user = payload.profile
+					state.isAuth = true
+				}
+			)
 			.addMatcher(authApi.endpoints.logoutUser.matchFulfilled, state => {
-				localStorage.removeItem('token')
 				state.isAuth = false
 				state.user = null
-			})
-			.addMatcher(authApi.endpoints.refreshToken.matchRejected, (state, action) => {
-				state.isAuth = false
-				state.error = action.payload?.data?.message as string
-			})
-			.addMatcher(authApi.endpoints.refreshToken.matchFulfilled, (state, payload) => {
-				state.accessToken = payload.accessToken
-				localStorage.setItem('token', payload.accessToken as string)
-				state.user = payload.user
-				state.isAuth = true
 			})
 	}
 })

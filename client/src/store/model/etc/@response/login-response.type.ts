@@ -1,7 +1,7 @@
 import { IUser } from '../..'
 
 type TLoginResponse = {
-	user: IUser | null
+	profile: IUser | null
 	accessToken: string | null
 }
 

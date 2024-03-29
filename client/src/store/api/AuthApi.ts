@@ -10,11 +10,11 @@ import { LoginUserDto, TLoginResponse, authSlice } from '@store/index'
 
 const baseQuery = fetchBaseQuery({
 	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/auth`,
-	credentials: 'same-origin',
+	credentials: 'include',
 
 	// Automatically use token in authorization header if it provided
 	prepareHeaders: headers => {
-		const token = localStorage.getItem('token')
+		const token = authSlice.getInitialState().accessToken
 		if (token) {
 			headers.set('Authorization', `Bearer ${token}`)
 			headers.set('Content-Type', 'application/json')
@@ -30,14 +30,15 @@ const baseQueryWithReauth: BaseQueryFn<
 	unknown,
 	FetchBaseQueryError
 > = async (args, api, extraOptions) => {
+
 	let result = await baseQuery(
 		args
 			? args
 			: {
 				url: 'refresh',
-				credentials: 'same-origin',
+				credentials: 'include',
 				headers: {
-					Authorization: `Bearer ${localStorage.getItem('token')}`,
+					Authorization: `Bearer ${authSlice.getInitialState().accessToken}`,
 					'Content-Type': 'application/json'
 				}
 			},
@@ -45,9 +46,6 @@ const baseQueryWithReauth: BaseQueryFn<
 		extraOptions
 	)
 
-	//  && result.error.status === 401
-	if (result.error) {
-	}
 	return result
 }
 

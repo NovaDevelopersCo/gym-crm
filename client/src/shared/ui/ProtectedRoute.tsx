@@ -1,4 +1,4 @@
-import { authApi, useAppDispatch, useAppSelector, useRefreshTokenQuery } from '@store/index'
+import { authApi, useAppDispatch, useAppSelector } from '@store/index'
 import { useEffect } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 
@@ -17,11 +17,9 @@ export const ProtectedRoute = ({
 	const dispatch = useAppDispatch()
 	const user = useAppSelector(store => store['auth/slice'].user)
 	const isAuthenticated = useAppSelector(store => store['auth/slice'].isAuth)
-	// const { data, refetch } = useRefreshTokenQuery()
+
 	useEffect(() => {
-		if (localStorage.getItem('token')) {
-			dispatch(authApi.endpoints.refreshToken.initiate())
-		}
+		dispatch(authApi.endpoints.refreshToken.initiate())
 	}, [])
 
 	const isAllowed =

@@ -19,14 +19,13 @@ export const LoginForm = () => {
 		formState: { errors },
 		handleSubmit
 	} = useForm<LoginUserDto>()
-
 	const dispatch = useAppDispatch()
-
 	const error = useAppSelector(state => state['auth/slice'].error)
 
 	const onSubmit: SubmitHandler<LoginUserDto> = data => {
 		console.log(data)
 		dispatch(authApi.endpoints.loginUser.initiate(data))
+		window.location.reload()
 	}
 
 	return (
