@@ -14,7 +14,9 @@ class Profile {
 	@ApiProperty()
 	name: string
 
-	@ApiProperty()
+	@ApiProperty({
+		enum: ECreateStaffRole
+	})
 	role: ECreateStaffRole
 
 	@ApiProperty()
