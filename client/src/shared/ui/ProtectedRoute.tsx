@@ -1,9 +1,6 @@
+import { authApi, useAppDispatch, useAppSelector, useRefreshTokenQuery } from '@store/index'
+import { useEffect } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
-
-const isAuthenticated = true
-const user = {
-	role: 'admin'
-}
 
 export const ProtectedRoute = ({
 	children,
@@ -17,6 +14,15 @@ export const ProtectedRoute = ({
 	isReverse?: boolean
 }) => {
 	const location = useLocation()
+	const dispatch = useAppDispatch()
+	const user = useAppSelector(store => store['auth/slice'].user)
+	const isAuthenticated = useAppSelector(store => store['auth/slice'].isAuth)
+	// const { data, refetch } = useRefreshTokenQuery()
+	useEffect(() => {
+		if (localStorage.getItem('token')) {
+			dispatch(authApi.endpoints.refreshToken.initiate())
+		}
+	}, [])
 
 	const isAllowed =
 		isAuthenticated &&

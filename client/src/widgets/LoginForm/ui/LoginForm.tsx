@@ -21,17 +21,11 @@ export const LoginForm = () => {
 	} = useForm<LoginUserDto>()
 
 	const dispatch = useAppDispatch()
-	const isAuth = useAppSelector(state => state['auth/slice'].isAuth)
 
-	useEffect(() => {
-		if (isAuth) {
-			redirect('/')
-		}
-	}, [isAuth])
+	const error = useAppSelector(state => state['auth/slice'].error)
 
 	const onSubmit: SubmitHandler<LoginUserDto> = data => {
 		console.log(data)
-		// return resp
 		dispatch(authApi.endpoints.loginUser.initiate(data))
 	}
 
@@ -41,17 +35,18 @@ export const LoginForm = () => {
 				onSubmit={handleSubmit(onSubmit)}
 				className={cl.root__container}
 			>
+				{error && <h1>{error}</h1>}
 				<span className={cl.root__container__validate}>
 					<Input
-						error={errors?.login?.message}
+						error={errors?.email?.message}
 						type='text'
-						register={register('login', {
-							required: 'Поле Логин обязательно к заполнению!'
+						register={register('email', {
+							required: 'Поле Почта обязательно к заполнению!'
 						})}
-						label='Логин'
+						label='Почта'
 					/>
 					<span className={cl.root__container__validate_textErr}>
-						{errors?.login?.message}
+						{errors?.email?.message}
 					</span>
 				</span>
 				<span className={cl.root__container__validate}>
@@ -73,7 +68,7 @@ export const LoginForm = () => {
 					</span>
 				</span>
 				<Button
-					error={errors?.password?.message || errors?.login?.message}
+					error={errors?.password?.message || errors?.email?.message}
 					text='Вход'
 				/>
 			</form>
