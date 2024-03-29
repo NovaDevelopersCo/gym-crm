@@ -1,7 +1,7 @@
 import { BaseEntity } from '@/core/database'
 import { Column, Entity } from 'typeorm'
 
-import { EStaffRole } from '@/core/enums'
+import { ECreateStaffRole } from '@/core/enums'
 
 @Entity('Staff')
 export class StaffEntity extends BaseEntity {
@@ -16,7 +16,7 @@ export class StaffEntity extends BaseEntity {
 
 	@Column({
 		type: 'enum',
-		enum: EStaffRole
+		enum: ECreateStaffRole
 	})
-	role: EStaffRole
+	role: ECreateStaffRole
 }

@@ -3,3 +3,8 @@ export enum EStaffRole {
 	TRAINER = 'trainer',
 	ADMIN = 'admin'
 }
+
+export enum ECreateStaffRole {
+	TRAINER = 'trainer',
+	ADMIN = 'admin'
+}
