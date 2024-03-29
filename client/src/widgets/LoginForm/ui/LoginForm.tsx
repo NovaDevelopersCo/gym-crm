@@ -24,8 +24,7 @@ export const LoginForm = () => {
 
 	const onSubmit: SubmitHandler<LoginUserDto> = data => {
 		console.log(data)
-		dispatch(authApi.endpoints.loginUser.initiate(data))
-		window.location.reload()
+		dispatch(authApi.endpoints.loginUser.initiate(data)).finally(() => window.location.reload())
 	}
 
 	return (
