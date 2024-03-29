@@ -15,7 +15,7 @@ import { ApiTags, ApiOperation, ApiOkResponse, ApiUnauthorizedResponse } from '@
 
 import { LoginDto } from './dto'
 
-import { ESwaggerMessages, AuthOk } from '@/core/swagger'
+import { ESwaggerMessages, AuthOk, RefreshOk } from '@/core/swagger'
 
 import type { CookieOptions, Response } from 'express'
 
@@ -47,7 +47,7 @@ export class AuthController {
 
 	@ApiOperation({ summary: 'Обновление токенов' })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
-	@ApiOkResponse({ description: 'Access токен', type: AuthOk })
+	@ApiOkResponse({ description: 'Access токен', type: RefreshOk })
 	@RefreshGuard()
 	@Get('refresh')
 	async refresh(
