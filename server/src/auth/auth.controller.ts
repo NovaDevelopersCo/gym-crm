@@ -11,14 +11,7 @@ import {
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
 
-import {
-	ApiTags,
-	ApiOperation,
-	ApiOkResponse,
-	ApiUnauthorizedResponse,
-	ApiCookieAuth,
-	ApiForbiddenResponse
-} from '@nestjs/swagger'
+import { ApiTags, ApiOperation, ApiOkResponse, ApiUnauthorizedResponse } from '@nestjs/swagger'
 
 import { LoginDto } from './dto'
 

@@ -5,16 +5,19 @@ import { StaffService } from './staff.service'
 
 import { CreateStaffOk, ESwaggerMessages } from '@/core/swagger'
 
-import { ApiForbiddenResponse } from '@nestjs/swagger'
-
 import { RolesAuthGuard } from '@/auth/guards/role.guard'
 import { EStaffRole } from '@/core/enums'
-import { ApiOkResponse, ApiOperation, ApiTags, ApiUnauthorizedResponse } from '@nestjs/swagger'
+import {
+	ApiOkResponse,
+	ApiOperation,
+	ApiTags,
+	ApiUnauthorizedResponse,
+	ApiForbiddenResponse
+} from '@nestjs/swagger'
 
 @ApiTags('Управляющие')
 @UsePipes(new ValidationPipe({ whitelist: true }))
 @Controller('staff')
-@ApiOkResponse()
 export class StaffController {
 	constructor(private readonly staffService: StaffService) {}
 	@ApiOperation({

@@ -1,2 +1,2 @@
-export { RefreshJwtStrategy } from './refresh-jwt-strategy'
-export { AccessJwtStrategy } from './access-jwt-strategy'
+export * from './refresh-jwt-strategy'
+export * from './access-jwt-strategy'
