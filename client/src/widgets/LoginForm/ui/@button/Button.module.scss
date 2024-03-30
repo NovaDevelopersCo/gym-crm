@@ -1,0 +1,31 @@
+.root {
+	background: #63c2a4;
+	outline: 1px solid #bcbcbc;
+	border: none;
+	padding: 9px 54px 14px 54px;
+	transition: all;
+	transition-duration: 200ms;
+	max-width: 140px;
+	max-height: 40px;
+	cursor: pointer;
+	color: #fff;
+
+	&:hover {
+		background: #4acaa2;
+	}
+
+	&:active {
+		background: #63c2a4;
+	}
+
+	&_btnErr {
+		background: rgb(72, 72, 72);
+		outline: 1px solid #e03737;
+		transition: all;
+		transition-duration: 600ms;
+
+		&:hover {
+			background: rgb(59, 59, 59);
+		}
+	}
+}

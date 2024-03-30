@@ -6,22 +6,17 @@ import {
 	fetchBaseQuery
 } from '@reduxjs/toolkit/query/react'
 
-import {
-	LoginUserDto,
-	RegistrateUserDto,
-	TLoginResponse,
-	TRegistrationResponse,
-	authSlice
-} from '@store/index'
+import { LoginUserDto, TLoginResponse, authSlice } from '@store/index'
 
 const baseQuery = fetchBaseQuery({
 	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/auth`,
-	credentials: 'same-origin',
+	credentials: 'include',
+
 	// Automatically use token in authorization header if it provided
 	prepareHeaders: headers => {
-		const token = localStorage.getItem('token')
+		const token = authSlice.getInitialState().accessToken
 		if (token) {
-			headers.set('authorization', `Bearer ${token}`)
+			headers.set('Authorization', `Bearer ${token}`)
 			headers.set('Content-Type', 'application/json')
 		}
 
@@ -35,43 +30,42 @@ const baseQueryWithReauth: BaseQueryFn<
 	unknown,
 	FetchBaseQueryError
 > = async (args, api, extraOptions) => {
-	let result = await baseQuery(args, api, extraOptions)
 
-	if (result.error && result.error.status === 401) {
-		const refreshResult = await baseQuery('/refresh', api, extraOptions)
-		if (refreshResult.data) {
-			api.dispatch(
-				authSlice.actions.setToken(refreshResult.data.accessToken)
-			)
-			result = await baseQuery(args, api, extraOptions)
-		} else {
-			api.dispatch(authSlice.actions.logout())
-		}
-	}
+	let result = await baseQuery(
+		args
+			? args
+			: {
+				url: 'refresh',
+				credentials: 'include',
+				headers: {
+					Authorization: `Bearer ${authSlice.getInitialState().accessToken}`,
+					'Content-Type': 'application/json'
+				}
+			},
+		api,
+		extraOptions
+	)
+
 	return result
 }
 
-const authApi = createApi({
+export const authApi = createApi({
 	reducerPath: 'auth/api',
 	baseQuery: baseQueryWithReauth,
-	tagTypes: ['Auth'],
+	// tagTypes: ['Auth'],
 	endpoints: build => ({
-		registrateUser: build.query<TRegistrationResponse, RegistrateUserDto>({
-			query: user => ({
-				method: 'POST',
-				url: `registration`,
-				body: {
-					...user
-				}
-			})
-		}),
+		// createUser: build.query<TRegistrationResponse, CreateUserDto>({
+		// 	query: user => ({
+		// 		method: 'POST',
+		// 		url: `registration`,
+		// 		body: user
+		// 	})
+		// }),
 		loginUser: build.query<TLoginResponse, LoginUserDto>({
 			query: user => ({
 				method: 'POST',
 				url: 'login',
-				body: {
-					...user
-				}
+				body: user
 			})
 		}),
 		logoutUser: build.query({
@@ -88,10 +82,8 @@ const authApi = createApi({
 })
 
 export const {
-	useRegistrateUserQuery,
+	// useCreateUserQuery,
 	useLoginUserQuery,
 	useLogoutUserQuery,
 	useRefreshTokenQuery
 } = authApi
-
-export default authApi

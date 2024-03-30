@@ -1,10 +1,10 @@
 name: FITNESS-DEPLOY
 
-on: 
+on:
     push:
         branches: ["master"]
 
-env: 
+env:
     LOGIN: ${{secrets.DOCKER_LOGIN}}
     PASSWORD: ${{secrets.DOCKER_PASSWORD}}
     SERVER_NAME: ${{secrets.DOCKER_SERVER_NAME}}
@@ -15,7 +15,7 @@ env:
     SSH_CLIENT_DIST: ${{secrets.SSH_CLIENT_DIST}}
 
 jobs:
-    server_build: 
+    server_build:
         runs-on: ubuntu-latest
         defaults:
             run:
@@ -28,7 +28,7 @@ jobs:
             - name: build image
               run: docker build -t ${{env.LOGIN}}/${{env.SERVER_NAME}}:deploy -f Dockerfile .
             - name: push build
-              run: docker push ${{env.LOGIN}}/${{env.SERVER_NAME}}:deploy                    
+              run: docker push ${{env.LOGIN}}/${{env.SERVER_NAME}}:deploy
 
     server_deploy:
         runs-on: ubuntu-latest
