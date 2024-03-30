@@ -1,5 +1,7 @@
-import Button from './button/Button'
+import Button from './button'
+import Container from './container'
 import Input from './input'
-import ProtectedRoute from './router/ProtectedRoute'
+import Modal from './modal'
+import ProtectedRoute from './router'
 
-export { Input, ProtectedRoute, Button }
+export { Input, ProtectedRoute, Button, Modal, Container }

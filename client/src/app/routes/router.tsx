@@ -1,7 +1,8 @@
 import { createBrowserRouter } from 'react-router-dom'
 
-import { Page404 } from '@pages/404/ui/404'
+import { Page404 } from '@pages/404'
 import { Admin } from '@pages/Admin'
+import { Clients } from '@pages/Clients'
 import { Home } from '@pages/Home'
 import Layout from '@pages/Layout'
 import { Login } from '@pages/Login'
@@ -41,6 +42,16 @@ export const router = createBrowserRouter([
 				)
 			},
 			{
+				path: '/clients',
+				element: (
+					<ProtectedRoute
+						allowedRoles={['admin', 'director', 'trainer']}
+					>
+						<Clients />
+					</ProtectedRoute>
+				)
+			},
+			{
 				path: '/login',
 				element: (
 					<ProtectedRoute
@@ -64,7 +75,6 @@ export const router = createBrowserRouter([
 					</ProtectedRoute>
 				)
 			},
-
 			{
 				path: '*',
 				element: <Page404 />

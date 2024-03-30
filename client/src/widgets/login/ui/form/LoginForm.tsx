@@ -11,7 +11,7 @@ import {
 
 import cl from './LoginForm.module.scss'
 
-export const LoginForm = () => {
+const LoginForm = () => {
 	const {
 		register,
 		formState: { errors },
@@ -68,8 +68,11 @@ export const LoginForm = () => {
 				<Button
 					error={errors?.password?.message || errors?.email?.message}
 					text='Вход'
+					type='submit'
 				/>
 			</form>
 		</div>
 	)
 }
+
+export default LoginForm

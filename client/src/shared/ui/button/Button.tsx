@@ -11,11 +11,7 @@ type TButtonProps = {
 } & ButtonHTMLAttributes<HTMLButtonElement>
 
 const Button: FC<TButtonProps> = ({ text, error, ...props }) => (
-	<button
-		type='submit'
-		className={clsx(cl.root, error && cl.root_btnErr)}
-		{...props}
-	>
+	<button className={clsx(cl.root, error && cl.root_btnErr)} {...props}>
 		{text}
 	</button>
 )

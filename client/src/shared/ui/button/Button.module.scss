@@ -2,12 +2,11 @@
 	background: #63c2a4;
 	outline: 1px solid #bcbcbc;
 	border: none;
-	padding: 9px 54px 14px 54px;
 	transition: all;
 	transition-duration: 200ms;
-	max-width: 140px;
-	max-height: 40px;
+	min-width: 140px;
 	cursor: pointer;
+	line-height: 40px;
 	color: #fff;
 
 	&:hover {
