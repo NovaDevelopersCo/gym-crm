@@ -7,7 +7,7 @@ import cl from './Button.module.scss'
 
 type TButtonProps = {
 	text: string
-	error: string | FieldError | Merge<FieldError, FieldErrorsImpl> | undefined
+	error?: string | FieldError | Merge<FieldError, FieldErrorsImpl>
 } & ButtonHTMLAttributes<HTMLButtonElement>
 
 const Button: FC<TButtonProps> = ({ text, error, ...props }) => (

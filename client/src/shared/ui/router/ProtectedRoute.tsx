@@ -1,8 +1,9 @@
-import { authApi, useAppDispatch, useAppSelector } from '@store/index'
 import { useEffect } from 'react'
 import { Navigate, useLocation } from 'react-router-dom'
 
-export const ProtectedRoute = ({
+import { authApi, useAppDispatch, useAppSelector } from '@store/index'
+
+const ProtectedRoute = ({
 	children,
 	allowedRoles,
 	redirectPath = '/login',
@@ -40,3 +41,5 @@ export const ProtectedRoute = ({
 		)
 	}
 }
+
+export default ProtectedRoute

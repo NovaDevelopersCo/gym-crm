@@ -1,6 +1,6 @@
-import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { redirect } from 'react-router-dom'
+
+import { Button, Input } from '@/shared'
 
 import {
 	LoginUserDto,
@@ -9,8 +9,6 @@ import {
 	useAppSelector
 } from '@store/index'
 
-import Button from './@button/Button'
-import Input from './@input/Input'
 import cl from './LoginForm.module.scss'
 
 export const LoginForm = () => {
@@ -24,7 +22,9 @@ export const LoginForm = () => {
 
 	const onSubmit: SubmitHandler<LoginUserDto> = data => {
 		console.log(data)
-		dispatch(authApi.endpoints.loginUser.initiate(data)).finally(() => window.location.reload())
+		dispatch(authApi.endpoints.loginUser.initiate(data)).finally(() =>
+			window.location.reload()
+		)
 	}
 
 	return (
