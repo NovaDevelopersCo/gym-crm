@@ -4,12 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prepare": "husky install"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "cd server && yarn run lint && yarn run format && cd ../client && yarn run lint && yarn run pretty"
-    }
+    "prepare": "husky"
   },
   "keywords": [],
   "author": "",
