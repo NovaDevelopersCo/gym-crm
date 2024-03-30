@@ -1,0 +1,39 @@
+.root {
+	width: fit-content;
+
+	&__label {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: 5px;
+
+		&_radio {
+			width: 0;
+			height: 0;
+		}
+
+		&_fakeRadio {
+			fill: #b9b9b9;
+			transition: all;
+			transition-duration: 300ms;
+			cursor: pointer;
+			display: flex;
+
+			&:hover {
+				fill: #989898;
+			}
+
+			&_rotate {
+				transform: rotate(180deg);
+			}
+
+			&_active {
+				fill: #989898;
+			}
+		}
+	}
+
+	&__label:nth-child(1) {
+		gap: 0;
+	}
+}

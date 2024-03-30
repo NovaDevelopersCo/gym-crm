@@ -1,7 +1,4 @@
-import { IUser } from '../..'
-
 type TLoginResponse = {
-	user: IUser | null
 	accessToken: string | null
 }
 

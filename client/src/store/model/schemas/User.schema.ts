@@ -1,7 +1,7 @@
 export enum EUserRoles {
 	DIRECTOR = 'director',
-	TRAINER = 'trainer',
-	ADMIN = 'admin'
+	ADMIN = 'admin',
+	TRAINER = 'trainer'
 }
 
 export default interface IUser {
