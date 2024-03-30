@@ -11,11 +11,17 @@ import {
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
 
-import { ApiTags, ApiOperation, ApiOkResponse, ApiUnauthorizedResponse } from '@nestjs/swagger'
+import {
+	ApiTags,
+	ApiOperation,
+	ApiOkResponse,
+	ApiUnauthorizedResponse,
+	ApiBadRequestResponse
+} from '@nestjs/swagger'
 
 import { LoginDto } from './dto'
 
-import { ESwaggerMessages, AuthOk } from '@/core/swagger'
+import { ESwaggerMessages, AuthOk, RefreshOk } from '@/core/swagger'
 
 import type { CookieOptions, Response } from 'express'
 
@@ -37,6 +43,7 @@ export class AuthController {
 
 	@ApiOperation({ summary: 'Логин в профиле управляющего' })
 	@ApiOkResponse({ description: 'Access токен', type: AuthOk })
+	@ApiBadRequestResponse({ status: 400, description: ESwaggerMessages.LOGIN_ERROR })
 	@Post('login')
 	async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
 		const { accessToken, refreshToken } = await this.authService.login(dto)
@@ -47,7 +54,7 @@ export class AuthController {
 
 	@ApiOperation({ summary: 'Обновление токенов' })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
-	@ApiOkResponse({ description: 'Access токен', type: AuthOk })
+	@ApiOkResponse({ description: 'Access токен', type: RefreshOk })
 	@RefreshGuard()
 	@Get('refresh')
 	async refresh(
