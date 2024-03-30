@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
 
-import { Page404 } from '@pages/404/ui/404'
+import { Page404 } from '@pages/404'
 import { Admin } from '@pages/Admin'
 import { Home } from '@pages/Home'
 import Layout from '@pages/Layout'
@@ -64,7 +64,6 @@ export const router = createBrowserRouter([
 					</ProtectedRoute>
 				)
 			},
-
 			{
 				path: '*',
 				element: <Page404 />

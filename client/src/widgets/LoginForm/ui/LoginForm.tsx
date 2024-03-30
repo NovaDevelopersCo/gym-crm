@@ -1,6 +1,4 @@
-import { useEffect } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { redirect } from 'react-router-dom'
 
 import {
 	LoginUserDto,
@@ -23,8 +21,9 @@ export const LoginForm = () => {
 	const error = useAppSelector(state => state['auth/slice'].error)
 
 	const onSubmit: SubmitHandler<LoginUserDto> = data => {
-		console.log(data)
-		dispatch(authApi.endpoints.loginUser.initiate(data)).finally(() => window.location.reload())
+		dispatch(authApi.endpoints.loginUser.initiate(data)).then(() =>
+			window.location.reload()
+		)
 	}
 
 	return (
