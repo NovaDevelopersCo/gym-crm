@@ -1,6 +1,4 @@
 .layout {
-	display: flex;
-	flex-direction: column;
 	height: 100vh;
 	width: 100vw;
 	overflow: hidden;
@@ -8,10 +6,19 @@
 	.horizontal__wrapper {
 		display: flex;
 		flex-direction: row;
+		width: 100%;
+		height: 100%;
 	}
 
 	.outlet__wrapper {
 		overflow: auto;
+		width: 100%;
+		height: 100%;
+	}
+
+	.vertical__wrapper {
+		display: flex;
+		flex-direction: column;
 		width: 100%;
 		height: 100%;
 	}
