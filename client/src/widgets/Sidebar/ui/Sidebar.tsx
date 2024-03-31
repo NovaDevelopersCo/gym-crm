@@ -14,11 +14,11 @@ export const Sidebar = () => {
 	}
 
 	return (
-		<div className={clsx(cl.root, isCollapsed && cl.root_collapsed)}>
-			<div className={cl.root__header}>
+		<aside className={clsx(cl.root, isCollapsed && cl.root_collapsed)}>
+			<header className={cl.root__header}>
 				<h2 className={cl.root__header__title}>Sidebar</h2>
-			</div>
-			<div className={cl.root__body}>
+			</header>
+			<main className={cl.root__body}>
 				{sidebarItemsArr.map(item => (
 					<SidebarItem
 						isCollapsed={isCollapsed}
@@ -28,8 +28,8 @@ export const Sidebar = () => {
 						path={item.path}
 					/>
 				))}
-			</div>
-			<div className={cl.root__footer}>
+			</main>
+			<footer className={cl.root__footer}>
 				<button
 					className={cl.root__footer__button}
 					type='button'
@@ -37,7 +37,7 @@ export const Sidebar = () => {
 				>
 					<ChevronLeft size={32} strokeWidth={3} />
 				</button>
-			</div>
-		</div>
+			</footer>
+		</aside>
 	)
 }
