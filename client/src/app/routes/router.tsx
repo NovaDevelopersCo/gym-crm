@@ -44,6 +44,10 @@ export const router = createBrowserRouter([
 							</ProtectedRoute>
 						)
 					},
+					{
+						path: '*',
+						element: <Page404 />
+					}
 				]
 			},
 			{
@@ -69,10 +73,6 @@ export const router = createBrowserRouter([
 						<Registration />
 					</ProtectedRoute>
 				)
-			},
-			{
-				path: '*',
-				element: <Page404 />
 			}
 		]
 	}
