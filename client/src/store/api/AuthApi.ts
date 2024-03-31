@@ -60,7 +60,7 @@ export const authApi = createApi({
 		// 		body: user
 		// 	})
 		// }),
-		loginUser: build.query<TRefreshResponse, LoginUserDto>({
+		loginUser: build.query<unknown, LoginUserDto>({
 			query: user => ({
 				method: 'POST',
 				url: 'login',

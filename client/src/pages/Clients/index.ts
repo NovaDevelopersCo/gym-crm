@@ -1,3 +1,4 @@
-import Clients from './ui/Clients'
+import ClientProfile from './ui/ClientProfile'
+import ClientsPage from './ui/Clients'
 
-export { Clients }
+export { ClientProfile, ClientsPage }
