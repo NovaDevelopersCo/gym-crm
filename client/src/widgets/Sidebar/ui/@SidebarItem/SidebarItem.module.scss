@@ -1,0 +1,44 @@
+.root {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	padding-inline: 15px;
+	width: 100%;
+	height: 60px;
+	transition: background-color 300ms ease-in-out;
+	text-decoration: none;
+	overflow-x: hidden;
+
+	&_collapsed {
+		.root__title {
+			display: none;
+		}
+	}
+
+	&_active {
+		background-color: #2e3136;
+
+		.root__icon {
+			color: #597b75;
+		}
+	}
+
+	&:hover {
+		background-color: #4d515883;
+	}
+
+	&__icon {
+		margin-right: 15px;
+		color: #8e979e;
+
+		svg {
+			width: 20px;
+			height: 20px;
+		}
+	}
+
+	&__title {
+		font-size: 16px;
+		color: #b3bbba;
+	}
+}
