@@ -5,7 +5,6 @@ export enum EStaffRole {
 }
 
 export enum ECreateStaffRole {
-	DIRECTOR = 'director',
 	TRAINER = 'trainer',
 	ADMIN = 'admin'
 }
