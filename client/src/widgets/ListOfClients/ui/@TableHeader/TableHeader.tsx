@@ -1,8 +1,7 @@
 import type { ReactNode } from 'react'
 import { useState } from 'react'
 
-//eslint-disable-next-line
-import { Radio } from './Radio/ui/Radio'
+import { Radio } from './@Radio/Radio'
 import cl from './TableHeader.module.scss'
 
 export const TableHeader = ({ children }: { children: ReactNode }) => {

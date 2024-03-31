@@ -1,6 +1,6 @@
-import { ClientItem } from './ClientItem'
+import { ClientItem } from './@ClientItem/ClientItem'
 import cl from './ListOfClients.module.scss'
-import { TableHeader } from './TableHeader/ui/TableHeader'
+import { TableHeader } from './@TableHeader/TableHeader'
 
 export const ListOfClients = () => {
 	return (

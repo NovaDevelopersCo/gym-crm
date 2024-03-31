@@ -1,5 +1,5 @@
 //eslint-disable-next-line
-import clientsData from '../../../../../data/clients.data.json'
+import clientsData from '@/data/clients.data.json'
 import { More } from './@more/More'
 import cl from './ClientItem.module.scss'
 
