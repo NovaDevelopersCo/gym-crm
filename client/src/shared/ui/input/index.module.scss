@@ -18,6 +18,14 @@
 		transition: all;
 		transition-duration: 300ms;
 
+		&_textarea {
+			resize: none !important;
+		}
+
+		&:focus {
+			outline-color: #1352a3 !important;
+		}
+
 		&_inputErr {
 			outline: 1px solid #e03737;
 		}

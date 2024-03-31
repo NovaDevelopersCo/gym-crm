@@ -1,8 +1,17 @@
 import Button from './button'
 import Container from './container'
-import Input from './input'
+import { Input, TextArea } from './input'
 import Modal from './modal'
 import ProtectedRoute from './router'
-import Select from './select'
+import Select, { type TOption } from './select'
 
-export { Input, ProtectedRoute, Button, Modal, Container, Select }
+export {
+	Input,
+	TextArea,
+	ProtectedRoute,
+	Button,
+	Modal,
+	Container,
+	Select,
+	TOption
+}

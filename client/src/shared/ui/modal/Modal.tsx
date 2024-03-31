@@ -6,7 +6,7 @@ import cl from './Modal.module.scss'
 
 type TModalProps = {
 	isOpen: boolean
-	setIsOpen: (o: boolean) => void
+	setIsOpen: (o: boolean) => void // eslint-disable-line no-unused-vars
 	children: ReactNode
 	className?: string
 }

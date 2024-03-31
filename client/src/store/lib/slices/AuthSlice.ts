@@ -42,7 +42,7 @@ const authSlice = createSlice({
 			)
 			.addMatcher(
 				authApi.endpoints.logoutUser.matchFulfilled,
-				state => initialState
+				state => initialState // eslint-disable-line
 			)
 	}
 })

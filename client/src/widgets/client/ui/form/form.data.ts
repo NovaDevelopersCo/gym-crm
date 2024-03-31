@@ -1,3 +1,5 @@
+import type { TOption } from '@/shared'
+
 type TNewClientFormFields =
 	| 'fio'
 	| 'phone'
@@ -11,17 +13,14 @@ type TNewClientFormFields =
 	| 'direction'
 	| 'groupIds'
 
-type TOption = {
-	value: string
-	label: string
-}
-
 type TNewClientFormItem = {
 	label: string
 	type?: 'text' | 'number'
 	name: TNewClientFormFields
 	options?: TOption[]
-	required: boolean
+	required?: boolean
+	isMulti?: boolean
+	isTextArea?: boolean
 }
 
 export const newClientFromItemsArr: TNewClientFormItem[] = [
@@ -40,41 +39,41 @@ export const newClientFromItemsArr: TNewClientFormItem[] = [
 	{
 		label: 'Почта',
 		type: 'text',
-		name: 'email',
-		required: false
+		name: 'email'
 	},
 	{
 		label: 'Телеграм',
 		type: 'text',
-		name: 'telegram',
-		required: false
+		name: 'telegram'
 	},
 	{
 		label: 'Возраст',
 		type: 'text',
-		name: 'age',
-		required: false
+		name: 'age'
 	},
 	{
 		label: 'Дата рождения',
 		type: 'text',
-		name: 'birthdayDate',
-		required: false
+		name: 'birthdayDate'
 	},
 	{
 		label: 'Как вы узнали о нас?',
 		type: 'text',
 		name: 'howDoYouKnow',
-		required: true
+		required: true,
+		isTextArea: true
 	},
 	{
 		label: 'Клуб',
-		type: 'text',
 		name: 'club',
 		options: [
 			{
 				value: 'Strength Club',
-				label: 'Strength Club г. Москва, ул. Колымыкинская'
+				label: 'Strength Club г. Москва, ул. Колымыкинская д. 54'
+			},
+			{
+				value: 'Mass Club',
+				label: 'Mass Club г. Москва, ул. Шишинская д. 12'
 			}
 		],
 		required: true
@@ -83,34 +82,35 @@ export const newClientFromItemsArr: TNewClientFormItem[] = [
 		label: 'Чем вы занимались до?',
 		type: 'text',
 		name: 'beforeDirection',
-		required: true
+		required: true,
+		isTextArea: true
 	},
 	{
 		label: 'В каких группах вы занимаетесь?',
-		type: 'text',
 		name: 'groupIds',
 		options: [
 			{ value: '345', label: 'Группа 345' },
 			{ value: '987', label: 'Группа 987' },
 			{ value: '433', label: 'Группа 433' }
 		],
-		required: true
+		required: true,
+		isMulti: true
 	},
 	{
 		label: 'Чем занимаетесь сейчас?',
-		type: 'text',
 		name: 'direction',
 		options: [
-			{ value: 'Бокс', label: 'Box' },
+			{ value: 'Box', label: 'Бокс' },
 			{
-				value: 'Kickboxing',
-				label: 'Kickboxing'
+				label: 'Kикбоксинг',
+				value: 'Kickboxing'
 			},
 			{
-				value: 'Karate',
-				label: 'Карате'
+				label: 'Карате',
+				value: 'Karate'
 			}
 		],
-		required: true
+		required: true,
+		isMulti: true
 	}
 ]

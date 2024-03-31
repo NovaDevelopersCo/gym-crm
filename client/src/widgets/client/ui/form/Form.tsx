@@ -1,12 +1,14 @@
 import { Controller, useForm } from 'react-hook-form'
 
-import { Button, Input, Select } from '@/shared'
+import { Button, Input, Select, TextArea } from '@/shared'
 import { Typography } from 'antd'
 
 import cl from './Form.module.scss'
 import { newClientFromItemsArr } from './form.data'
 
-// add textarea
+// менять цвет фокуса у инпута
+// total test
+// build for test
 
 type TNewClientFrom = {
 	fio: string
@@ -36,26 +38,42 @@ const Form = () => {
 			<Title level={2} className={cl.root__title}>
 				Анкета посетителя
 			</Title>
-			{newClientFromItemsArr.map(i =>
+			{newClientFromItemsArr.map(({ isTextArea, ...i }) =>
 				i.options ? (
-					<Select
-						placeholder={i.label}
-						bodyClassName={cl.root__item}
+					<Controller
+						name={i.name}
+						control={control}
 						key={i.name}
-						{...i}
+						render={({ field }) => (
+							<Select
+								field={field}
+								placeholder={i.label}
+								bodyClassName={cl.root__item}
+								{...i}
+							/>
+						)}
 					/>
 				) : (
 					<Controller
 						name={i.name}
 						control={control}
 						key={i.name}
-						render={({ field }) => (
-							<Input
-								bodyClassName={cl.root__item}
-								field={field}
-								{...i}
-							/>
-						)}
+						render={({ field }) =>
+							isTextArea ? (
+								<TextArea
+									rows={4}
+									bodyClassName={cl.root__item}
+									field={field}
+									{...i}
+								/>
+							) : (
+								<Input
+									{...i}
+									bodyClassName={cl.root__item}
+									field={field}
+								/>
+							)
+						}
 					/>
 				)
 			)}

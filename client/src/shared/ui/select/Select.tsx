@@ -1,22 +1,33 @@
 import { useRef } from 'react'
-import ReactSelect, { GroupBase, Props, SelectInstance } from 'react-select'
+import ReactSelect, {
+	GroupBase,
+	Props,
+	PropsValue,
+	SelectInstance
+} from 'react-select'
 
 import clsx from 'clsx'
 
 import cl from './Select.module.scss'
 import './Select.scss'
+import { TOption } from './types'
 
 const Select = <
-	Option,
+	Option extends TOption,
 	IsMulti extends boolean = false,
 	Group extends GroupBase<Option> = GroupBase<Option>
 >({
 	label,
 	bodyClassName,
+	field,
 	...props
 }: Props<Option, IsMulti, Group> & {
 	label?: string
 	bodyClassName?: string
+	field: {
+		value: unknown
+		onChange: () => void
+	}
 }) => {
 	const selectRef = useRef<SelectInstance<Option, IsMulti, Group>>(null)
 
@@ -33,7 +44,11 @@ const Select = <
 					{label}
 				</label>
 			)}
-			<ReactSelect ref={selectRef} {...props} />
+			<ReactSelect
+				{...(field as { value: PropsValue<Option> })}
+				ref={selectRef}
+				{...props}
+			/>
 		</div>
 	)
 }

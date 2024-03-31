@@ -7,7 +7,7 @@ module.exports = {
 		'plugin:react-hooks/recommended',
 		'plugin:react/recommended',
 		'@feature-sliced/eslint-config/rules/layers-slices',
-		'@feature-sliced/eslint-config/rules/public-api/lite',
+		'@feature-sliced/eslint-config/rules/public-api/lite'
 	],
 	ignorePatterns: ['dist', '.eslintrc.cjs', 'eslint'],
 	parser: '@typescript-eslint/parser',
@@ -56,6 +56,12 @@ module.exports = {
 			rules: {
 				'import/no-relative-parent-imports': 'error',
 				'import/no-internal-modules': 'off'
+			}
+		},
+		{
+			files: ['*.schema.ts'],
+			rules: {
+				'no-unused-vars': 'off'
 			}
 		}
 	],
