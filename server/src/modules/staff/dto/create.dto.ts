@@ -32,7 +32,7 @@ export class CreateDto {
 
 	@ApiProperty({
 		enum: ECreateStaffRole,
-		default: 'admin / trainer'
+		default: 'admin / trainer / director'
 	})
 	@IsEnum(ECreateStaffRole)
 	role: ECreateStaffRole

@@ -1,10 +1,16 @@
-import { useAppSelector } from '@store/index'
+import { Typography } from 'antd'
+
+import { useAppSelector } from '@store/lib'
+
+const { Title } = Typography
 
 const Home = () => {
-	const role = useAppSelector(store => store['auth/slice'].user!.role)
-
-	return <div>{role && <h1>Your role {role}</h1>}</div>
+	const user = useAppSelector(state => state['auth/slice'].user!)
+	return (
+		<div>
+			<Title>Welcome, {user?.name}</Title>
+		</div>
+	)
 }
 
 export default Home
-	
