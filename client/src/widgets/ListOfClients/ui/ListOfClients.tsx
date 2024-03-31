@@ -1,6 +1,6 @@
 import { ClientItem } from './@ClientItem/ClientItem'
-import cl from './ListOfClients.module.scss'
 import { TableHeader } from './@TableHeader/TableHeader'
+import cl from './ListOfClients.module.scss'
 
 export const ListOfClients = () => {
 	return (

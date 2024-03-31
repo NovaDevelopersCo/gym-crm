@@ -1,61 +1,66 @@
 //eslint-disable-next-line
 import clientsData from '@/data/clients.data.json'
+
 import { More } from './@more/More'
 import cl from './ClientItem.module.scss'
 
 export const ClientItem = () => {
 	return (
 		<div className={cl.root}>
-			{clientsData.map(client => (
-				<ul key={client.id} className={cl.root__primaryList}>
-					{/*  */}
-					<li className={cl.root__primaryList_primaryItem}>
-						<More />
-						<img
-							className={cl.root__primaryList_primaryItem_userPng}
-							src='/user.png'
-							alt='user'
-						/>
-					</li>
-					{/*  */}
+			<div className={`${cl.root__container} ${cl.scrollbar_disable}`}>
+				{clientsData.map(client => (
 					<ul
-						className={`${cl.root__primaryList__secondaryList} ${cl.scrollbar_disable}`}
+						key={client.id}
+						className={cl.root__container__primaryList}
 					>
 						<li
 							className={
-								cl.root__primaryList__secondaryList_secondaryItem
+								cl.root__container__primaryList_primaryItem
 							}
 						>
-							<span>{client.last_name}</span>
-							<span>{client.first_name}</span>
+							<div
+								className={
+									cl.root__container__primaryList_primaryItem_clientMore
+								}
+							>
+								<More />
+							</div>
+							<div
+								className={
+									cl.root__container__primaryList_primaryItem_clientName
+								}
+							>
+								<span>{client.last_name}</span>
+								<span>{client.first_name}</span>
+							</div>
 						</li>
 						<li
 							className={
-								cl.root__primaryList__secondaryList_secondaryItem
+								cl.root__container__primaryList_primaryItem
 							}
 						>
 							{client.address}
 						</li>
 						<li
 							className={
-								cl.root__primaryList__secondaryList_secondaryItem
+								cl.root__container__primaryList_primaryItem
 							}
 						>
 							{client.register_date}
 						</li>
 						<li
 							className={
-								cl.root__primaryList__secondaryList_secondaryItem
+								cl.root__container__primaryList_primaryItem
 							}
 						>
 							<span
 								className={
-									cl.root__primaryList__secondaryList_secondaryItem_item
+									cl.root__container__primaryList_primaryItem_item
 								}
 							>
 								<img
 									className={
-										cl.root__primaryList__secondaryList_secondaryItem_item_status
+										cl.root__container__primaryList_primaryItem_item_status
 									}
 									src='/positive.svg'
 									alt='positive'
@@ -66,14 +71,15 @@ export const ClientItem = () => {
 						</li>
 						<li
 							className={
-								cl.root__primaryList__secondaryList_secondaryItem
+								cl.root__container__primaryList_primaryItem
 							}
 						>
 							{client.role}
 						</li>
+						{/* </ul> */}
 					</ul>
-				</ul>
-			))}
+				))}
+			</div>
 		</div>
 	)
 }
