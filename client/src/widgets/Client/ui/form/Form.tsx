@@ -6,10 +6,6 @@ import { Typography } from 'antd'
 import cl from './Form.module.scss'
 import { newClientFromItemsArr } from './form.data'
 
-// менять цвет фокуса у инпута
-// total test
-// build for test
-
 type TNewClientFrom = {
 	fio: string
 	phone: number
@@ -18,10 +14,10 @@ type TNewClientFrom = {
 	age: number
 	birthdayDate: string
 	howDoYouKnow: string
-	club: string // select
+	club: string
 	beforeDirection: string
-	direction: string[] // select
-	groupIds: string[] // select
+	direction: string[]
+	groupIds: string[]
 }
 
 const { Title } = Typography

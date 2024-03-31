@@ -63,6 +63,14 @@ module.exports = {
 			rules: {
 				'no-unused-vars': 'off'
 			}
+		},
+		{
+			files: ['./src/store/lib/slices/AuthSlice.ts'],
+			rules: {
+				'@typescript-eslint/ban-ts-comment': 'off',
+				'@typescript-eslint/no-unused-vars': 'off',
+				'no-unused-vars': 'off'
+			}
 		}
 	],
 	reportUnusedDisableDirectives: true,

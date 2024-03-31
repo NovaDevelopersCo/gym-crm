@@ -3,9 +3,9 @@ import { useState } from 'react'
 import clsx from 'clsx'
 import { ChevronLeft } from 'lucide-react'
 
-import cl from './Sidebar.module.scss'
 import { SidebarItem } from './@SidebarItem/SidebarItem'
 import { sidebarItemsArr } from './@SidebarItem/sidebarItems.data'
+import cl from './Sidebar.module.scss'
 
 export const Sidebar = () => {
 	const [isCollapsed, setIsCollapsed] = useState(false)

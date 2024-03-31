@@ -42,7 +42,8 @@ const authSlice = createSlice({
 			)
 			.addMatcher(
 				authApi.endpoints.logoutUser.matchFulfilled,
-				state => initialState // eslint-disable-line
+				// @ts-expect-error
+				state => initialState
 			)
 	}
 })

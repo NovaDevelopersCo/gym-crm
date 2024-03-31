@@ -19,7 +19,11 @@ export const router = createBrowserRouter([
 		children: [
 			{
 				path: '/',
-				element: <ProtectedRoute allowedRoles={['*']}><Layout /></ProtectedRoute>,
+				element: (
+					<ProtectedRoute allowedRoles={['*']}>
+						<Layout />
+					</ProtectedRoute>
+				),
 				children: [
 					{
 						index: true,
@@ -27,7 +31,7 @@ export const router = createBrowserRouter([
 							<ProtectedRoute allowedRoles={['*']}>
 								<Home />
 							</ProtectedRoute>
-						),
+						)
 					},
 					{
 						path: '/profile',
@@ -40,11 +44,13 @@ export const router = createBrowserRouter([
 					{
 						path: '/admin',
 						element: (
-							<ProtectedRoute allowedRoles={['admin', 'director']}>
+							<ProtectedRoute
+								allowedRoles={['admin', 'director']}
+							>
 								<Admin />
 							</ProtectedRoute>
 						)
-					},
+					}
 				]
 			},
 			{

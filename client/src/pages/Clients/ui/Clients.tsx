@@ -1,6 +1,6 @@
 import { Container } from '@/shared'
 
-import { NewClient } from '@widgets/client'
+import { NewClient } from '@widgets/Client'
 
 const Clients = () => {
 	return (
