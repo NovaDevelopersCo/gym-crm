@@ -26,6 +26,16 @@ export class EnvironmentVariables {
 
 	@IsString()
 	REFRESH_JWT_SECRET: string
+
+	// * for cloudinary
+	@IsString()
+	CLOUD_NAME: string
+
+	@IsString()
+	CLOUD_API_KEY: string
+
+	@IsString()
+	CLOUD_API_SECRET: string
 }
 
 export const EnvConfigOptions: ConfigModuleOptions = {
