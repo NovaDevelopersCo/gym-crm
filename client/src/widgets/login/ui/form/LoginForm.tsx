@@ -66,10 +66,12 @@ const LoginForm = () => {
 					</span>
 				</span>
 				<Button
-					error={errors?.password?.message || errors?.email?.message}
-					text='Вход'
-					type='submit'
-				/>
+					className={cl.root__container__button}
+					htmlType='submit'
+					size='large'
+				>
+					Вход
+				</Button>
 			</form>
 		</div>
 	)

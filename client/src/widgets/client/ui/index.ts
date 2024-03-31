@@ -1,3 +1,3 @@
-import NewClient from './new-client/NewClient'
+import NewClient from './NewClient'
 
 export { NewClient }

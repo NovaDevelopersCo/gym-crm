@@ -2,18 +2,18 @@ import { useState } from 'react'
 
 import { Button, Modal } from '@/shared'
 
+import { Form } from './form'
+
 const NewClient = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
 	return (
 		<div>
-			<Button
-				text='New client'
-				type='button'
-				onClick={() => setIsModalOpen(true)}
-			/>
+			<Button size='large' onClick={() => setIsModalOpen(true)}>
+				Добавить анкету
+			</Button>
 			<Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
-				modal
+				<Form />
 			</Modal>
 		</div>
 	)

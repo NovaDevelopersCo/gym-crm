@@ -8,9 +8,10 @@ type TModalProps = {
 	isOpen: boolean
 	setIsOpen: (o: boolean) => void
 	children: ReactNode
+	className?: string
 }
 
-const Modal = ({ isOpen, setIsOpen, children }: TModalProps) => {
+const Modal = ({ isOpen, setIsOpen, children, className }: TModalProps) => {
 	useEffect(() => {
 		if (isOpen) {
 			document.body.style.overflowY = 'hidden'
@@ -23,7 +24,7 @@ const Modal = ({ isOpen, setIsOpen, children }: TModalProps) => {
 
 	return (
 		<div
-			className={clsx(cl.root, isOpen ? cl.root_open : '')}
+			className={clsx(cl.root, className, isOpen ? cl.root_open : '')}
 			onClick={() => setIsOpen(false)}
 		>
 			<div onClick={e => e.stopPropagation()} className={cl.root__body}>
