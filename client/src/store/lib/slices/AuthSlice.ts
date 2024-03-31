@@ -29,7 +29,6 @@ const authSlice = createSlice({
 				authApi.endpoints.loginUser.matchFulfilled,
 				(state, { payload }) => {
 					state.accessToken = payload.accessToken
-					// state.isAuth = true
 				}
 			)
 			.addMatcher(
@@ -42,7 +41,7 @@ const authSlice = createSlice({
 			)
 			.addMatcher(
 				authApi.endpoints.logoutUser.matchFulfilled,
-				state => initialState
+				() => initialState
 			)
 	}
 })
