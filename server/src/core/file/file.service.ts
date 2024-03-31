@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { CloudinaryService } from '../cloudinary/cloudinary.service'
+import { CloudinaryService } from '@core/cloudinary/cloudinary.service'
 import { randomUUID } from 'crypto'
 
 @Injectable()
