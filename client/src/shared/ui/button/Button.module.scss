@@ -1,0 +1,12 @@
+.root {
+	background: #63c2a4;
+	color: #fff !important;
+
+	&:hover {
+		background: #1fa57a !important;
+	}
+
+	&:active {
+		background: #63c2a4;
+	}
+}
