@@ -16,12 +16,13 @@ import {
 	ApiOperation,
 	ApiOkResponse,
 	ApiUnauthorizedResponse,
-	ApiBadRequestResponse
+	ApiBadRequestResponse,
+	ApiNoContentResponse
 } from '@nestjs/swagger'
 
 import { LoginDto } from './dto'
 
-import { ESwaggerMessages, AuthOk, RefreshOk } from '@/core/swagger'
+import { ESwaggerMessages, RefreshOk } from '@/core/swagger'
 
 import type { CookieOptions, Response } from 'express'
 
@@ -42,14 +43,13 @@ export class AuthController {
 	}
 
 	@ApiOperation({ summary: 'Логин в профиле управляющего' })
-	@ApiOkResponse({ description: 'Access токен', type: AuthOk })
+	@ApiNoContentResponse({ description: 'Успешный вход' })
 	@ApiBadRequestResponse({ status: 400, description: ESwaggerMessages.LOGIN_ERROR })
 	@Post('login')
 	async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
-		const { accessToken, refreshToken } = await this.authService.login(dto)
-
+		const { refreshToken } = await this.authService.login(dto)
 		res.cookie('refresh', refreshToken, this.refreshCookieOptions)
-		return { accessToken }
+		return
 	}
 
 	@ApiOperation({ summary: 'Обновление токенов' })

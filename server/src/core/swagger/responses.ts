@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { ECreateStaffRole } from '../enums'
-import { StaffEntity } from '@/modules/staff/entities'
 
 export class AuthOk {
 	@ApiProperty({
