@@ -1,7 +1,8 @@
 import { BaseEntity } from '@/core/database'
-import { Column, Entity } from 'typeorm'
+import { Column, Entity, OneToMany } from 'typeorm'
 
 import { EStaffRole } from '@/core/enums'
+import { GroupEntity } from '@/modules/group/entities'
 
 @Entity('Staff')
 export class StaffEntity extends BaseEntity {
@@ -19,4 +20,9 @@ export class StaffEntity extends BaseEntity {
 		enum: EStaffRole
 	})
 	role: EStaffRole
+
+	//! from the trainer
+	// ! beta
+	@OneToMany(() => GroupEntity, group => group.trainer)
+	groups: GroupEntity[]
 }
