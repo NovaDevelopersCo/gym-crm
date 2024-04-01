@@ -1,11 +1,13 @@
-import { Bell, File, FolderClosed, User } from 'lucide-react'
+// import { Bell, File, FolderClosed,  } from 'lucide-react'
+import { User } from 'lucide-react'
 
 import { useAppSelector } from '@store/index'
 
 import { LogoutBtn } from '@features/Auth'
 
 import cl from './Topbar.module.scss'
-import { topbarCounts } from './topbarCounts.data'
+
+// import { topbarCounts } from './topbarCounts.data'
 
 export const Topbar = () => {
 	const user = useAppSelector(state => state['auth/slice'].user!)

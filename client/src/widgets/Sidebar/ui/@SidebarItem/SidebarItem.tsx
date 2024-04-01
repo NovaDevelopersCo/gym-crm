@@ -4,7 +4,7 @@ import clsx from 'clsx'
 
 import cl from './SidebarItem.module.scss'
 
-export const SidebarItem = ({
+const SidebarItem = ({
 	icon,
 	title,
 	isCollapsed,
@@ -32,3 +32,5 @@ export const SidebarItem = ({
 		</Link>
 	)
 }
+
+export default SidebarItem

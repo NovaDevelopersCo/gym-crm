@@ -1,6 +1,5 @@
+import { EUserRoles } from '@/store'
 import { BarChart3, CloudCog, Home, Users } from 'lucide-react'
-
-import { EUserRoles } from '@store/index'
 
 type TAllRoles = EUserRoles.ADMIN | EUserRoles.DIRECTOR | EUserRoles.TRAINER
 
