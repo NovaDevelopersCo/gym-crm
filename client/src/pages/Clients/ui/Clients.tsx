@@ -2,7 +2,7 @@ import { Container } from '@/shared'
 
 import { NewClient } from '@widgets/Client'
 
-const Clients = () => {
+const ClientsPage = () => {
 	return (
 		<Container>
 			<NewClient />
@@ -10,4 +10,4 @@ const Clients = () => {
 	)
 }
 
-export default Clients
+export default ClientsPage

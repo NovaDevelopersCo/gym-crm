@@ -1,13 +1,12 @@
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 
 import { Page404 } from '@pages/404'
-import { Admin } from '@pages/Admin'
-import { Clients } from '@pages/Clients'
+import { ClientProfile, ClientsPage } from '@pages/Clients'
+import { Dashboard } from '@pages/Dashboard'
 import { Home } from '@pages/Home'
 import Layout from '@pages/Layout'
 import { Login } from '@pages/Login'
-import { Profile } from '@pages/Profile'
-import { Registration } from '@pages/Registration'
+import { Stuff } from '@pages/Stuff'
 
 import { ProtectedRoute } from '@shared/ui'
 
@@ -34,22 +33,40 @@ export const router = createBrowserRouter([
 						)
 					},
 					{
-						path: '/profile',
+						path: '/clients',
 						element: (
 							<ProtectedRoute allowedRoles={['*']}>
-								<Profile />
+								<ClientsPage />
 							</ProtectedRoute>
 						)
 					},
 					{
-						path: '/admin',
+						path: '/clients/:clientId',
 						element: (
-							<ProtectedRoute
-								allowedRoles={['admin', 'director']}
-							>
-								<Admin />
+							<ProtectedRoute allowedRoles={['*']}>
+								<ClientProfile />
 							</ProtectedRoute>
 						)
+					},
+					{
+						path: '/dashboard',
+						element: (
+							<ProtectedRoute allowedRoles={['director']}>
+								<Dashboard />
+							</ProtectedRoute>
+						)
+					},
+					{
+						path: '/stuff',
+						element: (
+							<ProtectedRoute allowedRoles={['director']}>
+								<Stuff />
+							</ProtectedRoute>
+						)
+					},
+					{
+						path: '*',
+						element: <Page404 />
 					}
 				]
 			},
@@ -59,7 +76,7 @@ export const router = createBrowserRouter([
 					<ProtectedRoute
 						allowedRoles={['admin', 'director', 'trainer']}
 					>
-						<Clients />
+						<ClientsPage />
 					</ProtectedRoute>
 				)
 			},
@@ -74,22 +91,6 @@ export const router = createBrowserRouter([
 						<Login />
 					</ProtectedRoute>
 				)
-			},
-			{
-				path: '/registration',
-				element: (
-					<ProtectedRoute
-						allowedRoles={['*']}
-						redirectPath='/'
-						isReverse
-					>
-						<Registration />
-					</ProtectedRoute>
-				)
-			},
-			{
-				path: '*',
-				element: <Page404 />
 			}
 		]
 	}
