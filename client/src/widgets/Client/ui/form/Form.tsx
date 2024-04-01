@@ -23,7 +23,11 @@ type TNewClientFrom = {
 const { Title } = Typography
 
 const Form = () => {
-	const { handleSubmit, control } = useForm<TNewClientFrom>()
+	const {
+		handleSubmit,
+		control,
+		formState: { errors }
+	} = useForm<TNewClientFrom>()
 
 	const onSubmit = (data: TNewClientFrom) => {
 		console.log(data)
@@ -34,7 +38,7 @@ const Form = () => {
 			<Title level={2} className={cl.root__title}>
 				Анкета посетителя
 			</Title>
-			{newClientFromItemsArr.map(({ isTextArea, ...i }) =>
+			{newClientFromItemsArr.map(({ isTextArea, rules, ...i }) =>
 				i.options ? (
 					<Controller
 						name={i.name}
@@ -54,19 +58,22 @@ const Form = () => {
 						name={i.name}
 						control={control}
 						key={i.name}
+						rules={rules}
 						render={({ field }) =>
 							isTextArea ? (
 								<TextArea
+									{...i}
 									rows={4}
 									bodyClassName={cl.root__item}
 									field={field}
-									{...i}
+									error={errors[i.name]?.message}
 								/>
 							) : (
 								<Input
 									{...i}
 									bodyClassName={cl.root__item}
 									field={field}
+									error={errors[i.name]?.message}
 								/>
 							)
 						}

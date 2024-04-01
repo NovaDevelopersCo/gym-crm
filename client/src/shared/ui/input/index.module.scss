@@ -25,5 +25,10 @@
 		&_inputErr {
 			outline: 1px solid #e03737;
 		}
+		&_textErr {
+			display: block;
+			padding: 4px;
+			color: #e03737;
+		}
 	}
 }

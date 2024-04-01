@@ -46,6 +46,7 @@ export const TextArea: FC<TTextAreaProps> = ({
 					error ? cl.root__input_inputErr : ''
 				)}
 			/>
+			<span className={cl.root__input_textErr}>{error?.toString()}</span>
 		</div>
 	)
 }

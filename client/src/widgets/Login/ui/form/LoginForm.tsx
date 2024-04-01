@@ -40,9 +40,6 @@ const LoginForm = () => {
 							/>
 						)}
 					/>
-					<span className={cl.root__container__validate_textErr}>
-						{errors?.email?.message}
-					</span>
 				</span>
 				<span className={cl.root__container__validate}>
 					<Controller
@@ -65,9 +62,6 @@ const LoginForm = () => {
 							/>
 						)}
 					/>
-					<span className={cl.root__container__validate_textErr}>
-						{errors?.password?.message}
-					</span>
 				</span>
 				<Button
 					className={cl.root__container__button}
