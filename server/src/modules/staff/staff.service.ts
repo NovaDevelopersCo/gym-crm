@@ -20,6 +20,12 @@ export class StaffService {
 	}
 
 	async create({ password, ...data }: CreateDto) {
+		if (data.role === 'director') {
+			throw new BadRequestException(
+				'Нельзя создать более одного аккаунта управляющего директора'
+			)
+		}
+
 		const candidate = await this.byEmail(data.email)
 
 		if (candidate) {
