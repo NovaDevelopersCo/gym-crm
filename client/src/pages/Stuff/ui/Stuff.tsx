@@ -1,5 +1,9 @@
+import { Typography } from 'antd'
+
+const { Title } = Typography
+
 const Stuff = () => {
-	return <div>Stuff (page to control stuff)</div>
+	return <Title>Stuff (page to control stuff)</Title>
 }
 
 export default Stuff
