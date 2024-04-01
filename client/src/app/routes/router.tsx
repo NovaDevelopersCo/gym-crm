@@ -71,16 +71,6 @@ export const router = createBrowserRouter([
 				]
 			},
 			{
-				path: '/clients',
-				element: (
-					<ProtectedRoute
-						allowedRoles={['admin', 'director', 'trainer']}
-					>
-						<ClientsPage />
-					</ProtectedRoute>
-				)
-			},
-			{
 				path: '/login',
 				element: (
 					<ProtectedRoute
