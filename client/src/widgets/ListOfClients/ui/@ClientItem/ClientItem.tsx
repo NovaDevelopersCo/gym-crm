@@ -76,7 +76,6 @@ export const ClientItem = () => {
 						>
 							{client.role}
 						</li>
-						{/* </ul> */}
 					</ul>
 				))}
 			</div>
