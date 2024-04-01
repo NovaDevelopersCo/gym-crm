@@ -1,8 +1,11 @@
 .root {
 	width: 300px;
-	height: 100vh;
+	height: 100%;
 	transition: width 300ms ease-in-out;
 	overflow: hidden;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 
 	&_collapsed {
 		width: 60px;
@@ -22,7 +25,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		height: 100px;
+		height: 64px;
 		padding: 5px 10px;
 		background-color: #63c2a4;
 
@@ -33,7 +36,7 @@
 		}
 	}
 	&__body {
-		height: calc(100vh - 100px - 60px);
+		flex-grow: 1;
 		background-color: #384043;
 
 		display: flex;
