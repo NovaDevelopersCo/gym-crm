@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form'
-
+import { useNavigate } from 'react-router'
 import {
 	LoginUserDto,
 	authApi,
@@ -19,10 +19,11 @@ export const LoginForm = () => {
 	} = useForm<LoginUserDto>()
 	const dispatch = useAppDispatch()
 	const error = useAppSelector(state => state['auth/slice'].error)
+	const navigate  = useNavigate()
 
 	const onSubmit: SubmitHandler<LoginUserDto> = data => {
 		dispatch(authApi.endpoints.loginUser.initiate(data)).then(() =>
-			window.location.reload()
+			navigate(0)
 		)
 	}
 
