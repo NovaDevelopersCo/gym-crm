@@ -2,7 +2,7 @@ import { Navigate, useLocation } from 'react-router-dom'
 
 import { useAppSelector, useRefreshTokenQuery } from '@store/index'
 
-export const ProtectedRoute = ({
+const ProtectedRoute = ({
 	children,
 	allowedRoles,
 	redirectPath = '/login',
@@ -36,3 +36,5 @@ export const ProtectedRoute = ({
 		)
 	}
 }
+
+export default ProtectedRoute

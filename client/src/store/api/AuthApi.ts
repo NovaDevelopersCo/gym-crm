@@ -6,12 +6,7 @@ import {
 	fetchBaseQuery
 } from '@reduxjs/toolkit/query/react'
 
-import {
-	LoginUserDto,
-	TLoginResponse,
-	TRefreshResponse,
-	authSlice
-} from '@store/index'
+import { LoginUserDto, TRefreshResponse, authSlice } from '@store/index'
 
 const baseQuery = fetchBaseQuery({
 	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/auth`,

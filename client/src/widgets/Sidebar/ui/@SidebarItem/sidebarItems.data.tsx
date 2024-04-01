@@ -1,5 +1,4 @@
 import { BarChart3, CloudCog, Home, Users } from 'lucide-react'
-
 import { EStuffRoles } from '@store/index'
 
 type TAllRoles = EStuffRoles.ADMIN | EStuffRoles.DIRECTOR | EStuffRoles.TRAINER

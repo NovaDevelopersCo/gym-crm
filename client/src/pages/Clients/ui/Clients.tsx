@@ -1,5 +1,7 @@
+import { NewClient } from '@widgets/Client'
+
 const ClientsPage = () => {
-	return <div>Clients (page to control clients)</div>
+	return <NewClient />
 }
 
 export default ClientsPage
