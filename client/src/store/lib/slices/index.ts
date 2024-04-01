@@ -1,3 +1,4 @@
 import authSlice from './AuthSlice'
+import clientSlice from './ClientSlice'
 
-export { authSlice }
+export { authSlice, clientSlice }

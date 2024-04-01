@@ -1,12 +1,11 @@
 import { FC, PropsWithChildren } from 'react'
 import { Provider } from 'react-redux'
 
-import { setupStore } from '..'
+import { setupStore } from '../index'
 
-const store = setupStore()
-
-const StoreProvider: FC<PropsWithChildren> = ({ children }) => (
-	<Provider store={store}>{children}</Provider>
-)
+const StoreProvider: FC<PropsWithChildren> = ({ children }) => {
+	const ReduxStore = setupStore()
+	return <Provider store={ReduxStore}>{children}</Provider>
+}
 
 export default StoreProvider
