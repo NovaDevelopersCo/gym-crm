@@ -2,7 +2,7 @@ import { BaseEntity } from '@/core/database'
 import { AbonementEntity } from '@/modules/abonement/entities'
 import { ClubEntity } from '@/modules/club/entities'
 import { GroupEntity } from '@/modules/group/entities'
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm'
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne } from 'typeorm'
 
 @Entity('Users')
 export class UserEntity extends BaseEntity {
@@ -31,6 +31,9 @@ export class UserEntity extends BaseEntity {
 	@Column()
 	age?: number
 
+	@Column()
+	experienceBefore?: string
+
 	@OneToOne(() => AbonementEntity)
 	@JoinColumn()
 	abonement: AbonementEntity
@@ -38,11 +41,9 @@ export class UserEntity extends BaseEntity {
 	@Column()
 	howKnow?: string
 
-	@OneToMany(() => GroupEntity, group => group.id)
+	@ManyToMany(() => GroupEntity, group => group.users)
+	@JoinTable()
 	groups: GroupEntity[]
-
-	@Column()
-	experienceBefore?: string
 
 	@ManyToOne(() => ClubEntity, club => club.users)
 	club: ClubEntity

@@ -1,6 +1,5 @@
 import { BaseEntity } from '@/core/database'
-import { Column, Entity, ManyToOne } from 'typeorm'
-
+import { Column, Entity, ManyToMany, ManyToOne } from 'typeorm'
 import { StaffEntity } from '@/modules/staff/entities'
 import { DirectionEntity } from '@/modules/direction/entities'
 import { ClubEntity } from '@/modules/club/entities'
@@ -13,15 +12,15 @@ export class GroupEntity extends BaseEntity {
 	})
 	name: string
 
-	@ManyToOne(() => DirectionEntity, direction => direction.id)
+	@ManyToOne(() => DirectionEntity, direction => direction.groups)
 	direction: DirectionEntity
 
-	@ManyToOne(() => ClubEntity, club => club.id)
+	@ManyToOne(() => ClubEntity, club => club.groups)
 	club: ClubEntity
 
-	@ManyToOne(() => StaffEntity, trainer => trainer.id)
+	@ManyToOne(() => StaffEntity, trainer => trainer.groups)
 	trainer: StaffEntity
 
-	@ManyToOne(() => UserEntity, user => user.id)
-	users: UserEntity
+	@ManyToMany(() => UserEntity, user => user.groups)
+	users: UserEntity[]
 }

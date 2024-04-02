@@ -25,9 +25,9 @@ export class StaffEntity extends BaseEntity {
 	role: EStaffRole
 
 	@OneToMany(() => GroupEntity, group => group.trainer)
-	groups?: GroupEntity[]
+	groups: GroupEntity[]
 
 	@OneToOne(() => ClubEntity)
 	@JoinColumn()
-	club?: ClubEntity
+	club: ClubEntity
 }
