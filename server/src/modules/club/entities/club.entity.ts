@@ -16,8 +16,9 @@ export class ClubEntity extends BaseEntity {
 
 	@OneToOne(() => StaffEntity)
 	@JoinColumn()
-	admin: number
+	admin: StaffEntity
 
-	@OneToMany(() => GroupEntity, group => group.id)
-	groups: number[]
+	// ! Add cascade
+	@OneToMany(() => GroupEntity, group => group.club)
+	groups: GroupEntity[]
 }
