@@ -6,13 +6,13 @@ import { ApiProperty } from '@nestjs/swagger'
 export class CreateDto {
 	@ApiProperty({
 		minLength: 2,
-		maxLength: 30,
-		default: 'name'
+		maxLength: 100,
+		default: 'Васильев Василий Васильевич'
 	})
 	@IsString()
-	@MaxLength(30)
+	@MaxLength(100)
 	@MinLength(2)
-	name: string
+	fio: string
 
 	@ApiProperty({
 		minLength: 8,

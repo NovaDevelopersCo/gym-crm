@@ -5,11 +5,10 @@ import { Column, Entity, OneToMany } from 'typeorm'
 
 @Entity('Direction')
 export class DirectionEntity extends BaseEntity {
-	@Column()
+	@Column({
+		unique: true
+	})
 	name: string
-
-	@Column()
-	image: string
 
 	@OneToMany(() => GroupEntity, group => group.direction)
 	groups: GroupEntity[]

@@ -1,24 +1,28 @@
 import { BaseEntity } from '@/core/database'
 import { GroupEntity } from '@/modules/group/entities'
 import { StaffEntity } from '@/modules/staff/entities'
+import { UserEntity } from '@/modules/user/entities'
 import { Column, Entity, JoinColumn, OneToOne, OneToMany } from 'typeorm'
 
 @Entity('Club')
 export class ClubEntity extends BaseEntity {
-	@Column()
+	@Column({
+		unique: true
+	})
 	address: string
 
-	@Column()
-	image: string
-
-	@Column()
+	@Column({
+		unique: true
+	})
 	name: string
 
 	@OneToOne(() => StaffEntity)
 	@JoinColumn()
 	admin: StaffEntity
 
-	// ! Add cascade
 	@OneToMany(() => GroupEntity, group => group.club)
 	groups: GroupEntity[]
+
+	@OneToMany(() => UserEntity, user => user.groups)
+	users: UserEntity[]
 }

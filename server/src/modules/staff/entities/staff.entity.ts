@@ -1,18 +1,21 @@
 import { BaseEntity } from '@/core/database'
-import { Column, Entity, OneToMany } from 'typeorm'
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm'
 
 import { EStaffRole } from '@/core/enums'
 import { GroupEntity } from '@/modules/group/entities'
+import { ClubEntity } from '@/modules/club/entities'
 
 @Entity('Staff')
 export class StaffEntity extends BaseEntity {
 	@Column()
-	name: string
+	fio: string
 
 	@Column()
 	password: string
 
-	@Column()
+	@Column({
+		unique: true
+	})
 	email: string
 
 	@Column({
@@ -21,8 +24,10 @@ export class StaffEntity extends BaseEntity {
 	})
 	role: EStaffRole
 
-	//! from the trainer
-	// ! beta
 	@OneToMany(() => GroupEntity, group => group.trainer)
-	groups: GroupEntity[]
+	groups?: GroupEntity[]
+
+	@OneToOne(() => ClubEntity)
+	@JoinColumn()
+	club?: ClubEntity
 }

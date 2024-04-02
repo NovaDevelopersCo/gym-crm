@@ -1,27 +1,27 @@
 import { BaseEntity } from '@/core/database'
-import { Column, ManyToOne } from 'typeorm'
+import { Column, Entity, ManyToOne } from 'typeorm'
 
 import { StaffEntity } from '@/modules/staff/entities'
 import { DirectionEntity } from '@/modules/direction/entities'
 import { ClubEntity } from '@/modules/club/entities'
+import { UserEntity } from '@/modules/user/entities'
 
+@Entity('Group')
 export class GroupEntity extends BaseEntity {
-	@Column()
+	@Column({
+		unique: true
+	})
 	name: string
 
-	// ! add cascade
-	@ManyToOne(() => DirectionEntity, direction => direction.groups)
+	@ManyToOne(() => DirectionEntity, direction => direction.id)
 	direction: DirectionEntity
 
-	// ! Add cascade
-	@ManyToOne(() => ClubEntity, club => club.groups)
+	@ManyToOne(() => ClubEntity, club => club.id)
 	club: ClubEntity
 
-	// @OneToMany(() => StaffEntity, staff => staff.id)
-	// trainer: number
-
-	//! trainer
-	//! Beta
-	@ManyToOne(() => StaffEntity, trainer => trainer.groups)
+	@ManyToOne(() => StaffEntity, trainer => trainer.id)
 	trainer: StaffEntity
+
+	@ManyToOne(() => UserEntity, user => user.id)
+	users: UserEntity
 }
