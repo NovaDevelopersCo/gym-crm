@@ -4,7 +4,9 @@ import { BaseEntity } from '@core/database'
 
 @Entity('Session')
 export class SessionEntity extends BaseEntity {
-	@Column()
+	@Column({
+		unique: true
+	})
 	token: string
 
 	@OneToOne(() => StaffEntity)
