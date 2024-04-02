@@ -1,13 +1,12 @@
 import { BarChart3, CloudCog, Home, Users } from 'lucide-react'
+import { EStuffRoles } from '@store/index'
 
-import { EUserRoles } from '@store/index'
-
-type TAllRoles = EUserRoles.ADMIN | EUserRoles.DIRECTOR | EUserRoles.TRAINER
+type TAllRoles = EStuffRoles.ADMIN | EStuffRoles.DIRECTOR | EStuffRoles.TRAINER
 
 const allRoles: TAllRoles[] = [
-	EUserRoles.DIRECTOR,
-	EUserRoles.ADMIN,
-	EUserRoles.TRAINER
+	EStuffRoles.DIRECTOR,
+	EStuffRoles.ADMIN,
+	EStuffRoles.TRAINER
 ]
 
 export const sidebarItemsArr: {
@@ -32,12 +31,12 @@ export const sidebarItemsArr: {
 		title: 'Аналитика',
 		path: '/dashboard',
 		icon: <BarChart3 />,
-		allowedRoles: [EUserRoles.DIRECTOR]
+		allowedRoles: [EStuffRoles.DIRECTOR]
 	},
 	{
 		title: 'Персонал',
 		path: '/stuff',
 		icon: <CloudCog />,
-		allowedRoles: [EUserRoles.DIRECTOR]
+		allowedRoles: [EStuffRoles.DIRECTOR]
 	}
 ]
