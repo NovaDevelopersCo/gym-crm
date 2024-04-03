@@ -12,7 +12,8 @@ export class UserEntity extends BaseEntity {
 	email: string
 
 	@Column({
-		unique: true
+		unique: true,
+		type: 'bigint'
 	})
 	phone: number
 
@@ -20,25 +21,26 @@ export class UserEntity extends BaseEntity {
 	fio: string
 
 	@Column({
-		unique: true
+		unique: true,
+		type: 'bigint'
 	})
 	cardNumber: number
 
-	// may be timestamp??
-	@Column()
+	//! may be timestamp??
+	@Column({ type: 'date', nullable: true })
 	birthday?: string
 
-	@Column()
+	@Column({ nullable: true })
 	age?: number
 
-	@Column()
+	@Column({ nullable: true })
 	experienceBefore?: string
 
 	@OneToOne(() => AbonementEntity)
 	@JoinColumn()
 	abonement: AbonementEntity
 
-	@Column()
+	@Column({ nullable: true })
 	howKnow?: string
 
 	@ManyToMany(() => GroupEntity, group => group.users)
