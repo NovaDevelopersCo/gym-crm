@@ -36,7 +36,7 @@ export const Topbar = () => {
 				</button> */}
 				{/*  */}
 				<h1>
-					{user?.name} ({user?.role})
+					{user?.fio} ({user?.role})
 				</h1>
 				<button className={cl.root__buttons__profile}>
 					<div className={cl.root__buttons__profile__bg}></div>

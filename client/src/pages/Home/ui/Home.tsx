@@ -8,7 +8,7 @@ const Home = () => {
 	const user = useAppSelector(state => state['auth/slice'].user!)
 	return (
 		<div>
-			<Title>Welcome, {user?.name}</Title>
+			<Title>Welcome, {user?.fio}</Title>
 		</div>
 	)
 }
