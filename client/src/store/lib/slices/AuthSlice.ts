@@ -1,5 +1,3 @@
-import { redirect } from 'react-router-dom'
-
 import { createSlice } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
@@ -39,6 +37,12 @@ const authSlice = createSlice({
 				authApi.endpoints.loginUser.matchFulfilled,
 				state => {
 					window.location.reload()
+				}
+			)
+			.addMatcher(
+				authApi.endpoints.loginUser.matchRejected,
+				(state, {payload}) => {
+					state.error = payload?.data?.message
 				}
 			)
 			.addMatcher(

@@ -6,6 +6,7 @@ import CreateUserDto from './@dto/create-staff.dto'
 import LoginUserDto from './@dto/login-staff.dto'
 import TRefreshResponse from './@response/refresh-response.type'
 import TRegistrationResponse from './@response/registration-response.type'
+import TLoginErrorResponse from './@response/login-error-response.type'
 
 export type {
 	LoginUserDto,
@@ -15,5 +16,6 @@ export type {
 	TRefreshResponse,
 	CreateAreaDto,
 	CreateGroupDto,
-	CreateLocationDto
+	CreateLocationDto,
+	TLoginErrorResponse
 }
