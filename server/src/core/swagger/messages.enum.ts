@@ -4,5 +4,6 @@ export enum ESwaggerMessages {
 	INVALID_PASSWORD = 'Неверный пароль',
 	FORBIDDEN = 'Недостаточно прав для совершения операции',
 	LOGIN_ERROR = 'Ошибка логина',
-	STAFF_CREATE = 'Ошибка создания профиля управляющего'
+	STAFF_CREATE = 'Ошибка создания профиля управляющего',
+	ERROR_VALIDATION = 'Ошибка валидации'
 }
