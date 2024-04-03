@@ -38,6 +38,7 @@ import {
 @Controller('direction')
 export class DirectionController {
 	constructor(private readonly directionService: DirectionService) {}
+
 	@ApiBearerAuth('access-token')
 	@ApiOperation({
 		summary: 'Получить список всех направлений',

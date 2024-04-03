@@ -14,8 +14,8 @@ export class DirectionService {
 	async getAll() {
 		const allDirections = await this.directionRepository.find()
 		const formattedDirections = allDirections.map(i => {
-			const { name, id } = i
-			return { name, id }
+			const { name, id, groups } = i
+			return { name, id, groups }
 		})
 
 		return formattedDirections
@@ -28,9 +28,9 @@ export class DirectionService {
 			throw new BadRequestException('Направление не найдено')
 		}
 
-		const { id, name } = direction
+		const { id, name, groups } = direction
 
-		return { id, name }
+		return { id, name, groups }
 	}
 
 	async create({ name }: CreateDirectionDto) {
@@ -44,9 +44,9 @@ export class DirectionService {
 
 		const savedDirection = await this.directionRepository.save(newDirection)
 
-		const { id, name: savedName } = savedDirection
+		const { id, name: savedName, groups } = savedDirection
 
-		return { id, name: savedName }
+		return { id, name: savedName, groups }
 	}
 
 	async update(directionId: number, dto: UpdateDirectionDto) {
@@ -58,9 +58,9 @@ export class DirectionService {
 
 		const updatedDirection = await this.directionRepository.save({ ...direction, ...dto })
 
-		const { name, id } = updatedDirection
+		const { name, id, groups } = updatedDirection
 
-		return { name, id }
+		return { name, id, groups }
 	}
 
 	async delete(id: number) {

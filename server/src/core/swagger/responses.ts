@@ -1,6 +1,7 @@
-import { ApiProperty, PartialType } from '@nestjs/swagger'
+import { ApiProperty, PartialType, PickType } from '@nestjs/swagger'
 import { ECreateStaffRole } from '../enums'
 import { DirectionEntity } from '@/modules/direction/entities'
+import { GroupEntity } from '@/modules/group/entities'
 
 export class AuthOk {
 	@ApiProperty({
@@ -63,15 +64,17 @@ export class UpdateDirectionOk {
 	name: string
 	@ApiProperty({ default: 111 })
 	id: number
+	@ApiProperty({ default: ['groups list....'], required: false })
+	groups?: GroupEntity[]
 }
 
-export class CreateDirectionOk extends PartialType(UpdateDirectionOk) {}
+export class CreateDirectionOk extends PickType(UpdateDirectionOk, ['id', 'name']) {}
 export class GetDirectionById extends PartialType(UpdateDirectionOk) {}
 export class GetAllDirections {
 	@ApiProperty({
 		default: [
 			{ id: 1, name: 'Кикбоксинг' },
-			{ id: 2, name: 'Бокс' }
+			{ id: 2, name: 'Бокс', groups: ['groups list....'] }
 		]
 	})
 	directions: DirectionEntity[]
