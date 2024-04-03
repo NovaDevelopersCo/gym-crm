@@ -1,5 +1,4 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router'
 import { Button, Input } from '@/shared'
 import { LoginUserDto, authApi, useAppDispatch } from '@/store'
 
@@ -12,13 +11,10 @@ const LoginForm = () => {
 		control
 	} = useForm<LoginUserDto>()
 	const dispatch = useAppDispatch()
-	const navigate = useNavigate()
 	// const error = useAppSelector(state => state['auth/slice'].error)
 
 	const onSubmit: SubmitHandler<LoginUserDto> = data => {
-		dispatch(authApi.endpoints.loginUser.initiate(data)).finally(() =>
-			navigate(0)
-		)
+		dispatch(authApi.endpoints.loginUser.initiate(data))
 	}
 
 	return (
