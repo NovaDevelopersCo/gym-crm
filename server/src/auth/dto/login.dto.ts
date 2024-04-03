@@ -5,7 +5,7 @@ export class LoginDto {
 	@ApiProperty({
 		default: 'email@email.com'
 	})
-	@IsEmail(null, { message: 'Невалидная почта' })
+	@IsEmail({}, { message: 'Невалидная почта' })
 	email: string
 
 	@ApiProperty({

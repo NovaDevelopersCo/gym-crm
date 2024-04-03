@@ -1,23 +1,102 @@
-import { Controller, Get, Param, UsePipes, ValidationPipe } from '@nestjs/common'
+import {
+	Body,
+	Controller,
+	Delete,
+	Get,
+	Param,
+	Post,
+	Put,
+	UsePipes,
+	ValidationPipe
+} from '@nestjs/common'
 
-import { ApiOperation, ApiTags } from '@nestjs/swagger'
+import {
+	ApiOkResponse,
+	ApiOperation,
+	ApiTags,
+	ApiUnauthorizedResponse,
+	ApiForbiddenResponse,
+	ApiBadRequestResponse,
+	ApiBearerAuth
+} from '@nestjs/swagger'
 import { DirectionService } from './direction.service'
-import { GetByIdDto } from './dto'
+import { CreateDirectionDto, UpdateDirectionDto } from './dto'
+import { GetByIdParamsDto } from '@/core/dto'
+import { RolesAuthGuard } from '@/auth/guards'
+import { EStaffRole } from '@/core/enums'
+import {
+	CreateDirectionOk,
+	DeleteDirectionOk,
+	ESwaggerMessages,
+	GetAllDirections,
+	GetDirectionById,
+	UpdateDirectionOk
+} from '@/core/swagger'
 
 @ApiTags('Направления')
 @UsePipes(new ValidationPipe({ whitelist: true }))
 @Controller('direction')
 export class DirectionController {
 	constructor(private readonly directionService: DirectionService) {}
-	@ApiOperation({ summary: 'Получить список всех направлений' })
+	@ApiBearerAuth('access-token')
+	@ApiOperation({
+		summary: 'Получить список всех направлений',
+		description: 'Только с ролью director'
+	})
+	@ApiOkResponse({ description: 'Найденные направления', type: GetAllDirections })
+	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
+	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
 	@Get('/')
+	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	async getAll() {
 		return this.directionService.getAll()
 	}
 
-	@ApiOperation({ summary: 'Получить направление по id' })
+	@ApiBearerAuth('access-token')
+	@ApiOperation({ summary: 'Получить направление по id', description: 'Только с ролью director' })
+	@ApiOkResponse({ description: 'Найденное направление', type: GetDirectionById })
+	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
+	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
+	@ApiBadRequestResponse({ description: ESwaggerMessages.DIRECTION_GET_BY_ID })
 	@Get('/:id')
-	getById(@Param() { id }: GetByIdDto) {
+	@RolesAuthGuard(EStaffRole.DIRECTOR)
+	getById(@Param() { id }: GetByIdParamsDto) {
 		return this.directionService.getById(+id)
+	}
+
+	@ApiBearerAuth('access-token')
+	@ApiOperation({ summary: 'Создать новое направление', description: 'Только с ролью director' })
+	@ApiOkResponse({ description: 'Результат создания', type: CreateDirectionOk })
+	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
+	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
+	@ApiBadRequestResponse({ description: ESwaggerMessages.DIRECTION_CREATE })
+	@Post('/')
+	@RolesAuthGuard(EStaffRole.DIRECTOR)
+	create(@Body() dto: CreateDirectionDto) {
+		return this.directionService.create(dto)
+	}
+
+	@ApiBearerAuth('access-token')
+	@ApiOperation({ summary: 'Изменить направление', description: 'Только с ролью director' })
+	@ApiOkResponse({ description: 'Результат изменения', type: UpdateDirectionOk })
+	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
+	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
+	@ApiBadRequestResponse({ description: ESwaggerMessages.DIRECTION_UPDATE })
+	@Put('/:id')
+	@RolesAuthGuard(EStaffRole.DIRECTOR)
+	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateDirectionDto) {
+		return this.directionService.update(+id, dto)
+	}
+
+	@ApiBearerAuth('access-token')
+	@ApiOperation({ summary: 'Удалить направление', description: 'Только с ролью director' })
+	@ApiOkResponse({ description: 'Результат удаления', type: DeleteDirectionOk })
+	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
+	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
+	@ApiBadRequestResponse({ description: ESwaggerMessages.DIRECTION_DELETE })
+	@Delete('/:id')
+	@RolesAuthGuard(EStaffRole.DIRECTOR)
+	delete(@Param() { id }: GetByIdParamsDto) {
+		return this.directionService.delete(+id)
 	}
 }
