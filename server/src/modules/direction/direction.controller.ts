@@ -46,8 +46,8 @@ export class DirectionController {
 	@ApiOkResponse({ description: 'Найденные направления', type: GetAllDirections })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
-	@Get('/')
 	@RolesAuthGuard(EStaffRole.DIRECTOR)
+	@Get('/')
 	async getAll() {
 		return this.directionService.getAll()
 	}
@@ -58,8 +58,8 @@ export class DirectionController {
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
 	@ApiBadRequestResponse({ description: ESwaggerMessages.DIRECTION_GET_BY_ID })
-	@Get('/:id')
 	@RolesAuthGuard(EStaffRole.DIRECTOR)
+	@Get('/:id')
 	getById(@Param() { id }: GetByIdParamsDto) {
 		return this.directionService.getById(+id)
 	}
@@ -70,8 +70,8 @@ export class DirectionController {
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
 	@ApiBadRequestResponse({ description: ESwaggerMessages.DIRECTION_CREATE })
-	@Post('/')
 	@RolesAuthGuard(EStaffRole.DIRECTOR)
+	@Post('/')
 	create(@Body() dto: CreateDirectionDto) {
 		return this.directionService.create(dto)
 	}
@@ -82,8 +82,8 @@ export class DirectionController {
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
 	@ApiBadRequestResponse({ description: ESwaggerMessages.DIRECTION_UPDATE })
-	@Put('/:id')
 	@RolesAuthGuard(EStaffRole.DIRECTOR)
+	@Put('/:id')
 	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateDirectionDto) {
 		return this.directionService.update(+id, dto)
 	}
@@ -94,8 +94,8 @@ export class DirectionController {
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
 	@ApiBadRequestResponse({ description: ESwaggerMessages.DIRECTION_DELETE })
-	@Delete('/:id')
 	@RolesAuthGuard(EStaffRole.DIRECTOR)
+	@Delete('/:id')
 	delete(@Param() { id }: GetByIdParamsDto) {
 		return this.directionService.delete(+id)
 	}

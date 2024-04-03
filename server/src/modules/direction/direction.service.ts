@@ -11,18 +11,26 @@ export class DirectionService {
 		private readonly directionRepository: Repository<DirectionEntity>
 	) {}
 
-	getAll() {
-		return this.directionRepository.find()
+	async getAll() {
+		const allDirections = await this.directionRepository.find()
+		const formattedDirections = allDirections.map(i => {
+			const { name, id } = i
+			return { name, id }
+		})
+
+		return formattedDirections
 	}
 
-	async getById(id: number) {
-		const candidate = await this.directionRepository.findOne({ where: { id } })
+	async getById(directionId: number) {
+		const direction = await this.directionRepository.findOne({ where: { id: directionId } })
 
-		if (!candidate) {
+		if (!direction) {
 			throw new BadRequestException('Направление не найдено')
 		}
 
-		return candidate
+		const { id, name } = direction
+
+		return { id, name }
 	}
 
 	async create({ name }: CreateDirectionDto) {
