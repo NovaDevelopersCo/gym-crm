@@ -56,6 +56,12 @@ export class DirectionService {
 			throw new BadRequestException(`Направление с id: ${directionId} не найдено`)
 		}
 
+		const newNameCheck = await this.directionRepository.findOne({ where: { name: dto.name } })
+
+		if (newNameCheck) {
+			throw new BadRequestException('Направление с таким именем уже существует')
+		}
+
 		const updatedDirection = await this.directionRepository.save({ ...direction, ...dto })
 
 		const { name, id, groups } = updatedDirection

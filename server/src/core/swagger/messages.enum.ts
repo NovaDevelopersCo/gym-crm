@@ -12,5 +12,9 @@ export enum ESwaggerMessages {
 	CLUB_GET_BY_ID = 'Ошибка получения клуба по id',
 	CLUB_CREATE = 'Ошибка создания клуба',
 	CLUB_DELETE = 'Ошибка удаления клуба',
-	CLUB_UPDATE = 'Ошибка изменения клуба'
+	CLUB_UPDATE = 'Ошибка изменения клуба',
+	GROUP_GET_BY_ID = 'Ошибка получения группы по id',
+	GROUP_DELETE = 'Ошибка удаления группы',
+	GROUP_CREATE = 'Ошибка создания группы',
+	GROUP_UPDATE = 'Ошибка изменения группы'
 }

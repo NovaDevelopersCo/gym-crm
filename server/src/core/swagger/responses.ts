@@ -1,4 +1,4 @@
-import { ApiProperty, PartialType, PickType } from '@nestjs/swagger'
+import { ApiProperty, OmitType, PartialType, PickType } from '@nestjs/swagger'
 import { ECreateStaffRole } from '../enums'
 import { DirectionEntity } from '@/modules/direction/entities'
 import { GroupEntity } from '@/modules/group/entities'
@@ -93,6 +93,14 @@ export class GetAllClubsOk {
 				admin: { id: 1 },
 				groups: ['список групп....'],
 				users: ['список пользователей....']
+			},
+			{
+				id: 4,
+				address: 'г. Москва ул. Капитошкина д. 98',
+				name: 'Star Club',
+				admin: { id: 8 },
+				groups: ['список групп....'],
+				users: ['список пользователей....']
 			}
 		]
 	})
@@ -131,3 +139,78 @@ export class GetClubByIdOk {
 
 export class CreateClubOk extends PickType(GetClubByIdOk, ['address', 'admin', 'id', 'name']) {}
 export class UpdateClubOk extends CreateClubOk {}
+
+export class GetAllGroupsOk {
+	@ApiProperty({
+		default: [
+			{
+				name: 'Группа 2',
+				id: 33,
+				users: ['список пользователей....'],
+				club: {
+					id: 8
+				},
+				trainer: {
+					id: 76
+				},
+				direction: {
+					id: 67
+				}
+			},
+			{
+				name: 'Группа 54',
+				id: 11,
+				users: ['список пользователей....'],
+				club: {
+					id: 90
+				},
+				trainer: {
+					id: 44
+				},
+				direction: {
+					id: 11
+				}
+			}
+		]
+	})
+	groups: GroupEntity[]
+}
+
+export class GetGroupByIdOk {
+	@ApiProperty({
+		default: 'Группа 2'
+	})
+	name: string
+
+	@ApiProperty({
+		default: ['список пользователей....']
+	})
+	users: UserEntity
+
+	@ApiProperty({
+		default: {
+			id: 107
+		}
+	})
+	club: number
+
+	@ApiProperty({
+		default: {
+			id: 56
+		}
+	})
+	trainer: number
+
+	@ApiProperty({
+		default: 5
+	})
+	id: number
+
+	@ApiProperty({
+		default: 44
+	})
+	direction: number
+}
+
+export class CreateGroupOk extends OmitType(GetGroupByIdOk, ['users']) {}
+export class UpdateGroupOk extends GetGroupByIdOk {}

@@ -78,7 +78,17 @@ export class ClubService {
 			throw new BadRequestException(`Профиль с id: ${dto.admin} не является админом`)
 		}
 
-		const updatedClub = await this.clubRepository.save({ ...club, admin: { id: dto.admin } })
+		const newNameCheck = await this.clubRepository.findOne({ where: { name: dto.name } })
+
+		if (newNameCheck) {
+			throw new BadRequestException('Клуб с таким именем уже существует')
+		}
+
+		const updatedClub = await this.clubRepository.save({
+			...club,
+			...dto,
+			admin: { id: dto.admin }
+		})
 
 		const { id, address, admin: adminBody, groups, users, name } = updatedClub
 
