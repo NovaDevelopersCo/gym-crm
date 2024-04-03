@@ -26,10 +26,10 @@ import { RolesAuthGuard } from '@/auth/guards'
 import { EStaffRole } from '@/core/enums'
 import {
 	CreateDirectionOk,
-	DeleteDirectionOk,
+	DeleteOk,
 	ESwaggerMessages,
-	GetAllDirections,
-	GetDirectionById,
+	GetAllDirectionsOk,
+	GetDirectionByIdOk,
 	UpdateDirectionOk
 } from '@/core/swagger'
 
@@ -44,7 +44,7 @@ export class DirectionController {
 		summary: 'Получить список всех направлений',
 		description: 'Только с ролью director'
 	})
-	@ApiOkResponse({ description: 'Найденные направления', type: GetAllDirections })
+	@ApiOkResponse({ description: 'Найденные направления', type: GetAllDirectionsOk })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
 	@RolesAuthGuard(EStaffRole.DIRECTOR)
@@ -55,7 +55,7 @@ export class DirectionController {
 
 	@ApiBearerAuth('access-token')
 	@ApiOperation({ summary: 'Получить направление по id', description: 'Только с ролью director' })
-	@ApiOkResponse({ description: 'Найденное направление', type: GetDirectionById })
+	@ApiOkResponse({ description: 'Найденное направление', type: GetDirectionByIdOk })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
 	@ApiBadRequestResponse({ description: ESwaggerMessages.DIRECTION_GET_BY_ID })
@@ -91,7 +91,7 @@ export class DirectionController {
 
 	@ApiBearerAuth('access-token')
 	@ApiOperation({ summary: 'Удалить направление', description: 'Только с ролью director' })
-	@ApiOkResponse({ description: 'Результат удаления', type: DeleteDirectionOk })
+	@ApiOkResponse({ description: 'Результат удаления', type: DeleteOk })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
 	@ApiBadRequestResponse({ description: ESwaggerMessages.DIRECTION_DELETE })

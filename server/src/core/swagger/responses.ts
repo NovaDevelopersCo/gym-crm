@@ -2,6 +2,9 @@ import { ApiProperty, PartialType, PickType } from '@nestjs/swagger'
 import { ECreateStaffRole } from '../enums'
 import { DirectionEntity } from '@/modules/direction/entities'
 import { GroupEntity } from '@/modules/group/entities'
+import { ClubEntity } from '@/modules/club/entities'
+import { StaffEntity } from '@/modules/staff/entities'
+import { UserEntity } from '@/modules/user/entities'
 
 export class AuthOk {
 	@ApiProperty({
@@ -54,7 +57,7 @@ export class CreateStaffOk {
 	id: string
 }
 
-export class DeleteDirectionOk {
+export class DeleteOk {
 	@ApiProperty({ default: true })
 	message: boolean
 }
@@ -64,18 +67,67 @@ export class UpdateDirectionOk {
 	name: string
 	@ApiProperty({ default: 111 })
 	id: number
-	@ApiProperty({ default: ['groups list....'], required: false })
+	@ApiProperty({ default: ['список групп....'], required: false })
 	groups?: GroupEntity[]
 }
 
 export class CreateDirectionOk extends PickType(UpdateDirectionOk, ['id', 'name']) {}
-export class GetDirectionById extends PartialType(UpdateDirectionOk) {}
-export class GetAllDirections {
+export class GetDirectionByIdOk extends PartialType(UpdateDirectionOk) {}
+export class GetAllDirectionsOk {
 	@ApiProperty({
 		default: [
 			{ id: 1, name: 'Кикбоксинг' },
-			{ id: 2, name: 'Бокс', groups: ['groups list....'] }
+			{ id: 2, name: 'Бокс', groups: ['список групп....'] }
 		]
 	})
 	directions: DirectionEntity[]
 }
+
+export class GetAllClubsOk {
+	@ApiProperty({
+		default: [
+			{
+				id: 1,
+				address: 'г. Москва ул. Шишкина д. 13',
+				name: 'Mass Club',
+				admin: { id: 1 },
+				groups: ['список групп....'],
+				users: ['список пользователей....']
+			}
+		]
+	})
+	clubs: ClubEntity[]
+}
+
+export class GetClubByIdOk {
+	@ApiProperty({
+		default: 'г. Москва ул. Шишкина д. 13'
+	})
+	address: string
+
+	@ApiProperty({
+		default: 'Mass Club'
+	})
+	name: string
+	@ApiProperty({
+		default: 1
+	})
+	id: number
+	@ApiProperty({
+		default: {
+			id: 111
+		}
+	})
+	admin: StaffEntity
+	@ApiProperty({
+		default: ['список групп....']
+	})
+	groups: GroupEntity[]
+	@ApiProperty({
+		default: ['список пользователей....']
+	})
+	users: UserEntity[]
+}
+
+export class CreateClubOk extends PickType(GetClubByIdOk, ['address', 'admin', 'id', 'name']) {}
+export class UpdateClubOk extends CreateClubOk {}

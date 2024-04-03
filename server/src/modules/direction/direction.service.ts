@@ -18,7 +18,7 @@ export class DirectionService {
 			return { name, id, groups }
 		})
 
-		return formattedDirections
+		return { directions: formattedDirections }
 	}
 
 	async getById(directionId: number) {

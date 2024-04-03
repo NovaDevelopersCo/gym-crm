@@ -3,9 +3,9 @@ import { ApiProperty } from '@nestjs/swagger'
 
 export class GetByIdParamsDto {
 	@ApiProperty({
-		description: 'Id должно быть числом',
+		description: 'Id сущности',
 		default: '111'
 	})
-	@Matches(/^\d+$/, { message: 'Id направления должно быть числом' })
+	@Matches(/^\d+$/, { message: 'Id должно быть числом' })
 	id: string
 }
