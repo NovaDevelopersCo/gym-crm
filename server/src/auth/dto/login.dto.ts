@@ -5,7 +5,7 @@ export class LoginDto {
 	@ApiProperty({
 		default: 'email@email.com'
 	})
-	@IsEmail()
+	@IsEmail(null, { message: 'Невалидная почта' })
 	email: string
 
 	@ApiProperty({
@@ -13,8 +13,8 @@ export class LoginDto {
 		maxLength: 32,
 		default: 'password'
 	})
-	@IsString()
-	@MinLength(8)
-	@MaxLength(32)
+	@IsString({ message: 'Пароль должен быть строкой' })
+	@MinLength(8, { message: 'Минимальная длина пароля 8 символов' })
+	@MaxLength(32, { message: 'Максимальная длина паролья 32 символа' })
 	password: string
 }
