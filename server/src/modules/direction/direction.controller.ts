@@ -3,6 +3,7 @@ import {
 	Controller,
 	Delete,
 	Get,
+	HttpCode,
 	Param,
 	Post,
 	Put,
@@ -84,6 +85,7 @@ export class DirectionController {
 		return this.directionService.update(id, dto)
 	}
 
+	@HttpCode(204)
 	@ApiNoContentResponse({ description: 'Успешно удалено' })
 	@ApiOperation({ summary: 'Удалить направление', description: 'Только с ролью director' })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })

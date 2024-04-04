@@ -3,6 +3,7 @@ import {
 	Controller,
 	Delete,
 	Get,
+	HttpCode,
 	Param,
 	Post,
 	Put,
@@ -81,6 +82,7 @@ export class GroupController {
 		return this.groupService.update(id, dto)
 	}
 
+	@HttpCode(204)
 	@ApiNoContentResponse({ description: 'Успешно удалено' })
 	@ApiOperation({ summary: 'Удалить группу', description: 'Только с ролью direction' })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
