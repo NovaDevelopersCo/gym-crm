@@ -41,7 +41,11 @@ export class StaffService {
 			)
 		}
 
-		const candidate = await this.getByEmail(data.email)
+		// ! bag
+		// ! const candidate = await this.getByEmail(data.email)
+
+		// * fix
+		const candidate = await this.staffRepository.findOneBy({ email: data.email })
 
 		if (candidate) {
 			throw new BadRequestException('Пользователь с таким email уже существует')
@@ -59,8 +63,15 @@ export class StaffService {
 	}
 
 	async checkRole(id: number, role: EStaffRole) {
-		const admin = await this.getById(id)
-
+		const admin = await this.staffRepository.findOne({
+			where: { id },
+			relations: {
+				club: true
+			}
+		})
+		if (!admin) {
+			throw new NotFoundException(`Управляющий с id: ${id} не найден`)
+		}
 		if (admin.role !== role) {
 			throw new BadRequestException(`Профиль с id: ${id} не является ${role}`)
 		}

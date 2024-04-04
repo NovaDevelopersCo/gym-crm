@@ -59,7 +59,7 @@ export class ClubService {
 
 		const admin = await this.staffService.checkRole(dto.admin, EStaffRole.ADMIN)
 
-		// вынести проверку занятости админа в метод
+		//! вынести проверку занятости админа в метод
 		if (admin.club.id && admin.club.id !== clubId) {
 			throw new BadRequestException('За этим администратором уже закреплен клуб')
 		}
@@ -80,7 +80,8 @@ export class ClubService {
 	async delete(id: number) {
 		await this.getById(id)
 
-		return this.clubRepository.delete({ id })
+		this.clubRepository.delete({ id })
+		return
 	}
 
 	async nameCheck(name: string) {

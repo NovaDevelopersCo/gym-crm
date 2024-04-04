@@ -86,7 +86,8 @@ export class GroupService {
 	async delete(id: number) {
 		await this.getById(id)
 
-		return this.groupRepository.delete({ id })
+		await this.groupRepository.delete({ id })
+		return
 	}
 
 	async checkName(name: string) {

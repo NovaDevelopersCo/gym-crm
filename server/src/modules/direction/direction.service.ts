@@ -13,6 +13,7 @@ export class DirectionService {
 
 	async getAll() {
 		const allDirections = await this.directionRepository.find()
+		//! replace on serialize
 		const formattedDirections = allDirections.map(i => {
 			const { name, id, groups } = i
 			return { name, id, groups }
@@ -60,7 +61,8 @@ export class DirectionService {
 	async delete(id: number) {
 		await this.getById(id)
 
-		return this.directionRepository.delete({ id })
+		await this.directionRepository.delete({ id })
+		return
 	}
 
 	async nameCheck(name: string) {
