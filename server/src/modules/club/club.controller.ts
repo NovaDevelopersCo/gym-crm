@@ -17,19 +17,19 @@ import {
 	ApiUnauthorizedResponse,
 	ApiForbiddenResponse,
 	ApiOkResponse,
-	ApiBadRequestResponse
+	ApiBadRequestResponse,
+	ApiNoContentResponse
 } from '@nestjs/swagger'
 import { ClubService } from './club.service'
 import { EStaffRole } from '@/core/enums'
-import { EClubSwaggerMessages } from './swagger'
 import {
-	ESwaggerMessages,
-	GetClubByIdOk,
-	CreateClubOk,
-	DeleteOk,
+	EClubSwaggerMessages,
 	GetAllClubsOk,
-	UpdateClubOk
-} from '@/core/swagger'
+	GetClubByIdOk,
+	UpdateClubOk,
+	CreateClubOk
+} from './swagger'
+import { ESwaggerMessages } from '@/core/swagger'
 import { GetByIdParamsDto } from '@/core/dto'
 import { CreateClubDto, UpdateClubDto } from './dto'
 
@@ -89,8 +89,8 @@ export class ClubController {
 		return this.clubService.update(id, dto)
 	}
 
+	@ApiNoContentResponse({ description: 'Успешно удалено' })
 	@ApiOperation({ summary: 'Удалить клуб', description: 'Только с ролью director' })
-	@ApiOkResponse({ description: 'Результат удаления', type: DeleteOk })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
 	@ApiBadRequestResponse({ description: EClubSwaggerMessages.DELETE })

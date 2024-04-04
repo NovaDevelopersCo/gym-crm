@@ -17,22 +17,22 @@ import {
 	ApiUnauthorizedResponse,
 	ApiForbiddenResponse,
 	ApiBadRequestResponse,
-	ApiBearerAuth
+	ApiBearerAuth,
+	ApiNoContentResponse
 } from '@nestjs/swagger'
-import { EDirectionSwaggerMessages } from './swagger'
+import {
+	EDirectionSwaggerMessages,
+	CreateDirectionOk,
+	GetAllDirectionsOk,
+	GetDirectionByIdOk,
+	UpdateDirectionOk
+} from './swagger'
 import { DirectionService } from './direction.service'
 import { CreateDirectionDto, UpdateDirectionDto } from './dto'
 import { GetByIdParamsDto } from '@/core/dto'
 import { RolesAuthGuard } from '@/auth/guards'
 import { EStaffRole } from '@/core/enums'
-import {
-	CreateDirectionOk,
-	DeleteOk,
-	ESwaggerMessages,
-	GetAllDirectionsOk,
-	GetDirectionByIdOk,
-	UpdateDirectionOk
-} from '@/core/swagger'
+import { ESwaggerMessages } from '@/core/swagger'
 
 @ApiTags('Направления')
 @ApiBearerAuth('access-token')
@@ -84,8 +84,8 @@ export class DirectionController {
 		return this.directionService.update(id, dto)
 	}
 
+	@ApiNoContentResponse({ description: 'Успешно удалено' })
 	@ApiOperation({ summary: 'Удалить направление', description: 'Только с ролью director' })
-	@ApiOkResponse({ description: 'Результат удаления', type: DeleteOk })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
 	@ApiBadRequestResponse({ description: EDirectionSwaggerMessages.DELETE })

@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
 
-import { EAuthSwaggerMessages } from './swagger'
+import { EAuthSwaggerMessages, RefreshOk } from './swagger'
 
 import {
 	ApiTags,
@@ -24,7 +24,7 @@ import {
 
 import { LoginDto } from './dto'
 
-import { ESwaggerMessages, RefreshOk } from '@/core/swagger'
+import { ESwaggerMessages } from '@/core/swagger'
 
 import type { CookieOptions, Response } from 'express'
 
@@ -44,6 +44,7 @@ export class AuthController {
 		path: '/api/auth'
 	}
 
+	// @HttpCode(204)
 	@ApiOperation({ summary: 'Логин в профиле управляющего' })
 	@ApiNoContentResponse({ description: 'Успешный вход' })
 	@ApiBadRequestResponse({ status: 400, description: EAuthSwaggerMessages.LOGIN })

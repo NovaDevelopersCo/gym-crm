@@ -1,7 +1,7 @@
 import { Body, Controller, UsePipes, ValidationPipe, Post } from '@nestjs/common'
 import { CreateDto } from './dto'
 import { StaffService } from './staff.service'
-import { CreateStaffOk, ESwaggerMessages } from '@/core/swagger'
+import { ESwaggerMessages } from '@/core/swagger'
 import { RolesAuthGuard } from '@/auth/guards/role.guard'
 import { EStaffRole } from '@/core/enums'
 import {
@@ -14,7 +14,7 @@ import {
 	ApiBearerAuth
 } from '@nestjs/swagger'
 
-import { EStaffSwaggerMessages } from './swagger'
+import { EStaffSwaggerMessages, CreateStaffOk } from './swagger'
 
 @ApiTags('Управляющие')
 @ApiBearerAuth('access-token')

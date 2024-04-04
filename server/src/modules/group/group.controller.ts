@@ -17,22 +17,22 @@ import {
 	ApiOkResponse,
 	ApiOperation,
 	ApiTags,
-	ApiUnauthorizedResponse
+	ApiUnauthorizedResponse,
+	ApiNoContentResponse
 } from '@nestjs/swagger'
 import { GroupService } from './group.service'
 import { RolesAuthGuard } from '@/auth/guards'
-import {
-	CreateGroupOk,
-	DeleteOk,
-	ESwaggerMessages,
-	GetAllGroupsOk,
-	GetGroupByIdOk,
-	UpdateGroupOk
-} from '@/core/swagger'
+import { ESwaggerMessages } from '@/core/swagger'
 import { EStaffRole } from '@/core/enums'
 import { GetByIdParamsDto } from '@/core/dto'
 
-import { EGroupSwaggerMessages } from './swagger'
+import {
+	EGroupSwaggerMessages,
+	CreateGroupOk,
+	GetAllGroupsOk,
+	GetGroupByIdOk,
+	UpdateGroupOk
+} from './swagger'
 
 @ApiTags('Группы')
 @ApiBearerAuth('access-token')
@@ -81,8 +81,8 @@ export class GroupController {
 		return this.groupService.update(id, dto)
 	}
 
+	@ApiNoContentResponse({ description: 'Успешно удалено' })
 	@ApiOperation({ summary: 'Удалить группу', description: 'Только с ролью direction' })
-	@ApiOkResponse({ description: 'Результат удаления', type: DeleteOk })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
 	@ApiBadRequestResponse({ description: EGroupSwaggerMessages.DELETE })
