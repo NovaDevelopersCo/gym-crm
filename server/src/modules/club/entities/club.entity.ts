@@ -16,7 +16,7 @@ export class ClubEntity extends BaseEntity {
 	})
 	name: string
 
-	@OneToOne(() => StaffEntity, user => user.club)
+	@OneToOne(() => StaffEntity, user => user.club, { cascade: true })
 	admin: StaffEntity
 
 	@OneToMany(() => GroupEntity, group => group.club)
