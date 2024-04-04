@@ -1,11 +1,13 @@
-import { Matches } from 'class-validator'
+import { IsInt } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
+import { Type } from 'class-transformer'
 
 export class GetByIdParamsDto {
 	@ApiProperty({
 		description: 'Id сущности',
 		default: '111'
 	})
-	@Matches(/^\d+$/, { message: 'Id должно быть числом' })
-	id: string
+	@Type(() => Number)
+	@IsInt({ message: 'Параметр id должен быть числом' })
+	id: number
 }

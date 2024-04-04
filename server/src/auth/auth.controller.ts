@@ -11,6 +11,8 @@ import {
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
 
+import { EAuthSwaggerMessages } from './swagger'
+
 import {
 	ApiTags,
 	ApiOperation,
@@ -44,7 +46,7 @@ export class AuthController {
 
 	@ApiOperation({ summary: 'Логин в профиле управляющего' })
 	@ApiNoContentResponse({ description: 'Успешный вход' })
-	@ApiBadRequestResponse({ status: 400, description: ESwaggerMessages.LOGIN_ERROR })
+	@ApiBadRequestResponse({ status: 400, description: EAuthSwaggerMessages.LOGIN })
 	@Post('login')
 	async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
 		const { refreshToken } = await this.authService.login(dto)

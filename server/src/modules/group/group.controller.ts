@@ -32,68 +32,62 @@ import {
 import { EStaffRole } from '@/core/enums'
 import { GetByIdParamsDto } from '@/core/dto'
 
+import { EGroupSwaggerMessages } from './swagger'
+
 @ApiTags('Группы')
+@ApiBearerAuth('access-token')
 @UsePipes(new ValidationPipe())
+@RolesAuthGuard(EStaffRole.DIRECTOR)
 @Controller('group')
 export class GroupController {
 	constructor(private readonly groupService: GroupService) {}
 
-	@ApiBearerAuth('access-token')
 	@ApiOperation({ summary: 'Получить список всех групп', description: 'Только с ролью director' })
 	@ApiOkResponse({ type: GetAllGroupsOk, description: 'Найденные группы' })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
-	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	@Get('/')
 	getAll() {
 		return this.groupService.getAll()
 	}
 
-	@ApiBearerAuth('access-token')
 	@ApiOperation({ summary: 'Получить группу по id', description: 'Только с ролью director' })
 	@ApiOkResponse({ description: 'Найденная группа', type: GetGroupByIdOk })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
-	@ApiBadRequestResponse({ description: ESwaggerMessages.GROUP_GET_BY_ID })
-	@RolesAuthGuard(EStaffRole.DIRECTOR)
+	@ApiBadRequestResponse({ description: EGroupSwaggerMessages.GET_BY_ID })
 	@Get('/:id')
 	getById(@Param() { id }: GetByIdParamsDto) {
-		return this.groupService.getById(+id)
+		return this.groupService.getById(id)
 	}
 
-	@ApiBearerAuth('access-token')
 	@ApiOperation({ summary: 'Создать новую группу', description: 'Только с ролью director' })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
-	@ApiBadRequestResponse({ description: ESwaggerMessages.GROUP_CREATE })
+	@ApiBadRequestResponse({ description: EGroupSwaggerMessages.CREATE })
 	@ApiOkResponse({ description: 'Результат создания', type: CreateGroupOk })
-	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	@Post('/')
 	create(@Body() dto: CreateGroupDto) {
 		return this.groupService.create(dto)
 	}
 
-	@ApiBearerAuth('access-token')
 	@ApiOperation({ summary: 'Изменить группу', description: 'Только с ролью director' })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
-	@ApiBadRequestResponse({ description: ESwaggerMessages.GROUP_UPDATE })
+	@ApiBadRequestResponse({ description: EGroupSwaggerMessages.UPDATE })
 	@ApiOkResponse({ description: 'Результат изменения', type: UpdateGroupOk })
-	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	@Put('/:id')
 	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateGroupDto) {
-		return this.groupService.update(+id, dto)
+		return this.groupService.update(id, dto)
 	}
 
-	@ApiBearerAuth('access-token')
 	@ApiOperation({ summary: 'Удалить группу', description: 'Только с ролью direction' })
 	@ApiOkResponse({ description: 'Результат удаления', type: DeleteOk })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
-	@ApiBadRequestResponse({ description: ESwaggerMessages.GROUP_DELETE })
-	@RolesAuthGuard(EStaffRole.DIRECTOR)
+	@ApiBadRequestResponse({ description: EGroupSwaggerMessages.DELETE })
 	@Delete('/:id')
 	delete(@Param() { id }: GetByIdParamsDto) {
-		return this.groupService.delete(+id)
+		return this.groupService.delete(id)
 	}
 }

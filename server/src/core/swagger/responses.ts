@@ -1,4 +1,4 @@
-import { ApiProperty, OmitType, PartialType, PickType } from '@nestjs/swagger'
+import { ApiProperty, OmitType, PickType } from '@nestjs/swagger'
 import { ECreateStaffRole } from '../enums'
 import { DirectionEntity } from '@/modules/direction/entities'
 import { GroupEntity } from '@/modules/group/entities'
@@ -72,7 +72,7 @@ export class UpdateDirectionOk {
 }
 
 export class CreateDirectionOk extends PickType(UpdateDirectionOk, ['id', 'name']) {}
-export class GetDirectionByIdOk extends PartialType(UpdateDirectionOk) {}
+export class GetDirectionByIdOk extends UpdateDirectionOk {}
 export class GetAllDirectionsOk {
 	@ApiProperty({
 		default: [

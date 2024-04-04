@@ -1,9 +1,10 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { Repository } from 'typeorm'
 import { ClubEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
 import { CreateClubDto, UpdateClubDto } from './dto'
 import { StaffService } from '../staff/staff.service'
+import { EStaffRole } from '@/core/enums'
 
 @Injectable()
 export class ClubService {
@@ -27,7 +28,7 @@ export class ClubService {
 		const club = await this.clubRepository.findOne({ where: { id: clubId } })
 
 		if (!club) {
-			throw new BadRequestException(`Клуб с id: ${clubId} не найден`)
+			throw new NotFoundException(`Клуб с id: ${clubId} не найден`)
 		}
 
 		const { id, name, address, groups, admin, users } = club
@@ -36,20 +37,12 @@ export class ClubService {
 	}
 
 	async create(dto: CreateClubDto) {
-		const club = await this.clubRepository.findOne({ where: { name: dto.name } })
+		await this.nameCheck(dto.name)
 
-		if (club) {
-			throw new BadRequestException('Клуб с таким названием уже существует')
-		}
+		const admin = await this.staffService.checkRole(dto.admin, EStaffRole.ADMIN)
 
-		const admin = await this.staffService.byId(dto.admin)
-
-		if (!admin) {
-			throw new BadRequestException(`Профиль админа с id: ${dto.admin} не найден`)
-		}
-
-		if (admin.role !== 'admin') {
-			throw new BadRequestException(`Профиль с id: ${dto.admin} не является админом`)
+		if (admin.club && admin.club.id) {
+			throw new BadRequestException('За этим администратором уже закреплен клуб')
 		}
 
 		const newClub = this.clubRepository.create({ ...dto, admin: { id: dto.admin } })
@@ -62,27 +55,16 @@ export class ClubService {
 	}
 
 	async update(clubId: number, dto: UpdateClubDto) {
-		const club = await this.clubRepository.findOne({ where: { id: clubId } })
+		const club = await this.getById(clubId)
 
-		if (!club) {
-			throw new BadRequestException(`Клуб с id: ${clubId} не найден`)
+		const admin = await this.staffService.checkRole(dto.admin, EStaffRole.ADMIN)
+
+		// вынести проверку занятости админа в метод
+		if (admin.club.id && admin.club.id !== clubId) {
+			throw new BadRequestException('За этим администратором уже закреплен клуб')
 		}
 
-		const admin = await this.staffService.byId(dto.admin)
-
-		if (!admin) {
-			throw new BadRequestException(`Профиль админа с id: ${dto.admin} не найден`)
-		}
-
-		if (admin.role !== 'admin') {
-			throw new BadRequestException(`Профиль с id: ${dto.admin} не является админом`)
-		}
-
-		const newNameCheck = await this.clubRepository.findOne({ where: { name: dto.name } })
-
-		if (newNameCheck) {
-			throw new BadRequestException('Клуб с таким именем уже существует')
-		}
+		await this.nameCheck(dto.name)
 
 		const updatedClub = await this.clubRepository.save({
 			...club,
@@ -96,14 +78,16 @@ export class ClubService {
 	}
 
 	async delete(id: number) {
-		const club = await this.clubRepository.findOne({ where: { id } })
+		await this.getById(id)
 
-		if (!club) {
-			throw new BadRequestException(`Клуб с id: ${id} не найден`)
+		return this.clubRepository.delete({ id })
+	}
+
+	async nameCheck(name: string) {
+		const club = await this.clubRepository.findOne({ where: { name } })
+
+		if (club) {
+			throw new BadRequestException('Клуб с таким именем уже существует')
 		}
-
-		const deleteResult = await this.clubRepository.delete({ id })
-
-		return { message: deleteResult.affected > 0 }
 	}
 }

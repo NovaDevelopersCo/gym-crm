@@ -10,6 +10,14 @@ import { AbonementModule } from './modules/abonement/abonement.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GroupModule } from './modules/group/group.module'
 
+// -- проверка при создании клуба, что админ не занят
+// -- сделать дто для связанных моделей при запросе
+// -- поубирать везде преобразование типов у id
+// -- добавить сериализацию к возвращаемым данным
+// -- вынести декораторы сваггера
+// -- вынести swagger response по модулям
+// -- вынести messages из core (оставить только основные)
+
 @Module({
 	imports: [
 		ConfigModule.forRoot(EnvConfigOptions),

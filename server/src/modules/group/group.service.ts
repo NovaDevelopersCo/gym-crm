@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { GroupEntity } from './entities'
 import { Repository } from 'typeorm'
@@ -6,6 +6,7 @@ import { CreateGroupDto, UpdateGroupDto } from './dto'
 import { StaffService } from '../staff/staff.service'
 import { ClubService } from '../club/club.service'
 import { DirectionService } from '../direction/direction.service'
+import { EStaffRole } from '@/core/enums'
 
 @Injectable()
 export class GroupService {
@@ -31,7 +32,7 @@ export class GroupService {
 		const group = await this.groupRepository.findOne({ where: { id: groupId } })
 
 		if (!group) {
-			throw new BadRequestException(`Группы с id: ${groupId} не найдено`)
+			throw new NotFoundException(`Группы с id: ${groupId} не найдено`)
 		}
 
 		const { id, name, direction, club, trainer, users } = group
@@ -40,21 +41,9 @@ export class GroupService {
 	}
 
 	async create(dto: CreateGroupDto) {
-		const group = await this.groupRepository.findOne({ where: { name: dto.name } })
+		await this.checkName(dto.name)
 
-		if (group) {
-			throw new BadRequestException('Группа с таким именем уже существует')
-		}
-
-		const trainer = await this.staffService.byId(dto.trainer)
-
-		if (!trainer) {
-			throw new BadRequestException(`Профиль тренера с id: ${dto.trainer} не найден`)
-		}
-
-		if (trainer.role !== 'trainer') {
-			throw new BadRequestException(`Профиль с id: ${dto.trainer} не является тренером`)
-		}
+		const trainer = await this.staffService.checkRole(dto.trainer, EStaffRole.TRAINER)
 
 		await this.clubService.getById(dto.club)
 		await this.directionService.getById(dto.direction)
@@ -74,20 +63,11 @@ export class GroupService {
 	}
 
 	async update(groupId: number, dto: UpdateGroupDto) {
-		const group = await this.groupRepository.findOne({ where: { id: groupId } })
+		const group = await this.getById(groupId)
 
-		if (!group) {
-			throw new BadRequestException(`Группа с id: ${groupId} не найдена`)
-		}
-
-		const newNameCheck = await this.groupRepository.findOne({ where: { name: dto.name } })
-
-		if (newNameCheck) {
-			throw new BadRequestException('Группа с таким именем уже существует')
-		}
-
+		await this.checkName(dto.name)
 		await this.clubService.getById(dto.club)
-		await this.staffService.byId(dto.trainer)
+		await this.staffService.getById(dto.trainer)
 		await this.directionService.getById(dto.direction)
 
 		const savedGroup = await this.groupRepository.save({
@@ -104,14 +84,16 @@ export class GroupService {
 	}
 
 	async delete(id: number) {
-		const group = await this.groupRepository.findOne({ where: { id } })
+		await this.getById(id)
 
-		if (!group) {
-			throw new BadRequestException(`Группа с id: ${id} не найдена`)
+		return this.groupRepository.delete({ id })
+	}
+
+	async checkName(name: string) {
+		const group = await this.groupRepository.findOne({ where: { name } })
+
+		if (group) {
+			throw new BadRequestException('Группа с таким именем уже существует')
 		}
-
-		const deleteResult = await this.groupRepository.delete({ id })
-
-		return { message: deleteResult.affected > 0 }
 	}
 }

@@ -1,5 +1,5 @@
 import { Repository } from 'typeorm'
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { DirectionEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
 import { CreateDirectionDto, UpdateDirectionDto } from './dto'
@@ -25,7 +25,7 @@ export class DirectionService {
 		const direction = await this.directionRepository.findOne({ where: { id: directionId } })
 
 		if (!direction) {
-			throw new BadRequestException('Направление не найдено')
+			throw new NotFoundException('Направление не найдено')
 		}
 
 		const { id, name, groups } = direction
@@ -34,11 +34,7 @@ export class DirectionService {
 	}
 
 	async create({ name }: CreateDirectionDto) {
-		const direction = await this.directionRepository.findOne({ where: { name } })
-
-		if (direction) {
-			throw new BadRequestException('Направление с таким именем уже существует')
-		}
+		await this.nameCheck(name)
 
 		const newDirection = this.directionRepository.create({ name })
 
@@ -50,17 +46,9 @@ export class DirectionService {
 	}
 
 	async update(directionId: number, dto: UpdateDirectionDto) {
-		const direction = await this.directionRepository.findOne({ where: { id: directionId } })
+		const direction = await this.getById(directionId)
 
-		if (!direction) {
-			throw new BadRequestException(`Направление с id: ${directionId} не найдено`)
-		}
-
-		const newNameCheck = await this.directionRepository.findOne({ where: { name: dto.name } })
-
-		if (newNameCheck) {
-			throw new BadRequestException('Направление с таким именем уже существует')
-		}
+		await this.nameCheck(dto.name)
 
 		const updatedDirection = await this.directionRepository.save({ ...direction, ...dto })
 
@@ -70,14 +58,16 @@ export class DirectionService {
 	}
 
 	async delete(id: number) {
-		const direction = await this.directionRepository.findOne({ where: { id } })
+		await this.getById(id)
 
-		if (!direction) {
-			throw new BadRequestException(`Направление с id: ${id} не найдено`)
+		return this.directionRepository.delete({ id })
+	}
+
+	async nameCheck(name: string) {
+		const direction = await this.directionRepository.findOne({ where: { name } })
+
+		if (direction) {
+			throw new BadRequestException('Направление с таким именем уже существует')
 		}
-
-		const deleteResult = await this.directionRepository.delete({ id })
-
-		return { message: deleteResult.affected > 0 }
 	}
 }

@@ -18,7 +18,11 @@ export class TokenService {
 		private readonly configService: ConfigService
 	) {}
 
-	generateTokens({ email, id, role }: StaffEntity) {
+	generateTokens({
+		email,
+		id,
+		role
+	}: Omit<StaffEntity, 'createDate' | 'updateDate' | 'password'>) {
 		const payload = { email, id, role }
 
 		const accessToken = this.jwtService.sign(payload, {

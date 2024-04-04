@@ -27,7 +27,7 @@ export class StaffEntity extends BaseEntity {
 	@OneToMany(() => GroupEntity, group => group.trainer)
 	groups: GroupEntity[]
 
-	@OneToOne(() => ClubEntity)
+	@OneToOne(() => ClubEntity, club => club.admin)
 	@JoinColumn()
 	club: ClubEntity
 }

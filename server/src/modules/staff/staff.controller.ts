@@ -14,13 +14,15 @@ import {
 	ApiBearerAuth
 } from '@nestjs/swagger'
 
+import { EStaffSwaggerMessages } from './swagger'
+
 @ApiTags('Управляющие')
+@ApiBearerAuth('access-token')
 @UsePipes(new ValidationPipe({ whitelist: true }))
 @Controller('staff')
 export class StaffController {
 	constructor(private readonly staffService: StaffService) {}
 
-	@ApiBearerAuth('access-token')
 	@ApiOperation({
 		summary: 'Создание нового профиля для управляющего',
 		description: 'Только с ролью director'
@@ -28,7 +30,7 @@ export class StaffController {
 	@ApiOkResponse({ description: 'Профиль успешно создан', type: CreateStaffOk })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
 	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
-	@ApiBadRequestResponse({ description: ESwaggerMessages.STAFF_CREATE })
+	@ApiBadRequestResponse({ description: EStaffSwaggerMessages.CREATE })
 	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	@Post()
 	create(@Body() dto: CreateDto) {
