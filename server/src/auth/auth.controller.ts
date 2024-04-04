@@ -44,7 +44,7 @@ export class AuthController {
 		path: '/api/auth'
 	}
 
-	// @HttpCode(204)
+	@HttpCode(204)
 	@ApiOperation({ summary: 'Логин в профиле управляющего' })
 	@ApiNoContentResponse({ description: 'Успешный вход' })
 	@ApiBadRequestResponse({ status: 400, description: EAuthSwaggerMessages.LOGIN })

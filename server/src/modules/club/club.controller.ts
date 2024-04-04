@@ -8,7 +8,8 @@ import {
 	ValidationPipe,
 	Body,
 	Delete,
-	Put
+	Put,
+	HttpCode
 } from '@nestjs/common'
 import {
 	ApiBearerAuth,
@@ -89,6 +90,7 @@ export class ClubController {
 		return this.clubService.update(id, dto)
 	}
 
+	@HttpCode(204)
 	@ApiNoContentResponse({ description: 'Успешно удалено' })
 	@ApiOperation({ summary: 'Удалить клуб', description: 'Только с ролью director' })
 	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
