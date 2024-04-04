@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { CreateClubDto, UpdateClubDto } from './dto'
 import { StaffService } from '../staff/staff.service'
 import { EStaffRole } from '@/core/enums'
+import { StaffEntity } from '../staff/entities'
 
 @Injectable()
 export class ClubService {
@@ -41,9 +42,8 @@ export class ClubService {
 
 		const admin = await this.staffService.checkRole(dto.admin, EStaffRole.ADMIN)
 
-		if (admin.club && admin.club.id) {
-			throw new BadRequestException('За этим администратором уже закреплен клуб')
-		}
+		this.adminFreeCheck(admin)
+		await this.addressCheck(dto.address)
 
 		const newClub = this.clubRepository.create({ ...dto, admin: { id: dto.admin } })
 
@@ -57,14 +57,12 @@ export class ClubService {
 	async update(clubId: number, dto: UpdateClubDto) {
 		const club = await this.getById(clubId)
 
+		await this.nameCheck(dto.name)
+
 		const admin = await this.staffService.checkRole(dto.admin, EStaffRole.ADMIN)
 
-		//! вынести проверку занятости админа в метод
-		if (admin.club.id && admin.club.id !== clubId) {
-			throw new BadRequestException('За этим администратором уже закреплен клуб')
-		}
-
-		await this.nameCheck(dto.name)
+		this.adminFreeCheck(admin, clubId)
+		await this.addressCheck(dto.address)
 
 		const updatedClub = await this.clubRepository.save({
 			...club,
@@ -89,6 +87,27 @@ export class ClubService {
 
 		if (club) {
 			throw new BadRequestException('Клуб с таким именем уже существует')
+		}
+	}
+
+	adminFreeCheck(
+		admin: Omit<StaffEntity, 'password' | 'createDate' | 'updateDate'>,
+		clubId?: number
+	) {
+		if (admin.club.id) {
+			throw new BadRequestException('Этот администратор уже занят')
+		}
+
+		if (clubId && admin.club.id !== clubId) {
+			throw new BadRequestException('Этот администратор уже занят')
+		}
+	}
+
+	async addressCheck(address: string) {
+		const club = await this.clubRepository.findOne({ where: { address } })
+
+		if (club) {
+			throw new BadRequestException('Клуб с таким адресом уже существует')
 		}
 	}
 }

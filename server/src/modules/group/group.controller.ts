@@ -28,7 +28,7 @@ export class GroupController {
 	constructor(private readonly groupService: GroupService) {}
 
 	@GroupDocSwagger.getAll()
-	@Get('/')
+	@Get()
 	getAll() {
 		return this.groupService.getAll()
 	}
@@ -40,7 +40,7 @@ export class GroupController {
 	}
 
 	@GroupDocSwagger.create()
-	@Post('/')
+	@Post()
 	create(@Body() dto: CreateGroupDto) {
 		return this.groupService.create(dto)
 	}

@@ -28,7 +28,7 @@ export class DirectionController {
 	constructor(private readonly directionService: DirectionService) {}
 
 	@DirectionDocSwagger.getAll()
-	@Get('/')
+	@Get()
 	async getAll() {
 		return this.directionService.getAll()
 	}
@@ -40,7 +40,7 @@ export class DirectionController {
 	}
 
 	@DirectionDocSwagger.create()
-	@Post('/')
+	@Post()
 	create(@Body() dto: CreateDirectionDto) {
 		return this.directionService.create(dto)
 	}

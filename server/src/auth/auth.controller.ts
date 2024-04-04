@@ -11,20 +11,11 @@ import {
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
 
-import { EAuthSwaggerMessages, RefreshOk } from './swagger'
+import { AuthDocSwagger } from './swagger'
 
-import {
-	ApiTags,
-	ApiOperation,
-	ApiOkResponse,
-	ApiUnauthorizedResponse,
-	ApiBadRequestResponse,
-	ApiNoContentResponse
-} from '@nestjs/swagger'
+import { ApiTags } from '@nestjs/swagger'
 
 import { LoginDto } from './dto'
-
-import { ESwaggerMessages } from '@/core/swagger'
 
 import type { CookieOptions, Response } from 'express'
 
@@ -44,10 +35,8 @@ export class AuthController {
 		path: '/api/auth'
 	}
 
+	@AuthDocSwagger.login()
 	@HttpCode(204)
-	@ApiOperation({ summary: 'Логин в профиле управляющего' })
-	@ApiNoContentResponse({ description: 'Успешный вход' })
-	@ApiBadRequestResponse({ status: 400, description: EAuthSwaggerMessages.LOGIN })
 	@Post('login')
 	async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
 		const { refreshToken } = await this.authService.login(dto)
@@ -55,9 +44,7 @@ export class AuthController {
 		return
 	}
 
-	@ApiOperation({ summary: 'Обновление токенов' })
-	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
-	@ApiOkResponse({ description: 'Access токен', type: RefreshOk })
+	@AuthDocSwagger.refresh()
 	@RefreshGuard()
 	@Get('refresh')
 	async refresh(
@@ -82,9 +69,8 @@ export class AuthController {
 		return { accessToken, profile }
 	}
 
+	@AuthDocSwagger.logout()
 	@HttpCode(200)
-	@ApiOperation({ summary: 'Выход из профиля' })
-	@ApiOkResponse({ description: 'Успешный выход из профиля', status: 200 })
 	@Get('logout')
 	async logout(@Cookie('refresh') refresh: string, @Res({ passthrough: true }) res: Response) {
 		this.authService.logout(refresh)

@@ -27,7 +27,7 @@ export class ClubController {
 	constructor(private readonly clubService: ClubService) {}
 
 	@ClubDocSwagger.getAll()
-	@Get('/')
+	@Get()
 	getAll() {
 		return this.clubService.getAll()
 	}
@@ -39,7 +39,7 @@ export class ClubController {
 	}
 
 	@ClubDocSwagger.create()
-	@Post('/')
+	@Post()
 	create(@Body() dto: CreateClubDto) {
 		return this.clubService.create(dto)
 	}
