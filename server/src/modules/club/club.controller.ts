@@ -9,7 +9,9 @@ import {
 	Body,
 	Delete,
 	Put,
-	HttpCode
+	HttpCode,
+	UseInterceptors,
+	ClassSerializerInterceptor
 } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { ClubService } from './club.service'
@@ -20,6 +22,7 @@ import { CreateClubDto, UpdateClubDto } from './dto'
 
 @ApiTags('Клубы')
 @ApiBearerAuth('access-auth')
+@UseInterceptors(ClassSerializerInterceptor)
 @UsePipes(new ValidationPipe({ whitelist: true }))
 @RolesAuthGuard(EStaffRole.DIRECTOR)
 @Controller('club')

@@ -48,14 +48,12 @@ export class GroupService {
 		await this.clubService.getById(dto.club)
 		await this.directionService.getById(dto.direction)
 
-		const newGroup = this.groupRepository.create({
+		const savedGroup = await this.groupRepository.save({
 			name: dto.name,
 			direction: { id: dto.direction },
 			club: { id: dto.club },
 			trainer: { id: trainer.id }
 		})
-
-		const savedGroup = await this.groupRepository.save(newGroup)
 
 		const { name, direction, trainer: trainerBody, club, id } = savedGroup
 
@@ -65,7 +63,7 @@ export class GroupService {
 	async update(groupId: number, dto: UpdateGroupDto) {
 		const group = await this.getById(groupId)
 
-		await this.checkName(dto.name)
+		await this.checkName(dto.name, groupId)
 		await this.clubService.getById(dto.club)
 		await this.staffService.getById(dto.trainer)
 		await this.directionService.getById(dto.direction)
@@ -90,10 +88,14 @@ export class GroupService {
 		return
 	}
 
-	async checkName(name: string) {
+	async checkName(name: string, groupId?: number) {
 		const group = await this.groupRepository.findOne({ where: { name } })
 
-		if (group) {
+		if (!groupId && group) {
+			throw new BadRequestException('Группа с таким именем уже существует')
+		}
+
+		if (group && group.id !== groupId) {
 			throw new BadRequestException('Группа с таким именем уже существует')
 		}
 	}

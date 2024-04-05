@@ -10,9 +10,6 @@ import { AbonementModule } from './modules/abonement/abonement.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GroupModule } from './modules/group/group.module'
 
-// -- сделать дто для связанных моделей при запросе
-// -- добавить сериализацию к возвращаемым данным
-
 @Module({
 	imports: [
 		ConfigModule.forRoot(EnvConfigOptions),

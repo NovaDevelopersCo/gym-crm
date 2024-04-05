@@ -22,6 +22,6 @@ export class ClubEntity extends BaseEntity {
 	@OneToMany(() => GroupEntity, group => group.club)
 	groups: GroupEntity[]
 
-	@OneToMany(() => UserEntity, user => user.groups)
+	@OneToMany(() => UserEntity, user => user.club)
 	users: UserEntity[]
 }

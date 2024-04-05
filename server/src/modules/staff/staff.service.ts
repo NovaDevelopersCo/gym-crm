@@ -41,10 +41,6 @@ export class StaffService {
 			)
 		}
 
-		// ! bag
-		// ! const candidate = await this.getByEmail(data.email)
-
-		// * fix
 		const candidate = await this.staffRepository.findOneBy({ email: data.email })
 
 		if (candidate) {
@@ -53,9 +49,7 @@ export class StaffService {
 
 		const hashPassword = await hash(password, 7)
 
-		const newUser = this.staffRepository.create({ ...data, password: hashPassword })
-
-		const savedUser = await this.staffRepository.save(newUser)
+		const savedUser = await this.staffRepository.save({ ...data, password: hashPassword })
 
 		const { email, role, id } = savedUser
 

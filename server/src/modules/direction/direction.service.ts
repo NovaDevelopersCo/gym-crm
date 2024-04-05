@@ -37,9 +37,7 @@ export class DirectionService {
 	async create({ name }: CreateDirectionDto) {
 		await this.nameCheck(name)
 
-		const newDirection = this.directionRepository.create({ name })
-
-		const savedDirection = await this.directionRepository.save(newDirection)
+		const savedDirection = await this.directionRepository.save({ name })
 
 		const { id, name: savedName, groups } = savedDirection
 
@@ -49,7 +47,7 @@ export class DirectionService {
 	async update(directionId: number, dto: UpdateDirectionDto) {
 		const direction = await this.getById(directionId)
 
-		await this.nameCheck(dto.name)
+		await this.nameCheck(dto.name, directionId)
 
 		const updatedDirection = await this.directionRepository.save({ ...direction, ...dto })
 
@@ -65,10 +63,14 @@ export class DirectionService {
 		return
 	}
 
-	async nameCheck(name: string) {
+	async nameCheck(name: string, directionId?: number) {
 		const direction = await this.directionRepository.findOne({ where: { name } })
 
-		if (direction) {
+		if (!directionId && direction) {
+			throw new BadRequestException('Направление с таким именем уже существует')
+		}
+
+		if (direction && direction.id !== directionId) {
 			throw new BadRequestException('Направление с таким именем уже существует')
 		}
 	}

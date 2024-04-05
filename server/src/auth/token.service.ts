@@ -47,9 +47,8 @@ export class TokenService {
 				token
 			})
 		}
-		const session = this.sessionRepository.create({ token, user })
 
-		return this.sessionRepository.save(session)
+		return this.sessionRepository.save({ token, user })
 	}
 
 	async validateRefreshToken(refresh: string) {
