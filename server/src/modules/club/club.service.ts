@@ -13,6 +13,8 @@ export class ClubService {
 		private readonly clubRepository: Repository<ClubEntity>,
 		private readonly staffService: StaffService
 	) {}
+
+	// ! pagination
 	async getAll() {
 		const clubs = await this.clubRepository.find({
 			relations: {
@@ -25,9 +27,10 @@ export class ClubService {
 		return { clubs }
 	}
 
-	async getById(clubId: number) {
+	// * checked
+	async getById(id: number) {
 		const club = await this.clubRepository.findOne({
-			where: { id: clubId },
+			where: { id },
 			relations: {
 				admin: true,
 				groups: true,
@@ -36,12 +39,13 @@ export class ClubService {
 		})
 
 		if (!club) {
-			throw new NotFoundException(`Клуб с id: ${clubId} не найден`)
+			throw new NotFoundException(`Клуб с id: ${id} не найден`)
 		}
 
 		return club
 	}
 
+	// * checked
 	async create(dto: CreateClubDto) {
 		await this.nameCheck(dto.name)
 		await this.adminFreeCheck(dto.admin)
@@ -55,6 +59,7 @@ export class ClubService {
 		return this.clubRepository.save(createClub)
 	}
 
+	// ! no work
 	async update(clubId: number, dto: UpdateClubDto) {
 		const club = await this.getById(clubId)
 
@@ -70,6 +75,7 @@ export class ClubService {
 		})
 	}
 
+	// * checked
 	async delete(id: number) {
 		await this.getById(id)
 
@@ -77,7 +83,7 @@ export class ClubService {
 		return
 	}
 
-	async nameCheck(name: string, clubId?: number) {
+	private async nameCheck(name: string, clubId?: number) {
 		const club = await this.clubRepository.findOne({ where: { name } })
 
 		if (!clubId && club) {
@@ -89,7 +95,7 @@ export class ClubService {
 		}
 	}
 
-	async adminFreeCheck(adminId: number, clubId?: number) {
+	private async adminFreeCheck(adminId: number, clubId?: number) {
 		const admin = await this.staffService.checkRole(adminId, EStaffRole.ADMIN)
 
 		if (!clubId && admin.club) {
@@ -103,7 +109,7 @@ export class ClubService {
 		return admin
 	}
 
-	async addressCheck(address: string, clubId?: number) {
+	private async addressCheck(address: string, clubId?: number) {
 		const club = await this.clubRepository.findOne({ where: { address } })
 
 		if (!clubId && club) {

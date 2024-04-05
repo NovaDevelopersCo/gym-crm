@@ -37,7 +37,7 @@ export class DirectionController {
 	}
 
 	@DirectionDocSwagger.getById()
-	@Get('/:id')
+	@Get(':id')
 	getById(@Param() { id }: GetByIdParamsDto) {
 		return this.directionService.getById(id)
 	}
@@ -49,14 +49,14 @@ export class DirectionController {
 	}
 
 	@DirectionDocSwagger.update()
-	@Put('/:id')
+	@Put(':id')
 	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateDirectionDto) {
 		return this.directionService.update(id, dto)
 	}
 
 	@HttpCode(204)
 	@DirectionDocSwagger.delete()
-	@Delete('/:id')
+	@Delete(':id')
 	delete(@Param() { id }: GetByIdParamsDto) {
 		return this.directionService.delete(id)
 	}

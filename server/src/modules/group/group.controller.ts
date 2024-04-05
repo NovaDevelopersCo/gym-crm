@@ -23,7 +23,7 @@ import { GroupDocSwagger } from './swagger'
 
 @ApiTags('Группы')
 @ApiBearerAuth('access-token')
-@UsePipes(new ValidationPipe())
+@UsePipes(new ValidationPipe({ whitelist: true }))
 @RolesAuthGuard(EStaffRole.DIRECTOR)
 @UseInterceptors(ClassSerializerInterceptor)
 @Controller('group')
@@ -37,7 +37,7 @@ export class GroupController {
 	}
 
 	@GroupDocSwagger.getById()
-	@Get('/:id')
+	@Get(':id')
 	getById(@Param() { id }: GetByIdParamsDto) {
 		return this.groupService.getById(id)
 	}
@@ -49,14 +49,14 @@ export class GroupController {
 	}
 
 	@GroupDocSwagger.update()
-	@Put('/:id')
+	@Put(':id')
 	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateGroupDto) {
 		return this.groupService.update(id, dto)
 	}
 
 	@GroupDocSwagger.delete()
 	@HttpCode(204)
-	@Delete('/:id')
+	@Delete(':id')
 	delete(@Param() { id }: GetByIdParamsDto) {
 		return this.groupService.delete(id)
 	}
