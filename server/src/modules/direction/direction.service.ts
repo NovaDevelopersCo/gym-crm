@@ -12,36 +12,36 @@ export class DirectionService {
 	) {}
 
 	async getAll() {
-		const allDirections = await this.directionRepository.find()
-		//! replace on serialize
-		const formattedDirections = allDirections.map(i => {
-			const { name, id, groups } = i
-			return { name, id, groups }
+		const directions = await this.directionRepository.find({
+			relations: {
+				groups: true
+			}
 		})
 
-		return { directions: formattedDirections }
+		return { directions }
 	}
 
 	async getById(directionId: number) {
-		const direction = await this.directionRepository.findOne({ where: { id: directionId } })
+		const direction = await this.directionRepository.findOne({
+			where: { id: directionId },
+			relations: {
+				groups: true
+			}
+		})
 
 		if (!direction) {
 			throw new NotFoundException('Направление не найдено')
 		}
 
-		const { id, name, groups } = direction
-
-		return { id, name, groups }
+		return direction
 	}
 
 	async create({ name }: CreateDirectionDto) {
 		await this.nameCheck(name)
 
-		const savedDirection = await this.directionRepository.save({ name })
+		const createdDirection = this.directionRepository.create({ name })
 
-		const { id, name: savedName, groups } = savedDirection
-
-		return { id, name: savedName, groups }
+		return this.directionRepository.save(createdDirection)
 	}
 
 	async update(directionId: number, dto: UpdateDirectionDto) {
@@ -51,9 +51,7 @@ export class DirectionService {
 
 		const updatedDirection = await this.directionRepository.save({ ...direction, ...dto })
 
-		const { name, id, groups } = updatedDirection
-
-		return { name, id, groups }
+		return updatedDirection
 	}
 
 	async delete(id: number) {

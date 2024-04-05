@@ -18,26 +18,33 @@ export class GroupService {
 	) {}
 
 	async getAll() {
-		const groups = await this.groupRepository.find()
-
-		const formattedGroups = groups.map(i => {
-			const { name, id, club, direction, trainer } = i
-			return { name, id, club, direction, trainer }
+		const groups = await this.groupRepository.find({
+			relations: {
+				direction: true,
+				club: true,
+				trainer: true,
+				users: true
+			}
 		})
-
-		return { groups: formattedGroups }
+		return { groups }
 	}
 
 	async getById(groupId: number) {
-		const group = await this.groupRepository.findOne({ where: { id: groupId } })
+		const group = await this.groupRepository.findOne({
+			where: { id: groupId },
+			relations: {
+				direction: true,
+				club: true,
+				trainer: true,
+				users: true
+			}
+		})
 
 		if (!group) {
 			throw new NotFoundException(`Группы с id: ${groupId} не найдено`)
 		}
 
-		const { id, name, direction, club, trainer, users } = group
-
-		return { id, name, direction, club, trainer, users }
+		return group
 	}
 
 	async create(dto: CreateGroupDto) {
@@ -48,16 +55,14 @@ export class GroupService {
 		await this.clubService.getById(dto.club)
 		await this.directionService.getById(dto.direction)
 
-		const savedGroup = await this.groupRepository.save({
-			name: dto.name,
+		const createdGroup = this.groupRepository.create({
+			...dto,
 			direction: { id: dto.direction },
 			club: { id: dto.club },
 			trainer: { id: trainer.id }
 		})
 
-		const { name, direction, trainer: trainerBody, club, id } = savedGroup
-
-		return { name, direction, trainer: trainerBody, club, id }
+		return this.groupRepository.save(createdGroup)
 	}
 
 	async update(groupId: number, dto: UpdateGroupDto) {
@@ -76,9 +81,7 @@ export class GroupService {
 			club: { id: dto.club }
 		})
 
-		const { trainer, club, name, id, users, direction } = savedGroup
-
-		return { trainer, club, name, id, users, direction }
+		return savedGroup
 	}
 
 	async delete(id: number) {

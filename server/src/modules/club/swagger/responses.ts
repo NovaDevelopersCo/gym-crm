@@ -11,7 +11,12 @@ export class GetAllClubsOk {
 				id: 1,
 				address: 'г. Москва ул. Шишкина д. 13',
 				name: 'Mass Club',
-				admin: { id: 1 },
+				admin: {
+					id: 1,
+					fio: 'Солодова Елизавета Павловна',
+					email: 'admin1@gmail.com',
+					role: 'admin'
+				},
 				groups: ['список групп....'],
 				users: ['список пользователей....']
 			},
@@ -19,7 +24,12 @@ export class GetAllClubsOk {
 				id: 4,
 				address: 'г. Москва ул. Капитошкина д. 98',
 				name: 'Star Club',
-				admin: { id: 8 },
+				admin: {
+					id: 8,
+					fio: 'Шишкин Николай Сергеевич',
+					email: 'admin2@gmail.com',
+					role: 'admin'
+				},
 				groups: ['список групп....'],
 				users: ['список пользователей....']
 			}
@@ -44,7 +54,10 @@ export class GetClubByIdOk {
 	id: number
 	@ApiProperty({
 		default: {
-			id: 111
+			id: 111,
+			fio: 'Шишкин Николай Сергеевич',
+			email: 'admin2@gmail.com',
+			role: 'admin'
 		}
 	})
 	admin: StaffEntity
@@ -58,5 +71,12 @@ export class GetClubByIdOk {
 	users: UserEntity[]
 }
 
-export class CreateClubOk extends PickType(GetClubByIdOk, ['address', 'admin', 'id', 'name']) {}
+export class CreateClubOk extends PickType(GetClubByIdOk, ['address', 'id', 'name']) {
+	@ApiProperty({
+		default: {
+			id: 1
+		}
+	})
+	admin: StaffEntity
+}
 export class UpdateClubOk extends CreateClubOk {}

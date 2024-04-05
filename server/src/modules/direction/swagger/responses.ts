@@ -1,7 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
 
-import { PickType } from '@nestjs/swagger'
-
 import { DirectionEntity } from '@/modules/direction/entities'
 import { GroupEntity } from '@/modules/group/entities'
 
@@ -14,12 +12,12 @@ export class UpdateDirectionOk {
 	groups?: GroupEntity[]
 }
 
-export class CreateDirectionOk extends PickType(UpdateDirectionOk, ['id', 'name']) {}
+export class CreateDirectionOk extends UpdateDirectionOk {}
 export class GetDirectionByIdOk extends UpdateDirectionOk {}
 export class GetAllDirectionsOk {
 	@ApiProperty({
 		default: [
-			{ id: 1, name: 'Кикбоксинг' },
+			{ id: 1, name: 'Кикбоксинг', groups: ['список групп....'] },
 			{ id: 2, name: 'Бокс', groups: ['список групп....'] }
 		]
 	})

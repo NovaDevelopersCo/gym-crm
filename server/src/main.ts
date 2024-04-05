@@ -6,19 +6,8 @@ import { swaggerConfig } from '@configs'
 import * as cookieParser from 'cookie-parser'
 
 //TODO: FIX:
-// * check address: club.service in update/create
-// * write history about one boys with typeorm
-// * path in method decorators
 // * (Going) make cascade in all schemas
 // * (Going) think whats return data in group
-
-// TODO: CHECK:
-// * group - [] - checked (no update)
-// * club - [] - checked (no update)
-// * direction - [] - checked (no update)
-// * check swagger
-// * add serialization
-// * add select into every module
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
