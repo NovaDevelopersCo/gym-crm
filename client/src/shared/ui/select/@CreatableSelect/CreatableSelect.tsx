@@ -1,16 +1,17 @@
-import { FC, Dispatch, SetStateAction } from 'react'
+/* eslint-disable no-unused-vars */
+import { Dispatch, FC, SetStateAction } from 'react'
 import CreatableSelectAntd from 'react-select/creatable'
 
 interface Option {
-	readonly label: string;
-	readonly value: string;
+	readonly label: string
+	readonly value: string
 }
 
 type TCustomCreatableSelectProps = {
-	label: string,
-	options?: Option[],
-	onCreateOption?: (inputValue: string) => void,
-	value: unknown,
+	label: string
+	options?: Option[]
+	onCreateOption?: (inputValue: string) => void
+	value: unknown
 	setValue: Dispatch<SetStateAction<unknown>>
 }
 
@@ -21,19 +22,22 @@ type TCustomCreatableSelectProps = {
 // 	</div>
 // );
 
-const CreatableSelect: FC<TCustomCreatableSelectProps> = ({ options, label, onCreateOption, value, setValue }) => (
+const CreatableSelect: FC<TCustomCreatableSelectProps> = ({
+	options,
+	label,
+	onCreateOption,
+	value,
+	setValue
+}) => (
 	<CreatableSelectAntd
 		isClearable
 		formatCreateLabel={(inputValue: string) => `${label}: ${inputValue}`}
 		loadingMessage={() => <p>Loading...</p>}
-
 		createOptionPosition='first'
-
 		options={options}
-
 		onCreateOption={onCreateOption}
 		value={value}
-		onChange={(newValue) => setValue(newValue)}
+		onChange={newValue => setValue(newValue)}
 	/>
 )
 
