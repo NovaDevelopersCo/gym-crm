@@ -9,9 +9,9 @@ export class CreateDto {
 		maxLength: 100,
 		default: 'Васильев Василий Васильевич'
 	})
-	@IsString()
-	@MaxLength(100)
-	@MinLength(2)
+	@IsString({ message: 'Ф.И.О. должно быть строкой' })
+	@MaxLength(100, { message: 'Максимальная длина Ф.И.О 100 символов' })
+	@MinLength(2, { message: 'Минимальная длина Ф.И.О 5 символа' })
 	fio: string
 
 	@ApiProperty({
@@ -19,15 +19,15 @@ export class CreateDto {
 		maxLength: 32,
 		default: 'password'
 	})
-	@IsString()
-	@MinLength(8)
-	@MaxLength(32)
+	@IsString({ message: 'Пароль должен быть строкой' })
+	@MinLength(8, { message: 'Минимальная длина пароля 8 символов' })
+	@MaxLength(32, { message: 'Максимальная длина пароля 32 символа' })
 	password: string
 
 	@ApiProperty({
 		default: 'email@email.com'
 	})
-	@IsEmail()
+	@IsEmail({}, { message: 'Невалидная почта' })
 	email: string
 
 	@ApiProperty({

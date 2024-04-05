@@ -2,7 +2,7 @@ import { BaseEntity } from '@/core/database'
 import { GroupEntity } from '@/modules/group/entities'
 import { StaffEntity } from '@/modules/staff/entities'
 import { UserEntity } from '@/modules/user/entities'
-import { Column, Entity, JoinColumn, OneToOne, OneToMany } from 'typeorm'
+import { Column, Entity, OneToOne, OneToMany } from 'typeorm'
 
 @Entity('Club')
 export class ClubEntity extends BaseEntity {
@@ -16,13 +16,12 @@ export class ClubEntity extends BaseEntity {
 	})
 	name: string
 
-	@OneToOne(() => StaffEntity)
-	@JoinColumn()
+	@OneToOne(() => StaffEntity, user => user.club, { cascade: true })
 	admin: StaffEntity
 
 	@OneToMany(() => GroupEntity, group => group.club)
 	groups: GroupEntity[]
 
-	@OneToMany(() => UserEntity, user => user.groups)
+	@OneToMany(() => UserEntity, user => user.club)
 	users: UserEntity[]
 }

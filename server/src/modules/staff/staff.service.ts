@@ -1,9 +1,10 @@
 import { StaffEntity } from '@/modules/staff/entities'
-import { BadRequestException, Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { hash } from 'bcrypt'
 import { Repository } from 'typeorm'
 import { CreateDto } from './dto'
+import { EStaffRole } from '@/core/enums'
 
 @Injectable()
 export class StaffService {
@@ -11,12 +12,26 @@ export class StaffService {
 		@InjectRepository(StaffEntity) private readonly staffRepository: Repository<StaffEntity>
 	) {}
 
-	async byId(id: number) {
-		return this.staffRepository.findOne({ where: { id } })
+	async getById(staffId: number, withError?: boolean) {
+		const staff = await this.staffRepository.findOne({ where: { id: staffId } })
+
+		if (withError && !staff) {
+			throw new NotFoundException(`Управляющий с id: ${staffId} не найден`)
+		}
+
+		const { fio, email, role, groups, club, id } = staff
+
+		return { fio, email, role, groups, club, id }
 	}
 
-	async byEmail(email: string) {
-		return this.staffRepository.findOne({ where: { email } })
+	async getByEmail(email: string) {
+		const staff = await this.staffRepository.findOne({ where: { email } })
+
+		if (!staff) {
+			throw new NotFoundException(`Управляющий с email: ${email} не найден`)
+		}
+
+		return staff
 	}
 
 	async create({ password, ...data }: CreateDto) {
@@ -26,7 +41,7 @@ export class StaffService {
 			)
 		}
 
-		const candidate = await this.byEmail(data.email)
+		const candidate = await this.staffRepository.findOneBy({ email: data.email })
 
 		if (candidate) {
 			throw new BadRequestException('Пользователь с таким email уже существует')
@@ -34,12 +49,27 @@ export class StaffService {
 
 		const hashPassword = await hash(password, 7)
 
-		const newUser = this.staffRepository.create({ ...data, password: hashPassword })
-
-		const savedUser = await this.staffRepository.save(newUser)
+		const savedUser = await this.staffRepository.save({ ...data, password: hashPassword })
 
 		const { email, role, id } = savedUser
 
 		return { email, role, id }
+	}
+
+	async checkRole(id: number, role: EStaffRole) {
+		const admin = await this.staffRepository.findOne({
+			where: { id },
+			relations: {
+				club: true
+			}
+		})
+		if (!admin) {
+			throw new NotFoundException(`Управляющий с id: ${id} не найден`)
+		}
+		if (admin.role !== role) {
+			throw new BadRequestException(`Профиль с id: ${id} не является ${role}`)
+		}
+
+		return admin
 	}
 }
