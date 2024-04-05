@@ -1,12 +1,12 @@
-export enum EUserRoles {
+export enum EStuffRoles {
 	DIRECTOR = 'director',
 	ADMIN = 'admin',
 	TRAINER = 'trainer'
 }
 
-export default interface IUser {
+export default interface IStuff {
 	id: number
-	name: string
+	fio: string
 	email: string
-	role: EUserRoles
+	role: EStuffRoles
 }

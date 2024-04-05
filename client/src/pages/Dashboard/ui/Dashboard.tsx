@@ -1,5 +1,9 @@
+import { Typography } from 'antd'
+
+const { Title } = Typography
+
 const Dashboard = () => {
-	return <div>Dashboard</div>
+	return <Title>Dashboard</Title>
 }
 
 export default Dashboard

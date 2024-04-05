@@ -11,7 +11,7 @@ export class AuthOk {
 
 class Profile {
 	@ApiProperty()
-	name: string
+	fio: string
 
 	@ApiProperty({
 		enum: ECreateStaffRole
@@ -28,7 +28,7 @@ class Profile {
 export class RefreshOk extends AuthOk {
 	@ApiProperty({
 		default: {
-			name: 'name',
+			fio: 'Васильев Василий Васильевич',
 			role: 'admin / trainer',
 			email: 'email@email.com',
 			id: '35'
