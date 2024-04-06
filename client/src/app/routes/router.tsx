@@ -1,7 +1,10 @@
+/* eslint-disable react-refresh/only-export-components */
 import { Suspense, lazy } from 'react'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
-import { ProtectedRoute } from '@shared/ui'
+
 import Layout from '@pages/Layout'
+
+import { ProtectedRoute } from '@shared/ui'
 
 const Login = lazy(() => import('@pages/Login'))
 
@@ -11,7 +14,6 @@ const ClientProfile = lazy(() => import('@pages/ClientProfile'))
 const Dashboard = lazy(() => import('@pages/Dashboard'))
 const Home = lazy(() => import('@pages/Home'))
 const Stuff = lazy(() => import('@pages/Stuff'))
-
 
 export const router = createBrowserRouter([
 	{
