@@ -8,14 +8,14 @@ const NewClient = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
 	return (
-		<div>
+		<>
 			<Button size='large' onClick={() => setIsModalOpen(true)}>
 				Добавить анкету
 			</Button>
 			<Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
 				<Form />
 			</Modal>
-		</div>
+		</>
 	)
 }
 

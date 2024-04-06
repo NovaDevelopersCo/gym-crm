@@ -11,6 +11,8 @@
 	visibility: hidden;
 	opacity: 0;
 	transition: all 0.2s linear;
+	z-index: 9999;
+	
 	&_open {
 		opacity: 1;
 		visibility: visible;

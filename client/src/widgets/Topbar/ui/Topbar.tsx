@@ -13,7 +13,7 @@ export const Topbar = () => {
 	const user = useAppSelector(state => state['auth/slice'].user!)
 	return (
 		<header className={cl.root}>
-			<h1>Наставник академия единоборств</h1>
+			<h1 className={cl.root__title}>Наставник академия единоборств</h1>
 			<div className={cl.root__buttons}>
 				{/* <button className={cl.root__buttons__invoice}>
 					<File size={18} />
@@ -34,8 +34,7 @@ export const Topbar = () => {
 					)}
 					<Bell size={15} />
 				</button> */}
-				{/*  */}
-				<h1>
+				<h1 className={cl.root__fio}>
 					{user?.fio} ({user?.role})
 				</h1>
 				<button className={cl.root__buttons__profile}>
