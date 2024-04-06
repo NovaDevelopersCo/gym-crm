@@ -3,7 +3,7 @@ import { IsEnum, IsOptional } from 'class-validator'
 import { ESortOrder } from '../enums'
 
 class ASortDto {
-	sortBy: any
+	sortBy: string
 }
 
 export class SortDto extends ASortDto {

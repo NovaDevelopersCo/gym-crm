@@ -43,7 +43,6 @@ export class GroupService {
 		}
 	}
 
-	//  * checked
 	async getById(groupId: number) {
 		const group = await this.groupRepository.findOne({
 			where: { id: groupId },
@@ -61,7 +60,7 @@ export class GroupService {
 
 		return group
 	}
-	// * checked, its beautiful!!!
+
 	async create(dto: CreateGroupDto) {
 		await this.checkName(dto.name)
 
@@ -80,7 +79,6 @@ export class GroupService {
 		return this.groupRepository.save(createdGroup)
 	}
 
-	// * checked
 	async update(groupId: number, dto: UpdateGroupDto) {
 		const group = await this.getById(groupId)
 		await this.checkName(dto.name, groupId)
@@ -99,7 +97,6 @@ export class GroupService {
 		return data
 	}
 
-	// * checked
 	async delete(id: number) {
 		await this.getById(id)
 

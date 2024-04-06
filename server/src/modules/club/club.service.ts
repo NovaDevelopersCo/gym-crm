@@ -15,6 +15,7 @@ export class ClubService {
 		private readonly staffService: StaffService,
 		private readonly dataSource: DataSource
 	) {}
+
 	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllClubDto) {
 		const [items, total] = await this.clubRepository.findAndCount({
 			order: {
@@ -24,7 +25,7 @@ export class ClubService {
 				[searchBy]: ILike(`%${q}%`)
 			},
 			take: count,
-			skip: page && count ? page * count - count : undefined,
+			skip: page * count - count,
 			relations: {
 				admin: true,
 				groups: true,
@@ -32,6 +33,7 @@ export class ClubService {
 			}
 		})
 
+		// ! replace on class
 		return {
 			items,
 			meta: {
@@ -40,7 +42,6 @@ export class ClubService {
 		}
 	}
 
-	// * checked
 	async getById(id: number) {
 		const club = await this.clubRepository.findOne({
 			where: { id },
@@ -58,7 +59,6 @@ export class ClubService {
 		return club
 	}
 
-	// * checked
 	async create(dto: CreateClubDto) {
 		await this.nameCheck(dto.name)
 		await this.adminFreeCheck(dto.admin)
@@ -76,9 +76,7 @@ export class ClubService {
 		const club = await this.getById(id)
 
 		await this.nameCheck(dto.name, id)
-
 		await this.adminFreeCheck(dto.admin, id)
-
 		await this.addressCheck(dto.address, id)
 
 		const updatedClub = await this.clubChangeAdminTransaction(club.admin.id, {
@@ -97,7 +95,6 @@ export class ClubService {
 		return data
 	}
 
-	// * checked
 	async delete(id: number) {
 		await this.getById(id)
 
