@@ -1,54 +1,64 @@
 import {
 	Body,
+	ClassSerializerInterceptor,
 	Controller,
+	Delete,
 	Get,
-	HttpCode,
+	Param,
 	Post,
+	Put,
 	Query,
+	UseInterceptors,
 	UsePipes,
 	ValidationPipe
 } from '@nestjs/common'
-import { PaginationUserQueryDto, QuestionnaireUserDto } from './dto'
+import { PaginationUserQueryDto, CreateUserDto } from './dto'
 import { UserService } from './user.service'
-import {
-	ApiBadRequestResponse,
-	ApiBearerAuth,
-	ApiCreatedResponse,
-	ApiForbiddenResponse,
-	ApiOperation,
-	ApiTags,
-	ApiUnauthorizedResponse
-} from '@nestjs/swagger'
+import { ApiTags } from '@nestjs/swagger'
 import { RolesAuthGuard } from '@/auth/guards/role.guard'
 import { EStaffRole } from '@/core/enums'
-import { ESwaggerMessages, ResponseUserDto } from '@/core/swagger'
+import { GetByIdParamsDto } from '@/core/dto'
+import { UserDocSwagger } from './swagger'
 
+@UseInterceptors(ClassSerializerInterceptor)
 @ApiTags('Пользователь')
+@RolesAuthGuard(EStaffRole.ADMIN, EStaffRole.DIRECTOR)
 @UsePipes(new ValidationPipe({ whitelist: true }))
 @Controller('user')
 export class UserController {
 	constructor(private readonly userService: UserService) {}
 
-	@ApiBearerAuth('access-token')
-	@ApiOperation({
-		summary: 'Анкета регистрации пользователя',
-		description: 'Только с ролями Admin и Director'
-	})
-	@ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED })
-	@ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
-	@ApiBadRequestResponse({ description: ESwaggerMessages.ERROR_VALIDATION })
-	@ApiCreatedResponse({ description: 'Пользователь успешно добавлен', type: ResponseUserDto })
-	@RolesAuthGuard(EStaffRole.ADMIN, EStaffRole.DIRECTOR)
-	@HttpCode(201)
+	// * K
+	@UserDocSwagger.createQuestionnaireUser()
 	@Post()
-	createQuestionnaireUser(@Body() dto: QuestionnaireUserDto) {
-		return this.userService.createQuestionnaireUser(dto)
+	createQuestionnaireUser(@Body() dto: CreateUserDto) {
+		return this.userService.create(dto)
 	}
 
-	// !NotWork
-	@HttpCode(200)
+	// * K
+	@UserDocSwagger.getOne()
+	@Get(':id')
+	findOne(@Param() { id }: GetByIdParamsDto) {
+		return this.userService.getOneById(id)
+	}
+
+	// * K
+	@UserDocSwagger.update()
+	@Put(':id')
+	update(@Param() { id }: GetByIdParamsDto, @Body() dto: CreateUserDto) {
+		return this.userService.update(id, dto)
+	}
+	// * K
+	@UserDocSwagger.getAll()
 	@Get()
 	findAll(@Query() query: PaginationUserQueryDto) {
 		return this.userService.findAll(query)
+	}
+
+	// * K
+	@UserDocSwagger.delete()
+	@Delete(':id')
+	delete(@Param() { id }: GetByIdParamsDto) {
+		return this.userService.delete(id)
 	}
 }

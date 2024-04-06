@@ -1,16 +1,21 @@
-import { BadRequestException, Injectable } from '@nestjs/common'
-import { PaginationUserQueryDto, QuestionnaireUserDto } from './dto'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
+import { CreateUserDto, PaginationUserQueryDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { UserEntity } from './entities'
 import { Repository } from 'typeorm'
+import { GroupService } from '@modules/group/group.service'
+import { ClubService } from '@modules/club/club.service'
+import { PaginationDto } from '@/core/pagination'
 
 @Injectable()
 export class UserService {
 	constructor(
-		@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>
+		@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
+		private readonly groupService: GroupService,
+		private readonly clubService: ClubService
 	) {}
 
-	async createQuestionnaireUser({ email, phone, cardNumber, ...dto }: QuestionnaireUserDto) {
+	async create({ email, phone, cardNumber, ...dto }: CreateUserDto) {
 		const oldUser = await this.userRepository.findOne({
 			where: [{ email }, { phone }, { cardNumber }]
 		})
@@ -21,17 +26,34 @@ export class UserService {
 
 			if (oldUser.email === email) messages.push(msg('Email'))
 
-			if (Number(oldUser.phone) === phone) messages.push(msg('Номер телефона'))
+			if (oldUser.phone === phone) messages.push(msg('Номер телефона'))
 
-			if (Number(oldUser.cardNumber) === cardNumber) messages.push(msg('Номер карты'))
+			if (oldUser.cardNumber === cardNumber) messages.push(msg('Номер карты'))
 
 			throw new BadRequestException(messages)
 		}
 
-		// ? check club and groups
+		await this.clubService.getById(dto.club)
+		const groups = await this.groupService.getByIds(dto.groups)
 
-		// ! beta
-		const createdUser = this.userRepository.create({ email, phone, cardNumber, ...dto })
+		groups.forEach(group => {
+			if (group.club.id !== dto.club) {
+				throw new BadRequestException(
+					`Группы с id: ${group.id} нет в клубе с id: ${dto.club}`
+				)
+			}
+		})
+
+		const createdUser = this.userRepository.create({
+			email,
+			phone,
+			cardNumber,
+			...dto,
+			groups,
+			club: {
+				id: dto.club
+			}
+		})
 		const savedUser = await this.userRepository.save(createdUser)
 		return {
 			id: savedUser.id,
@@ -41,7 +63,125 @@ export class UserService {
 		}
 	}
 
-	async findAll(query: PaginationUserQueryDto) {
-		console.log(query)
+	async getOneById(id: number) {
+		const user = await this.userRepository.findOne({
+			where: { id },
+			relations: {
+				groups: true,
+				club: true
+			}
+		})
+
+		if (!user) throw new NotFoundException(`Пользователя с id: ${id} не найдено`)
+
+		return user
+	}
+
+	async findAll({ count, page }: PaginationUserQueryDto) {
+		const [users, total] = await this.userRepository.findAndCount({
+			relations: {
+				groups: true,
+				club: true
+			},
+			take: count,
+			skip: count * page - count
+		})
+
+		return new PaginationDto(users, total)
+	}
+
+	async update(id: number, dto: CreateUserDto) {
+		const user = await this.getOneById(id)
+
+		if (dto.email !== user.email) await this.checkEmail(dto.email)
+		if (dto.cardNumber !== user.cardNumber) await this.checkCardNumber(dto.cardNumber)
+		if (dto.phone !== user.phone) await this.checkPhone(dto.phone)
+
+		let club = user.club
+		if (dto.club !== user.club.id) club = await this.clubService.getById(dto.club)
+
+		// !вынести
+		const oldGroups = user.groups.map(group => group.id)
+		const uniqueArray = [...new Set(dto.groups)].sort()
+		const uniqueOldArray = [...new Set(oldGroups)].sort()
+		const check = uniqueArray.toString() === uniqueOldArray.toString()
+
+		let groups = user.groups
+		if (!check) {
+			groups = await this.groupService.getByIds(dto.groups)
+			groups.forEach(group => {
+				if (group.club.id !== dto.club) {
+					throw new BadRequestException(
+						`Группы с id: ${group.id} нет в клубе с id: ${dto.club}`
+					)
+				}
+			})
+		}
+
+		// eslint-disable-next-line
+		const {
+			// eslint-disable-next-line
+			createDate,
+			// eslint-disable-next-line
+			updateDate,
+			// eslint-disable-next-line
+			club: { users, createDate: c, updateDate: u, groups: cg, ...clubData },
+			...data
+		} = await this.userRepository.save({
+			...user,
+			...dto,
+			groups,
+			club
+		})
+		return {
+			...data,
+			club: { ...clubData }
+		}
+	}
+
+	//! isDelete: true
+	// ! beta
+	async delete(id: number) {
+		await this.getOneById(id)
+
+		await this.userRepository.delete({ id })
+		return
+	}
+
+	// * For checking
+	private async checkEmail(email: string, userId?: number) {
+		const user = await this.userRepository.findOne({ where: { email } })
+
+		if (!userId && user) {
+			throw new BadRequestException('Пользователь с таким email уже существует')
+		}
+
+		if (user && user.id !== userId) {
+			throw new BadRequestException('Пользователь с таким email уже существует')
+		}
+	}
+
+	private async checkPhone(phone: string, userId?: number) {
+		const user = await this.userRepository.findOne({ where: { phone } })
+
+		if (!userId && user) {
+			throw new BadRequestException('Пользователь с таким email уже существует')
+		}
+
+		if (user && user.id !== userId) {
+			throw new BadRequestException('Пользователь с таким email уже существует')
+		}
+	}
+
+	private async checkCardNumber(cardNumber: string, userId?: number) {
+		const user = await this.userRepository.findOne({ where: { cardNumber } })
+
+		if (!userId && user) {
+			throw new BadRequestException('Пользователь с таким email уже существует')
+		}
+
+		if (user && user.id !== userId) {
+			throw new BadRequestException('Пользователь с таким email уже существует')
+		}
 	}
 }
