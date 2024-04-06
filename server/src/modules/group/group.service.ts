@@ -26,7 +26,7 @@ export class GroupService {
 				[searchBy]: ILike(`%${q}%`)
 			},
 			take: count,
-			skip: page && count ? page * count - count : undefined,
+			skip: page * count - count,
 			relations: {
 				direction: true,
 				club: true,

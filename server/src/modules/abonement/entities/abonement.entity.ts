@@ -1,4 +1,4 @@
-import { BaseEntity } from '@core/database'
+import { BaseEntity } from '@/core/database/entity'
 import { EAbonementStatus } from '@/core/enums'
 import { UserEntity } from '@/modules/user/entities'
 import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'

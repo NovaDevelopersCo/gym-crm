@@ -1,11 +1,12 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
-import { DataSource, ILike, Repository } from 'typeorm'
+import { ILike, Repository } from 'typeorm'
 import { ClubEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
 import { CreateClubDto, UpdateClubDto, FindAllClubDto } from './dto'
 import { StaffService } from '../staff/staff.service'
 import { EStaffRole } from '@/core/enums'
 import { StaffEntity } from '../staff/entities'
+import { DataBaseService } from '@/core/database/database.service'
 
 @Injectable()
 export class ClubService {
@@ -13,7 +14,7 @@ export class ClubService {
 		@InjectRepository(ClubEntity)
 		private readonly clubRepository: Repository<ClubEntity>,
 		private readonly staffService: StaffService,
-		private readonly dataSource: DataSource
+		private readonly dataBaseService: DataBaseService
 	) {}
 
 	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllClubDto) {
@@ -144,25 +145,13 @@ export class ClubService {
 		adminId: number,
 		updatedClub: Omit<ClubEntity, 'admin'> & { admin: { id: number } }
 	) {
-		const queryRunner = this.dataSource.createQueryRunner()
-
-		await queryRunner.connect()
-		await queryRunner.startTransaction()
-
-		try {
+		return this.dataBaseService.transaction(async queryRunner => {
 			const updatedAdmin = await this.staffService.clearAdminClub(adminId)
 
 			await queryRunner.manager.save(StaffEntity, updatedAdmin)
 			const club = await queryRunner.manager.save(ClubEntity, updatedClub)
 
-			await queryRunner.commitTransaction()
-
 			return club
-		} catch (e) {
-			await queryRunner.rollbackTransaction()
-			return null
-		} finally {
-			await queryRunner.release()
-		}
+		})
 	}
 }

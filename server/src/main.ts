@@ -8,6 +8,9 @@ import * as cookieParser from 'cookie-parser'
 //TODO: FIX:
 // * (Going) make cascade in all schemas
 // * (Going) think whats return data in group
+
+// * Transaction into closure
+
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
 	app.use(cookieParser())

@@ -1,4 +1,4 @@
-import { BaseEntity } from '@core/database'
+import { BaseEntity } from '@/core/database/entity'
 import { GroupEntity } from '@/modules/group/entities'
 import { StaffEntity } from '@/modules/staff/entities'
 import { UserEntity } from '@/modules/user/entities'

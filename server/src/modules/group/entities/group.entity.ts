@@ -1,4 +1,4 @@
-import { BaseEntity } from '@core/database'
+import { BaseEntity } from '@/core/database/entity'
 import { Column, Entity, ManyToMany, ManyToOne } from 'typeorm'
 import { StaffEntity } from '@/modules/staff/entities'
 import { DirectionEntity } from '@/modules/direction/entities'

@@ -23,7 +23,7 @@ export class DirectionService {
 					}
 				: {},
 			take: count,
-			skip: page && count ? page * count - count : undefined,
+			skip: page * count - count,
 			relations: {
 				groups: true
 			}

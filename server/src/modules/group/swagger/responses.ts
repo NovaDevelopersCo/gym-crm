@@ -88,8 +88,10 @@ export class GetGroupByIdOk {
 	id: number
 
 	@ApiProperty({
-		default: 44,
-		name: 'Карате'
+		default: {
+			id: 44,
+			name: 'Карате'
+		}
 	})
 	direction: number
 }
