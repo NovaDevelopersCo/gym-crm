@@ -54,14 +54,19 @@ export class DirectionService {
 		return this.directionRepository.save(createdDirection)
 	}
 
-	async update(directionId: number, dto: UpdateDirectionDto) {
-		const direction = await this.getById(directionId)
+	// * checked
+	async update(id: number, dto: UpdateDirectionDto) {
+		const direction = await this.getById(id)
 
 		await this.nameCheck(dto.name, id)
 
-		const updatedDirection = await this.directionRepository.save({ ...direction, ...dto })
+		// eslint-disable-next-line
+		const { createDate, updateDate, ...data } = await this.directionRepository.save({
+			...direction,
+			...dto
+		})
 
-		return updatedDirection
+		return data
 	}
 
 	// * checked

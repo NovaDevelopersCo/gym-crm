@@ -1,18 +1,20 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
-import { Repository } from 'typeorm'
+import { DataSource, Repository } from 'typeorm'
 import { ClubEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
 import { CreateClubDto, UpdateClubDto } from './dto'
 import { StaffService } from '../staff/staff.service'
 import { EStaffRole } from '@/core/enums'
 import { PaginationQueryDto } from '@/core/dto'
+import { StaffEntity } from '../staff/entities'
 
 @Injectable()
 export class ClubService {
 	constructor(
 		@InjectRepository(ClubEntity)
 		private readonly clubRepository: Repository<ClubEntity>,
-		private readonly staffService: StaffService
+		private readonly staffService: StaffService,
+		private readonly dataSource: DataSource
 	) {}
 	async getAll({ page, count }: PaginationQueryDto) {
 		const [items, total] = await this.clubRepository.find({
@@ -65,19 +67,29 @@ export class ClubService {
 		return this.clubRepository.save(createClub)
 	}
 
-	async update(clubId: number, dto: UpdateClubDto) {
-		const club = await this.getById(clubId)
+	async update(id: number, dto: UpdateClubDto) {
+		const club = await this.getById(id)
 
-		await this.nameCheck(dto.name, clubId)
+		await this.nameCheck(dto.name, id)
 
-		await this.adminFreeCheck(dto.admin, clubId)
-		await this.addressCheck(dto.address, clubId)
+		await this.adminFreeCheck(dto.admin, id)
 
-		return this.clubRepository.save({
+		await this.addressCheck(dto.address, id)
+
+		const updatedClub = await this.clubChangeAdminTransaction(club.admin.id, {
 			...club,
 			...dto,
 			admin: { id: dto.admin }
 		})
+
+		if (!updatedClub) {
+			throw new BadRequestException('Ошибка при изменении клуба')
+		}
+
+		// eslint-disable-next-line
+		const { updateDate, createDate, ...data } = updatedClub
+
+		return data
 	}
 
 	// * checked
@@ -123,6 +135,32 @@ export class ClubService {
 
 		if (club && club.id !== clubId) {
 			throw new BadRequestException('Клуб с таким адресом уже существует')
+		}
+	}
+
+	private async clubChangeAdminTransaction(
+		adminId: number,
+		updatedClub: Omit<ClubEntity, 'admin'> & { admin: { id: number } }
+	) {
+		const queryRunner = this.dataSource.createQueryRunner()
+
+		await queryRunner.connect()
+		await queryRunner.startTransaction()
+
+		try {
+			const updatedAdmin = await this.staffService.clearAdminClub(adminId)
+
+			await queryRunner.manager.save(StaffEntity, updatedAdmin)
+			const club = await queryRunner.manager.save(ClubEntity, updatedClub)
+
+			await queryRunner.commitTransaction()
+
+			return club
+		} catch (e) {
+			await queryRunner.rollbackTransaction()
+			return null
+		} finally {
+			await queryRunner.release()
 		}
 	}
 }

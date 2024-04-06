@@ -1,4 +1,4 @@
-import { BaseEntity } from '@/core/database'
+import { BaseEntity } from '@core/database'
 import { GroupEntity } from '@/modules/group/entities'
 
 import { Column, Entity, OneToMany } from 'typeorm'

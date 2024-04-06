@@ -72,4 +72,12 @@ export class StaffService {
 
 		return admin
 	}
+
+	async clearAdminClub(id: number) {
+		const admin = await this.staffRepository.findOne({ where: { id } })
+
+		admin.club = null
+
+		return admin
+	}
 }

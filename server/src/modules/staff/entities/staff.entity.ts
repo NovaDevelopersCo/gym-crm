@@ -1,4 +1,4 @@
-import { BaseEntity } from '@/core/database'
+import { BaseEntity } from '@core/database'
 import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm'
 
 import { EStaffRole } from '@/core/enums'
