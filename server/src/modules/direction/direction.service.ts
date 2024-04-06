@@ -29,6 +29,7 @@ export class DirectionService {
 		}
 	}
 
+	// * checked
 	async getById(directionId: number) {
 		const direction = await this.directionRepository.findOne({
 			where: { id: directionId },
@@ -44,6 +45,7 @@ export class DirectionService {
 		return direction
 	}
 
+	// * checked
 	async create({ name }: CreateDirectionDto) {
 		await this.nameCheck(name)
 
@@ -55,13 +57,14 @@ export class DirectionService {
 	async update(directionId: number, dto: UpdateDirectionDto) {
 		const direction = await this.getById(directionId)
 
-		await this.nameCheck(dto.name, directionId)
+		await this.nameCheck(dto.name, id)
 
 		const updatedDirection = await this.directionRepository.save({ ...direction, ...dto })
 
 		return updatedDirection
 	}
 
+	// * checked
 	async delete(id: number) {
 		await this.getById(id)
 
@@ -69,7 +72,7 @@ export class DirectionService {
 		return
 	}
 
-	async nameCheck(name: string, directionId?: number) {
+	private async nameCheck(name: string, directionId?: number) {
 		const direction = await this.directionRepository.findOne({ where: { name } })
 
 		if (!directionId && direction) {

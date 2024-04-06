@@ -38,6 +38,7 @@ export class GroupService {
 		}
 	}
 
+	//  * checked
 	async getById(groupId: number) {
 		const group = await this.groupRepository.findOne({
 			where: { id: groupId },
@@ -55,7 +56,7 @@ export class GroupService {
 
 		return group
 	}
-
+	// * checked, its beautiful!!!
 	async create(dto: CreateGroupDto) {
 		await this.checkName(dto.name)
 
@@ -74,25 +75,26 @@ export class GroupService {
 		return this.groupRepository.save(createdGroup)
 	}
 
+	// * checked
 	async update(groupId: number, dto: UpdateGroupDto) {
 		const group = await this.getById(groupId)
-
 		await this.checkName(dto.name, groupId)
 		await this.clubService.getById(dto.club)
-		await this.staffService.getById(dto.trainer)
+		await this.staffService.getById(dto.trainer, true)
 		await this.directionService.getById(dto.direction)
 
-		const savedGroup = await this.groupRepository.save({
+		// eslint-disable-next-line
+		const { createDate, updateDate, ...data } = await this.groupRepository.save({
 			...group,
 			...dto,
 			direction: { id: dto.direction },
 			trainer: { id: dto.trainer },
 			club: { id: dto.club }
 		})
-
-		return savedGroup
+		return data
 	}
 
+	// * checked
 	async delete(id: number) {
 		await this.getById(id)
 
@@ -100,7 +102,7 @@ export class GroupService {
 		return
 	}
 
-	async checkName(name: string, groupId?: number) {
+	private async checkName(name: string, groupId?: number) {
 		const group = await this.groupRepository.findOne({ where: { name } })
 
 		if (!groupId && group) {

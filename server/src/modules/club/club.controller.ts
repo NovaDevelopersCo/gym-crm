@@ -37,7 +37,7 @@ export class ClubController {
 	}
 
 	@ClubDocSwagger.getById()
-	@Get('/:id')
+	@Get(':id')
 	getById(@Param() { id }: GetByIdParamsDto) {
 		return this.clubService.getById(id)
 	}
@@ -49,14 +49,14 @@ export class ClubController {
 	}
 
 	@ClubDocSwagger.update()
-	@Put('/:id')
+	@Put(':id')
 	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateClubDto) {
 		return this.clubService.update(id, dto)
 	}
 
 	@ClubDocSwagger.delete()
 	@HttpCode(204)
-	@Delete('/:id')
+	@Delete(':id')
 	delete(@Param() { id }: GetByIdParamsDto) {
 		return this.clubService.delete(id)
 	}
