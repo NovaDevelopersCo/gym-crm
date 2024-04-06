@@ -1,6 +1,8 @@
 import { IsString } from 'class-validator'
 
 export class ValidateRefreshDto {
-	@IsString()
+	@IsString({
+		message: 'Refresh токен должен быть строкой'
+	})
 	refresh: string
 }

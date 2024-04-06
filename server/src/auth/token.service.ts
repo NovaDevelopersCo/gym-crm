@@ -18,7 +18,11 @@ export class TokenService {
 		private readonly configService: ConfigService
 	) {}
 
-	generateTokens({ email, id, role }: StaffEntity) {
+	generateTokens({
+		email,
+		id,
+		role
+	}: Omit<StaffEntity, 'createDate' | 'updateDate' | 'password'>) {
 		const payload = { email, id, role }
 
 		const accessToken = this.jwtService.sign(payload, {
@@ -43,9 +47,8 @@ export class TokenService {
 				token
 			})
 		}
-		const session = this.sessionRepository.create({ token, user })
 
-		return this.sessionRepository.save(session)
+		return this.sessionRepository.save({ token, user })
 	}
 
 	async validateRefreshToken(refresh: string) {
