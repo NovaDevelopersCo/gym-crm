@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { GroupEntity } from './entities'
-import { Repository } from 'typeorm'
+import { In, Repository } from 'typeorm'
 import { CreateGroupDto, UpdateGroupDto } from './dto'
 import { StaffService } from '../staff/staff.service'
 import { ClubService } from '../club/club.service'
@@ -104,5 +104,15 @@ export class GroupService {
 		if (group && group.id !== groupId) {
 			throw new BadRequestException('Группа с таким именем уже существует')
 		}
+	}
+
+	async getByIds(ids: number[]) {
+		const groups = await this.groupRepository.find({
+			where: { id: In(ids) },
+			relations: {
+				club: true
+			}
+		})
+		return groups
 	}
 }
