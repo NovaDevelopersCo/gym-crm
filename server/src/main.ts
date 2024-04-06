@@ -9,6 +9,11 @@ import * as cookieParser from 'cookie-parser'
 // * (Going) make cascade in all schemas
 // * (Going) think whats return data in group
 
+// TODO: add trainer
+// TODO: return data in update
+
+// TODO: Common decorator with 400s status code
+
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
 	app.use(cookieParser())
