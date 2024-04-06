@@ -3,8 +3,9 @@ import { ClubEntity } from '../entities'
 import { StaffEntity } from '@/modules/staff/entities'
 import { GroupEntity } from '@/modules/group/entities'
 import { UserEntity } from '@/modules/user/entities'
+import { PaginationDto } from '@/core/dto'
 
-export class GetAllClubsOk {
+export class GetAllClubsOk extends PaginationDto {
 	@ApiProperty({
 		default: [
 			{
@@ -35,7 +36,7 @@ export class GetAllClubsOk {
 			}
 		]
 	})
-	clubs: ClubEntity[]
+	items: ClubEntity[]
 }
 
 export class GetClubByIdOk {

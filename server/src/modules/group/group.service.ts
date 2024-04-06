@@ -7,6 +7,7 @@ import { StaffService } from '../staff/staff.service'
 import { ClubService } from '../club/club.service'
 import { DirectionService } from '../direction/direction.service'
 import { EStaffRole } from '@/core/enums'
+import { PaginationQueryDto } from '@/core/dto'
 
 @Injectable()
 export class GroupService {
@@ -17,8 +18,10 @@ export class GroupService {
 		private readonly directionService: DirectionService
 	) {}
 
-	async getAll() {
-		const groups = await this.groupRepository.find({
+	async getAll({ page, count }: PaginationQueryDto) {
+		const [items, total] = await this.groupRepository.findAndCount({
+			take: count,
+			skip: page && count ? page * count - count : undefined,
 			relations: {
 				direction: true,
 				club: true,
@@ -26,7 +29,13 @@ export class GroupService {
 				users: true
 			}
 		})
-		return { groups }
+
+		return {
+			items,
+			meta: {
+				total
+			}
+		}
 	}
 
 	async getById(groupId: number) {

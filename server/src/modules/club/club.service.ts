@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { CreateClubDto, UpdateClubDto } from './dto'
 import { StaffService } from '../staff/staff.service'
 import { EStaffRole } from '@/core/enums'
+import { PaginationQueryDto } from '@/core/dto'
 
 @Injectable()
 export class ClubService {
@@ -13,8 +14,10 @@ export class ClubService {
 		private readonly clubRepository: Repository<ClubEntity>,
 		private readonly staffService: StaffService
 	) {}
-	async getAll() {
-		const clubs = await this.clubRepository.find({
+	async getAll({ page, count }: PaginationQueryDto) {
+		const [items, total] = await this.clubRepository.find({
+			take: count,
+			skip: page && count ? page * count - count : undefined,
 			relations: {
 				admin: true,
 				groups: true,
@@ -22,7 +25,12 @@ export class ClubService {
 			}
 		})
 
-		return { clubs }
+		return {
+			items,
+			meta: {
+				total
+			}
+		}
 	}
 
 	async getById(clubId: number) {

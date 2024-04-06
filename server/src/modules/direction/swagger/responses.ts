@@ -3,6 +3,8 @@ import { ApiProperty } from '@nestjs/swagger'
 import { DirectionEntity } from '@/modules/direction/entities'
 import { GroupEntity } from '@/modules/group/entities'
 
+import { PaginationDto } from '@/core/dto'
+
 export class UpdateDirectionOk {
 	@ApiProperty({ default: 'Кикбоксинг' })
 	name: string
@@ -14,12 +16,12 @@ export class UpdateDirectionOk {
 
 export class CreateDirectionOk extends UpdateDirectionOk {}
 export class GetDirectionByIdOk extends UpdateDirectionOk {}
-export class GetAllDirectionsOk {
+export class GetAllDirectionsOk extends PaginationDto {
 	@ApiProperty({
 		default: [
 			{ id: 1, name: 'Кикбоксинг', groups: ['список групп....'] },
 			{ id: 2, name: 'Бокс', groups: ['список групп....'] }
 		]
 	})
-	directions: DirectionEntity[]
+	items: DirectionEntity[]
 }

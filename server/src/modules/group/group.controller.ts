@@ -8,6 +8,7 @@ import {
 	Param,
 	Post,
 	Put,
+	Query,
 	UseInterceptors,
 	UsePipes,
 	ValidationPipe
@@ -17,7 +18,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { GroupService } from './group.service'
 import { RolesAuthGuard } from '@/auth/guards'
 import { EStaffRole } from '@/core/enums'
-import { GetByIdParamsDto } from '@/core/dto'
+import { GetByIdParamsDto, PaginationQueryDto } from '@/core/dto'
 
 import { GroupDocSwagger } from './swagger'
 
@@ -32,8 +33,8 @@ export class GroupController {
 
 	@GroupDocSwagger.getAll()
 	@Get()
-	getAll() {
-		return this.groupService.getAll()
+	getAll(@Query() query: PaginationQueryDto) {
+		return this.groupService.getAll(query)
 	}
 
 	@GroupDocSwagger.getById()

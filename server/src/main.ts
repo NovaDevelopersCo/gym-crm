@@ -9,6 +9,8 @@ import * as cookieParser from 'cookie-parser'
 // * (Going) make cascade in all schemas
 // * (Going) think whats return data in group
 
+// * fix update club / direction / group
+
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
 	app.use(cookieParser())

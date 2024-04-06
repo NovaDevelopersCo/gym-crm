@@ -3,6 +3,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { DirectionEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
 import { CreateDirectionDto, UpdateDirectionDto } from './dto'
+import { PaginationQueryDto } from '@/core/dto'
 
 @Injectable()
 export class DirectionService {
@@ -11,14 +12,21 @@ export class DirectionService {
 		private readonly directionRepository: Repository<DirectionEntity>
 	) {}
 
-	async getAll() {
-		const directions = await this.directionRepository.find({
+	async getAll({ page, count }: PaginationQueryDto) {
+		const [items, total] = await this.directionRepository.find({
+			take: count,
+			skip: page && count ? page * count - count : undefined,
 			relations: {
 				groups: true
 			}
 		})
 
-		return { directions }
+		return {
+			items,
+			meta: {
+				total
+			}
+		}
 	}
 
 	async getById(directionId: number) {

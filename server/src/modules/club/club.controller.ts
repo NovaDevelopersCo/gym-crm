@@ -11,13 +11,14 @@ import {
 	Put,
 	HttpCode,
 	UseInterceptors,
-	ClassSerializerInterceptor
+	ClassSerializerInterceptor,
+	Query
 } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { ClubService } from './club.service'
 import { EStaffRole } from '@/core/enums'
 import { ClubDocSwagger } from './swagger'
-import { GetByIdParamsDto } from '@/core/dto'
+import { GetByIdParamsDto, PaginationQueryDto } from '@/core/dto'
 import { CreateClubDto, UpdateClubDto } from './dto'
 
 @ApiTags('Клубы')
@@ -31,8 +32,8 @@ export class ClubController {
 
 	@ClubDocSwagger.getAll()
 	@Get()
-	getAll() {
-		return this.clubService.getAll()
+	getAll(@Query() query: PaginationQueryDto) {
+		return this.clubService.getAll(query)
 	}
 
 	@ClubDocSwagger.getById()
