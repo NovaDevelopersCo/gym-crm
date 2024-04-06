@@ -18,8 +18,8 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { ClubService } from './club.service'
 import { EStaffRole } from '@/core/enums'
 import { ClubDocSwagger } from './swagger'
-import { GetByIdParamsDto, PaginationQueryDto } from '@/core/dto'
-import { CreateClubDto, UpdateClubDto } from './dto'
+import { GetByIdParamsDto } from '@/core/dto'
+import { CreateClubDto, UpdateClubDto, FindAllClubDto } from './dto'
 
 @ApiTags('Клубы')
 @ApiBearerAuth('access-auth')
@@ -32,7 +32,7 @@ export class ClubController {
 
 	@ClubDocSwagger.getAll()
 	@Get()
-	getAll(@Query() query: PaginationQueryDto) {
+	getAll(@Query() query: FindAllClubDto) {
 		return this.clubService.getAll(query)
 	}
 

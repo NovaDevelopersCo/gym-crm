@@ -1,11 +1,10 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
-import { DataSource, Repository } from 'typeorm'
+import { DataSource, ILike, Repository } from 'typeorm'
 import { ClubEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
-import { CreateClubDto, UpdateClubDto } from './dto'
+import { CreateClubDto, UpdateClubDto, FindAllClubDto } from './dto'
 import { StaffService } from '../staff/staff.service'
 import { EStaffRole } from '@/core/enums'
-import { PaginationQueryDto } from '@/core/dto'
 import { StaffEntity } from '../staff/entities'
 
 @Injectable()
@@ -16,8 +15,14 @@ export class ClubService {
 		private readonly staffService: StaffService,
 		private readonly dataSource: DataSource
 	) {}
-	async getAll({ page, count }: PaginationQueryDto) {
-		const [items, total] = await this.clubRepository.find({
+	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllClubDto) {
+		const [items, total] = await this.clubRepository.findAndCount({
+			order: {
+				[sortBy]: sortOrder
+			},
+			where: {
+				[searchBy]: ILike(`%${q}%`)
+			},
 			take: count,
 			skip: page && count ? page * count - count : undefined,
 			relations: {

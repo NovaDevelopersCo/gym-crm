@@ -13,13 +13,12 @@ import {
 	UsePipes,
 	ValidationPipe
 } from '@nestjs/common'
-import { CreateGroupDto, UpdateGroupDto } from './dto'
+import { CreateGroupDto, UpdateGroupDto, FindAllGroupDto } from './dto'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { GroupService } from './group.service'
 import { RolesAuthGuard } from '@/auth/guards'
 import { EStaffRole } from '@/core/enums'
-import { GetByIdParamsDto, PaginationQueryDto } from '@/core/dto'
-
+import { GetByIdParamsDto } from '@/core/dto'
 import { GroupDocSwagger } from './swagger'
 
 @ApiTags('Группы')
@@ -33,7 +32,7 @@ export class GroupController {
 
 	@GroupDocSwagger.getAll()
 	@Get()
-	getAll(@Query() query: PaginationQueryDto) {
+	getAll(@Query() query: FindAllGroupDto) {
 		return this.groupService.getAll(query)
 	}
 

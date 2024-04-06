@@ -1,13 +1,12 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { GroupEntity } from './entities'
-import { Repository } from 'typeorm'
-import { CreateGroupDto, UpdateGroupDto } from './dto'
+import { Repository, ILike } from 'typeorm'
+import { CreateGroupDto, UpdateGroupDto, FindAllGroupDto } from './dto'
 import { StaffService } from '../staff/staff.service'
 import { ClubService } from '../club/club.service'
 import { DirectionService } from '../direction/direction.service'
 import { EStaffRole } from '@/core/enums'
-import { PaginationQueryDto } from '@/core/dto'
 
 @Injectable()
 export class GroupService {
@@ -18,8 +17,14 @@ export class GroupService {
 		private readonly directionService: DirectionService
 	) {}
 
-	async getAll({ page, count }: PaginationQueryDto) {
+	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllGroupDto) {
 		const [items, total] = await this.groupRepository.findAndCount({
+			order: {
+				[sortBy]: sortOrder
+			},
+			where: {
+				[searchBy]: ILike(`%${q}%`)
+			},
 			take: count,
 			skip: page && count ? page * count - count : undefined,
 			relations: {

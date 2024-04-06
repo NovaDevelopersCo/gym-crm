@@ -2,9 +2,9 @@ import { ApiProperty } from '@nestjs/swagger'
 import { GroupEntity } from '../entities'
 import { OmitType } from '@nestjs/swagger'
 import { UserEntity } from '@/modules/user/entities'
-import { PaginationDto } from '@/core/dto'
+import { PaginationResponse } from '@/core/swagger'
 
-export class GetAllGroupsOk extends PaginationDto {
+export class GetAllGroupsOk extends PaginationResponse {
 	@ApiProperty({
 		default: [
 			{

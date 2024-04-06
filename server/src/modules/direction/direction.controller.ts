@@ -17,8 +17,8 @@ import {
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 import { DirectionDocSwagger } from './swagger'
 import { DirectionService } from './direction.service'
-import { CreateDirectionDto, UpdateDirectionDto } from './dto'
-import { GetByIdParamsDto, PaginationQueryDto } from '@/core/dto'
+import { CreateDirectionDto, UpdateDirectionDto, FindAllDirectionDto } from './dto'
+import { GetByIdParamsDto } from '@/core/dto'
 import { RolesAuthGuard } from '@/auth/guards'
 import { EStaffRole } from '@/core/enums'
 
@@ -33,7 +33,7 @@ export class DirectionController {
 
 	@DirectionDocSwagger.getAll()
 	@Get()
-	async getAll(@Query() query: PaginationQueryDto) {
+	async getAll(@Query() query: FindAllDirectionDto) {
 		return this.directionService.getAll(query)
 	}
 

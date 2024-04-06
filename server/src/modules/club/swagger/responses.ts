@@ -3,9 +3,9 @@ import { ClubEntity } from '../entities'
 import { StaffEntity } from '@/modules/staff/entities'
 import { GroupEntity } from '@/modules/group/entities'
 import { UserEntity } from '@/modules/user/entities'
-import { PaginationDto } from '@/core/dto'
+import { PaginationResponse } from '@/core/swagger'
 
-export class GetAllClubsOk extends PaginationDto {
+export class GetAllClubsOk extends PaginationResponse {
 	@ApiProperty({
 		default: [
 			{
