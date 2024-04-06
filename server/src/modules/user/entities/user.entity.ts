@@ -12,26 +12,20 @@ export class UserEntity extends BaseEntity {
 	email: string
 
 	@Column({
-		unique: true,
-		type: 'bigint'
+		unique: true
 	})
-	phone: number
+	phone: string
 
 	@Column()
 	fio: string
 
 	@Column({
-		unique: true,
-		type: 'bigint'
+		unique: true
 	})
-	cardNumber: number
+	cardNumber: string
 
-	//! may be timestamp??
 	@Column({ type: 'date', nullable: true })
 	birthday?: string
-
-	@Column({ nullable: true })
-	age?: number
 
 	@Column({ nullable: true })
 	experienceBefore?: string
