@@ -1,5 +1,5 @@
 import { FC } from "react"
-import TSelectProps from "../model/SelectProps.type"
+import { TSelectProps } from "../model"
 import { CreatableSelect } from "@shared/ui"
 import { paramsApi, useAppDispatch, useGetLocationsQuery } from "@store/index"
 

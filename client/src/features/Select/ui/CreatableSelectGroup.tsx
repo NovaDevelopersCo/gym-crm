@@ -1,6 +1,6 @@
 import { CreatableSelect } from "@shared/ui"
 import { FC } from "react"
-import TSelectProps from "../model/SelectProps.type"
+import { TSelectProps } from "../model"
 import { paramsApi, useAppDispatch, useGetGroupsQuery } from "@store/index"
 
 const CreatableSelectGroup: FC<TSelectProps> = (props) => {
