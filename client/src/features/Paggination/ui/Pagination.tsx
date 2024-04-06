@@ -31,10 +31,8 @@ const Pagination: FC<TPaginationProps> = ({ page, limit, total, setPage }) =>
 		total={total}
 		pageSize={limit}
 		current={page}
-		showSizeChanger
-		showQuickJumper
+		showSizeChanger={false}
 		hideOnSinglePage
-		showTotal={(total) => `Total ${total} items`}
 		onChange={(page, pageSize) => {
 			setPage(page)
 		}}
