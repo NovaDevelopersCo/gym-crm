@@ -20,12 +20,12 @@ function App() {
 							borderRadiusLG: 0,
 							borderRadiusSM: 0,
 							borderRadiusXS: 0,
-							controlHeight: 35
+							controlHeight: 35,
+							colorTextDisabled: '#000'
 						},
 						Checkbox: {
 							colorFill: 'var(--accent)',
 							colorPrimaryHover: 'var(--accent)',
-
 							controlInteractiveSize: 18,
 							borderRadiusSM: 0,
 							colorPrimary: 'var(--accent)',
@@ -42,7 +42,19 @@ function App() {
 							borderRadiusLG: 0,
 							borderRadiusSM: 0,
 							borderRadiusXS: 0,
-							controlHeight: 35
+							controlHeight: 35,
+							colorTextDisabled: '#000'
+						},
+						DatePicker: {
+							colorPrimary: 'var(--accent)',
+							colorPrimaryHover: 'var(--accent)',
+							controlOutline: 'var(--accent-lighter-transparent)',
+							borderRadius: 0,
+							borderRadiusLG: 0,
+							borderRadiusSM: 0,
+							borderRadiusXS: 0,
+							controlHeight: 35,
+							colorTextDisabled: '#000'
 						}
 					}
 				}}
