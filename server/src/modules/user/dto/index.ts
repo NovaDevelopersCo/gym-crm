@@ -1,2 +1,2 @@
 export * from './create-user.dto'
-export * from './pagination-user.query'
+export * from './find-all.dto'
