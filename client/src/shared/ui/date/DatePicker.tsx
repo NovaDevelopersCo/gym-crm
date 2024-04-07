@@ -5,7 +5,7 @@ import { DatePicker as AntdDatePicker, type DatePickerProps } from 'antd'
 import clsx from 'clsx'
 import type { Dayjs } from 'dayjs'
 
-import cl from './index.module.scss'
+import cl from './Date.module.scss'
 
 type TDatePickerProps = DatePickerProps & {
 	label?: string
