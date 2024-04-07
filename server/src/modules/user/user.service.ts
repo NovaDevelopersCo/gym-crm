@@ -1,11 +1,12 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
-import { CreateUserDto, PaginationUserQueryDto } from './dto'
+import { CreateUserDto, FindAllUserDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { UserEntity } from './entities'
-import { Repository } from 'typeorm'
+import { ILike, Repository } from 'typeorm'
 import { GroupService } from '@modules/group/group.service'
 import { ClubService } from '@modules/club/club.service'
 import { PaginationDto } from '@/core/pagination'
+import { GroupEntity } from '../group/entities'
 
 @Injectable()
 export class UserService {
@@ -36,14 +37,7 @@ export class UserService {
 		await this.clubService.getById(dto.club)
 		const groups = await this.groupService.getByIds(dto.groups)
 
-		// ! вынести
-		groups.forEach(group => {
-			if (group.club.id !== dto.club) {
-				throw new BadRequestException(
-					`Группы с id: ${group.id} нет в клубе с id: ${dto.club}`
-				)
-			}
-		})
+		this.checkAllGroupInClub(groups, dto.club)
 
 		const createdUser = this.userRepository.create({
 			email,
@@ -78,14 +72,20 @@ export class UserService {
 		return user
 	}
 
-	async findAll({ count, page }: PaginationUserQueryDto) {
+	async findAll({ count, page, q, searchBy, sortOrder, sortBy }: FindAllUserDto) {
 		const [users, total] = await this.userRepository.findAndCount({
+			where: {
+				[searchBy]: ILike(`%${q}%`)
+			},
+			order: {
+				[sortBy]: sortOrder
+			},
+			take: count,
+			skip: count * page - count,
 			relations: {
 				groups: true,
 				club: true
-			},
-			take: count,
-			skip: count * page - count
+			}
 		})
 
 		return new PaginationDto(users, total)
@@ -106,14 +106,7 @@ export class UserService {
 		let groups = user.groups
 		if (!check) {
 			groups = await this.groupService.getByIds(dto.groups)
-			// ! вынести
-			groups.forEach(group => {
-				if (group.club.id !== dto.club) {
-					throw new BadRequestException(
-						`Группы с id: ${group.id} нет в клубе с id: ${dto.club}`
-					)
-				}
-			})
+			this.checkAllGroupInClub(groups, dto.club)
 		}
 
 		// eslint-disable-next-line
@@ -187,5 +180,15 @@ export class UserService {
 		if (user && user.id !== userId) {
 			throw new BadRequestException('Пользователь с таким email уже существует')
 		}
+	}
+
+	private checkAllGroupInClub(groups: GroupEntity[], clubId: number) {
+		groups.forEach(group => {
+			if (group.club.id !== clubId) {
+				throw new BadRequestException(
+					`Группы с id: ${group.id} нет в клубе с id: ${clubId}`
+				)
+			}
+		})
 	}
 }

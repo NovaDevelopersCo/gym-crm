@@ -12,7 +12,7 @@ import {
 	UsePipes,
 	ValidationPipe
 } from '@nestjs/common'
-import { PaginationUserQueryDto, CreateUserDto } from './dto'
+import { CreateUserDto, FindAllUserDto } from './dto'
 import { UserService } from './user.service'
 import { ApiTags } from '@nestjs/swagger'
 import { RolesAuthGuard } from '@/auth/guards/role.guard'
@@ -51,7 +51,7 @@ export class UserController {
 	// * K
 	@UserDocSwagger.getAll()
 	@Get()
-	findAll(@Query() query: PaginationUserQueryDto) {
+	findAll(@Query() query: FindAllUserDto) {
 		return this.userService.findAll(query)
 	}
 
