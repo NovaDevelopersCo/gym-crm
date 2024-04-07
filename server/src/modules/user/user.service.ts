@@ -36,6 +36,7 @@ export class UserService {
 		await this.clubService.getById(dto.club)
 		const groups = await this.groupService.getByIds(dto.groups)
 
+		// ! вынести
 		groups.forEach(group => {
 			if (group.club.id !== dto.club) {
 				throw new BadRequestException(
@@ -100,15 +101,12 @@ export class UserService {
 		let club = user.club
 		if (dto.club !== user.club.id) club = await this.clubService.getById(dto.club)
 
-		// !вынести
 		const oldGroups = user.groups.map(group => group.id)
-		const uniqueArray = [...new Set(dto.groups)].sort()
-		const uniqueOldArray = [...new Set(oldGroups)].sort()
-		const check = uniqueArray.toString() === uniqueOldArray.toString()
-
+		const check = this.checkArraysEqual(oldGroups, dto.groups)
 		let groups = user.groups
 		if (!check) {
 			groups = await this.groupService.getByIds(dto.groups)
+			// ! вынести
 			groups.forEach(group => {
 				if (group.club.id !== dto.club) {
 					throw new BadRequestException(
@@ -146,6 +144,12 @@ export class UserService {
 
 		await this.userRepository.delete({ id })
 		return
+	}
+
+	private checkArraysEqual(firstArray: unknown[], secondArray: unknown[]) {
+		const uniqueFirstArray = [...new Set(firstArray)].sort()
+		const uniqueSecondArray = [...new Set(secondArray)].sort()
+		return uniqueFirstArray.toString() === uniqueSecondArray.toString()
 	}
 
 	// * For checking
