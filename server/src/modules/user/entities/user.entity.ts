@@ -41,6 +41,6 @@ export class UserEntity extends BaseEntity {
 	@JoinTable()
 	groups: GroupEntity[]
 
-	@ManyToOne(() => ClubEntity, club => club.users)
+	@ManyToOne(() => ClubEntity, club => club.users, { onDelete: 'SET NULL' })
 	club: ClubEntity
 }
