@@ -1,0 +1,58 @@
+.root {
+	&__blackout {
+		display: none;
+		position: fixed;
+		z-index: 1;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+
+		&_active {
+			display: block;
+		}
+	}
+
+	&__container {
+		padding: 0px 20px;
+
+		&_title {
+			padding-bottom: 20px;
+			display: flex;
+			flex-direction: row;
+			align-items: end;
+			gap: 10px;
+
+			&_editBtn {
+				z-index: 3;
+			}
+
+			&_text {
+				color: #384043;
+				font-weight: 700;
+				font-size: 20px;
+			}
+		}
+
+		&_infoBlock {
+			flex-wrap: wrap;
+			justify-content: space-between;
+			display: flex;
+			padding: 18px;
+			background-color: #d4d4d4;
+			border-radius: 20px;
+
+			&_info {
+				z-index: 3;
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+
+				&_item {
+					max-width: 400px;
+					width: 400px;
+				}
+			}
+		}
+	}
+}

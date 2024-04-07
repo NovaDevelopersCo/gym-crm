@@ -1,29 +1,29 @@
 import { FC, useId } from 'react'
-import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form'
+import type { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form'
 
-import { Select as AntdSelect, SelectProps } from 'antd'
+import { DatePicker as AntdDatePicker, type DatePickerProps } from 'antd'
 import clsx from 'clsx'
+import type { Dayjs } from 'dayjs'
 
-import cl from './Select.module.scss'
-import { TOption } from './types'
+import cl from './index.module.scss'
 
-type TSelectProps = SelectProps & {
+type TDatePickerProps = DatePickerProps & {
 	label?: string
 	error?: string | FieldError | Merge<FieldError, FieldErrorsImpl>
+	common?: string
 	field: {
 		onChange: () => void
 		value: unknown
 	}
-	options?: TOption[]
-	bodyClassName: string
+	bodyClassName?: string
 }
 
-const Select: FC<TSelectProps> = ({
-	bodyClassName,
-	options,
+export const DatePicker: FC<TDatePickerProps> = ({
 	label,
 	error,
 	field,
+	bodyClassName,
+	common,
 	...props
 }) => {
 	const id = useId()
@@ -32,15 +32,16 @@ const Select: FC<TSelectProps> = ({
 		<div className={bodyClassName ?? ''}>
 			{!!label && (
 				<label htmlFor={id} className={cl.root__label}>
-					{label}
+					<span>{label}</span>
+					<span>{common}</span>
 				</label>
 			)}
-			<AntdSelect
-				defaultValue={options ? options[0] : ''}
-				options={options}
-				{...field}
+			<AntdDatePicker
+				{...(field as { value: Dayjs })}
 				{...props}
 				id={id}
+				placeholder='Выберите дату'
+				format='DD-MM-YY'
 				className={clsx(
 					cl.root__input,
 					error ? cl.root__input_inputErr : ''
@@ -50,5 +51,3 @@ const Select: FC<TSelectProps> = ({
 		</div>
 	)
 }
-
-export default Select

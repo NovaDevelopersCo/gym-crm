@@ -9,13 +9,20 @@
 	}
 
 	&__input {
+		padding: 10px 10px;
 		max-height: 45.14px;
 		height: 100%;
+		background-color: #fff;
+		outline: 1px solid #bcbcbc;
 		width: 100%;
 		border: none;
 		font-size: 16px;
 		transition: all;
 		transition-duration: 300ms;
+
+		&_textarea {
+			resize: none !important;
+		}
 
 		&_inputErr {
 			outline: 1px solid #e03737;
