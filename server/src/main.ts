@@ -11,6 +11,7 @@ import * as cookieParser from 'cookie-parser'
 // TODO: Common decorator with 400s status code
 // TODO: common/dto rename in common/query
 // TODO: hard search
+// TODO: fix swagger style (404 + 400 for query params (getAll))
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)

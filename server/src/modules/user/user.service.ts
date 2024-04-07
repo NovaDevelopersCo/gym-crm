@@ -98,6 +98,7 @@ export class UserService {
 		if (dto.cardNumber !== user.cardNumber) await this.checkCardNumber(dto.cardNumber)
 		if (dto.phone !== user.phone) await this.checkPhone(dto.phone)
 
+		// TODO: if club null ?
 		let club = user.club
 		if (dto.club !== user.club.id) club = await this.clubService.getById(dto.club)
 
