@@ -9,6 +9,7 @@ import { UserModule } from './modules/user/user.module'
 import { AbonementModule } from './modules/abonement/abonement.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GroupModule } from './modules/group/group.module'
+import { DataBaseModule } from './core/database/database.module'
 
 @Module({
 	imports: [
@@ -20,6 +21,7 @@ import { GroupModule } from './modules/group/group.module'
 		UserModule,
 		GroupModule,
 		AbonementModule,
+		DataBaseModule,
 		TypeOrmModule.forRootAsync({
 			imports: [ConfigModule],
 			inject: [ConfigService],

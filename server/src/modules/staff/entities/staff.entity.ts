@@ -1,15 +1,17 @@
-import { BaseEntity } from '@/core/database'
+import { BaseEntity } from '@/core/database/entity'
 import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm'
 
 import { EStaffRole } from '@/core/enums'
 import { GroupEntity } from '@/modules/group/entities'
 import { ClubEntity } from '@/modules/club/entities'
+import { Exclude } from 'class-transformer'
 
 @Entity('Staff')
 export class StaffEntity extends BaseEntity {
 	@Column()
 	fio: string
 
+	@Exclude()
 	@Column()
 	password: string
 
@@ -27,7 +29,7 @@ export class StaffEntity extends BaseEntity {
 	@OneToMany(() => GroupEntity, group => group.trainer)
 	groups: GroupEntity[]
 
-	@OneToOne(() => ClubEntity)
+	@OneToOne(() => ClubEntity, club => club.admin, { onDelete: 'SET NULL' })
 	@JoinColumn()
 	club: ClubEntity
 }

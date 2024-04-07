@@ -1,3 +1,3 @@
 import Stuff from './ui/Stuff'
 
-export { Stuff }
+export default Stuff

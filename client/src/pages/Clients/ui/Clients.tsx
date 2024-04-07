@@ -1,13 +1,15 @@
-import { Typography } from 'antd'
-
 import { useAppSelector } from '@store/index'
 import { NewClient } from '@widgets/Client'
-
-const { Title } = Typography
+import { ListOfClients } from './../../../widgets/ListOfClients/index';
+import { ClientsFilter } from '@widgets/ClientsFilter';
 
 const ClientsPage = () => {
 	const user = useAppSelector(state => state['auth/slice'].user!)
-	return user.role != 'trainer' ? <NewClient /> : <Title>Client list page</Title>
+	return <>
+		<ClientsFilter />
+		{user.role != 'trainer' && <NewClient />}
+		<ListOfClients />
+	</>
 }
 
 export default ClientsPage

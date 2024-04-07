@@ -1,14 +1,19 @@
+/* eslint-disable react-refresh/only-export-components */
+import { Suspense, lazy } from 'react'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 
-import { Page404 } from '@pages/404'
-import { ClientProfile, ClientsPage } from '@pages/Clients'
-import { Dashboard } from '@pages/Dashboard'
-import { Home } from '@pages/Home'
 import Layout from '@pages/Layout'
-import { Login } from '@pages/Login'
-import { Stuff } from '@pages/Stuff'
 
 import { ProtectedRoute } from '@shared/ui'
+
+const Login = lazy(() => import('@pages/Login'))
+
+const Page404 = lazy(() => import('@pages/404'))
+const ClientsPage = lazy(() => import('@pages/Clients'))
+const ClientProfile = lazy(() => import('@pages/ClientProfile'))
+const Dashboard = lazy(() => import('@pages/Dashboard'))
+const Home = lazy(() => import('@pages/Home'))
+const Stuff = lazy(() => import('@pages/Stuff'))
 
 export const router = createBrowserRouter([
 	{
@@ -78,7 +83,9 @@ export const router = createBrowserRouter([
 						redirectPath='/'
 						isReverse
 					>
-						<Login />
+						<Suspense fallback={<h1>Loading...</h1>}>
+							<Login />
+						</Suspense>
 					</ProtectedRoute>
 				)
 			}
