@@ -1,4 +1,4 @@
-import IGroup from "./Group.schema"
+import IGroup from './Group.schema'
 
 export default interface IArea {
 	id: string

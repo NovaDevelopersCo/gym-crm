@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
-import { IUser, authApi } from '@store/index'
+import { IStuff, authApi } from '@store/index'
 
 interface IAuthState {
-	user: IUser | null
+	user: IStuff | null
 	accessToken: string | null
 	isAuth: boolean
 	error: string | null | FetchBaseQueryError
@@ -31,6 +31,15 @@ const authSlice = createSlice({
 					state.accessToken = payload.accessToken
 					state.user = payload.profile
 					state.isAuth = true
+				}
+			)
+			.addMatcher(authApi.endpoints.loginUser.matchFulfilled, state => {
+				window.location.reload()
+			})
+			.addMatcher(
+				authApi.endpoints.loginUser.matchRejected,
+				(state, { payload }) => {
+					state.error = payload?.data?.message
 				}
 			)
 			.addMatcher(

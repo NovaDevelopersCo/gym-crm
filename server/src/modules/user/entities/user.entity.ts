@@ -1,4 +1,4 @@
-import { BaseEntity } from '@/core/database'
+import { BaseEntity } from '@/core/database/entity'
 import { AbonementEntity } from '@/modules/abonement/entities'
 import { ClubEntity } from '@/modules/club/entities'
 import { GroupEntity } from '@/modules/group/entities'

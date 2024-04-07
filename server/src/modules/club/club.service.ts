@@ -1,22 +1,32 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
-import { Repository } from 'typeorm'
+import { ILike, Repository } from 'typeorm'
 import { ClubEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
-import { CreateClubDto, UpdateClubDto } from './dto'
+import { CreateClubDto, UpdateClubDto, FindAllClubDto } from './dto'
 import { StaffService } from '../staff/staff.service'
 import { EStaffRole } from '@/core/enums'
+import { StaffEntity } from '../staff/entities'
+import { DataBaseService } from '@/core/database/database.service'
 
 @Injectable()
 export class ClubService {
 	constructor(
 		@InjectRepository(ClubEntity)
 		private readonly clubRepository: Repository<ClubEntity>,
-		private readonly staffService: StaffService
+		private readonly staffService: StaffService,
+		private readonly dataBaseService: DataBaseService
 	) {}
 
-	// ! pagination
-	async getAll() {
-		const clubs = await this.clubRepository.find({
+	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllClubDto) {
+		const [items, total] = await this.clubRepository.findAndCount({
+			order: {
+				[sortBy]: sortOrder
+			},
+			where: {
+				[searchBy]: ILike(`%${q}%`)
+			},
+			take: count,
+			skip: page * count - count,
 			relations: {
 				admin: true,
 				groups: true,
@@ -24,10 +34,15 @@ export class ClubService {
 			}
 		})
 
-		return { clubs }
+		// ! replace on class
+		return {
+			items,
+			meta: {
+				total
+			}
+		}
 	}
 
-	// * checked
 	async getById(id: number) {
 		const club = await this.clubRepository.findOne({
 			where: { id },
@@ -45,7 +60,6 @@ export class ClubService {
 		return club
 	}
 
-	// * checked
 	async create(dto: CreateClubDto) {
 		await this.nameCheck(dto.name)
 		await this.adminFreeCheck(dto.admin)
@@ -59,23 +73,29 @@ export class ClubService {
 		return this.clubRepository.save(createClub)
 	}
 
-	// ! no work
-	async update(clubId: number, dto: UpdateClubDto) {
-		const club = await this.getById(clubId)
+	async update(id: number, dto: UpdateClubDto) {
+		const club = await this.getById(id)
 
-		await this.nameCheck(dto.name, clubId)
+		await this.nameCheck(dto.name, id)
+		await this.adminFreeCheck(dto.admin, id)
+		await this.addressCheck(dto.address, id)
 
-		await this.adminFreeCheck(dto.admin, clubId)
-		await this.addressCheck(dto.address, clubId)
-
-		return this.clubRepository.save({
+		const updatedClub = await this.clubChangeAdminTransaction(club.admin.id, {
 			...club,
 			...dto,
 			admin: { id: dto.admin }
 		})
+
+		if (!updatedClub) {
+			throw new BadRequestException('Ошибка при изменении клуба')
+		}
+
+		// eslint-disable-next-line
+		const { updateDate, createDate, ...data } = updatedClub
+
+		return data
 	}
 
-	// * checked
 	async delete(id: number) {
 		await this.getById(id)
 
@@ -119,5 +139,19 @@ export class ClubService {
 		if (club && club.id !== clubId) {
 			throw new BadRequestException('Клуб с таким адресом уже существует')
 		}
+	}
+
+	private async clubChangeAdminTransaction(
+		adminId: number,
+		updatedClub: Omit<ClubEntity, 'admin'> & { admin: { id: number } }
+	) {
+		return this.dataBaseService.transaction(async queryRunner => {
+			const updatedAdmin = await this.staffService.clearAdminClub(adminId)
+
+			await queryRunner.manager.save(StaffEntity, updatedAdmin)
+			const club = await queryRunner.manager.save(ClubEntity, updatedClub)
+
+			return club
+		})
 	}
 }

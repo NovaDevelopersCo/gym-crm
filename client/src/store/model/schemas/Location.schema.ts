@@ -1,6 +1,6 @@
-import { IClient } from "."
-import IGroup from "./Group.schema"
-import IStaff from "./Stuff.schema"
+import { IClient } from '.'
+import IGroup from './Group.schema'
+import IStaff from './Stuff.schema'
 
 export default interface ILocation {
 	id: string

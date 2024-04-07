@@ -6,7 +6,7 @@ export enum EStuffRoles {
 
 export default interface IStuff {
 	id: number
-	name: string
+	fio: string
 	email: string
 	role: EStuffRoles
 }

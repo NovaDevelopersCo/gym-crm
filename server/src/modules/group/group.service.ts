@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { GroupEntity } from './entities'
-import { In, Repository } from 'typeorm'
-import { CreateGroupDto, UpdateGroupDto } from './dto'
+import { Repository, ILike, In } from 'typeorm'
+import { CreateGroupDto, UpdateGroupDto, FindAllGroupDto } from './dto'
 import { StaffService } from '../staff/staff.service'
 import { ClubService } from '../club/club.service'
 import { DirectionService } from '../direction/direction.service'
@@ -17,9 +17,16 @@ export class GroupService {
 		private readonly directionService: DirectionService
 	) {}
 
-	// ! pagination and will be beautiful!!!!!!!
-	async getAll() {
-		const groups = await this.groupRepository.find({
+	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllGroupDto) {
+		const [items, total] = await this.groupRepository.findAndCount({
+			order: {
+				[sortBy]: sortOrder
+			},
+			where: {
+				[searchBy]: ILike(`%${q}%`)
+			},
+			take: count,
+			skip: page * count - count,
 			relations: {
 				direction: true,
 				club: true,
@@ -27,10 +34,15 @@ export class GroupService {
 				users: true
 			}
 		})
-		return { groups }
+
+		return {
+			items,
+			meta: {
+				total
+			}
+		}
 	}
 
-	//  * checked
 	async getById(groupId: number) {
 		const group = await this.groupRepository.findOne({
 			where: { id: groupId },
@@ -48,7 +60,7 @@ export class GroupService {
 
 		return group
 	}
-	// * checked, its beautiful!!!
+
 	async create(dto: CreateGroupDto) {
 		await this.checkName(dto.name)
 
@@ -67,7 +79,6 @@ export class GroupService {
 		return this.groupRepository.save(createdGroup)
 	}
 
-	// * checked
 	async update(groupId: number, dto: UpdateGroupDto) {
 		const group = await this.getById(groupId)
 		await this.checkName(dto.name, groupId)
@@ -86,7 +97,6 @@ export class GroupService {
 		return data
 	}
 
-	// * checked
 	async delete(id: number) {
 		await this.getById(id)
 

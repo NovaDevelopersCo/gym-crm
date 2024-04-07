@@ -11,7 +11,7 @@ import cl from './Sidebar.module.scss'
 
 export const Sidebar = () => {
 	const user = useAppSelector(state => state['auth/slice'].user!)
-	const [isCollapsed, setIsCollapsed] = useState(false)
+	const [isCollapsed, setIsCollapsed] = useState(true)
 	const toggleSidebar = () => {
 		setIsCollapsed(!isCollapsed)
 	}

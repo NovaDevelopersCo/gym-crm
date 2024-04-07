@@ -2,8 +2,9 @@ import { ApiProperty } from '@nestjs/swagger'
 import { GroupEntity } from '../entities'
 import { OmitType } from '@nestjs/swagger'
 import { UserEntity } from '@/modules/user/entities'
+import { PaginationResponse } from '@/core/swagger'
 
-export class GetAllGroupsOk {
+export class GetAllGroupsOk extends PaginationResponse {
 	@ApiProperty({
 		default: [
 			{
@@ -48,7 +49,7 @@ export class GetAllGroupsOk {
 			}
 		]
 	})
-	groups: GroupEntity[]
+	items: GroupEntity[]
 }
 
 export class GetGroupByIdOk {
@@ -87,8 +88,10 @@ export class GetGroupByIdOk {
 	id: number
 
 	@ApiProperty({
-		default: 44,
-		name: 'Карате'
+		default: {
+			id: 44,
+			name: 'Карате'
+		}
 	})
 	direction: number
 }

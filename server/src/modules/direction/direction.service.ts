@@ -1,8 +1,9 @@
-import { Repository } from 'typeorm'
+import { ILike, Repository } from 'typeorm'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { DirectionEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
 import { CreateDirectionDto, UpdateDirectionDto } from './dto'
+import { FindAllDirectionDto } from './dto'
 
 @Injectable()
 export class DirectionService {
@@ -11,18 +12,32 @@ export class DirectionService {
 		private readonly directionRepository: Repository<DirectionEntity>
 	) {}
 
-	// ! pagination
-	async getAll() {
-		const directions = await this.directionRepository.find({
+	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllDirectionDto) {
+		const [items, total] = await this.directionRepository.findAndCount({
+			order: {
+				[sortBy]: sortOrder
+			},
+			where: q
+				? {
+						[searchBy]: ILike(`%${q}%`)
+					}
+				: {},
+			take: count,
+			skip: page * count - count,
 			relations: {
 				groups: true
 			}
 		})
 
-		return { directions }
+		// ! replace
+		return {
+			items,
+			meta: {
+				total
+			}
+		}
 	}
 
-	// * checked
 	async getById(directionId: number) {
 		const direction = await this.directionRepository.findOne({
 			where: { id: directionId },
@@ -38,7 +53,6 @@ export class DirectionService {
 		return direction
 	}
 
-	// * checked
 	async create({ name }: CreateDirectionDto) {
 		await this.nameCheck(name)
 
@@ -47,18 +61,20 @@ export class DirectionService {
 		return this.directionRepository.save(createdDirection)
 	}
 
-	// * checked
 	async update(id: number, dto: UpdateDirectionDto) {
 		const direction = await this.getById(id)
 
 		await this.nameCheck(dto.name, id)
 
-		const updatedDirection = await this.directionRepository.save({ ...direction, ...dto })
+		// eslint-disable-next-line
+		const { createDate, updateDate, ...data } = await this.directionRepository.save({
+			...direction,
+			...dto
+		})
 
-		return updatedDirection
+		return data
 	}
 
-	// * checked
 	async delete(id: number) {
 		await this.getById(id)
 

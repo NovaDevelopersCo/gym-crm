@@ -1,7 +1,7 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router'
+
 import { Button, Input } from '@/shared'
-import { LoginUserDto, authApi, useAppDispatch } from '@/store'
+import { LoginUserDto, authApi, useAppDispatch, useAppSelector } from '@/store'
 
 import cl from './LoginForm.module.scss'
 
@@ -12,13 +12,10 @@ const LoginForm = () => {
 		control
 	} = useForm<LoginUserDto>()
 	const dispatch = useAppDispatch()
-	const navigate = useNavigate()
-	// const error = useAppSelector(state => state['auth/slice'].error)
+	const error = useAppSelector(state => state['auth/slice'].error)
 
 	const onSubmit: SubmitHandler<LoginUserDto> = data => {
-		dispatch(authApi.endpoints.loginUser.initiate(data)).finally(() =>
-			navigate(0)
-		)
+		dispatch(authApi.endpoints.loginUser.initiate(data))
 	}
 
 	return (
@@ -27,6 +24,11 @@ const LoginForm = () => {
 				onSubmit={handleSubmit(onSubmit)}
 				className={cl.root__container}
 			>
+				{error && (
+					<h1 className={cl.root__container__message}>
+						{error.toString()}
+					</h1>
+				)}
 				<span className={cl.root__container__validate}>
 					<Controller
 						name='email'

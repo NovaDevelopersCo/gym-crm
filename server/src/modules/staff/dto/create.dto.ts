@@ -34,6 +34,6 @@ export class CreateDto {
 		enum: ECreateStaffRole,
 		default: 'admin / trainer'
 	})
-	@IsEnum(EStaffRole)
+	@IsEnum(EStaffRole, { message: 'Невалидная роль' })
 	role: EStaffRole
 }

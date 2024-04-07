@@ -1,12 +1,16 @@
 import {
+	LoginUserDto,
+	TLoginErrorResponse,
+	TRefreshResponse,
+	authSlice
+} from '@/store'
+import {
 	BaseQueryFn,
 	FetchArgs,
 	FetchBaseQueryError,
 	createApi,
 	fetchBaseQuery
 } from '@reduxjs/toolkit/query/react'
-
-import { LoginUserDto, TRefreshResponse, authSlice } from '@store/index'
 
 const baseQuery = fetchBaseQuery({
 	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/auth`,
@@ -28,7 +32,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth: BaseQueryFn<
 	string | FetchArgs,
 	unknown,
-	FetchBaseQueryError
+	FetchBaseQueryError | TLoginErrorResponse
 > = async (args, api, extraOptions) => {
 	const result = await baseQuery(
 		args
@@ -60,7 +64,7 @@ export const authApi = createApi({
 		// 		body: user
 		// 	})
 		// }),
-		loginUser: build.query<unknown, LoginUserDto>({
+		loginUser: build.query<null, LoginUserDto>({
 			query: user => ({
 				method: 'POST',
 				url: 'login',
@@ -72,7 +76,7 @@ export const authApi = createApi({
 				url: 'logout'
 			})
 		}),
-		refreshToken: build.query<TRefreshResponse, unknown>({
+		refreshToken: build.query<TRefreshResponse, null>({
 			query: () => ({
 				url: 'refresh'
 			})

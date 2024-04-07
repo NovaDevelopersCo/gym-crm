@@ -2,7 +2,7 @@ import { ApiProperty, OmitType, PickType } from '@nestjs/swagger'
 import { CreateUserDto } from '../dto'
 import { GetGroupByIdOk } from '@/modules/group/swagger'
 import { GetClubByIdOk } from '@/modules/club/swagger'
-import { MetaPagination } from '@/core/swagger'
+import { PaginationResponse } from '@/core/swagger'
 
 export class ResponseUserDto extends PickType(CreateUserDto, ['fio', 'phone', 'email'] as const) {
 	@ApiProperty()
@@ -19,10 +19,7 @@ export class GetUserByIdOk extends OmitType(CreateUserDto, ['groups', 'club'] as
 	club: ClubDto
 }
 
-export class GetAllUserDto {
-	@ApiProperty()
-	meta: MetaPagination
-
+export class GetAllUserDto extends PaginationResponse {
 	@ApiProperty({ isArray: true })
 	items: GetUserByIdOk
 }
