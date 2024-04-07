@@ -8,11 +8,7 @@ import { EditFilled } from '@ant-design/icons'
 import { DatePicker, Input, Select } from '@shared/ui'
 
 import cl from './ClientInfo.module.scss'
-import {
-	firstClientInfo,
-	secondClientInfo,
-	thirdClientInfo
-} from './ClientsInfo.data'
+import { firstClientInfo, secondClientInfo, thirdClientInfo } from './data'
 
 const ClientInfo = () => {
 	type TClientInfo = {
