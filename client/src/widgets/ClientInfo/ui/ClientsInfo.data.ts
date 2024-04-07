@@ -234,7 +234,6 @@ type thirdClientInfoItem = {
 	isDatepicker?: boolean
 }
 
-// TODO:
 export const thirdClientInfo: thirdClientInfoItem[] = [
 	{
 		label: 'Абонемент',
