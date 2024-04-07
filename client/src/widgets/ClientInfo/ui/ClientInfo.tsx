@@ -8,7 +8,11 @@ import { EditFilled } from '@ant-design/icons'
 import { DatePicker, Input, Select } from '@shared/ui'
 
 import cl from './ClientInfo.module.scss'
-import { firstClientInfo } from './ClientsInfo.data'
+import {
+	firstClientInfo,
+	secondClientInfo,
+	thirdClientInfo
+} from './ClientsInfo.data'
 
 const ClientInfo = () => {
 	type TClientInfo = {
@@ -17,6 +21,17 @@ const ClientInfo = () => {
 		email: string
 		birthdayDate: number
 		club: string[]
+		date: number
+		card: number
+		level: string[]
+		trainer: string[]
+		group: string[]
+		discipline: string[]
+		abonement: string[]
+		when_purchased: number
+		when_expires: number
+		clients_notes: string
+		administration_notes: string
 	}
 
 	const [isDisabled, setIsDisabled] = useState(true)
@@ -65,7 +80,12 @@ const ClientInfo = () => {
 							className={cl.root__container_title_editBtn_icon}
 						/>
 					</button>
-					<button type='submit'>save</button>
+					<button
+						className={cl.root__container_title_submit}
+						type='submit'
+					>
+						save
+					</button>
 				</div>
 				<div className={cl.root__container_infoBlock}>
 					<div className={cl.root__container_infoBlock_info}>
@@ -127,7 +147,100 @@ const ClientInfo = () => {
 							)
 						)}
 					</div>
-					<div className={cl.root__container_infoBlock_info}></div>
+					<div className={cl.root__container_infoBlock_info}>
+						{secondClientInfo.map(({ rules, ...i }) =>
+							i.options ? (
+								<Controller
+									name={i.name}
+									control={control}
+									key={i.name}
+									render={({ field }) => (
+										<Select
+											disabled={isDisabled}
+											field={field}
+											placeholder={i.name}
+											bodyClassName={
+												cl.root__container_infoBlock_info_item
+											}
+											{...i}
+										/>
+									)}
+								/>
+							) : (
+								<Controller
+									name={i.name}
+									control={control}
+									key={i.name}
+									rules={rules}
+									render={({ field }) => (
+										<Input
+											disabled={isDisabled}
+											field={field}
+											bodyClassName={
+												cl.root__container_infoBlock_info_item
+											}
+											error={errors[i.name]?.message}
+											{...i}
+										/>
+									)}
+								/>
+							)
+						)}
+					</div>
+					<div className={cl.root__container_infoBlock_info}>
+						{thirdClientInfo.map(({ isDatepicker, rules, ...i }) =>
+							i.options ? (
+								<Controller
+									name={i.name}
+									control={control}
+									key={i.name}
+									render={({ field }) => (
+										<Select
+											disabled={isDisabled}
+											field={field}
+											placeholder={i.name}
+											bodyClassName={
+												cl.root__container_infoBlock_info_item
+											}
+											{...i}
+										/>
+									)}
+								/>
+							) : (
+								<Controller
+									name={i.name}
+									control={control}
+									key={i.name}
+									rules={rules}
+									render={({ field }) =>
+										isDatepicker ? (
+											<DatePicker
+												disabled={isDisabled}
+												field={field}
+												style={{ maxHeight: '45.14px' }}
+												className={
+													cl.root__container_infoBlock_info_item
+												}
+												format='DD-MM-YY'
+												error={errors[i.name]?.message}
+												{...i}
+											/>
+										) : (
+											<Input
+												disabled={isDisabled}
+												field={field}
+												bodyClassName={
+													cl.root__container_infoBlock_info_item
+												}
+												error={errors[i.name]?.message}
+												{...i}
+											/>
+										)
+									}
+								/>
+							)
+						)}
+					</div>
 				</div>
 			</div>
 		</form>
