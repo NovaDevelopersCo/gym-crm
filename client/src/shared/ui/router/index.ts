@@ -1,1 +1,1 @@
-export { default } from './ProtectedRoute'
+export { ProtectedRoute } from './ui/ProtectedRoute'

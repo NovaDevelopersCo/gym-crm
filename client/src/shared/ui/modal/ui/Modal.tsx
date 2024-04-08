@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect } from 'react'
+import { FC, type ReactNode, useEffect } from 'react'
 
 import clsx from 'clsx'
 
@@ -6,12 +6,17 @@ import cl from './Modal.module.scss'
 
 type TModalProps = {
 	isOpen: boolean
-	setIsOpen: (o: boolean) => void // eslint-disable-line no-unused-vars
+	setIsOpen: (o: boolean) => void
 	children: ReactNode
 	className?: string
 }
 
-const Modal = ({ isOpen, setIsOpen, children, className }: TModalProps) => {
+export const Modal: FC<TModalProps> = ({
+	isOpen,
+	setIsOpen,
+	children,
+	className
+}) => {
 	useEffect(() => {
 		if (isOpen) {
 			document.body.style.overflowY = 'hidden'
@@ -33,5 +38,3 @@ const Modal = ({ isOpen, setIsOpen, children, className }: TModalProps) => {
 		</div>
 	)
 }
-
-export default Modal

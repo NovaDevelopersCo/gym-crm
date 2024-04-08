@@ -1,4 +1,5 @@
 import { Dispatch, FC, SetStateAction } from 'react'
+
 import { Pagination as PaginationAntd } from 'antd'
 
 /**
@@ -25,7 +26,7 @@ type TPaginationProps = {
 
 /* The component renders an Ant Design Pagination component (`PaginationAntd`)
 with specific configurations based on the props passed to it. */
-const Pagination: FC<TPaginationProps> = ({ page, limit, total, setPage }) =>
+const Pagination: FC<TPaginationProps> = ({ page, limit, total, setPage }) => (
 	<PaginationAntd
 		defaultCurrent={1}
 		total={total}
@@ -33,9 +34,10 @@ const Pagination: FC<TPaginationProps> = ({ page, limit, total, setPage }) =>
 		current={page}
 		showSizeChanger={false}
 		hideOnSinglePage
-		onChange={(page, pageSize) => {
+		onChange={page => {
 			setPage(page)
 		}}
 	/>
+)
 
 export default Pagination

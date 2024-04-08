@@ -33,22 +33,22 @@ const authSlice = createSlice({
 					state.isAuth = true
 				}
 			)
-			.addMatcher(
-				authApi.endpoints.loginUser.matchFulfilled,
-				state => {
-					window.location.reload()
-				}
-			)
+			.addMatcher(authApi.endpoints.loginUser.matchFulfilled, () => {
+				window.location.reload()
+			})
 			.addMatcher(
 				authApi.endpoints.loginUser.matchRejected,
-				(state, {payload}) => {
-					state.error = payload?.data?.message
+				(state, { payload }) => {
+					state.error = (payload?.data?.message as string) || null
 				}
 			)
 			.addMatcher(
 				authApi.endpoints.logoutUser.matchFulfilled,
 				() => initialState
 			)
+	},
+	selectors: {
+		getAccessToken: state => state.accessToken
 	}
 })
 

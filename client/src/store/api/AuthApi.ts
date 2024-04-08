@@ -1,4 +1,11 @@
 import {
+	LoginUserDto,
+	TLoginErrorResponse,
+	TRefreshResponse,
+	authSlice,
+	RootState
+} from '@/store'
+import {
 	BaseQueryFn,
 	FetchArgs,
 	FetchBaseQueryError,
@@ -6,15 +13,14 @@ import {
 	fetchBaseQuery
 } from '@reduxjs/toolkit/query/react'
 
-import { LoginUserDto, TLoginErrorResponse, TRefreshResponse, authSlice } from '@/store'
-
 const baseQuery = fetchBaseQuery({
 	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/auth`,
 	credentials: 'include',
 
 	// Automatically use token in authorization header if it provided
-	prepareHeaders: headers => {
-		const token = authSlice.getInitialState().accessToken
+	prepareHeaders: (headers, { getState }) => {
+		const state = getState() as RootState
+		const token = state['auth/slice'].accessToken
 		if (token) {
 			headers.set('Authorization', `Bearer ${token}`)
 			headers.set('Content-Type', 'application/json')
@@ -60,7 +66,7 @@ export const authApi = createApi({
 		// 		body: user
 		// 	})
 		// }),
-		loginUser: build.query<null, LoginUserDto>({
+		loginUser: build.query<void, LoginUserDto>({
 			query: user => ({
 				method: 'POST',
 				url: 'login',
@@ -72,7 +78,7 @@ export const authApi = createApi({
 				url: 'logout'
 			})
 		}),
-		refreshToken: build.query<TRefreshResponse, null>({
+		refreshToken: build.query<TRefreshResponse, void>({
 			query: () => ({
 				url: 'refresh'
 			})

@@ -8,11 +8,11 @@ import ReactSelect, {
 
 import clsx from 'clsx'
 
+import { TOption } from '../../model'
 import cl from './Select.module.scss'
 import './Select.scss'
-import { TOption } from './types'
 
-const Select = <
+export const Select = <
 	Option extends TOption,
 	IsMulti extends boolean = false,
 	Group extends GroupBase<Option> = GroupBase<Option>
@@ -52,5 +52,3 @@ const Select = <
 		</div>
 	)
 }
-
-export default Select

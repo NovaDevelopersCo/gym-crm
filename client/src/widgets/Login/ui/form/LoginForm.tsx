@@ -1,6 +1,8 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
-import { Button, Input } from '@/shared'
+
 import { LoginUserDto, authApi, useAppDispatch, useAppSelector } from '@/store'
+
+import { Button, Input } from '@shared/ui'
 
 import cl from './LoginForm.module.scss'
 
@@ -23,7 +25,11 @@ const LoginForm = () => {
 				onSubmit={handleSubmit(onSubmit)}
 				className={cl.root__container}
 			>
-				{error && <h1 className={cl.root__container__message}>{error.toString()}</h1>}
+				{error && (
+					<h1 className={cl.root__container__message}>
+						{error.toString()}
+					</h1>
+				)}
 				<span className={cl.root__container__validate}>
 					<Controller
 						name='email'

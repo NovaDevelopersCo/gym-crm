@@ -10,7 +10,6 @@ type TInputProps = InputProps & {
 	label?: string
 	error?: string | FieldError | Merge<FieldError, FieldErrorsImpl>
 	field: {
-		// eslint-disable-next-line no-unused-vars
 		onChange: (e: ChangeEvent<HTMLInputElement>) => void
 		value: string | string[] | number
 	}

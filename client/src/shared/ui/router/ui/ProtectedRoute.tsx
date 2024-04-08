@@ -2,7 +2,7 @@ import { Navigate, useLocation } from 'react-router-dom'
 
 import { useAppSelector, useRefreshTokenQuery } from '@store/index'
 
-const ProtectedRoute = ({
+export const ProtectedRoute = ({
 	children,
 	allowedRoles,
 	redirectPath = '/login',
@@ -13,7 +13,7 @@ const ProtectedRoute = ({
 	redirectPath?: string
 	isReverse?: boolean
 }) => {
-	const { isLoading } = useRefreshTokenQuery('')
+	const { isLoading } = useRefreshTokenQuery()
 	const location = useLocation()
 	const user = useAppSelector(store => store['auth/slice'].user!)
 	const isAuthenticated = useAppSelector(store => store['auth/slice'].isAuth)
@@ -36,5 +36,3 @@ const ProtectedRoute = ({
 		)
 	}
 }
-
-export default ProtectedRoute

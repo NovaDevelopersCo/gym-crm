@@ -1,23 +1,26 @@
-import type { FC, SetStateAction, Dispatch } from "react"
-import THeader from "./@THeader/THeader"
-import TBody from "./@TBody/TBody"
+import type { Dispatch, FC, SetStateAction } from 'react'
+
+import { TBodyContent, TColumnProps } from '../model'
+import TBody from './@TBody/TBody'
+import THeader from './@THeader/THeader'
 import styles from './Table.module.scss'
-import { } from "redux"
-import { TColumnProps } from "../model"
 
 type TTabelProps = {
-	cols: TColumnProps[],
-	content: unknown[],
-	total: number,
-	limit: number,
+	cols: TColumnProps[]
+	content: TBodyContent[]
+	total: number
+	limit: number
 	setLimit: Dispatch<SetStateAction<number>>
 }
 
 const Table: FC<TTabelProps> = ({ cols, content, ...props }) => {
 	return (
 		<div className={styles.table__viewport}>
-			<div className={styles.table}
-				style={{ gridTemplateColumns: `50px repeat(${cols.length}, minmax(max-content, 1fr))` }}
+			<div
+				className={styles.table}
+				style={{
+					gridTemplateColumns: `50px repeat(${cols.length}, minmax(max-content, 1fr))`
+				}}
 			>
 				<THeader cols={cols} {...props} />
 				<TBody cols={cols} content={content} />

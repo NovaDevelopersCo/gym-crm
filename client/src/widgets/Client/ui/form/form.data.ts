@@ -1,6 +1,6 @@
 import type { RegisterOptions } from 'react-hook-form'
 
-import type { TOption } from '@/shared'
+import type { TOption } from '@shared/ui'
 
 type TNewClientFormFields =
 	| 'fio'

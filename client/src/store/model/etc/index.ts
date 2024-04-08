@@ -1,12 +1,13 @@
-import CreateAreaDto from './@dto/create-area.dto'
 import CreateClientDto from './@dto/create-client.dto'
+import CreateClubDto from './@dto/create-club.dto'
+import CreateDirectionDto from './@dto/create-direction.dto'
 import CreateGroupDto from './@dto/create-group.dto'
-import CreateLocationDto from './@dto/create-location.dto'
 import CreateUserDto from './@dto/create-staff.dto'
 import LoginUserDto from './@dto/login-staff.dto'
+import TLoginErrorResponse from './@response/login-error-response.type'
+import TParamsResponse from './@response/params-response.type'
 import TRefreshResponse from './@response/refresh-response.type'
 import TRegistrationResponse from './@response/registration-response.type'
-import TLoginErrorResponse from './@response/login-error-response.type'
 
 export type {
 	LoginUserDto,
@@ -14,8 +15,9 @@ export type {
 	TRegistrationResponse,
 	CreateClientDto,
 	TRefreshResponse,
-	CreateAreaDto,
+	CreateDirectionDto,
 	CreateGroupDto,
-	CreateLocationDto,
-	TLoginErrorResponse
+	CreateClubDto,
+	TLoginErrorResponse,
+	TParamsResponse
 }

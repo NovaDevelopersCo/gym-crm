@@ -13,7 +13,6 @@ type TTextAreaProps = TextAreaProps & {
 	label?: string
 	error?: string | FieldError | Merge<FieldError, FieldErrorsImpl>
 	field: {
-		// eslint-disable-next-line no-unused-vars
 		onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void
 		value: string | string[] | number
 	}
