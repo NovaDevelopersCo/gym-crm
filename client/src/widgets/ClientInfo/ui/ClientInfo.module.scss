@@ -19,6 +19,7 @@
 		&_title {
 			padding-bottom: 20px;
 			display: flex;
+			flex-wrap: wrap;
 			flex-direction: row;
 			align-items: end;
 			gap: 10px;
@@ -55,6 +56,12 @@
 			&_info {
 				min-width: 300px;
 				z-index: 2;
+			}
+
+			@media (max-width: 650px) {
+				&_info {
+					min-width: 100px;
+				}
 			}
 		}
 
