@@ -54,7 +54,9 @@ function App() {
 							borderRadiusSM: 0,
 							borderRadiusXS: 0,
 							controlHeight: 35,
-							colorTextDisabled: '#000'
+							colorTextDisabled: '#000',
+							colorIconHover: 'var(--accent)',
+							colorIcon: 'var(--accent)'
 						}
 					}
 				}}

@@ -38,7 +38,12 @@
 			}
 		}
 
+		&_infoBlock::-webkit-scrollbar-thumb {
+			display: none;
+		}
+
 		&_infoBlock {
+			overflow-x: scroll;
 			display: grid;
 			grid-template-columns: 1fr 1fr 1fr;
 			gap: 0 30px;
@@ -48,8 +53,22 @@
 			z-index: 2;
 
 			&_info {
+				min-width: 300px;
 				z-index: 2;
 			}
+		}
+
+		@media (max-width: 1000px) {
+			&_infoBlock {
+				grid-template-columns: 1fr;
+				padding: 9px;
+			}
+		}
+	}
+
+	@media (max-width: 650px) {
+		&__container {
+			padding: 0;
 		}
 	}
 }
