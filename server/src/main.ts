@@ -9,7 +9,6 @@ import * as cookieParser from 'cookie-parser'
 // * (Going) make cascade in all schemas
 // * (Going) think whats return data in group
 
-// * add validation to query params
 // * use Pagination class
 
 async function bootstrap() {
