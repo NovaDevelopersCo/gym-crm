@@ -1,94 +1,81 @@
 import { applyDecorators } from '@nestjs/common'
 import {
-	ApiBadRequestResponse,
-	ApiBearerAuth,
 	ApiCreatedResponse,
-	ApiForbiddenResponse,
-	ApiNoContentResponse,
 	ApiNotFoundResponse,
 	ApiOkResponse,
-	ApiOperation,
-	ApiUnauthorizedResponse
+	ApiOperation
 } from '@nestjs/swagger'
 import { GetAllUserDto, GetUserByIdOk, ResponseUserDto } from './responses'
 import { ESwaggerMessages } from '@/core/swagger'
-import { EUserSwaggerMessages } from './messages.enum'
+import { BaseDocSwagger } from '@/core/swagger/docs'
 
 export class UserDocSwagger {
 	static createQuestionnaireUser() {
 		return applyDecorators(
-			ApiBearerAuth('access-token'),
 			ApiOperation({
 				summary: 'Анкета регистрации пользователя',
 				description: 'Только с ролями Admin и Director'
 			}),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-			ApiBadRequestResponse({ description: ESwaggerMessages.ERROR_VALIDATION }),
-			ApiNotFoundResponse({ description: EUserSwaggerMessages.NO_FOUND_DEPENDENT_OBJECTS }),
+			ApiNotFoundResponse({ description: ESwaggerMessages.NO_FOUND_DEPENDENT_OBJECTS }),
 			ApiCreatedResponse({
-				description: 'Пользователь успешно добавлен',
+				description: ESwaggerMessages.SUCCESSFULLY_CREATE,
 				type: ResponseUserDto
-			})
+			}),
+			BaseDocSwagger.authWithRole()
 		)
 	}
 
 	static getOne() {
 		return applyDecorators(
-			ApiBearerAuth('access-token'),
 			ApiOperation({
 				summary: 'Поиск пользователя по id',
 				description: 'Только с ролями Admin и Director'
 			}),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-			ApiBadRequestResponse({ description: ESwaggerMessages.ERROR_VALIDATION }),
-			ApiNotFoundResponse({ description: EUserSwaggerMessages.GET_BY_ID }),
-			ApiOkResponse({ description: 'Найденный пользователь', type: GetUserByIdOk })
+			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
+			ApiOkResponse({
+				description: ESwaggerMessages.SUCCESSFULLY_GET_ONE,
+				type: GetUserByIdOk
+			}),
+			BaseDocSwagger.authWithRole()
 		)
 	}
 
 	static getAll() {
 		return applyDecorators(
-			ApiBearerAuth('access-token'),
 			ApiOperation({
 				summary: 'Вывод всех пользователей с пагинацией',
 				description: 'Только с ролями Admin и Director'
 			}),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-			ApiBadRequestResponse({ description: ESwaggerMessages.ERROR_VALIDATION }),
-			ApiOkResponse({ description: 'Найденные пользователи', type: GetAllUserDto })
+			ApiOkResponse({
+				description: ESwaggerMessages.SUCCESSFULLY_GET_ALL,
+				type: GetAllUserDto
+			}),
+			BaseDocSwagger.authWithRole()
 		)
 	}
 
 	static update() {
 		return applyDecorators(
-			ApiBearerAuth('access-token'),
 			ApiOperation({
 				summary: 'Обновление пользователя',
 				description: 'Только с ролями Admin и Director'
 			}),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-			ApiBadRequestResponse({ description: ESwaggerMessages.ERROR_VALIDATION }),
-			ApiNotFoundResponse({ description: EUserSwaggerMessages.GET_BY_ID }),
-			ApiOkResponse({ description: 'Измененный пользователь', type: GetUserByIdOk })
+			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
+			ApiOkResponse({
+				description: ESwaggerMessages.SUCCESSFULLY_UPDATE,
+				type: GetUserByIdOk
+			}),
+			BaseDocSwagger.authWithRole()
 		)
 	}
 
 	static delete() {
 		return applyDecorators(
-			ApiBearerAuth('access-token'),
 			ApiOperation({
 				summary: 'Удаление пользователя',
 				description: 'Только с ролями Admin и Director'
 			}),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-			ApiNotFoundResponse({ description: EUserSwaggerMessages.GET_BY_ID }),
-			ApiBadRequestResponse({ description: ESwaggerMessages.ERROR_VALIDATION }),
-			ApiNoContentResponse({ description: 'Успешное удаление' })
+			BaseDocSwagger.delete()
 		)
 	}
 }
