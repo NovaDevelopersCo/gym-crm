@@ -1,11 +1,10 @@
 import { useState } from 'react'
 
-// eslint-disable-next-line import/no-internal-modules
 import data from '@/data/clients.data.json'
 
 import { Pagination } from '@features/Paggination'
 
-import { Table } from '@entities/Table'
+import { TBodyContent, Table } from '@entities/Table'
 
 import styles from './ListOfClients.module.scss'
 
@@ -25,7 +24,7 @@ export const ListOfClients = () => {
 	return (
 		<div className={styles.root}>
 			<Table
-				content={data}
+				content={data as unknown as TBodyContent[]}
 				cols={cols}
 				total={total}
 				limit={limit}

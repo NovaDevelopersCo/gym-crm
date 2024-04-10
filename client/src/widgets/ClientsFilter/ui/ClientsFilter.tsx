@@ -1,4 +1,4 @@
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, FieldValues, useForm } from 'react-hook-form'
 
 import { Checkbox, Input, Select } from 'antd'
 
@@ -6,7 +6,8 @@ import cl from './ClientsFilter.module.scss'
 
 export const ClientsFilter = () => {
 	const { control, handleSubmit } = useForm()
-	const onSubmit = data => {
+
+	const onSubmit = (data: FieldValues) => {
 		console.log(data)
 	}
 

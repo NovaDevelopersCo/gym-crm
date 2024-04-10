@@ -2,6 +2,7 @@ import { BaseEntity } from '@/core/database/entity'
 import { AbonementEntity } from '@/modules/abonement/entities'
 import { ClubEntity } from '@/modules/club/entities'
 import { GroupEntity } from '@/modules/group/entities'
+import { StaffEntity } from '@/modules/staff/entities'
 import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne } from 'typeorm'
 
 @Entity('Users')
@@ -40,6 +41,9 @@ export class UserEntity extends BaseEntity {
 	@ManyToMany(() => GroupEntity, group => group.users)
 	@JoinTable()
 	groups: GroupEntity[]
+
+	@ManyToMany(() => StaffEntity, trainer => trainer.users)
+	trainers: StaffEntity[]
 
 	@ManyToOne(() => ClubEntity, club => club.users, { onDelete: 'SET NULL' })
 	club: ClubEntity

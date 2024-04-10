@@ -19,9 +19,7 @@ export class StaffService {
 			throw new NotFoundException(`Управляющий с id: ${staffId} не найден`)
 		}
 
-		const { fio, email, role, groups, club, id } = staff
-
-		return { fio, email, role, groups, club, id }
+		return staff
 	}
 
 	async getByEmail(email: string) {

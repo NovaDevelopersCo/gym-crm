@@ -7,7 +7,7 @@ import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 
 import { StaffDocSwagger } from './swagger'
 
-@ApiTags('Управляющие')
+@ApiTags('Персонал')
 @ApiBearerAuth('access-token')
 @UsePipes(new ValidationPipe({ whitelist: true }))
 @RolesAuthGuard(EStaffRole.DIRECTOR)

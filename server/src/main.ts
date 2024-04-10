@@ -13,6 +13,8 @@ import * as cookieParser from 'cookie-parser'
 // TODO: hard search
 // TODO: fix swagger style (404 + 400 for query params (getAll))
 
+// * use Pagination class
+
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
 	app.use(cookieParser())
