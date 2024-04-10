@@ -9,7 +9,7 @@ import * as cookieParser from 'cookie-parser'
 // * (Going) make cascade in all schemas
 // * (Going) think whats return data in group
 
-// * Transaction into closure
+// * use Pagination class
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
