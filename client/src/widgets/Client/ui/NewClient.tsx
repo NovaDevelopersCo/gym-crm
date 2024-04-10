@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { Button, Modal } from '@/shared'
+import { Button, Modal } from '@shared/ui'
 
 import { Form } from './form'
 

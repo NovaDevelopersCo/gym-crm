@@ -1,23 +1,26 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 import {
-	CreateAreaDto,
+	CreateClubDto,
+	CreateDirectionDto,
 	CreateGroupDto,
-	CreateLocationDto,
-	IArea,
+	IClub,
+	IDirection,
 	IGroup,
-	ILocation,
-	authSlice
+	RootState,
+	TParamsResponse
 } from '@store/index'
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/`,
+	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api`,
 	credentials: 'include',
 
 	// Automatically use token in authorization header if it provided
-	prepareHeaders: headers => {
-		const token = authSlice.getInitialState().accessToken
+	prepareHeaders: (headers, { getState }) => {
+		const state = getState() as RootState
+		const token = state['auth/slice'].accessToken
 		if (token) {
+			console.log(token)
 			headers.set('Authorization', `Bearer ${token}`)
 			headers.set('Content-Type', 'application/json')
 		}
@@ -29,81 +32,81 @@ const baseQuery = fetchBaseQuery({
 export const paramsApi = createApi({
 	reducerPath: 'params/api',
 	baseQuery: baseQuery,
-	tagTypes: ['GROUP', 'AREA', 'LOCATION'],
+	tagTypes: ['GROUP', 'CLUB', 'DIRECTION'],
 	endpoints: build => ({
 		// Groups
-		getGroupInfo: build.query<IGroup['id'], IGroup>({
+		getGroupInfo: build.query<IGroup, IGroup['id']>({
 			query: groupId => ({
-				url: `groups/${groupId}`
+				url: `group/${groupId}`
 			})
 		}),
-		getGroups: build.query<unknown, IGroup[]>({
+		getGroups: build.query<TParamsResponse<IGroup>, void>({
 			query: () => ({
-				url: 'groups'
+				url: 'group'
 			}),
 			providesTags: ['GROUP']
 		}),
-		createGroup: build.mutation<CreateGroupDto, IGroup>({
+		createGroup: build.mutation<IGroup, CreateGroupDto>({
 			query: group => ({
 				method: 'POST',
-				url: 'groups',
+				url: 'group',
 				body: group
 			}),
 			invalidatesTags: ['GROUP']
 		}),
 
-		// Areas
-		getAreaInfo: build.query<IArea['name'], IArea>({
-			query: areaId => ({
-				url: `area/${areaId}`
+		// Directions
+		getDirectionInfo: build.query<IDirection, IDirection['name']>({
+			query: directionId => ({
+				url: `direction/${directionId}`
 			})
 		}),
-		getAreas: build.query<unknown, IArea[]>({
+		getDirections: build.query<TParamsResponse<IDirection>, void>({
 			query: () => ({
-				url: 'areas'
+				url: 'direction'
 			}),
-			providesTags: ['AREA']
+			providesTags: ['DIRECTION']
 		}),
-		createArea: build.mutation<CreateAreaDto, IArea>({
-			query: area => ({
+		createDirection: build.mutation<IDirection, CreateDirectionDto>({
+			query: direction => ({
 				method: 'POST',
-				url: 'area',
-				body: area
+				url: 'direction',
+				body: direction
 			}),
-			invalidatesTags: ['AREA']
+			invalidatesTags: ['DIRECTION']
 		}),
 
-		// Locations
-		getLocationInfo: build.query<ILocation['id'], ILocation>({
-			query: locationId => ({
-				url: `location/${locationId}`
+		// Clubs
+		getClubInfo: build.query<IClub, IClub['id']>({
+			query: clubId => ({
+				url: `club/${clubId}`
 			})
 		}),
-		getLocations: build.query<unknown, ILocation[]>({
+		getClubs: build.query<TParamsResponse<IClub>, void>({
 			query: () => ({
-				url: 'locations'
+				url: 'club'
 			}),
-			providesTags: ['LOCATION']
+			providesTags: ['CLUB']
 		}),
-		createLocation: build.mutation<CreateLocationDto, ILocation>({
-			query: location => ({
+		createClub: build.mutation<IClub, CreateClubDto>({
+			query: club => ({
 				method: 'POST',
-				url: 'locations',
-				body: location
+				url: 'club',
+				body: club
 			}),
-			invalidatesTags: ['LOCATION']
+			invalidatesTags: ['CLUB']
 		})
 	})
 })
 
 export const {
 	useCreateGroupMutation,
-	useCreateAreaMutation,
-	useCreateLocationMutation,
-	useGetAreaInfoQuery,
+	useCreateDirectionMutation,
+	useCreateClubMutation,
+	useGetDirectionInfoQuery,
 	useGetGroupInfoQuery,
-	useGetLocationInfoQuery,
-	useGetAreasQuery,
+	useGetClubInfoQuery,
+	useGetDirectionsQuery,
 	useGetGroupsQuery,
-	useGetLocationsQuery
+	useGetClubsQuery
 } = paramsApi

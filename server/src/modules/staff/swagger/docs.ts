@@ -16,7 +16,7 @@ export class StaffDocSwagger {
 	static create() {
 		return applyDecorators(
 			ApiOperation({
-				summary: 'Создание нового профиля для управляющего',
+				summary: 'Создание нового профиля персонала',
 				description: 'Только с ролью director'
 			}),
 			ApiOkResponse({ description: 'Профиль успешно создан', type: CreateStaffOk }),

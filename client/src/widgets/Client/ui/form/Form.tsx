@@ -1,7 +1,8 @@
 import { Controller, useForm } from 'react-hook-form'
 
-import { Button, Input, Select, TextArea } from '@/shared'
 import { Typography } from 'antd'
+
+import { Button, Input, Select, TextArea } from '@shared/ui'
 
 import cl from './Form.module.scss'
 import { newClientFromItemsArr } from './form.data'

@@ -1,7 +1,9 @@
 type TLoginErrorResponse = {
-	message: string
-	error: string
-	statusCode: number
+	data: {
+		message: string
+		error: string
+		statusCode: number
+	}
 }
 
 export default TLoginErrorResponse

@@ -1,9 +1,13 @@
-import { Table } from '@entities/Table'
+import { useState } from 'react'
+
 // eslint-disable-next-line import/no-internal-modules
 import data from '@/data/clients.data.json'
-import styles from './ListOfClients.module.scss'
-import { useState } from 'react'
+
 import { Pagination } from '@features/Paggination'
+
+import { TBodyContent, Table } from '@entities/Table'
+
+import styles from './ListOfClients.module.scss'
 
 export const ListOfClients = () => {
 	const [limit, setLimit] = useState<number>(20)
@@ -13,16 +17,26 @@ export const ListOfClients = () => {
 		{ label: 'Почта', key: 'email' },
 		{ label: 'Телефон', key: 'phone' },
 		{ label: 'Номер карты', key: 'cardNumber' },
-		{ label: 'Пол', key: 'sex' },
+		{ label: 'Пол', key: 'sex' }
 	]
 
 	const total = 100
 
 	return (
 		<div className={styles.root}>
-			<Table content={data} cols={cols} total={total} limit={limit} setLimit={setLimit} />
-			<Pagination limit={limit} total={total} page={page} setPage={setPage} />
+			<Table
+				content={data as unknown as TBodyContent[]}
+				cols={cols}
+				total={total}
+				limit={limit}
+				setLimit={setLimit}
+			/>
+			<Pagination
+				limit={limit}
+				total={total}
+				page={page}
+				setPage={setPage}
+			/>
 		</div>
-
 	)
 }

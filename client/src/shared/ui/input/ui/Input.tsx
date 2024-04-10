@@ -1,29 +1,26 @@
-import { FC, useId } from 'react'
-import { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form'
+import { ChangeEvent, FC, useId } from 'react'
+import type { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form'
 
-import { Select as AntdSelect, SelectProps } from 'antd'
+import { Input as AntdInput, type InputProps } from 'antd'
 import clsx from 'clsx'
 
-import cl from './Select.module.scss'
-import { TOption } from './types'
+import cl from './index.module.scss'
 
-type TSelectProps = SelectProps & {
+type TInputProps = InputProps & {
 	label?: string
 	error?: string | FieldError | Merge<FieldError, FieldErrorsImpl>
 	field: {
-		onChange: () => void
-		value: unknown
+		onChange: (e: ChangeEvent<HTMLInputElement>) => void
+		value: string | string[] | number
 	}
-	options?: TOption[]
-	bodyClassName: string
+	bodyClassName?: string
 }
 
-const Select: FC<TSelectProps> = ({
-	bodyClassName,
-	options,
+export const Input: FC<TInputProps> = ({
 	label,
 	error,
 	field,
+	bodyClassName,
 	...props
 }) => {
 	const id = useId()
@@ -35,9 +32,7 @@ const Select: FC<TSelectProps> = ({
 					{label}
 				</label>
 			)}
-			<AntdSelect
-				defaultValue={options ? options[0] : ''}
-				options={options}
+			<AntdInput
 				{...field}
 				{...props}
 				id={id}
@@ -50,5 +45,3 @@ const Select: FC<TSelectProps> = ({
 		</div>
 	)
 }
-
-export default Select

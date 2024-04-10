@@ -8,10 +8,8 @@ import cl from './Button.module.scss'
 
 type TButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & ButtonProps
 
-const Button: FC<TButtonProps> = ({ children, className, ...props }) => (
+export const Button: FC<TButtonProps> = ({ children, className, ...props }) => (
 	<AntdButton {...props} className={clsx(cl.root, className)}>
 		{children}
 	</AntdButton>
 )
-
-export default Button
