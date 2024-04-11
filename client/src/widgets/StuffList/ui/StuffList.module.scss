@@ -2,4 +2,35 @@
 	&__add_btn {
 		margin-bottom: 20px;
 	}
+
+	&__info {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		background: #fafafa;
+		padding: 10px 10px 0 10px;
+
+		span {
+			font-weight: 500;
+		}
+
+		&__pagination {
+			display: flex;
+			align-items: center;
+			column-gap: 10px;
+		}
+	}
+
+	&__form {
+		display: flex;
+		flex-direction: column;
+		row-gap: 10px;
+
+		&__title {
+			font-weight: 500;
+			font-size: 20px;
+			line-height: 30px;
+			text-align: center;
+		}
+	}
 }

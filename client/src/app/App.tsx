@@ -44,6 +44,10 @@ function App() {
 							borderRadiusXS: 0,
 							controlHeight: 35
 						}
+					},
+					token: {
+						colorPrimary: 'rgb(0, 149, 55)',
+						colorInfo: 'var(--accent)'
 					}
 				}}
 			>

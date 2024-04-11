@@ -1,12 +1,11 @@
 import { useState } from 'react'
 
-import { Button, Input, Table } from 'antd'
+import { Button, Input, Radio, Table } from 'antd'
 
 import { Modal } from '@shared/ui'
 
-import { stuffArr } from './stuff.data'
-
 import cl from './StuffList.module.scss'
+import { stuffArr } from './stuff.data'
 
 export type Employee = {
 	id: number
@@ -15,7 +14,7 @@ export type Employee = {
 	age: number
 }
 
-export const StaffList = () => {
+export const StuffList = () => {
 	const [employees, setEmployees] = useState(stuffArr)
 	const [isModalVisible, setIsModalVisible] = useState(false)
 	const [newEmployee, setNewEmployee] = useState({
@@ -23,16 +22,33 @@ export const StaffList = () => {
 		position: '',
 		age: 0
 	})
+	const paginationSizeOptions = [10, 20, 50]
+	const [paginationSize, setPaginationSize] = useState(
+		paginationSizeOptions[0]
+	)
 
 	const columns = [
-		{ title: 'ID', dataIndex: 'id', key: 'id' },
-		{ title: 'Name', dataIndex: 'name', key: 'name' },
-		{ title: 'Position', dataIndex: 'position', key: 'position' },
+		{
+			title: 'ID',
+			dataIndex: 'id',
+			key: 'id',
+			width: '10px',
+			sorter: (a: Employee, b: Employee) => a.id - b.id
+		},
+		{ title: 'Name', dataIndex: 'name', key: 'name', width: '300px' },
+		{
+			title: 'Position',
+			dataIndex: 'position',
+			key: 'position',
+			sorter: (a: Employee, b: Employee) =>
+				a.position.localeCompare(b.position)
+		},
 		{
 			title: 'Age',
 			dataIndex: 'age',
 			key: 'age',
-			sorter: (a: Employee, b: Employee) => a.age - b.age
+			sorter: (a: Employee, b: Employee) => a.age - b.age,
+			width: '10px'
 		},
 		{
 			title: 'Action',
@@ -65,13 +81,39 @@ export const StaffList = () => {
 
 	return (
 		<div className={cl.root}>
-			<Button onClick={handleAdd} className={cl.root__add_btn}>Add Employee</Button>
-			<Table columns={columns} dataSource={employees} />
+			<Button onClick={handleAdd} className={cl.root__add_btn}>
+				Add Employee
+			</Button>
+			<div className={cl.root__info}>
+				<p>
+					Всего работников: <span>{employees.length}</span>
+				</p>
+				<div className={cl.root__info__pagination}>
+					<p>Отображать по:</p>
+					<Radio.Group
+						onChange={e => setPaginationSize(e.target.value)}
+					>
+						{paginationSizeOptions.map(size => (
+							<Radio.Button key={size} value={size}>
+								{size}
+							</Radio.Button>
+						))}
+					</Radio.Group>
+				</div>
+			</div>
+			<Table
+				columns={columns}
+				dataSource={employees}
+				scroll={{ x: 'max-content' }}
+				pagination={{
+					pageSize: paginationSize
+				}}
+			/>
 			<Modal isOpen={isModalVisible} setIsOpen={setIsModalVisible}>
-				<form>
-					<h2>Add Employee</h2>
+				<form className={cl.root__form}>
+					<h2 className={cl.root__form__title}>Add Employee</h2>
 					<label autoFocus htmlFor='name'>
-						Name
+						Name:
 					</label>
 					<Input
 						required
@@ -84,7 +126,7 @@ export const StaffList = () => {
 							})
 						}
 					/>
-					<label htmlFor='position'>Position</label>
+					<label htmlFor='position'>Position:</label>
 					<Input
 						required
 						id='position'
@@ -96,7 +138,7 @@ export const StaffList = () => {
 							})
 						}
 					/>
-					<label htmlFor='age'>Age</label>
+					<label htmlFor='age'>Age:</label>
 					<Input
 						type='number'
 						required
