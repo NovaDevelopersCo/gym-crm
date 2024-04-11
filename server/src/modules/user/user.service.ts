@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
-import { CreateUserDto, FindAllUserDto } from './dto'
+import { CreateUserDto, FindAllUserDto, UpdateUserDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { UserEntity } from './entities'
 import { ILike, Repository } from 'typeorm'
@@ -7,13 +7,15 @@ import { GroupService } from '@modules/group/group.service'
 import { ClubService } from '@modules/club/club.service'
 import { PaginationDto } from '@/core/pagination'
 import { GroupEntity } from '../group/entities'
+import { StaffService } from '../staff/staff.service'
 
 @Injectable()
 export class UserService {
 	constructor(
 		@InjectRepository(UserEntity) private readonly userRepository: Repository<UserEntity>,
 		private readonly groupService: GroupService,
-		private readonly clubService: ClubService
+		private readonly clubService: ClubService,
+		private readonly staffService: StaffService
 	) {}
 
 	async create({ email, phone, cardNumber, ...dto }: CreateUserDto) {
@@ -36,6 +38,7 @@ export class UserService {
 
 		await this.clubService.getById(dto.club)
 		const groups = await this.groupService.getByIds(dto.groups)
+		const trainers = await this.staffService.getByIds(dto.trainers)
 
 		this.checkAllGroupInClub(groups, dto.club)
 
@@ -45,6 +48,7 @@ export class UserService {
 			cardNumber,
 			...dto,
 			groups,
+			trainers,
 			club: {
 				id: dto.club
 			}
@@ -58,12 +62,13 @@ export class UserService {
 		}
 	}
 
-	async getOneById(id: number) {
+	async getById(id: number) {
 		const user = await this.userRepository.findOne({
 			where: { id },
 			relations: {
 				groups: true,
-				club: true
+				club: true,
+				trainers: true
 			}
 		})
 
@@ -72,7 +77,7 @@ export class UserService {
 		return user
 	}
 
-	async findAll({ count, page, q, searchBy, sortOrder, sortBy }: FindAllUserDto) {
+	async getAll({ count, page, q, searchBy, sortOrder, sortBy }: FindAllUserDto) {
 		const [users, total] = await this.userRepository.findAndCount({
 			where: {
 				[searchBy]: ILike(`%${q}%`)
@@ -84,15 +89,16 @@ export class UserService {
 			skip: count * page - count,
 			relations: {
 				groups: true,
-				club: true
+				club: true,
+				trainers: true
 			}
 		})
 
 		return new PaginationDto(users, total)
 	}
 
-	async update(id: number, dto: CreateUserDto) {
-		const user = await this.getOneById(id)
+	async update(id: number, dto: UpdateUserDto) {
+		const user = await this.getById(id)
 
 		if (dto.email !== user.email) await this.checkEmail(dto.email)
 		if (dto.cardNumber !== user.cardNumber) await this.checkCardNumber(dto.cardNumber)
@@ -103,6 +109,7 @@ export class UserService {
 		if (dto.club !== user.club.id) club = await this.clubService.getById(dto.club)
 
 		const oldGroups = user.groups.map(group => group.id)
+		const trainers = await this.staffService.getByIds(dto.trainers)
 		const check = this.checkArraysEqual(oldGroups, dto.groups)
 		let groups = user.groups
 		if (!check) {
@@ -122,6 +129,7 @@ export class UserService {
 		} = await this.userRepository.save({
 			...user,
 			...dto,
+			trainers,
 			groups,
 			club
 		})
@@ -134,7 +142,7 @@ export class UserService {
 	//! isDelete: true
 	// ! beta
 	async delete(id: number) {
-		await this.getOneById(id)
+		await this.getById(id)
 
 		await this.userRepository.delete({ id })
 		return

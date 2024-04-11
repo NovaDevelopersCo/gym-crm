@@ -2,8 +2,8 @@ import { StaffEntity } from '@/modules/staff/entities'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { hash } from 'bcrypt'
-import { Repository } from 'typeorm'
-import { CreateDto } from './dto'
+import { In, Repository } from 'typeorm'
+import { CreateStaffDto } from './dto'
 import { EStaffRole } from '@/core/enums'
 
 @Injectable()
@@ -32,7 +32,7 @@ export class StaffService {
 		return staff
 	}
 
-	async create({ password, ...data }: CreateDto) {
+	async create({ password, ...data }: CreateStaffDto) {
 		if (data.role === 'director') {
 			throw new BadRequestException(
 				'Нельзя создать более одного аккаунта управляющего директора'
@@ -77,5 +77,30 @@ export class StaffService {
 		admin.club = null
 
 		return admin
+	}
+
+	async getByIds(ids: number[]) {
+		const staffs = await this.staffRepository.find({
+			where: { id: In(ids) },
+			relations: {
+				club: true,
+				groups: true
+			}
+		})
+
+		const errorMessages = []
+
+		ids.map(id => {
+			const staff = staffs.some(s => s.id === id)
+			if (!staff) {
+				errorMessages.push(`Персонал с id: ${id} не найден`)
+			}
+		})
+
+		if (errorMessages.length) {
+			throw new BadRequestException(errorMessages)
+		}
+
+		return staffs
 	}
 }

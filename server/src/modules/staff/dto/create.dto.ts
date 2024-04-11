@@ -3,7 +3,7 @@ import { IsEnum, IsString, IsEmail, MinLength, MaxLength } from 'class-validator
 import { ECreateStaffRole, EStaffRole } from '@/core/enums'
 import { ApiProperty } from '@nestjs/swagger'
 
-export class CreateDto {
+export class CreateStaffDto {
 	@ApiProperty({
 		minLength: 2,
 		maxLength: 100,

@@ -39,7 +39,7 @@ export class UserController {
 	@UserDocSwagger.getOne()
 	@Get(':id')
 	findOne(@Param() { id }: GetByIdParamsDto) {
-		return this.userService.getOneById(id)
+		return this.userService.getById(id)
 	}
 
 	// * K
@@ -52,7 +52,7 @@ export class UserController {
 	@UserDocSwagger.getAll()
 	@Get()
 	findAll(@Query() query: FindAllUserDto) {
-		return this.userService.findAll(query)
+		return this.userService.getAll(query)
 	}
 
 	// * K

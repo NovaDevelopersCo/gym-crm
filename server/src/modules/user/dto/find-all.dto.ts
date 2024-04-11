@@ -9,7 +9,6 @@ enum ESort {
 	CARD_NUMBER = 'cardNumber',
 	BIRTHDAY = 'birthday'
 }
-// * Simple search
 enum ESearch {
 	FIO = 'fio',
 	PHONE = 'phone',

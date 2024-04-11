@@ -123,6 +123,20 @@ export class GroupService {
 				club: true
 			}
 		})
+
+		const errorMessages = []
+
+		ids.map(id => {
+			const group = groups.some(g => g.id === id)
+			if (!group) {
+				errorMessages.push(`Группа с id: ${id} не найден`)
+			}
+		})
+
+		if (errorMessages.length) {
+			throw new BadRequestException(errorMessages)
+		}
+
 		return groups
 	}
 }

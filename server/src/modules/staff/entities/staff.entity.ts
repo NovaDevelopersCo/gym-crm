@@ -1,5 +1,5 @@
 import { BaseEntity } from '@/core/database/entity'
-import { Column, Entity, JoinColumn, ManyToMany, OneToMany, OneToOne } from 'typeorm'
+import { Column, Entity, ManyToMany, OneToMany, OneToOne } from 'typeorm'
 
 import { EStaffRole } from '@/core/enums'
 import { GroupEntity } from '@/modules/group/entities'
@@ -31,7 +31,6 @@ export class StaffEntity extends BaseEntity {
 	groups: GroupEntity[]
 
 	@OneToOne(() => ClubEntity, club => club.admin, { onDelete: 'SET NULL' })
-	@JoinColumn()
 	club: ClubEntity
 
 	@ManyToMany(() => UserEntity, user => user.trainers)

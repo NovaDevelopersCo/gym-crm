@@ -10,54 +10,57 @@ import {
 } from 'class-validator'
 
 export class CreateUserDto {
-	@ApiProperty({ example: 'email@gmail.com' })
+	@ApiProperty({ default: 'email@gmail.com' })
 	@IsEmail({}, { message: 'Невалидная почта' })
 	email: string
 
-	@ApiProperty({ example: '79003001122' })
+	@ApiProperty({ default: '79003001122' })
 	@IsPhoneNumber('RU', { message: 'Некорректный номер' })
 	phone: string
 
-	@ApiProperty({ example: 'Иванов Иван Иванович' })
+	@ApiProperty({ default: 'Иванов Иван Иванович' })
 	@IsString({ message: 'ФИО должно быть строкой' })
 	fio: string
 
 	// ! may be optional?
-	@ApiProperty({ example: '5464665866903741', description: 'Номер карты' })
+	@ApiProperty({ default: '5464665866903741', description: 'Номер карты' })
 	@IsCreditCard({ message: 'Некорректный номер карты' })
 	cardNumber: string
 
 	@ApiProperty({
 		required: false,
-		example: '2021-04-19',
-		description: 'Дата рождения '
+		default: '2021-04-19'
 	})
 	@IsOptional()
 	@IsDateString({}, { message: 'День рождение должен быть ISO формата (yyyy-mm-dd)' })
 	birthday?: string
 
-	@ApiProperty({ required: false, description: 'Существующий опыт', example: 'Дзюдо, плаванье' })
+	@ApiProperty({ required: false, default: 'Дзюдо, плаванье' })
 	@IsOptional()
 	@IsString({ message: 'experienceBefore должно быть строкой' })
 	experienceBefore?: string
 
 	@ApiProperty({
 		required: false,
-		description: 'Как узнали о клубе',
-		example: 'Посоветовал друг, увидел в интернете'
+		default: 'Посоветовал друг, увидел в интернете'
 	})
 	@IsOptional()
 	@IsString({ message: 'howKnow должно быть строкой' })
 	howKnow?: string
 
-	@ApiProperty({ description: 'Клуб в который пользователь хочет записаться', example: 2 })
+	@ApiProperty({ default: 2 })
 	@IsInt({ message: 'Id клуба должен быть числом' })
 	club: number
 
 	@ApiProperty({
-		description: 'Группы в которые пользователь хочет записаться',
-		example: [3, 5, 6]
+		default: [3, 5, 6]
 	})
 	@IsInt({ each: true, message: 'Id групп должны быть числом' })
 	groups: number[]
+
+	@ApiProperty({
+		default: [15, 65, 9]
+	})
+	@IsInt({ each: true, message: 'Id тренеров должны быть числом' })
+	trainers: number[]
 }

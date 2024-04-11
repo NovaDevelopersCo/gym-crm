@@ -43,6 +43,7 @@ export class UserEntity extends BaseEntity {
 	groups: GroupEntity[]
 
 	@ManyToMany(() => StaffEntity, trainer => trainer.users)
+	@JoinTable()
 	trainers: StaffEntity[]
 
 	@ManyToOne(() => ClubEntity, club => club.users, { onDelete: 'SET NULL' })

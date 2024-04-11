@@ -5,9 +5,10 @@ import { TypeOrmModule } from '@nestjs/typeorm'
 import { UserEntity } from './entities'
 import { ClubModule } from '@/modules/club/club.module'
 import { GroupModule } from '@/modules/group/group.module'
+import { StaffModule } from '../staff/staff.module'
 
 @Module({
-	imports: [TypeOrmModule.forFeature([UserEntity]), ClubModule, GroupModule],
+	imports: [TypeOrmModule.forFeature([UserEntity]), ClubModule, GroupModule, StaffModule],
 	controllers: [UserController],
 	providers: [UserService],
 	exports: [UserService]

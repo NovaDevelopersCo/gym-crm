@@ -14,7 +14,7 @@ export class UserDocSwagger {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Анкета регистрации пользователя',
-				description: 'Только с ролями Admin и Director'
+				description: 'Только с ролями admin и director'
 			}),
 			ApiNotFoundResponse({ description: ESwaggerMessages.NO_FOUND_DEPENDENT_OBJECTS }),
 			ApiCreatedResponse({
@@ -29,7 +29,7 @@ export class UserDocSwagger {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Поиск пользователя по id',
-				description: 'Только с ролями Admin и Director'
+				description: 'Только с ролями admin и director'
 			}),
 			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
 			ApiOkResponse({
@@ -44,7 +44,7 @@ export class UserDocSwagger {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Вывод всех пользователей с пагинацией',
-				description: 'Только с ролями Admin и Director'
+				description: 'Только с ролями admin и director'
 			}),
 			ApiOkResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_GET_ALL,
@@ -58,7 +58,7 @@ export class UserDocSwagger {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Обновление пользователя',
-				description: 'Только с ролями Admin и Director'
+				description: 'Только с ролями admin и director'
 			}),
 			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
 			ApiOkResponse({
@@ -73,7 +73,7 @@ export class UserDocSwagger {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Удаление пользователя',
-				description: 'Только с ролями Admin и Director'
+				description: 'Только с ролями admin и director'
 			}),
 			BaseDocSwagger.delete()
 		)
