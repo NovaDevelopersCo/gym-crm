@@ -16,10 +16,10 @@ function App() {
 							colorPrimary: 'var(--accent)',
 							colorPrimaryHover: 'var(--accent)',
 							controlOutline: 'var(--accent-lighter-transparent)',
-							borderRadius: 0,
-							borderRadiusLG: 0,
-							borderRadiusSM: 0,
-							borderRadiusXS: 0,
+							borderRadius: 6,
+							borderRadiusLG: 6,
+							borderRadiusSM: 6,
+							borderRadiusXS: 6,
 							controlHeight: 35
 						},
 						Checkbox: {
