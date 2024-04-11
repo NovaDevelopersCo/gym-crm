@@ -1,0 +1,41 @@
+.root {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	gap: 40px;
+	background-color: #fafafa;
+	border: 1px solid #ecedf2;
+	padding: 20px;
+
+	&__cell {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		font-weight: 500;
+
+		label {
+			cursor: pointer;
+		}
+
+		// input {
+		// 	padding: 5px 10px;
+		// 	height: 35px;
+		// 	background-color: #fff;
+		// 	outline: 1px solid #dfdfdf;
+		// 	border: none;
+		// 	border-radius: 0px;
+
+		// 	&:focus,
+		// 	&:active,
+		// 	&:hover {
+		// 		outline: 1px solid #bcbcbc;
+		// 		// box-shadow: 0 0 0 1px #bcbcbc;
+		// 	}
+		// }
+
+		&__select {
+		}
+
+		&__checkbox {
+		}
+	}
+}

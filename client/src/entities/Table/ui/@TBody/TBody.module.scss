@@ -1,0 +1,30 @@
+.body {
+	display: grid;
+	grid-column: 1 / -1;
+	grid-template-columns: subgrid;
+	grid-auto-rows: 50px;
+	text-wrap: nowrap;
+
+	&__row {
+		border-left: 1px solid grey;
+		border-right: 1px solid grey;
+		border-bottom: 1px solid grey;
+		display: grid;
+		grid-template-columns: subgrid;
+		grid-column: 1 / -1;
+		color: black;
+	}
+	&__col {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 10px;
+
+		&:not(button):nth-of-type(1) {
+			position: sticky;
+			left: 0;
+			box-shadow: 5px 0px 5px #cecece;
+			background-color: white;
+		}
+	}
+}

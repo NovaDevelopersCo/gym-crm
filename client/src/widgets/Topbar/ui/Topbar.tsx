@@ -1,17 +1,19 @@
-import { Bell, File, FolderClosed, User } from 'lucide-react'
+// import { Bell, File, FolderClosed,  } from 'lucide-react'
+import { User } from 'lucide-react'
 
 import { useAppSelector } from '@store/index'
 
 import { LogoutBtn } from '@features/Auth'
 
 import cl from './Topbar.module.scss'
-import { topbarCounts } from './topbarCounts.data'
+
+// import { topbarCounts } from './topbarCounts.data'
 
 export const Topbar = () => {
 	const user = useAppSelector(state => state['auth/slice'].user!)
 	return (
 		<header className={cl.root}>
-			<h1>Наставник академия единоборств</h1>
+			<h1 className={cl.root__title}>Наставник академия единоборств</h1>
 			<div className={cl.root__buttons}>
 				{/* <button className={cl.root__buttons__invoice}>
 					<File size={18} />
@@ -32,9 +34,8 @@ export const Topbar = () => {
 					)}
 					<Bell size={15} />
 				</button> */}
-				{/*  */}
-				<h1>
-					{user?.name} ({user?.role})
+				<h1 className={cl.root__fio}>
+					{user?.fio} ({user?.role})
 				</h1>
 				<button className={cl.root__buttons__profile}>
 					<div className={cl.root__buttons__profile__bg}></div>

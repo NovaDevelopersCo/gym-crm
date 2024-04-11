@@ -5,7 +5,11 @@ import { AppModule } from './app.module'
 import { swaggerConfig } from '@configs'
 import * as cookieParser from 'cookie-parser'
 
-// swagger: auth + staff
+//TODO: FIX:
+// * (Going) make cascade in all schemas
+// * (Going) think whats return data in group
+
+// * use Pagination class
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)

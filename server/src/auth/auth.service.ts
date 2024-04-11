@@ -16,7 +16,7 @@ export class AuthService {
 	) {}
 
 	async login({ email, password }: LoginDto) {
-		const candidate = await this.staffService.byEmail(email)
+		const candidate = await this.staffService.getByEmail(email)
 
 		if (!candidate) {
 			throw new BadRequestException('Профиль не найден')
@@ -40,23 +40,20 @@ export class AuthService {
 		userId: string
 	): Promise<{
 		tokens: RefreshDto
-		profile: Pick<StaffEntity, 'email' | 'id' | 'role' | 'name'>
+		profile: Pick<StaffEntity, 'email' | 'id' | 'role' | 'fio'>
 	} | null> {
 		const tokenFromDb = await this.tokenService.findToken(refresh)
-		const user = await this.staffService.byId(+userId)
+		const profile = await this.staffService.getById(+userId)
 
-		if (!tokenFromDb || !user) {
+		if (!tokenFromDb || !profile) {
 			return null
 		}
 
-		const tokens = this.tokenService.generateTokens(user)
+		const tokens = this.tokenService.generateTokens(profile)
 
-		await this.tokenService.saveTokenToDb(tokens.refreshToken, user.id)
+		await this.tokenService.saveTokenToDb(tokens.refreshToken, profile.id)
 
-		// updateDate and createDate don't need into the client
-		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		const { password, createDate, updateDate, ...data } = user
-		return { tokens, profile: data }
+		return { tokens, profile }
 	}
 
 	async logout(refresh: string) {
