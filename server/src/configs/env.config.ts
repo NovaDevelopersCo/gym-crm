@@ -9,7 +9,7 @@ export class EnvironmentVariables {
 	@IsString()
 	POSTGRES_HOST: string
 
-	@IsString()
+	@IsNumber()
 	POSTGRES_PORT: number
 
 	@IsString()
