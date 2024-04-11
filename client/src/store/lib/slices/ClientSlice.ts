@@ -7,8 +7,7 @@ const initialState: IClientState = {}
 const clientSlice = createSlice({
 	name: 'client/slice',
 	initialState,
-	reducers: {},
-	extraReducers(builder) {}
+	reducers: {}
 })
 
 export default clientSlice

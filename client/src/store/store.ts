@@ -1,11 +1,7 @@
 import { combineSlices, configureStore } from '@reduxjs/toolkit'
+import { authApi, authSlice, clientApi, clientSlice, paramsApi } from '.'
 
-import { authApi, authSlice, paramsApi } from '.'
-
-const rootReducer = combineSlices(authSlice, authApi, paramsApi)
-import { authApi, authSlice, clientApi, clientSlice } from '.'
-
-const rootReducer = combineSlices(authSlice, authApi, clientApi, clientSlice)
+const rootReducer = combineSlices(authSlice, authApi, clientApi, clientSlice, paramsApi)
 
 export const setupStore = () => {
 	return configureStore({

@@ -1,6 +1,6 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
-import { LoginUserDto, authApi, useAppDispatch, useAppSelector } from '@/store'
+import { LoginStaffDto, authApi, useAppDispatch, useAppSelector } from '@/store'
 
 import { Button, Input } from '@shared/ui'
 
@@ -11,11 +11,11 @@ const LoginForm = () => {
 		formState: { errors },
 		handleSubmit,
 		control
-	} = useForm<LoginUserDto>()
+	} = useForm<LoginStaffDto>()
 	const dispatch = useAppDispatch()
 	const error = useAppSelector(state => state['auth/slice'].error)
 
-	const onSubmit: SubmitHandler<LoginUserDto> = data => {
+	const onSubmit: SubmitHandler<LoginStaffDto> = data => {
 		dispatch(authApi.endpoints.loginUser.initiate(data))
 	}
 

@@ -2,7 +2,7 @@ import { FC, useMemo } from 'react'
 
 import { EStuffRoles, paramsApi, useAppDispatch, useGetGroupsQuery } from '@store/index'
 
-import { CreatableSelect, Select } from '@shared/ui'
+import { CreatableSelect } from '@shared/ui'
 
 import { TSelectProps } from '../model'
 
