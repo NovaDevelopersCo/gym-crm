@@ -39,3 +39,14 @@
 		}
 	}
 }
+
+@media (max-width: 1059px) {
+	.root {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+@media (max-width: 741px) {
+	.root {
+		grid-template-columns: 1fr;
+	}
+}
