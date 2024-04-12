@@ -25,7 +25,7 @@ export class UserDocSwagger {
 		)
 	}
 
-	static getOne() {
+	static getById() {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Поиск пользователя по id',

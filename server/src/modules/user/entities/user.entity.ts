@@ -28,9 +28,6 @@ export class UserEntity extends BaseEntity {
 	@Column({ type: 'date', nullable: true })
 	birthday?: string
 
-	@Column({ nullable: true })
-	experienceBefore?: string
-
 	@OneToOne(() => AbonementEntity)
 	@JoinColumn()
 	abonement: AbonementEntity

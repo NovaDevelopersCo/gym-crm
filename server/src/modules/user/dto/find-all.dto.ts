@@ -16,7 +16,6 @@ enum ESearch {
 	EMAIL = 'email',
 	CARD_NUMBER = 'cardNumber',
 	BIRTHDAY = 'birthday',
-	EXPERIENCE_BEFORE = 'experienceBefore',
 	HOW_KNOW = 'howKnow'
 }
 

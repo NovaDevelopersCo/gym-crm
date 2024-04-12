@@ -36,7 +36,7 @@ export class UserController {
 	}
 
 	// * K
-	@UserDocSwagger.getOne()
+	@UserDocSwagger.getById()
 	@Get(':id')
 	findOne(@Param() { id }: GetByIdParamsDto) {
 		return this.userService.getById(id)

@@ -35,11 +35,6 @@ export class CreateUserDto {
 	@IsDateString({}, { message: 'День рождение должен быть ISO формата (yyyy-mm-dd)' })
 	birthday?: string
 
-	@ApiProperty({ required: false, default: 'Дзюдо, плаванье' })
-	@IsOptional()
-	@IsString({ message: 'experienceBefore должно быть строкой' })
-	experienceBefore?: string
-
 	@ApiProperty({
 		required: false,
 		default: 'Посоветовал друг, увидел в интернете'
