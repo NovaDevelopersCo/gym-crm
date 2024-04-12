@@ -1,6 +1,8 @@
 import { ConfigModuleOptions } from '@nestjs/config'
-import { IsNumber, IsString } from 'class-validator'
+import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator'
 import { envValidate } from '@core/utils'
+import { Type } from 'class-transformer'
+import { ENodeEnv } from '@/core/enums'
 
 export class EnvironmentVariables {
 	@IsNumber()
@@ -9,7 +11,8 @@ export class EnvironmentVariables {
 	@IsString()
 	POSTGRES_HOST: string
 
-	@IsString()
+	@Type(() => Number)
+	@IsNumber()
 	POSTGRES_PORT: number
 
 	@IsString()
@@ -26,6 +29,10 @@ export class EnvironmentVariables {
 
 	@IsString()
 	REFRESH_JWT_SECRET: string
+
+	@IsOptional()
+	@IsEnum(ENodeEnv)
+	NODE_ENV: ENodeEnv
 }
 
 export const EnvConfigOptions: ConfigModuleOptions = {

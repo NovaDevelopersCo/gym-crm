@@ -20,7 +20,6 @@ const baseQuery = fetchBaseQuery({
 		const state = getState() as RootState
 		const token = state['auth/slice'].accessToken
 		if (token) {
-			console.log(token)
 			headers.set('Authorization', `Bearer ${token}`)
 			headers.set('Content-Type', 'application/json')
 		}

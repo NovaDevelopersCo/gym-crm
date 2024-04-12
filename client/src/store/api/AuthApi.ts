@@ -1,5 +1,5 @@
 import {
-	LoginUserDto,
+	LoginStaffDto,
 	TLoginErrorResponse,
 	TRefreshResponse,
 	authSlice,
@@ -66,7 +66,7 @@ export const authApi = createApi({
 		// 		body: user
 		// 	})
 		// }),
-		loginUser: build.query<void, LoginUserDto>({
+		loginUser: build.query<void, LoginStaffDto>({
 			query: user => ({
 				method: 'POST',
 				url: 'login',

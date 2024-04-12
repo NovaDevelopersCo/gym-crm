@@ -39,6 +39,7 @@ const authSlice = createSlice({
 			.addMatcher(
 				authApi.endpoints.loginUser.matchRejected,
 				(state, { payload }) => {
+					// @ts-expect-error
 					state.error = (payload?.data?.message as string) || null
 				}
 			)

@@ -1,8 +1,7 @@
 import { combineSlices, configureStore } from '@reduxjs/toolkit'
+import { authApi, authSlice, clientApi, clientSlice, paramsApi } from '.'
 
-import { authApi, authSlice, paramsApi } from '.'
-
-const rootReducer = combineSlices(authSlice, authApi, paramsApi)
+const rootReducer = combineSlices(authSlice, authApi, clientApi, clientSlice, paramsApi)
 
 export const setupStore = () => {
 	return configureStore({
@@ -10,7 +9,8 @@ export const setupStore = () => {
 		middleware: getDefaultMiddleware =>
 			getDefaultMiddleware().concat([
 				authApi.middleware,
-				paramsApi.middleware
+				paramsApi.middleware,
+				clientApi.middleware
 			])
 	})
 }
