@@ -1,5 +1,11 @@
+import ClientInfo from '@widgets/ClientInfo/ui/ClientInfo'
+
 const ClientProfile = () => {
-	return <div>Client id Profile</div>
+	return (
+		<div>
+			<ClientInfo />
+		</div>
+	)
 }
 
 export default ClientProfile
