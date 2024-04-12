@@ -1,6 +1,7 @@
 import { ConfigModuleOptions } from '@nestjs/config'
 import { IsNumber, IsString } from 'class-validator'
 import { envValidate } from '@core/utils'
+import { Type } from 'class-transformer'
 
 export class EnvironmentVariables {
 	@IsNumber()
@@ -9,7 +10,8 @@ export class EnvironmentVariables {
 	@IsString()
 	POSTGRES_HOST: string
 
-	@IsString()
+	@Type(() => Number)
+	@IsNumber()
 	POSTGRES_PORT: number
 
 	@IsString()
