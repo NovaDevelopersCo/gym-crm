@@ -19,7 +19,6 @@ import { EStaffRole } from '@/core/enums'
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 import { StaffDocSwagger } from './swagger'
 import { GetByIdParamsDto } from '@/core/dto'
-import { Staff } from '@/core/decorators'
 
 @ApiTags('Персонал')
 @UseInterceptors(ClassSerializerInterceptor)
@@ -36,36 +35,27 @@ export class StaffController {
 		return this.staffService.create(dto)
 	}
 
-	// ! Продумать роли доступа
-	@RolesAuthGuard(EStaffRole.DIRECTOR, EStaffRole.ADMIN)
+	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	@StaffDocSwagger.getAll()
 	@Get()
 	getAll(@Query() query: FindAllStaffDto) {
 		return this.staffService.getAll(query)
 	}
 
-	// ! Продумать роли доступа
-	@RolesAuthGuard(EStaffRole.DIRECTOR, EStaffRole.ADMIN)
+	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	@StaffDocSwagger.getById()
 	@Get(':id')
 	getOne(@Param() { id }: GetByIdParamsDto) {
 		return this.staffService.getById(id, true)
 	}
 
-	// !checked
-	@RolesAuthGuard(EStaffRole.DIRECTOR, EStaffRole.ADMIN)
+	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	@StaffDocSwagger.update()
 	@Put(':id')
-	update(
-		@Param() { id }: GetByIdParamsDto,
-		@Body() dto: UpdateStaffDto,
-		@Staff('id') staffId: number,
-		@Staff('role') role: EStaffRole
-	) {
-		return this.staffService.update(id, dto, staffId, role)
+	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateStaffDto) {
+		return this.staffService.update(id, dto)
 	}
 
-	// ! Продумать роли доступа
 	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	@StaffDocSwagger.delete()
 	@Delete(':id')

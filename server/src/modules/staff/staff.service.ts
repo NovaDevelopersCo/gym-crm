@@ -80,10 +80,10 @@ export class StaffService {
 		}
 	}
 
-	async update(id: number, dto: UpdateStaffDto, staffId: number, role: EStaffRole) {
-		if (staffId !== id && role !== EStaffRole.DIRECTOR) {
-			throw new BadRequestException('Вы не можете менять данные чужого пользователя')
-		}
+	async update(id: number, dto: UpdateStaffDto) {
+		// if (staffId !== id && role !== EStaffRole.DIRECTOR) {
+		// 	throw new BadRequestException('Вы не можете менять данные чужого пользователя')
+		// }
 
 		const staff = await this.getById(id, true)
 
