@@ -21,7 +21,7 @@ export class GetGroupByIdOk extends PickType(CreateGroupDto, ['name']) {
 	})
 	club: GetClubByIdOk
 
-	// FIX
+	// FIX - add users list (extends from user/swagger/response.ts)
 	// @ApiProperty({
 	// 	isArray: true
 	// })

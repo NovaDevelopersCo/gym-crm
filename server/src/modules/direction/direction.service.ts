@@ -4,6 +4,7 @@ import { DirectionEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
 import { CreateDirectionDto, UpdateDirectionDto } from './dto'
 import { FindAllDirectionDto } from './dto'
+import { PaginationDto } from '@/core/pagination'
 
 @Injectable()
 export class DirectionService {
@@ -29,13 +30,7 @@ export class DirectionService {
 			}
 		})
 
-		// ! replace
-		return {
-			items,
-			meta: {
-				total
-			}
-		}
+		return new PaginationDto(items, total)
 	}
 
 	async getById(directionId: number) {
@@ -75,7 +70,7 @@ export class DirectionService {
 		return data
 	}
 
-	// FIX
+	// FIX - get error when try to delete
 	async delete(id: number) {
 		await this.getById(id)
 

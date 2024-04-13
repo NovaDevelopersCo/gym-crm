@@ -19,7 +19,7 @@ export class GetClubByIdOk extends OmitType(CreateClubDto, ['admin']) {
 	})
 	groups: ClubGroup
 
-	// FIX
+	// FIX - add users list (extends from user/swagger/response.ts)
 	@ApiProperty({
 		default: ['список пользователей....']
 	})

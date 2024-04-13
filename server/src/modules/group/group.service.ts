@@ -5,6 +5,7 @@ import { Repository, ILike, In } from 'typeorm'
 import { CreateGroupDto, UpdateGroupDto, FindAllGroupDto } from './dto'
 import { ClubService } from '../club/club.service'
 import { DirectionService } from '../direction/direction.service'
+import { PaginationDto } from '@/core/pagination'
 
 @Injectable()
 export class GroupService {
@@ -31,12 +32,7 @@ export class GroupService {
 			}
 		})
 
-		return {
-			items,
-			meta: {
-				total
-			}
-		}
+		return new PaginationDto(items, total)
 	}
 
 	async getById(groupId: number) {

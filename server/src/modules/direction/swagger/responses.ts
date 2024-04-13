@@ -8,7 +8,7 @@ class DirectionDto extends CreateDirectionDto {
 	@ApiProperty({ default: 111 })
 	id: number
 
-	// FIX
+	// FIX create class DirectionGroup here and use it into type: () => DirectionGroup
 	@ApiProperty({ isArray: true, type: () => PickType(GetGroupByIdOk, ['id', 'name']) })
 	groups?: GetGroupByIdOk
 }
