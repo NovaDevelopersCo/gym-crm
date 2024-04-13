@@ -16,12 +16,6 @@ export class GetAllGroupsOk extends PaginationResponse {
 					address: 'г. Москва ул. Кротова д. 120',
 					name: 'Super Club'
 				},
-				trainer: {
-					id: 76,
-					fio: 'Галоша Алексей Петрович',
-					email: 'trainer1@gmail.com',
-					role: 'trainer'
-				},
 				direction: {
 					id: 67,
 					name: 'Карате'
@@ -35,12 +29,6 @@ export class GetAllGroupsOk extends PaginationResponse {
 					id: 90,
 					address: 'г. Москва ул. Пышина д. 19',
 					name: 'Mass Club'
-				},
-				trainer: {
-					id: 44,
-					fio: 'Сваровский Геннадий Иванович',
-					email: 'trainer2@gmail.com',
-					role: 'trainer'
 				},
 				direction: {
 					id: 11,
@@ -71,16 +59,6 @@ export class GetGroupByIdOk {
 		}
 	})
 	club: number
-
-	@ApiProperty({
-		default: {
-			id: 56,
-			fio: 'Галоша Алексей Петрович',
-			email: 'trainer1@gmail.com',
-			role: 'trainer'
-		}
-	})
-	trainer: number
 
 	@ApiProperty({
 		default: 5

@@ -32,7 +32,7 @@ export class CreateStaffDto {
 
 	@ApiProperty({
 		enum: ECreateStaffRole,
-		default: 'admin / trainer'
+		default: 'admin'
 	})
 	@IsEnum(EStaffRole, { message: 'Невалидная роль' })
 	role: EStaffRole

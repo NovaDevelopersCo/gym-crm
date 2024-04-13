@@ -1,17 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger'
 import {
-	IsCreditCard,
 	IsDateString,
 	IsEmail,
 	IsInt,
 	IsOptional,
 	IsPhoneNumber,
-	IsString
+	IsString,
+	MaxLength,
+	MinLength
 } from 'class-validator'
 
 export class CreateUserDto {
 	@ApiProperty({ default: 'email@gmail.com' })
 	@IsEmail({}, { message: 'Невалидная почта' })
+	@MaxLength(200, { message: 'Максимальная длина почты 200 символов' })
 	email: string
 
 	@ApiProperty({ default: '79003001122' })
@@ -19,13 +21,10 @@ export class CreateUserDto {
 	phone: string
 
 	@ApiProperty({ default: 'Иванов Иван Иванович' })
+	@MinLength(2, { message: 'Минимальная длина фио 3 символа' })
+	@MaxLength(200, { message: 'Максимальная длина фио 200 символов' })
 	@IsString({ message: 'ФИО должно быть строкой' })
 	fio: string
-
-	// ! may be optional?
-	@ApiProperty({ default: '5464665866903741', description: 'Номер карты' })
-	@IsCreditCard({ message: 'Некорректный номер карты' })
-	cardNumber: string
 
 	@ApiProperty({
 		required: false,
@@ -41,6 +40,7 @@ export class CreateUserDto {
 	})
 	@IsOptional()
 	@IsString({ message: 'howKnow должно быть строкой' })
+	@MaxLength(300, { message: 'Максимальная длина как узнали о нас 300 символов' })
 	howKnow?: string
 
 	@ApiProperty({ default: 2 })
@@ -54,8 +54,10 @@ export class CreateUserDto {
 	groups: number[]
 
 	@ApiProperty({
-		default: [15, 65, 9]
+		default: 'my_account'
 	})
-	@IsInt({ each: true, message: 'Id тренеров должны быть числом' })
-	trainers: number[]
+	@IsOptional()
+	@IsString({ message: 'Аккаунт инстаграм должен быть строкой' })
+	@MaxLength(50, { message: 'Максимальная длина аккаунта в инстаграм 50 символов' })
+	instagram: string
 }

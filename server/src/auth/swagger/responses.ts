@@ -27,7 +27,7 @@ export class RefreshOk {
 	@ApiProperty({
 		default: {
 			fio: 'Васильев Василий Васильевич',
-			role: 'admin / trainer',
+			role: 'admin',
 			email: 'email@email.com',
 			id: '35'
 		}

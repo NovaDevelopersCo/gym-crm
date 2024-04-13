@@ -83,8 +83,7 @@ export class StaffService {
 		const staffs = await this.staffRepository.find({
 			where: { id: In(ids) },
 			relations: {
-				club: true,
-				groups: true
+				club: true
 			}
 		})
 

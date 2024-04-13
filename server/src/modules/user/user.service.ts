@@ -18,9 +18,9 @@ export class UserService {
 		private readonly staffService: StaffService
 	) {}
 
-	async create({ email, phone, cardNumber, ...dto }: CreateUserDto) {
+	async create({ email, phone, instagram, ...dto }: CreateUserDto) {
 		const oldUser = await this.userRepository.findOne({
-			where: [{ email }, { phone }, { cardNumber }]
+			where: [{ email }, { phone }, { instagram }]
 		})
 
 		if (oldUser) {
@@ -31,35 +31,27 @@ export class UserService {
 
 			if (oldUser.phone === phone) messages.push(msg('Номер телефона'))
 
-			if (oldUser.cardNumber === cardNumber) messages.push(msg('Номер карты'))
+			if (oldUser.instagram === instagram) messages.push(msg('Инстаграм'))
 
 			throw new BadRequestException(messages)
 		}
 
 		await this.clubService.getById(dto.club)
 		const groups = await this.groupService.getByIds(dto.groups)
-		const trainers = await this.staffService.getByIds(dto.trainers)
 
 		this.checkAllGroupInClub(groups, dto.club)
 
 		const createdUser = this.userRepository.create({
 			email,
 			phone,
-			cardNumber,
+			instagram,
 			...dto,
 			groups,
-			trainers,
 			club: {
 				id: dto.club
 			}
 		})
-		const savedUser = await this.userRepository.save(createdUser)
-		return {
-			id: savedUser.id,
-			email: savedUser.email,
-			phone: savedUser.phone,
-			fio: savedUser.fio
-		}
+		return this.userRepository.save(createdUser)
 	}
 
 	async getById(id: number) {
@@ -67,12 +59,13 @@ export class UserService {
 			where: { id },
 			relations: {
 				groups: true,
-				club: true,
-				trainers: true
+				club: true
 			}
 		})
 
-		if (!user) throw new NotFoundException(`Пользователя с id: ${id} не найдено`)
+		if (!user) {
+			throw new NotFoundException(`Пользователя с id: ${id} не найдено`)
+		}
 
 		return user
 	}
@@ -89,8 +82,7 @@ export class UserService {
 			skip: count * page - count,
 			relations: {
 				groups: true,
-				club: true,
-				trainers: true
+				club: true
 			}
 		})
 
@@ -101,7 +93,6 @@ export class UserService {
 		const user = await this.getById(id)
 
 		if (dto.email !== user.email) await this.checkEmail(dto.email)
-		if (dto.cardNumber !== user.cardNumber) await this.checkCardNumber(dto.cardNumber)
 		if (dto.phone !== user.phone) await this.checkPhone(dto.phone)
 
 		// TODO: if club null ?
@@ -109,7 +100,6 @@ export class UserService {
 		if (dto.club !== user.club.id) club = await this.clubService.getById(dto.club)
 
 		const oldGroups = user.groups.map(group => group.id)
-		const trainers = await this.staffService.getByIds(dto.trainers)
 		const check = this.checkArraysEqual(oldGroups, dto.groups)
 		let groups = user.groups
 		if (!check) {
@@ -129,7 +119,6 @@ export class UserService {
 		} = await this.userRepository.save({
 			...user,
 			...dto,
-			trainers,
 			groups,
 			club
 		})
@@ -169,18 +158,6 @@ export class UserService {
 
 	private async checkPhone(phone: string, userId?: number) {
 		const user = await this.userRepository.findOne({ where: { phone } })
-
-		if (!userId && user) {
-			throw new BadRequestException('Пользователь с таким email уже существует')
-		}
-
-		if (user && user.id !== userId) {
-			throw new BadRequestException('Пользователь с таким email уже существует')
-		}
-	}
-
-	private async checkCardNumber(cardNumber: string, userId?: number) {
-		const user = await this.userRepository.findOne({ where: { cardNumber } })
 
 		if (!userId && user) {
 			throw new BadRequestException('Пользователь с таким email уже существует')

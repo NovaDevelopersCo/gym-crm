@@ -3,26 +3,24 @@ import { QuerySearch } from '@/core/decorators'
 
 enum ESort {
 	FIO = 'fio',
-	PHONE = 'phone',
-	ADDRESS = 'address',
-	EMAIL = 'email',
-	CARD_NUMBER = 'cardNumber',
-	BIRTHDAY = 'birthday'
+	CREATE_DATE = 'createDate'
 }
 enum ESearch {
 	FIO = 'fio',
-	PHONE = 'phone',
-	ADDRESS = 'address',
-	EMAIL = 'email',
-	CARD_NUMBER = 'cardNumber',
-	BIRTHDAY = 'birthday',
-	HOW_KNOW = 'howKnow'
+	PHONE = 'phone'
 }
 
 export class FindAllUserDto extends FullQueryDto {
 	@QuerySearch(ESort, 'Сортировка по', "Параметр 'Сортировка по' невалиден")
 	sortBy: ESort = ESort.FIO
 
-	@QuerySearch(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден")
+	@QuerySearch<ESearch>(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
+		fio: {
+			maxLength: 200
+		},
+		phone: {
+			maxLength: 10
+		}
+	})
 	searchBy: ESort = ESort.FIO
 }

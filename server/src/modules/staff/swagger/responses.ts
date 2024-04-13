@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { ECreateStaffRole } from '@/core/enums'
 
 export class CreateStaffOk {
-	@ApiProperty({ enum: ECreateStaffRole, default: 'admin / trainer' })
+	@ApiProperty({ enum: ECreateStaffRole, default: 'admin' })
 	role: ECreateStaffRole
 
 	@ApiProperty({
