@@ -5,7 +5,9 @@ import { GetClubByIdOk } from '@/modules/club/swagger'
 import { PaginationResponse } from '@/core/swagger'
 
 export class ResponseUserDto extends PickType(CreateUserDto, ['fio', 'phone', 'email'] as const) {
-	@ApiProperty()
+	@ApiProperty({
+		default: 1
+	})
 	id: number
 }
 
@@ -19,7 +21,7 @@ export class GetUserByIdOk extends OmitType(CreateUserDto, ['groups', 'club'] as
 	club: ClubDto
 }
 
-export class GetAllUserDto extends PaginationResponse {
+export class GetAllUsersOk extends PaginationResponse {
 	@ApiProperty({ isArray: true })
 	items: GetUserByIdOk
 }

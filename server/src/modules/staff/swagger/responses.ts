@@ -1,17 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { ECreateStaffRole } from '@/core/enums'
+import { OmitType, PickType } from '@nestjs/swagger'
+import { CreateStaffDto } from '../dto'
 
-export class CreateStaffOk {
-	@ApiProperty({ enum: ECreateStaffRole, default: 'admin' })
-	role: ECreateStaffRole
-
+export class GetStaffByIdOk extends OmitType(CreateStaffDto, ['password']) {
 	@ApiProperty({
-		default: 'email@email.com'
+		default: 1
 	})
-	email: string
-
-	@ApiProperty({
-		default: '35'
-	})
-	id: string
+	id: number
 }
+
+export class CreateStaffOk extends PickType(GetStaffByIdOk, ['role', 'email', 'id']) {}

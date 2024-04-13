@@ -94,6 +94,7 @@ export class UserService {
 
 		if (dto.email !== user.email) await this.checkEmail(dto.email)
 		if (dto.phone !== user.phone) await this.checkPhone(dto.phone)
+		if (dto.instagram !== user.instagram) await this.checkInstagram(dto.instagram)
 
 		// TODO: if club null ?
 		let club = user.club
@@ -165,6 +166,14 @@ export class UserService {
 
 		if (user && user.id !== userId) {
 			throw new BadRequestException('Пользователь с таким email уже существует')
+		}
+	}
+
+	private async checkInstagram(instagram: string) {
+		const user = await this.userRepository.findOne({ where: { instagram } })
+
+		if (user) {
+			throw new BadRequestException('Пользователь с таким instagram уже существует')
 		}
 	}
 

@@ -5,7 +5,7 @@ import {
 	ApiOkResponse,
 	ApiOperation
 } from '@nestjs/swagger'
-import { GetAllUserDto, GetUserByIdOk, ResponseUserDto } from './responses'
+import { GetAllUsersOk, GetUserByIdOk, ResponseUserDto } from './responses'
 import { ESwaggerMessages } from '@/core/swagger'
 import { BaseDocSwagger } from '@/core/swagger/docs'
 
@@ -48,7 +48,7 @@ export class UserDocSwagger {
 			}),
 			ApiOkResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_GET_ALL,
-				type: GetAllUserDto
+				type: GetAllUsersOk
 			}),
 			BaseDocSwagger.authWithRole()
 		)
