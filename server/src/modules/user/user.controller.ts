@@ -19,6 +19,7 @@ import { RolesAuthGuard } from '@/auth/guards/role.guard'
 import { EStaffRole } from '@/core/enums'
 import { GetByIdParamsDto } from '@/core/dto'
 import { UserDocSwagger } from './swagger'
+import { Staff } from '@/core/decorators'
 
 @UseInterceptors(ClassSerializerInterceptor)
 @ApiTags('Пользователи')
@@ -38,8 +39,8 @@ export class UserController {
 	// * K
 	@UserDocSwagger.getById()
 	@Get(':id')
-	findOne(@Param() { id }: GetByIdParamsDto) {
-		return this.userService.getById(id)
+	findOne(@Param() { id }: GetByIdParamsDto, @Staff('id') staffId: number) {
+		return this.userService.getById(id, staffId)
 	}
 
 	// * K
@@ -51,8 +52,8 @@ export class UserController {
 	// * K
 	@UserDocSwagger.getAll()
 	@Get()
-	findAll(@Query() query: FindAllUserDto) {
-		return this.userService.getAll(query)
+	findAll(@Query() query: FindAllUserDto, @Staff('id') staffId: number) {
+		return this.userService.getAll(staffId, query)
 	}
 
 	// * K

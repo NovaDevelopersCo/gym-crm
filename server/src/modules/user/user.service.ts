@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
+import {
+	BadRequestException,
+	ForbiddenException,
+	Injectable,
+	NotFoundException
+} from '@nestjs/common'
 import { CreateUserDto, FindAllUserDto, UpdateUserDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { UserEntity } from './entities'
@@ -8,6 +13,7 @@ import { ClubService } from '@modules/club/club.service'
 import { PaginationDto } from '@/core/pagination'
 import { GroupEntity } from '../group/entities'
 import { StaffService } from '../staff/staff.service'
+import { EStaffRole } from '@/core/enums'
 
 @Injectable()
 export class UserService {
@@ -54,7 +60,19 @@ export class UserService {
 		return this.userRepository.save(createdUser)
 	}
 
-	async getById(id: number) {
+	async getById(id: number, staffId: number) {
+		const staff = await this.staffService.getById(staffId, true, { relations: { club: true } })
+
+		const isAdmin = staff.role === EStaffRole.ADMIN
+
+		const user = await this.getOneById(id)
+
+		if (!isAdmin && user.club !== staff.club) {
+			throw new ForbiddenException('Этот пользователь не относится к вашему клубу')
+		}
+	}
+
+	async getOneById(id: number) {
 		const user = await this.userRepository.findOne({
 			where: { id },
 			relations: {
@@ -70,10 +88,15 @@ export class UserService {
 		return user
 	}
 
-	async getAll({ count, page, q, searchBy, sortOrder, sortBy }: FindAllUserDto) {
+	async getAll(staffId: number, { count, page, q, searchBy, sortOrder, sortBy }: FindAllUserDto) {
+		const staff = await this.staffService.getById(staffId, true, { relations: { club: true } })
+
+		const isAdmin = staff.role === EStaffRole.ADMIN
+
 		const [users, total] = await this.userRepository.findAndCount({
 			where: {
-				[searchBy]: ILike(`%${q}%`)
+				[searchBy]: ILike(`%${q}%`),
+				club: isAdmin ? staff.club : undefined
 			},
 			order: {
 				[sortBy]: sortOrder
@@ -90,7 +113,7 @@ export class UserService {
 	}
 
 	async update(id: number, dto: UpdateUserDto) {
-		const user = await this.getById(id)
+		const user = await this.getOneById(id)
 
 		await this.checkEmail(dto.email, id)
 		await this.checkPhone(dto.phone, id)
@@ -129,10 +152,11 @@ export class UserService {
 		}
 	}
 
+	// FIX - need to test it
 	//! isDelete: true
 	// ! beta
 	async delete(id: number) {
-		await this.getById(id)
+		await this.getOneById(id)
 
 		await this.userRepository.delete({ id })
 		return

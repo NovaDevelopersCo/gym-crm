@@ -22,5 +22,5 @@ export class FindAllUserDto extends FullQueryDto {
 			maxLength: 10
 		}
 	})
-	searchBy: ESort = ESort.FIO
+	searchBy: ESearch = ESearch.FIO
 }

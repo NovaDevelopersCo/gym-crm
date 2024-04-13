@@ -2,7 +2,7 @@ import { StaffEntity } from '@/modules/staff/entities'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { hash } from 'bcrypt'
-import { In, Repository } from 'typeorm'
+import { In, Repository, FindOneOptions } from 'typeorm'
 import { CreateStaffDto } from './dto'
 import { EStaffRole } from '@/core/enums'
 
@@ -12,8 +12,11 @@ export class StaffService {
 		@InjectRepository(StaffEntity) private readonly staffRepository: Repository<StaffEntity>
 	) {}
 
-	async getById(staffId: number, withError?: boolean) {
-		const staff = await this.staffRepository.findOne({ where: { id: staffId } })
+	async getById(staffId: number, withError?: boolean, findOptions?: FindOneOptions<StaffEntity>) {
+		const staff = await this.staffRepository.findOne({
+			where: { id: staffId },
+			...findOptions
+		})
 
 		if (withError && !staff) {
 			throw new NotFoundException(`Управляющий с id: ${staffId} не найден`)
