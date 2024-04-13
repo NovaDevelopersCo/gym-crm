@@ -1,8 +1,6 @@
 import { BaseEntity } from '@/core/database/entity'
-import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm'
-
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
 import { EStaffRole } from '@/core/enums'
-import { GroupEntity } from '@/modules/group/entities'
 import { ClubEntity } from '@/modules/club/entities'
 import { Exclude } from 'class-transformer'
 
@@ -25,9 +23,6 @@ export class StaffEntity extends BaseEntity {
 		enum: EStaffRole
 	})
 	role: EStaffRole
-
-	@OneToMany(() => GroupEntity, group => group.trainer)
-	groups: GroupEntity[]
 
 	@OneToOne(() => ClubEntity, club => club.admin, { onDelete: 'SET NULL' })
 	@JoinColumn()

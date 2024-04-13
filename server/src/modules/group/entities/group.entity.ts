@@ -1,6 +1,5 @@
 import { BaseEntity } from '@/core/database/entity'
 import { Column, Entity, ManyToMany, ManyToOne } from 'typeorm'
-import { StaffEntity } from '@/modules/staff/entities'
 import { DirectionEntity } from '@/modules/direction/entities'
 import { ClubEntity } from '@/modules/club/entities'
 import { UserEntity } from '@/modules/user/entities'
@@ -17,9 +16,6 @@ export class GroupEntity extends BaseEntity {
 
 	@ManyToOne(() => ClubEntity, club => club.groups)
 	club: ClubEntity
-
-	@ManyToOne(() => StaffEntity, trainer => trainer.groups)
-	trainer: StaffEntity
 
 	@ManyToMany(() => UserEntity, user => user.groups)
 	users: UserEntity[]
