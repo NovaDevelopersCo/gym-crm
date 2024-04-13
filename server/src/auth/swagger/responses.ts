@@ -1,15 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger'
-
-import { ECreateStaffRole } from '@/core/enums'
+import { EStaffRole } from '@/core/enums'
 
 class Profile {
 	@ApiProperty()
 	fio: string
 
 	@ApiProperty({
-		enum: ECreateStaffRole
+		enum: EStaffRole
 	})
-	role: ECreateStaffRole
+	role: EStaffRole
 
 	@ApiProperty()
 	email: string
@@ -27,7 +26,7 @@ export class RefreshOk {
 	@ApiProperty({
 		default: {
 			fio: 'Васильев Василий Васильевич',
-			role: 'admin / trainer',
+			role: 'admin',
 			email: 'email@email.com',
 			id: '35'
 		}

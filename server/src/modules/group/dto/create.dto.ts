@@ -21,8 +21,4 @@ export class CreateGroupDto {
 	})
 	@IsNumber({}, { message: 'Id клуба должен быть числом' })
 	club: number
-
-	@ApiProperty({ default: 20 })
-	@IsNumber({}, { message: 'Id тренера должен быть числом' })
-	trainer: number
 }

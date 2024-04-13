@@ -6,7 +6,6 @@ import { CreateGroupDto, UpdateGroupDto, FindAllGroupDto } from './dto'
 import { StaffService } from '../staff/staff.service'
 import { ClubService } from '../club/club.service'
 import { DirectionService } from '../direction/direction.service'
-import { EStaffRole } from '@/core/enums'
 
 @Injectable()
 export class GroupService {
@@ -30,7 +29,6 @@ export class GroupService {
 			relations: {
 				direction: true,
 				club: true,
-				trainer: true,
 				users: true
 			}
 		})
@@ -49,7 +47,6 @@ export class GroupService {
 			relations: {
 				direction: true,
 				club: true,
-				trainer: true,
 				users: true
 			}
 		})
@@ -64,16 +61,13 @@ export class GroupService {
 	async create(dto: CreateGroupDto) {
 		await this.checkName(dto.name)
 
-		const trainer = await this.staffService.checkRole(dto.trainer, EStaffRole.TRAINER)
-
 		await this.clubService.getById(dto.club)
 		await this.directionService.getById(dto.direction)
 
 		const createdGroup = this.groupRepository.create({
 			...dto,
 			direction: { id: dto.direction },
-			club: { id: dto.club },
-			trainer: { id: trainer.id }
+			club: { id: dto.club }
 		})
 
 		return this.groupRepository.save(createdGroup)
@@ -83,7 +77,6 @@ export class GroupService {
 		const group = await this.getById(groupId)
 		await this.checkName(dto.name, groupId)
 		await this.clubService.getById(dto.club)
-		await this.staffService.getById(dto.trainer, true)
 		await this.directionService.getById(dto.direction)
 
 		// eslint-disable-next-line
@@ -91,7 +84,6 @@ export class GroupService {
 			...group,
 			...dto,
 			direction: { id: dto.direction },
-			trainer: { id: dto.trainer },
 			club: { id: dto.club }
 		})
 		return data
