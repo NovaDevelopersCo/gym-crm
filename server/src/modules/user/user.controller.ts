@@ -21,7 +21,7 @@ import { GetByIdParamsDto } from '@/core/dto'
 import { UserDocSwagger } from './swagger'
 
 @UseInterceptors(ClassSerializerInterceptor)
-@ApiTags('Пользователь')
+@ApiTags('Пользователи')
 @RolesAuthGuard(EStaffRole.ADMIN, EStaffRole.DIRECTOR)
 @UsePipes(new ValidationPipe({ whitelist: true }))
 @Controller('user')
@@ -29,7 +29,7 @@ export class UserController {
 	constructor(private readonly userService: UserService) {}
 
 	// * K
-	@UserDocSwagger.createQuestionnaireUser()
+	@UserDocSwagger.create()
 	@Post()
 	createQuestionnaireUser(@Body() dto: CreateUserDto) {
 		return this.userService.create(dto)

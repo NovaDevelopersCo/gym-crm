@@ -75,6 +75,7 @@ export class DirectionService {
 		return data
 	}
 
+	// FIX
 	async delete(id: number) {
 		await this.getById(id)
 

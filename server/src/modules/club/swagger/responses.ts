@@ -1,10 +1,12 @@
-import { ApiProperty, PickType, OmitType } from '@nestjs/swagger'
+import { IntersectionType, ApiProperty, PickType, OmitType } from '@nestjs/swagger'
 import { StaffEntity } from '@/modules/staff/entities'
-import { GroupEntity } from '@/modules/group/entities'
 import { UserEntity } from '@/modules/user/entities'
 import { PaginationResponse } from '@/core/swagger'
 import { CreateClubDto } from '../dto'
 import { GetStaffByIdOk } from '@/modules/staff/swagger'
+import { GetGroupByIdOk } from '@/modules/group/swagger'
+
+class ClubGroup extends PickType(GetGroupByIdOk, ['id', 'name']) {}
 
 export class GetClubByIdOk extends OmitType(CreateClubDto, ['admin']) {
 	@ApiProperty({
@@ -13,9 +15,11 @@ export class GetClubByIdOk extends OmitType(CreateClubDto, ['admin']) {
 	id: number
 
 	@ApiProperty({
-		default: ['список групп....']
+		isArray: true
 	})
-	groups: GroupEntity[]
+	groups: ClubGroup
+
+	// FIX
 	@ApiProperty({
 		default: ['список пользователей....']
 	})
@@ -40,4 +44,7 @@ export class CreateClubOk extends PickType(GetClubByIdOk, ['address', 'id', 'nam
 	})
 	admin: StaffEntity
 }
-export class UpdateClubOk extends CreateClubOk {}
+export class UpdateClubOk extends IntersectionType(
+	GetClubByIdOk,
+	PickType(CreateClubOk, ['admin'])
+) {}

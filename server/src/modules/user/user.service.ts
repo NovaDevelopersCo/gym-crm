@@ -92,9 +92,9 @@ export class UserService {
 	async update(id: number, dto: UpdateUserDto) {
 		const user = await this.getById(id)
 
-		if (dto.email !== user.email) await this.checkEmail(dto.email)
-		if (dto.phone !== user.phone) await this.checkPhone(dto.phone)
-		if (dto.instagram !== user.instagram) await this.checkInstagram(dto.instagram)
+		await this.checkEmail(dto.email, id)
+		await this.checkPhone(dto.phone, id)
+		await this.checkInstagram(dto.instagram, id)
 
 		// TODO: if club null ?
 		let club = user.club
@@ -169,10 +169,14 @@ export class UserService {
 		}
 	}
 
-	private async checkInstagram(instagram: string) {
+	private async checkInstagram(instagram: string, userId?: number) {
 		const user = await this.userRepository.findOne({ where: { instagram } })
 
-		if (user) {
+		if (!userId && user) {
+			throw new BadRequestException('Пользователь с таким instagram уже существует')
+		}
+
+		if (user && user.id !== userId) {
 			throw new BadRequestException('Пользователь с таким instagram уже существует')
 		}
 	}

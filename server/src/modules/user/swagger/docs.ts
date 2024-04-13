@@ -5,21 +5,21 @@ import {
 	ApiOkResponse,
 	ApiOperation
 } from '@nestjs/swagger'
-import { GetAllUsersOk, GetUserByIdOk, ResponseUserDto } from './responses'
+import { GetAllUsersOk, GetUserByIdOk, CreateUserOk } from './responses'
 import { ESwaggerMessages } from '@/core/swagger'
 import { BaseDocSwagger } from '@/core/swagger/docs'
 
 export class UserDocSwagger {
-	static createQuestionnaireUser() {
+	static create() {
 		return applyDecorators(
 			ApiOperation({
-				summary: 'Анкета регистрации пользователя',
+				summary: 'Создать нового пользователя',
 				description: 'Только с ролями admin и director'
 			}),
 			ApiNotFoundResponse({ description: ESwaggerMessages.NO_FOUND_DEPENDENT_OBJECTS }),
 			ApiCreatedResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_CREATE,
-				type: ResponseUserDto
+				type: CreateUserOk
 			}),
 			BaseDocSwagger.authWithRole()
 		)
@@ -28,7 +28,7 @@ export class UserDocSwagger {
 	static getById() {
 		return applyDecorators(
 			ApiOperation({
-				summary: 'Поиск пользователя по id',
+				summary: 'Получить пользователя по id',
 				description: 'Только с ролями admin и director'
 			}),
 			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
@@ -43,7 +43,7 @@ export class UserDocSwagger {
 	static getAll() {
 		return applyDecorators(
 			ApiOperation({
-				summary: 'Вывод всех пользователей с пагинацией',
+				summary: 'Получить список всех пользователей',
 				description: 'Только с ролями admin и director'
 			}),
 			ApiOkResponse({
@@ -57,7 +57,7 @@ export class UserDocSwagger {
 	static update() {
 		return applyDecorators(
 			ApiOperation({
-				summary: 'Обновление пользователя',
+				summary: 'Изменить пользователя',
 				description: 'Только с ролями admin и director'
 			}),
 			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
@@ -72,7 +72,7 @@ export class UserDocSwagger {
 	static delete() {
 		return applyDecorators(
 			ApiOperation({
-				summary: 'Удаление пользователя',
+				summary: 'Удалить пользователя',
 				description: 'Только с ролями admin и director'
 			}),
 			BaseDocSwagger.delete()
