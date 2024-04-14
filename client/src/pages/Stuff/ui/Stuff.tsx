@@ -1,9 +1,7 @@
-import { Typography } from 'antd'
-
-const { Title } = Typography
+import { StuffList } from '@widgets/StuffList'
 
 const Stuff = () => {
-	return <Title>Stuff (page to control stuff)</Title>
+	return <StuffList />
 }
 
 export default Stuff

@@ -77,6 +77,12 @@ module.exports = {
 			rules: {
 				'import/no-internal-modules': 'off'
 			}
+		},
+		{
+			files: ['./src/pages/ClientProfile/ui/ClientProfile.tsx'],
+			rules: {
+				'import/no-internal-modules': 'off'
+			}
 		}
 	],
 	reportUnusedDisableDirectives: true,
