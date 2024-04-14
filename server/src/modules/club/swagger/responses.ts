@@ -24,7 +24,9 @@ export class ClubDto extends OmitType(CreateClubDto, ['admin']) {
 	})
 	users: ClubUser
 
-	@ApiProperty()
+	@ApiProperty({
+		type: () => StaffDto
+	})
 	admin: StaffDto
 }
 
