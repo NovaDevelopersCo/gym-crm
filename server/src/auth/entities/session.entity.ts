@@ -9,7 +9,7 @@ export class SessionEntity extends BaseEntity {
 	})
 	token: string
 
-	@OneToOne(() => StaffEntity)
+	@OneToOne(() => StaffEntity, { onDelete: 'CASCADE' })
 	@JoinColumn()
 	user: number
 }

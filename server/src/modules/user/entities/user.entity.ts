@@ -24,15 +24,16 @@ export class UserEntity extends BaseEntity {
 	@Column({ nullable: true })
 	howKnow?: string
 
+	@Column({
+		unique: true,
+		nullable: true
+	})
+	instagram: string
+
 	@ManyToMany(() => GroupEntity, group => group.users)
 	@JoinTable()
 	groups: GroupEntity[]
 
 	@ManyToOne(() => ClubEntity, club => club.users, { onDelete: 'SET NULL' })
 	club: ClubEntity
-
-	@Column({
-		unique: true
-	})
-	instagram: string
 }

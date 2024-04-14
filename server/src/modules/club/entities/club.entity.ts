@@ -20,7 +20,7 @@ export class ClubEntity extends BaseEntity {
 	@JoinColumn()
 	admin: StaffEntity
 
-	@OneToMany(() => GroupEntity, group => group.club)
+	@OneToMany(() => GroupEntity, group => group.club, { cascade: true })
 	groups: GroupEntity[]
 
 	@OneToMany(() => UserEntity, user => user.club, { cascade: true })

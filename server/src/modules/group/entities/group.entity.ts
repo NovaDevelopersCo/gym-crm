@@ -11,10 +11,10 @@ export class GroupEntity extends BaseEntity {
 	})
 	name: string
 
-	@ManyToOne(() => DirectionEntity, direction => direction.groups)
+	@ManyToOne(() => DirectionEntity, direction => direction.groups, { onDelete: 'SET NULL' })
 	direction: DirectionEntity
 
-	@ManyToOne(() => ClubEntity, club => club.groups)
+	@ManyToOne(() => ClubEntity, club => club.groups, { onDelete: 'SET NULL' })
 	club: ClubEntity
 
 	@ManyToMany(() => UserEntity, user => user.groups)
