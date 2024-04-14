@@ -1,13 +1,12 @@
-import { ApiProperty, OmitType } from '@nestjs/swagger'
-import { PickType } from '@nestjs/swagger'
+import { ApiProperty } from '@nestjs/swagger'
+import { PickType, OmitType } from '@nestjs/swagger'
 import { PaginationResponse } from '@/core/swagger'
 import { CreateGroupDto } from '../dto'
-import { GetDirectionByIdOk } from '@/modules/direction/swagger'
-import { GetClubByIdOk } from '@/modules/club/swagger'
+import { GroupDirection } from '@/modules/direction/swagger'
+import { GroupClub, UserClub } from '@/modules/club/swagger'
+import { GroupUser } from '@/modules/user/swagger'
 
-class GroupDirection extends OmitType(GetDirectionByIdOk, ['groups']) {}
-
-export class GetGroupByIdOk extends PickType(CreateGroupDto, ['name']) {
+export class GroupDto extends PickType(CreateGroupDto, ['name']) {
 	@ApiProperty({
 		default: 5
 	})
@@ -16,23 +15,33 @@ export class GetGroupByIdOk extends PickType(CreateGroupDto, ['name']) {
 	@ApiProperty()
 	direction: GroupDirection
 
-	@ApiProperty({
-		type: () => OmitType(GetClubByIdOk, ['groups', 'users', 'admin'])
-	})
-	club: GetClubByIdOk
+	@ApiProperty({ type: () => GroupClub })
+	club: GroupClub
 
-	// FIX - add users list (extends from user/swagger/response.ts)
-	// @ApiProperty({
-	// 	isArray: true
-	// })
-	// users: GetUserByIdOk
+	@ApiProperty({ isArray: true })
+	users: GroupUser
 }
+
+export class GetGroupByIdOk extends GroupDto {}
 
 export class GetAllGroupsOk extends PaginationResponse {
 	@ApiProperty({ isArray: true })
-	items: GetGroupByIdOk
+	items: GroupDto
 }
 
-export class CreateGroupOk extends GetGroupByIdOk {}
+export class CreateGroupOk extends GroupDto {}
 
-export class UpdateGroupOk extends GetGroupByIdOk {}
+export class UpdateGroupOk extends GroupDto {}
+
+export class ClubGroup extends PickType(GroupDto, ['id', 'name']) {}
+
+export class DirectionGroup extends PickType(GroupDto, ['id', 'name']) {}
+
+export class UserGroup extends OmitType(GroupDto, ['direction', 'club']) {
+	@ApiProperty({
+		type: () => UserClub
+	})
+	club: UserClub
+}
+
+export class UserGroupSmall extends PickType(GroupDto, ['id', 'name']) {}

@@ -1,42 +1,43 @@
 import { IntersectionType, ApiProperty, PickType, OmitType } from '@nestjs/swagger'
 import { StaffEntity } from '@/modules/staff/entities'
-import { UserEntity } from '@/modules/user/entities'
 import { PaginationResponse } from '@/core/swagger'
 import { CreateClubDto } from '../dto'
-import { GetStaffByIdOk } from '@/modules/staff/swagger'
-import { GetGroupByIdOk } from '@/modules/group/swagger'
+import { StaffDto } from '@/modules/staff/swagger'
+import { ClubGroup } from '@/modules/group/swagger'
+import { ClubUser } from '@/modules/user/swagger'
 
-class ClubGroup extends PickType(GetGroupByIdOk, ['id', 'name']) {}
-
-export class GetClubByIdOk extends OmitType(CreateClubDto, ['admin']) {
+export class ClubDto extends OmitType(CreateClubDto, ['admin']) {
 	@ApiProperty({
 		default: 1
 	})
 	id: number
 
 	@ApiProperty({
-		isArray: true
+		isArray: true,
+		type: () => ClubGroup
 	})
 	groups: ClubGroup
 
-	// FIX - add users list (extends from user/swagger/response.ts)
 	@ApiProperty({
-		default: ['список пользователей....']
+		isArray: true,
+		type: () => ClubUser
 	})
-	users: UserEntity[]
+	users: ClubUser
 
 	@ApiProperty()
-	admin: GetStaffByIdOk
+	admin: StaffDto
 }
+
+export class GetClubByIdOk extends ClubDto {}
 
 export class GetAllClubsOk extends PaginationResponse {
 	@ApiProperty({
 		isArray: true
 	})
-	items: GetClubByIdOk
+	items: ClubDto
 }
 
-export class CreateClubOk extends PickType(GetClubByIdOk, ['address', 'id', 'name']) {
+export class CreateClubOk extends PickType(ClubDto, ['address', 'id', 'name']) {
 	@ApiProperty({
 		default: {
 			id: 1
@@ -44,7 +45,6 @@ export class CreateClubOk extends PickType(GetClubByIdOk, ['address', 'id', 'nam
 	})
 	admin: StaffEntity
 }
-export class UpdateClubOk extends IntersectionType(
-	GetClubByIdOk,
-	PickType(CreateClubOk, ['admin'])
-) {}
+export class UpdateClubOk extends IntersectionType(ClubDto, PickType(CreateClubOk, ['admin'])) {}
+export class GroupClub extends OmitType(ClubDto, ['groups', 'users', 'admin']) {}
+export class UserClub extends PickType(ClubDto, ['id', 'address', 'name']) {}
