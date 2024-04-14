@@ -1,30 +1,17 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger'
-import { EStaffRole } from '@/core/enums'
 import { GetClubByIdOk } from '@/modules/club/swagger'
+import { CreateStaffDto } from '../dto'
 
-export class CreateStaffOk {
-	@ApiProperty({ enum: EStaffRole, default: 'admin' })
-	role: EStaffRole
-
+export class StaffDto extends OmitType(CreateStaffDto, ['password']) {
 	@ApiProperty({
-		default: 'email@email.com'
+		default: 35
 	})
-	email: string
-
-	@ApiProperty({
-		default: 'Компос Докер Контанерович'
-	})
-	fio: string
-
-	@ApiProperty({
-		default: '35'
-	})
-	id: string
+	id: number
 }
 
 class ClubRelation extends OmitType(GetClubByIdOk, ['groups', 'users', 'admin'] as const) {}
 
-export class GetOneStaff extends CreateStaffOk {
+export class GetOneStaff extends StaffDto {
 	@ApiProperty({ nullable: true })
 	club: ClubRelation
 }

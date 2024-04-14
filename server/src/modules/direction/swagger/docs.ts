@@ -1,23 +1,13 @@
-import { EDirectionSwaggerMessages } from './messages.enum'
 import { applyDecorators } from '@nestjs/common'
-
-import {
-	ApiOperation,
-	ApiOkResponse,
-	ApiUnauthorizedResponse,
-	ApiForbiddenResponse,
-	ApiBadRequestResponse,
-	ApiNoContentResponse
-} from '@nestjs/swagger'
-
+import { ApiOperation, ApiOkResponse, ApiNotFoundResponse } from '@nestjs/swagger'
 import { ESwaggerMessages } from '@/core/swagger'
-
 import {
 	GetAllDirectionsOk,
 	GetDirectionByIdOk,
 	CreateDirectionOk,
 	UpdateDirectionOk
 } from './responses'
+import { BaseDocSwagger } from '@/core/swagger/docs'
 
 export class DirectionDocSwagger {
 	static getAll() {
@@ -26,9 +16,11 @@ export class DirectionDocSwagger {
 				summary: 'Получить список всех направлений',
 				description: 'Только с ролью director'
 			}),
-			ApiOkResponse({ description: 'Найденные направления', type: GetAllDirectionsOk }),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
+			ApiOkResponse({
+				description: ESwaggerMessages.SUCCESSFULLY_GET_ALL,
+				type: GetAllDirectionsOk
+			}),
+			BaseDocSwagger.authWithRole()
 		)
 	}
 
@@ -38,10 +30,12 @@ export class DirectionDocSwagger {
 				summary: 'Получить направление по id',
 				description: 'Только с ролью director'
 			}),
-			ApiOkResponse({ description: 'Найденное направление', type: GetDirectionByIdOk }),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-			ApiBadRequestResponse({ description: EDirectionSwaggerMessages.GET_BY_ID })
+			ApiOkResponse({
+				description: ESwaggerMessages.SUCCESSFULLY_GET_ONE,
+				type: GetDirectionByIdOk
+			}),
+			ApiNotFoundResponse({ description: ESwaggerMessages.SUCCESSFULLY_GET_ONE }),
+			BaseDocSwagger.authWithRole()
 		)
 	}
 
@@ -51,10 +45,11 @@ export class DirectionDocSwagger {
 				summary: 'Создать новое направление',
 				description: 'Только с ролью director'
 			}),
-			ApiOkResponse({ description: 'Результат создания', type: CreateDirectionOk }),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-			ApiBadRequestResponse({ description: EDirectionSwaggerMessages.CREATE })
+			ApiOkResponse({
+				description: ESwaggerMessages.SUCCESSFULLY_CREATE,
+				type: CreateDirectionOk
+			}),
+			BaseDocSwagger.authWithRole()
 		)
 	}
 
@@ -64,23 +59,22 @@ export class DirectionDocSwagger {
 				summary: 'Изменить направление',
 				description: 'Только с ролью director'
 			}),
-			ApiOkResponse({ description: 'Результат изменения', type: UpdateDirectionOk }),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-			ApiBadRequestResponse({ description: EDirectionSwaggerMessages.UPDATE })
+			ApiOkResponse({
+				description: ESwaggerMessages.SUCCESSFULLY_UPDATE,
+				type: UpdateDirectionOk
+			}),
+			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
+			BaseDocSwagger.authWithRole()
 		)
 	}
 
 	static delete() {
 		return applyDecorators(
-			ApiNoContentResponse({ description: 'Успешно удалено' }),
 			ApiOperation({
 				summary: 'Удалить направление',
 				description: 'Только с ролью director'
 			}),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-			ApiBadRequestResponse({ description: EDirectionSwaggerMessages.DELETE })
+			BaseDocSwagger.delete()
 		)
 	}
 }

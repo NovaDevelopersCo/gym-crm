@@ -8,7 +8,7 @@ import {
 	ApiNoContentResponse,
 	ApiNotFoundResponse
 } from '@nestjs/swagger'
-import { CreateStaffOk, GetOneStaff } from './responses'
+import { StaffDto, GetOneStaff } from './responses'
 import { EStaffSwaggerMessages } from './messages.enum'
 import { ESwaggerMessages } from '@/core/swagger'
 
@@ -21,7 +21,7 @@ export class StaffDocSwagger {
 				summary: 'Создание нового профиля персонала',
 				description: 'Только с ролью director'
 			}),
-			ApiOkResponse({ description: 'Профиль успешно создан', type: CreateStaffOk }),
+			ApiOkResponse({ description: 'Профиль успешно создан', type: StaffDto }),
 			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
 			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
 			ApiBadRequestResponse({ description: EStaffSwaggerMessages.CREATE }),
@@ -67,7 +67,7 @@ export class StaffDocSwagger {
 			}),
 			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
 			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-			ApiOkResponse({ description: 'Профиль успешно обновлен', type: CreateStaffOk }),
+			ApiOkResponse({ description: 'Профиль успешно обновлен', type: StaffDto }),
 			ApiBadRequestResponse(),
 			ApiNotFoundResponse()
 		)

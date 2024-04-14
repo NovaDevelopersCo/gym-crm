@@ -1,5 +1,5 @@
 import { BaseEntity } from '@/core/database/entity'
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
+import { Column, Entity, OneToOne } from 'typeorm'
 import { EStaffRole } from '@/core/enums'
 import { ClubEntity } from '@/modules/club/entities'
 import { Exclude } from 'class-transformer'
@@ -25,6 +25,5 @@ export class StaffEntity extends BaseEntity {
 	role: EStaffRole
 
 	@OneToOne(() => ClubEntity, club => club.admin, { onDelete: 'SET NULL' })
-	@JoinColumn()
 	club: ClubEntity
 }

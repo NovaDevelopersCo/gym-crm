@@ -1,13 +1,15 @@
 import type { Dispatch, FC, SetStateAction } from 'react'
 
-import { TBodyContent, TColumnProps } from '../model'
+import 'redux'
+
+import { TColumnProps } from '../model'
 import TBody from './@TBody/TBody'
 import THeader from './@THeader/THeader'
 import styles from './Table.module.scss'
 
 type TTabelProps = {
 	cols: TColumnProps[]
-	content: TBodyContent[]
+	content: unknown[]
 	total: number
 	limit: number
 	setLimit: Dispatch<SetStateAction<number>>

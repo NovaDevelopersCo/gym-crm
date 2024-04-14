@@ -6,6 +6,7 @@ import cl from './ClientsFilter.module.scss'
 
 export const ClientsFilter = () => {
 	const { control, handleSubmit } = useForm()
+
 	const onSubmit = (data: FieldValues) => {
 		console.log(data)
 	}

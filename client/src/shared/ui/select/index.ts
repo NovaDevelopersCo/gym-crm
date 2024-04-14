@@ -1,4 +1,2 @@
-export { CreatableSelect } from './ui/@CreatableSelect/CreatableSelect'
-export { Select } from './ui/@DefaultSelect/Select'
-
-export * from './model'
+export { default } from './Select'
+export type { TOption } from './types'

@@ -1,78 +1,47 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { GroupEntity } from '../entities'
-import { OmitType } from '@nestjs/swagger'
-import { UserEntity } from '@/modules/user/entities'
+import { PickType, OmitType } from '@nestjs/swagger'
 import { PaginationResponse } from '@/core/swagger'
+import { CreateGroupDto } from '../dto'
+import { GroupDirection } from '@/modules/direction/swagger'
+import { GroupClub, UserClub } from '@/modules/club/swagger'
+import { GroupUser } from '@/modules/user/swagger'
 
-export class GetAllGroupsOk extends PaginationResponse {
-	@ApiProperty({
-		default: [
-			{
-				name: 'Группа 2',
-				id: 33,
-				users: ['список пользователей....'],
-				club: {
-					id: 8,
-					address: 'г. Москва ул. Кротова д. 120',
-					name: 'Super Club'
-				},
-				direction: {
-					id: 67,
-					name: 'Карате'
-				}
-			},
-			{
-				name: 'Группа 54',
-				id: 11,
-				users: ['список пользователей....'],
-				club: {
-					id: 90,
-					address: 'г. Москва ул. Пышина д. 19',
-					name: 'Mass Club'
-				},
-				direction: {
-					id: 11,
-					name: 'Бокс'
-				}
-			}
-		]
-	})
-	items: GroupEntity[]
-}
-
-export class GetGroupByIdOk {
-	@ApiProperty({
-		default: 'Группа 2'
-	})
-	name: string
-
-	@ApiProperty({
-		default: ['список пользователей....']
-	})
-	users: UserEntity
-
-	@ApiProperty({
-		default: {
-			id: 107,
-			address: 'г. Москва ул. Кротова д. 120',
-			name: 'Super Club'
-		}
-	})
-	club: number
-
+export class GroupDto extends PickType(CreateGroupDto, ['name']) {
 	@ApiProperty({
 		default: 5
 	})
 	id: number
 
-	@ApiProperty({
-		default: {
-			id: 44,
-			name: 'Карате'
-		}
-	})
-	direction: number
+	@ApiProperty()
+	direction: GroupDirection
+
+	@ApiProperty({ type: () => GroupClub })
+	club: GroupClub
+
+	@ApiProperty({ isArray: true })
+	users: GroupUser
 }
 
-export class CreateGroupOk extends OmitType(GetGroupByIdOk, ['users']) {}
-export class UpdateGroupOk extends GetGroupByIdOk {}
+export class GetGroupByIdOk extends GroupDto {}
+
+export class GetAllGroupsOk extends PaginationResponse {
+	@ApiProperty({ isArray: true })
+	items: GroupDto
+}
+
+export class CreateGroupOk extends GroupDto {}
+
+export class UpdateGroupOk extends GroupDto {}
+
+export class ClubGroup extends PickType(GroupDto, ['id', 'name']) {}
+
+export class DirectionGroup extends PickType(GroupDto, ['id', 'name']) {}
+
+export class UserGroup extends OmitType(GroupDto, ['direction', 'club']) {
+	@ApiProperty({
+		type: () => UserClub
+	})
+	club: UserClub
+}
+
+export class UserGroupSmall extends PickType(GroupDto, ['id', 'name']) {}

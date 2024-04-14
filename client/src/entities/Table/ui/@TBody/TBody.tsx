@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom'
 import { GripVertical } from 'lucide-react'
 import { v4 as uuid } from 'uuid'
 
-import { TBodyContent, TColumnProps } from '../../model'
+import { TColumnProps } from '../../model'
 import style from './TBody.module.scss'
 
-type TBodyProps = { cols: TColumnProps[]; content: TBodyContent[] }
+type TBodyProps = { cols: TColumnProps[]; content: unknown[] }
 
 const TBody: FC<TBodyProps> = ({ cols, content }) => {
 	return (

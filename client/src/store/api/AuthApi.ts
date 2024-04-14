@@ -1,9 +1,9 @@
 import {
 	LoginStaffDto,
+	RootState,
 	TLoginErrorResponse,
 	TRefreshResponse,
-	authSlice,
-	RootState
+	authSlice
 } from '@/store'
 import {
 	BaseQueryFn,

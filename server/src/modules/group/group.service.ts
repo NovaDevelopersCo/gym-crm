@@ -1,17 +1,16 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { GroupEntity } from './entities'
-import { Repository, ILike } from 'typeorm'
+import { Repository, ILike, In } from 'typeorm'
 import { CreateGroupDto, UpdateGroupDto, FindAllGroupDto } from './dto'
-import { StaffService } from '../staff/staff.service'
 import { ClubService } from '../club/club.service'
 import { DirectionService } from '../direction/direction.service'
+import { PaginationDto } from '@/core/pagination'
 
 @Injectable()
 export class GroupService {
 	constructor(
 		@InjectRepository(GroupEntity) private readonly groupRepository: Repository<GroupEntity>,
-		private readonly staffService: StaffService,
 		private readonly clubService: ClubService,
 		private readonly directionService: DirectionService
 	) {}
@@ -33,12 +32,7 @@ export class GroupService {
 			}
 		})
 
-		return {
-			items,
-			meta: {
-				total
-			}
-		}
+		return new PaginationDto(items, total)
 	}
 
 	async getById(groupId: number) {
@@ -106,5 +100,29 @@ export class GroupService {
 		if (group && group.id !== groupId) {
 			throw new BadRequestException('Группа с таким именем уже существует')
 		}
+	}
+
+	async getByIds(ids: number[]) {
+		const groups = await this.groupRepository.find({
+			where: { id: In(ids) },
+			relations: {
+				club: true
+			}
+		})
+
+		const errorMessages = []
+
+		ids.map(id => {
+			const group = groups.some(g => g.id === id)
+			if (!group) {
+				errorMessages.push(`Группа с id: ${id} не найден`)
+			}
+		})
+
+		if (errorMessages.length) {
+			throw new BadRequestException(errorMessages)
+		}
+
+		return groups
 	}
 }

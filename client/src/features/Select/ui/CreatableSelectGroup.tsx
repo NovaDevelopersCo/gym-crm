@@ -1,50 +1,25 @@
-import { FC, useMemo } from 'react'
+import { FC } from 'react'
 
-import { EStuffRoles, paramsApi, useAppDispatch, useGetGroupsQuery } from '@store/index'
+import { paramsApi, useAppDispatch, useGetGroupsQuery } from '@store/index'
 
 import { CreatableSelect } from '@shared/ui'
 
-import { TSelectProps } from '../model'
+// eslint-disable-next-line import/no-internal-modules
+import TSelectProps from '../model/SelectProps.type'
 
 const CreatableSelectGroup: FC<TSelectProps> = props => {
+	const { data: areas } = useGetGroupsQuery('')
 	const dispatch = useAppDispatch()
-	const { data: groups } = useGetGroupsQuery()
-	const options = useMemo(
-		() =>
-			groups?.items.map(val => ({
-				label: val.name,
-				value: val.id
-			})),
-		[groups]
-	)
 	const onCreateHandler = (inputValue: string) => {
-		dispatch(paramsApi.endpoints.createGroup.initiate({
-			name: inputValue,
-			club: '',
-			direction: '',
-			trainer: {
-				email: '',
-				fio: '',
-				id: 0,
-				role: EStuffRoles.TRAINER
-			},
-		}))
+		dispatch(paramsApi.endpoints.createGroup.initiate(inputValue))
 	}
 	return (
 		<CreatableSelect
-			options={options}
-			placeholder='Группы'
-			onCreateOption={onCreateHandler}
-			createPlaceholder='Создать новую группу'
-			mode='multiple'
+			label='Создать новую группу'
 			{...props}
-		>
-			<>
-				trainer
-				direction
-				club
-			</>
-		</CreatableSelect>
+			options={areas}
+			onCreateOption={onCreateHandler}
+		/>
 	)
 }
 

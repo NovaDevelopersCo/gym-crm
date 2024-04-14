@@ -2,7 +2,7 @@ import { StaffEntity } from '@/modules/staff/entities'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { hash } from 'bcrypt'
-import { ILike, Repository } from 'typeorm'
+import { ILike, Repository, FindOneOptions, In } from 'typeorm'
 import { CreateStaffDto, FindAllStaffDto, UpdateStaffDto } from './dto'
 import { EStaffRole } from '@/core/enums'
 
@@ -12,17 +12,17 @@ export class StaffService {
 		@InjectRepository(StaffEntity) private readonly staffRepository: Repository<StaffEntity>
 	) {}
 
-	async getById(id: number, withError?: boolean) {
+	async getById(id: number, withError?: boolean, findOptions?: FindOneOptions<StaffEntity>) {
 		const staff = await this.staffRepository.findOne({
 			where: { id },
-			relations: { club: true }
+			...findOptions
 		})
 
 		if (withError && !staff) {
 			throw new NotFoundException(`Управляющий с id: ${id} не найден`)
 		}
-		const { fio, email, role, club } = staff
-		return { fio, email, role, club, id }
+
+		return staff
 	}
 
 	// ! ???
@@ -134,5 +134,29 @@ export class StaffService {
 		admin.club = null
 
 		return admin
+	}
+
+	async getByIds(ids: number[]) {
+		const staffs = await this.staffRepository.find({
+			where: { id: In(ids) },
+			relations: {
+				club: true
+			}
+		})
+
+		const errorMessages = []
+
+		ids.map(id => {
+			const staff = staffs.some(s => s.id === id)
+			if (!staff) {
+				errorMessages.push(`Персонал с id: ${id} не найден`)
+			}
+		})
+
+		if (errorMessages.length) {
+			throw new BadRequestException(errorMessages)
+		}
+
+		return staffs
 	}
 }
