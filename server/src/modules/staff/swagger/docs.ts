@@ -2,18 +2,13 @@ import { applyDecorators } from '@nestjs/common'
 import {
 	ApiOperation,
 	ApiOkResponse,
-	ApiUnauthorizedResponse,
-	ApiForbiddenResponse,
-	ApiBadRequestResponse,
-	ApiNoContentResponse,
-	ApiNotFoundResponse
+	ApiNotFoundResponse,
+	ApiCreatedResponse
 } from '@nestjs/swagger'
-import { StaffDto, GetOneStaff } from './responses'
-import { EStaffSwaggerMessages } from './messages.enum'
+import { StaffDto, GetOneStaff, GetAllStaffsOk } from './responses'
 import { ESwaggerMessages } from '@/core/swagger'
+import { BaseDocSwagger } from '@/core/swagger/docs'
 
-// ! update after pull request #32
-// ! base swagger
 export class StaffDocSwagger {
 	static create() {
 		return applyDecorators(
@@ -21,11 +16,11 @@ export class StaffDocSwagger {
 				summary: 'Создание нового профиля персонала',
 				description: 'Только с ролью director'
 			}),
-			ApiOkResponse({ description: 'Профиль успешно создан', type: StaffDto }),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-			ApiBadRequestResponse({ description: EStaffSwaggerMessages.CREATE }),
-			ApiBadRequestResponse()
+			ApiCreatedResponse({
+				description: ESwaggerMessages.SUCCESSFULLY_CREATE,
+				type: StaffDto
+			}),
+			BaseDocSwagger.authWithRole()
 		)
 	}
 
@@ -33,15 +28,14 @@ export class StaffDocSwagger {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Получение персонала по id',
-				//! обдумать
-				description: 'Только с ролью director и admin'
+				description: 'Только с ролью director'
 			}),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-
-			ApiOkResponse({ description: 'Полученный персонал', type: GetOneStaff }),
-			ApiBadRequestResponse(),
-			ApiNotFoundResponse()
+			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
+			ApiOkResponse({
+				description: ESwaggerMessages.SUCCESSFULLY_GET_ONE,
+				type: GetOneStaff
+			}),
+			BaseDocSwagger.authWithRole()
 		)
 	}
 
@@ -49,12 +43,13 @@ export class StaffDocSwagger {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Получение списка персонала, с пагинацией',
-				//! обдумать
-				description: 'Только с ролью director и admin'
+				description: 'Только с ролью director'
 			}),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-			ApiBadRequestResponse()
+			ApiOkResponse({
+				description: ESwaggerMessages.SUCCESSFULLY_GET_ALL,
+				type: GetAllStaffsOk
+			}),
+			BaseDocSwagger.authWithRole()
 		)
 	}
 
@@ -62,14 +57,11 @@ export class StaffDocSwagger {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Изменение данных персонала',
-				//! обдумать
-				description: 'Только с ролью director/admin'
+				description: 'Только с ролью director'
 			}),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-			ApiOkResponse({ description: 'Профиль успешно обновлен', type: StaffDto }),
-			ApiBadRequestResponse(),
-			ApiNotFoundResponse()
+			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
+			ApiOkResponse({ description: ESwaggerMessages.SUCCESSFULLY_UPDATE, type: StaffDto }),
+			BaseDocSwagger.authWithRole()
 		)
 	}
 
@@ -77,15 +69,9 @@ export class StaffDocSwagger {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Удаление персонала',
-				//! обдумать
 				description: 'Только с ролью director'
 			}),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-			//! replace on variable
-			ApiNoContentResponse({ description: 'Успешно удалено' }),
-			ApiBadRequestResponse(),
-			ApiNotFoundResponse()
+			BaseDocSwagger.delete()
 		)
 	}
 }
