@@ -152,9 +152,6 @@ export class UserService {
 		}
 	}
 
-	// FIX - need to test it
-	//! isDelete: true
-	// ! beta
 	async delete(id: number) {
 		await this.getOneById(id)
 

@@ -70,7 +70,6 @@ export class DirectionService {
 		return data
 	}
 
-	// FIX - get error when try to delete
 	async delete(id: number) {
 		await this.getById(id)
 
