@@ -71,6 +71,18 @@ module.exports = {
 				'@typescript-eslint/no-unused-vars': 'off',
 				'no-unused-vars': 'off'
 			}
+		},
+		{
+			files: ['./src/widgets/ListOfClients/ui/ListOfClients.tsx'],
+			rules: {
+				'import/no-internal-modules': 'off'
+			}
+		},
+		{
+			files: ['./src/pages/ClientProfile/ui/ClientProfile.tsx'],
+			rules: {
+				'import/no-internal-modules': 'off'
+			}
 		}
 	],
 	reportUnusedDisableDirectives: true,

@@ -1,16 +1,7 @@
 import { applyDecorators } from '@nestjs/common'
-
-import {
-	ApiOperation,
-	ApiOkResponse,
-	ApiUnauthorizedResponse,
-	ApiForbiddenResponse,
-	ApiBadRequestResponse
-} from '@nestjs/swagger'
-
+import { ApiOperation, ApiOkResponse } from '@nestjs/swagger'
 import { CreateStaffOk } from './responses'
-import { EStaffSwaggerMessages } from './messages.enum'
-import { ESwaggerMessages } from '@/core/swagger'
+import { BaseDocSwagger } from '@/core/swagger/docs'
 
 export class StaffDocSwagger {
 	static create() {
@@ -20,9 +11,7 @@ export class StaffDocSwagger {
 				description: 'Только с ролью director'
 			}),
 			ApiOkResponse({ description: 'Профиль успешно создан', type: CreateStaffOk }),
-			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
-			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN }),
-			ApiBadRequestResponse({ description: EStaffSwaggerMessages.CREATE })
+			BaseDocSwagger.authWithRole()
 		)
 	}
 }

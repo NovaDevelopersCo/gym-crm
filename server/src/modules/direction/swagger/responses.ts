@@ -1,27 +1,26 @@
-import { ApiProperty } from '@nestjs/swagger'
-
-import { DirectionEntity } from '@/modules/direction/entities'
-import { GroupEntity } from '@/modules/group/entities'
+import { ApiProperty, OmitType } from '@nestjs/swagger'
 
 import { PaginationResponse } from '@/core/swagger'
+import { CreateDirectionDto } from '../dto'
+import { DirectionGroup } from '@/modules/group/swagger'
 
-export class UpdateDirectionOk {
-	@ApiProperty({ default: 'Кикбоксинг' })
-	name: string
+export class DirectionDto extends CreateDirectionDto {
 	@ApiProperty({ default: 111 })
 	id: number
-	@ApiProperty({ default: ['список групп....'], required: false })
-	groups?: GroupEntity[]
+
+	@ApiProperty({ isArray: true, type: () => DirectionGroup })
+	groups?: DirectionGroup
 }
 
-export class CreateDirectionOk extends UpdateDirectionOk {}
-export class GetDirectionByIdOk extends UpdateDirectionOk {}
+export class UpdateDirectionOk extends DirectionDto {}
+
+export class CreateDirectionOk extends OmitType(DirectionDto, ['groups']) {}
+export class GetDirectionByIdOk extends DirectionDto {}
 export class GetAllDirectionsOk extends PaginationResponse {
 	@ApiProperty({
-		default: [
-			{ id: 1, name: 'Кикбоксинг', groups: ['список групп....'] },
-			{ id: 2, name: 'Бокс', groups: ['список групп....'] }
-		]
+		isArray: true
 	})
-	items: DirectionEntity[]
+	items: DirectionDto
 }
+
+export class GroupDirection extends OmitType(DirectionDto, ['groups']) {}

@@ -1,6 +1,6 @@
 import IGroup from './Group.schema'
 
-export default interface IDirection {
+export default interface IArea {
 	id: string
 	name: string
 	image: string

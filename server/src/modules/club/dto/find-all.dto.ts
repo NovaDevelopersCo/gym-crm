@@ -17,11 +17,9 @@ export class FindAllClubDto extends FullQueryDto {
 
 	@QuerySearch<ESearch>(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
 		name: {
-			minLength: 2,
 			maxLength: 100
 		},
 		address: {
-			minLength: 2,
 			maxLength: 100
 		}
 	})

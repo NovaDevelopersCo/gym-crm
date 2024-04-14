@@ -16,7 +16,7 @@ function App() {
 							colorPrimary: 'var(--accent)',
 							colorPrimaryHover: 'var(--accent)',
 							controlOutline: 'var(--accent-lighter-transparent)',
-							colorTextDisabled: '#000'
+							colorTextDisabled: '#000',
 							borderRadius: 6,
 							borderRadiusLG: 6,
 							borderRadiusSM: 6,

@@ -7,7 +7,9 @@ import {
 	Res,
 	Get,
 	UnauthorizedException,
-	HttpCode
+	HttpCode,
+	UseInterceptors,
+	ClassSerializerInterceptor
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
 
@@ -25,6 +27,7 @@ import { RefreshGuard } from './guards'
 
 @ApiTags('Авторизация')
 @UsePipes(new ValidationPipe({ whitelist: true }))
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('auth')
 export class AuthController {
 	constructor(private readonly authService: AuthService) {}

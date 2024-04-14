@@ -1,4 +1,4 @@
-import { IClient } from "@store/model"
+import { IClient } from '@store/model'
 
 type TClientMutationResponse = IClient
 
