@@ -17,11 +17,9 @@ export class FindAllStaffDto extends FullQueryDto {
 
 	@QuerySearch<ESearch>(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
 		fio: {
-			minLength: 2,
 			maxLength: 100
 		},
 		email: {
-			minLength: 2,
 			maxLength: 200
 		}
 	})
