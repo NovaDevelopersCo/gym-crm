@@ -2,9 +2,10 @@ import { StaffEntity } from '@/modules/staff/entities'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { hash } from 'bcrypt'
-import { Repository } from 'typeorm'
-import { CreateDto } from './dto'
+import { ILike, Repository, FindOneOptions, In } from 'typeorm'
+import { CreateStaffDto, FindAllStaffDto, UpdateStaffDto } from './dto'
 import { EStaffRole } from '@/core/enums'
+import { PaginationDto } from '@/core/pagination'
 
 @Injectable()
 export class StaffService {
@@ -12,18 +13,20 @@ export class StaffService {
 		@InjectRepository(StaffEntity) private readonly staffRepository: Repository<StaffEntity>
 	) {}
 
-	async getById(staffId: number, withError?: boolean) {
-		const staff = await this.staffRepository.findOne({ where: { id: staffId } })
+	async getById(id: number, withError?: boolean, findOptions?: FindOneOptions<StaffEntity>) {
+		const staff = await this.staffRepository.findOne({
+			where: { id },
+			...findOptions
+		})
 
 		if (withError && !staff) {
-			throw new NotFoundException(`Управляющий с id: ${staffId} не найден`)
+			throw new NotFoundException(`Управляющий с id: ${id} не найден`)
 		}
 
-		const { fio, email, role, groups, club, id } = staff
-
-		return { fio, email, role, groups, club, id }
+		return staff
 	}
 
+	// ! ???
 	async getByEmail(email: string) {
 		const staff = await this.staffRepository.findOne({ where: { email } })
 
@@ -34,7 +37,7 @@ export class StaffService {
 		return staff
 	}
 
-	async create({ password, ...data }: CreateDto) {
+	async create({ password, ...data }: CreateStaffDto) {
 		if (data.role === 'director') {
 			throw new BadRequestException(
 				'Нельзя создать более одного аккаунта управляющего директора'
@@ -48,12 +51,58 @@ export class StaffService {
 		}
 
 		const hashPassword = await hash(password, 7)
+		const savedStaff = await this.staffRepository.save({ ...data, password: hashPassword })
 
-		const savedUser = await this.staffRepository.save({ ...data, password: hashPassword })
+		const { id, email, role, fio } = savedStaff
+		return { id, email, role, fio }
+	}
 
-		const { email, role, id } = savedUser
+	async getAll({ sortBy, count, page, q, searchBy, sortOrder }: FindAllStaffDto) {
+		const [items, total] = await this.staffRepository.findAndCount({
+			order: {
+				[sortBy]: sortOrder
+			},
+			where: {
+				[searchBy]: ILike(`%${q}%`)
+			},
+			take: count,
+			skip: page * count - count,
+			relations: {
+				club: true
+			}
+		})
+		return new PaginationDto(items, total)
+	}
 
-		return { email, role, id }
+	async update(id: number, dto: UpdateStaffDto) {
+		// if (staffId !== id && role !== EStaffRole.DIRECTOR) {
+		// 	throw new BadRequestException('Вы не можете менять данные чужого пользователя')
+		// }
+
+		const staff = await this.getById(id, true)
+
+		if (staff.email !== dto.email) {
+			const oldStaff = await this.staffRepository.findOne({ where: { email: dto.email } })
+			if (oldStaff) {
+				throw new BadRequestException(`Персонал с email ${dto.email} уже существует`)
+			}
+			staff.email = dto.email
+		}
+
+		if (staff.fio === dto.fio) staff.fio = dto.fio
+
+		const savedStaff = await this.staffRepository.save({ ...staff })
+		const { email, fio, role: staffRole } = savedStaff
+		return { id, email, fio, role: staffRole }
+	}
+
+	//! Обсудить
+	async delete(id: number) {
+		const staff = await this.getById(id, true)
+		if (staff.role === EStaffRole.DIRECTOR) {
+			throw new BadRequestException('Нельзя удалить персонал с ролью director')
+		}
+		await this.staffRepository.delete({ id })
 	}
 
 	async checkRole(id: number, role: EStaffRole) {
@@ -79,5 +128,29 @@ export class StaffService {
 		admin.club = null
 
 		return admin
+	}
+
+	async getByIds(ids: number[]) {
+		const staffs = await this.staffRepository.find({
+			where: { id: In(ids) },
+			relations: {
+				club: true
+			}
+		})
+
+		const errorMessages = []
+
+		ids.map(id => {
+			const staff = staffs.some(s => s.id === id)
+			if (!staff) {
+				errorMessages.push(`Персонал с id: ${id} не найден`)
+			}
+		})
+
+		if (errorMessages.length) {
+			throw new BadRequestException(errorMessages)
+		}
+
+		return staffs
 	}
 }

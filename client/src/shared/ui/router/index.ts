@@ -1,1 +1,3 @@
-export { ProtectedRoute } from './ui/ProtectedRoute'
+import ProtectedRoute from './@ProtectedRoute/ProtectedRoute'
+
+export { ProtectedRoute }

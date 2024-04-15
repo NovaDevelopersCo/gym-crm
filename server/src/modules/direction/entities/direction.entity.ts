@@ -10,6 +10,6 @@ export class DirectionEntity extends BaseEntity {
 	})
 	name: string
 
-	@OneToMany(() => GroupEntity, group => group.direction)
+	@OneToMany(() => GroupEntity, group => group.direction, { cascade: true })
 	groups: GroupEntity[]
 }

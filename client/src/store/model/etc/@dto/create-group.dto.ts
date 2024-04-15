@@ -1,3 +1,3 @@
 import { IGroup } from '@store/model'
 
-export default interface CreateGroupDto extends Pick<IGroup, 'name' | 'trainer' | 'club' | 'direction'> {}
+export default interface CreateGroupDto extends Pick<IGroup, 'name'> {}

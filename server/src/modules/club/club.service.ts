@@ -7,6 +7,7 @@ import { StaffService } from '../staff/staff.service'
 import { EStaffRole } from '@/core/enums'
 import { StaffEntity } from '../staff/entities'
 import { DataBaseService } from '@/core/database/database.service'
+import { PaginationDto } from '@/core/pagination'
 
 @Injectable()
 export class ClubService {
@@ -34,13 +35,7 @@ export class ClubService {
 			}
 		})
 
-		// ! replace on class
-		return {
-			items,
-			meta: {
-				total
-			}
-		}
+		return new PaginationDto(items, total)
 	}
 
 	async getById(id: number) {

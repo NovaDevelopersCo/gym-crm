@@ -1,17 +1,21 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { ECreateStaffRole } from '@/core/enums'
+import { ApiProperty, OmitType } from '@nestjs/swagger'
+import { StaffClub } from '@/modules/club/swagger'
+import { CreateStaffDto } from '../dto'
+import { PaginationResponse } from '@/core/swagger'
 
-export class CreateStaffOk {
-	@ApiProperty({ enum: ECreateStaffRole, default: 'admin / trainer' })
-	role: ECreateStaffRole
-
+export class StaffDto extends OmitType(CreateStaffDto, ['password']) {
 	@ApiProperty({
-		default: 'email@email.com'
+		default: 35
 	})
-	email: string
+	id: number
+}
 
-	@ApiProperty({
-		default: '35'
-	})
-	id: string
+export class GetStaffByIdOk extends StaffDto {
+	@ApiProperty({ nullable: true })
+	club: StaffClub
+}
+
+export class GetAllStaffsOk extends PaginationResponse {
+	@ApiProperty({ isArray: true })
+	items: GetStaffByIdOk
 }

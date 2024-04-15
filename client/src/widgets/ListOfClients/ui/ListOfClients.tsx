@@ -1,6 +1,5 @@
 import { useState } from 'react'
 
-// eslint-disable-next-line import/no-internal-modules
 import data from '@/data/clients.data.json'
 
 import { Pagination } from '@features/Paggination'

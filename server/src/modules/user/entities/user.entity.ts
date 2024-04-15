@@ -1,8 +1,7 @@
 import { BaseEntity } from '@/core/database/entity'
-import { AbonementEntity } from '@/modules/abonement/entities'
 import { ClubEntity } from '@/modules/club/entities'
 import { GroupEntity } from '@/modules/group/entities'
-import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToOne } from 'typeorm'
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm'
 
 @Entity('Users')
 export class UserEntity extends BaseEntity {
@@ -14,37 +13,27 @@ export class UserEntity extends BaseEntity {
 	@Column({
 		unique: true
 	})
-	phone: number
+	phone: string
 
 	@Column()
 	fio: string
 
-	@Column({
-		unique: true
-	})
-	cardNumber: number
-
-	// may be timestamp??
-	@Column()
+	@Column({ type: 'date', nullable: true })
 	birthday?: string
 
-	@Column()
-	age?: number
-
-	@Column()
-	experienceBefore?: string
-
-	@OneToOne(() => AbonementEntity)
-	@JoinColumn()
-	abonement: AbonementEntity
-
-	@Column()
+	@Column({ nullable: true })
 	howKnow?: string
+
+	@Column({
+		unique: true,
+		nullable: true
+	})
+	instagram: string
 
 	@ManyToMany(() => GroupEntity, group => group.users)
 	@JoinTable()
 	groups: GroupEntity[]
 
-	@ManyToOne(() => ClubEntity, club => club.users)
+	@ManyToOne(() => ClubEntity, club => club.users, { onDelete: 'SET NULL' })
 	club: ClubEntity
 }

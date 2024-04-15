@@ -15,7 +15,6 @@ export class FindAllDirectionDto extends FullQueryDto {
 
 	@QuerySearch<ESearch>(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
 		name: {
-			minLength: 2,
 			maxLength: 50
 		}
 	})

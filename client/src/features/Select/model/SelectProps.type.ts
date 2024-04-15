@@ -1,5 +1,8 @@
-import { TCreatableSelectProps } from '@shared/ui'
+import { Dispatch, SetStateAction } from 'react'
 
-type TSelectProps = Pick<TCreatableSelectProps, 'value' | 'setValue' | 'style'>
+type TSelectProps = {
+	value: unknown
+	setValue: Dispatch<SetStateAction<unknown>>
+}
 
 export default TSelectProps

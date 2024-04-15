@@ -1,78 +1,45 @@
-import { ApiProperty, PickType } from '@nestjs/swagger'
-import { ClubEntity } from '../entities'
+import { IntersectionType, ApiProperty, PickType, OmitType } from '@nestjs/swagger'
 import { StaffEntity } from '@/modules/staff/entities'
-import { GroupEntity } from '@/modules/group/entities'
-import { UserEntity } from '@/modules/user/entities'
 import { PaginationResponse } from '@/core/swagger'
+import { CreateClubDto } from '../dto'
+import { StaffDto } from '@/modules/staff/swagger'
+import { ClubGroup } from '@/modules/group/swagger'
+import { ClubUser } from '@/modules/user/swagger'
 
-export class GetAllClubsOk extends PaginationResponse {
-	@ApiProperty({
-		default: [
-			{
-				id: 1,
-				address: 'г. Москва ул. Шишкина д. 13',
-				name: 'Mass Club',
-				admin: {
-					id: 1,
-					fio: 'Солодова Елизавета Павловна',
-					email: 'admin1@gmail.com',
-					role: 'admin'
-				},
-				groups: ['список групп....'],
-				users: ['список пользователей....']
-			},
-			{
-				id: 4,
-				address: 'г. Москва ул. Капитошкина д. 98',
-				name: 'Star Club',
-				admin: {
-					id: 8,
-					fio: 'Шишкин Николай Сергеевич',
-					email: 'admin2@gmail.com',
-					role: 'admin'
-				},
-				groups: ['список групп....'],
-				users: ['список пользователей....']
-			}
-		]
-	})
-	items: ClubEntity[]
-}
-
-export class GetClubByIdOk {
-	@ApiProperty({
-		default: 'г. Москва ул. Шишкина д. 13'
-	})
-	address: string
-
-	@ApiProperty({
-		default: 'Mass Club'
-	})
-	name: string
+export class ClubDto extends OmitType(CreateClubDto, ['admin']) {
 	@ApiProperty({
 		default: 1
 	})
 	id: number
+
 	@ApiProperty({
-		default: {
-			id: 111,
-			fio: 'Шишкин Николай Сергеевич',
-			email: 'admin2@gmail.com',
-			role: 'admin'
-		}
+		isArray: true,
+		type: () => ClubGroup
 	})
-	admin: StaffEntity
+	groups: ClubGroup
+
 	@ApiProperty({
-		default: ['список групп....']
+		isArray: true,
+		type: () => ClubUser
 	})
-	groups: GroupEntity[]
+	users: ClubUser
+
 	@ApiProperty({
-		default: ['список пользователей....']
+		type: () => StaffDto
 	})
-	users: UserEntity[]
+	admin: StaffDto
 }
 
-export class CreateClubOk extends PickType(GetClubByIdOk, ['address', 'id', 'name']) {
+export class GetClubByIdOk extends ClubDto {}
+
+export class GetAllClubsOk extends PaginationResponse {
+	@ApiProperty({
+		isArray: true
+	})
+	items: ClubDto
+}
+
+export class CreateClubOk extends PickType(ClubDto, ['address', 'id', 'name']) {
 	@ApiProperty({
 		default: {
 			id: 1
@@ -80,4 +47,7 @@ export class CreateClubOk extends PickType(GetClubByIdOk, ['address', 'id', 'nam
 	})
 	admin: StaffEntity
 }
-export class UpdateClubOk extends CreateClubOk {}
+export class UpdateClubOk extends IntersectionType(ClubDto, PickType(CreateClubOk, ['admin'])) {}
+export class GroupClub extends OmitType(ClubDto, ['groups', 'users', 'admin']) {}
+export class UserClub extends PickType(ClubDto, ['id', 'address', 'name']) {}
+export class StaffClub extends OmitType(GetClubByIdOk, ['groups', 'users', 'admin']) {}

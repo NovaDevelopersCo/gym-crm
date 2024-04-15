@@ -5,6 +5,7 @@ import { Type } from 'class-transformer'
 import { ENodeEnv } from '@/core/enums'
 
 export class EnvironmentVariables {
+	@Type(() => Number)
 	@IsNumber()
 	PORT: number
 
