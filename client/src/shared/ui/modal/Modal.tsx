@@ -1,15 +1,14 @@
-import { type ReactNode, useEffect } from 'react'
+import { type ReactNode, useEffect, PropsWithChildren, Dispatch, SetStateAction } from 'react'
 
 import clsx from 'clsx'
 
 import cl from './Modal.module.scss'
 
-type TModalProps = {
+type TModalProps = PropsWithChildren<{
 	isOpen: boolean
-	setIsOpen: (o: boolean) => void // eslint-disable-line no-unused-vars
-	children: ReactNode
+	setIsOpen: Dispatch<SetStateAction<boolean>>
 	className?: string
-}
+}>
 
 const Modal = ({ isOpen, setIsOpen, children, className }: TModalProps) => {
 	useEffect(() => {

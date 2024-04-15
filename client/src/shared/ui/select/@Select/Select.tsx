@@ -10,7 +10,7 @@ import clsx from 'clsx'
 
 import cl from './Select.module.scss'
 import './Select.scss'
-import { TOption } from './types'
+import { TOption } from '../types'
 
 const Select = <
 	Option extends TOption,

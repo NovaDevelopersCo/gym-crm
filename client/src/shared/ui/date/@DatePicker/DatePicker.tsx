@@ -1,18 +1,18 @@
-import { FC, useId } from 'react'
+import { ChangeEventHandler, FC, useId } from 'react'
 import type { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form'
 
 import { DatePicker as AntdDatePicker, type DatePickerProps } from 'antd'
 import clsx from 'clsx'
 import type { Dayjs } from 'dayjs'
 
-import cl from './Date.module.scss'
+import cl from './DatePicker.module.scss'
 
 type TDatePickerProps = DatePickerProps & {
 	label?: string
 	error?: string | FieldError | Merge<FieldError, FieldErrorsImpl>
 	common?: string
 	field: {
-		onChange: () => void
+		onChange: ChangeEventHandler<unknown>
 		value: unknown
 	}
 	bodyClassName?: string

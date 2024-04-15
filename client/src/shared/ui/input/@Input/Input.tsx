@@ -1,17 +1,16 @@
-import { ChangeEvent, FC, useId } from 'react'
+import { type ChangeEventHandler, type FC, useId } from 'react'
 import type { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form'
 
 import { Input as AntdInput, type InputProps } from 'antd'
 import clsx from 'clsx'
 
-import cl from './index.module.scss'
+import cl from './../index.module.scss'
 
 type TInputProps = InputProps & {
 	label?: string
 	error?: string | FieldError | Merge<FieldError, FieldErrorsImpl>
 	field: {
-		// eslint-disable-next-line no-unused-vars
-		onChange: (e: ChangeEvent<HTMLInputElement>) => void
+		onChange: ChangeEventHandler<HTMLInputElement>
 		value: string | string[] | number
 	}
 	bodyClassName?: string
@@ -35,12 +34,12 @@ export const Input: FC<TInputProps> = ({
 			)}
 			<AntdInput
 				{...field}
-				{...props}
 				id={id}
 				className={clsx(
 					cl.root__input,
 					error ? cl.root__input_inputErr : ''
 				)}
+				{...props}
 			/>
 			<span className={cl.root__input_textErr}>{error?.toString()}</span>
 		</div>

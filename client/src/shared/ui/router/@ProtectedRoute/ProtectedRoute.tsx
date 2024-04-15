@@ -13,7 +13,7 @@ const ProtectedRoute = ({
 	redirectPath?: string
 	isReverse?: boolean
 }) => {
-	const { isLoading } = useRefreshTokenQuery('')
+	const { isLoading } = useRefreshTokenQuery()
 	const location = useLocation()
 	const user = useAppSelector(store => store['auth/slice'].user!)
 	const isAuthenticated = useAppSelector(store => store['auth/slice'].isAuth)

@@ -1,11 +1,11 @@
-import { ChangeEvent, type FC, useId } from 'react'
+import { type FC, useId, type ChangeEventHandler } from 'react'
 import type { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form'
 
 import { Input } from 'antd'
 import { TextAreaProps } from 'antd/es/input'
 import clsx from 'clsx'
 
-import cl from './index.module.scss'
+import cl from './../index.module.scss'
 
 const { TextArea: AntdTextArea } = Input
 
@@ -13,8 +13,7 @@ type TTextAreaProps = TextAreaProps & {
 	label?: string
 	error?: string | FieldError | Merge<FieldError, FieldErrorsImpl>
 	field: {
-		// eslint-disable-next-line no-unused-vars
-		onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void
+		onChange: ChangeEventHandler<HTMLTextAreaElement>
 		value: string | string[] | number
 	}
 	bodyClassName?: string
