@@ -7,6 +7,8 @@ type TNewClientFormFields =
 	| 'phone'
 	| 'email'
 	| 'telegram'
+	| 'instagram'
+	| 'commentary'
 	| 'age'
 	| 'birthdayDate'
 	| 'howDoYouKnow'
@@ -71,6 +73,17 @@ export const newClientFromItemsArr: TNewClientFormItem[] = [
 			pattern: {
 				value: /^@[a-z0-9]+$/i,
 				message: 'Аккаунт должен быть в формате: @профиль'
+			}
+		}
+	},
+	{
+		label: 'Инстаграм',
+		type: 'text',
+		name: 'instagram',
+		rules: {
+			pattern: {
+				value: /^(?:http(?:s)?:\/\/)?(?:www\.)?instagram\.com\/([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)/i,
+				message: 'Ссылка должна быть в формате: instagram.com/профиль'
 			}
 		}
 	},
@@ -173,5 +186,18 @@ export const newClientFromItemsArr: TNewClientFormItem[] = [
 		],
 		required: true,
 		isMulti: true
+	},
+
+	{
+		label: 'Комментарий',
+		type: 'text',
+		name: 'commentary',
+		isTextArea: true,
+		rules: {
+			maxLength: {
+				value: 1000,
+				message: 'Это поле не можем быть длиннее 1000 символов'
+			}
+		}
 	}
 ]
