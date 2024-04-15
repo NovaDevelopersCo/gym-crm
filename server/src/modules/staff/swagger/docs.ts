@@ -27,7 +27,7 @@ export class StaffDocSwagger {
 	static getById() {
 		return applyDecorators(
 			ApiOperation({
-				summary: 'Получение персонала по id',
+				summary: 'Получить профиль персонала по id',
 				description: 'Только с ролью director'
 			}),
 			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
@@ -42,7 +42,7 @@ export class StaffDocSwagger {
 	static getAll() {
 		return applyDecorators(
 			ApiOperation({
-				summary: 'Получение списка персонала, с пагинацией',
+				summary: 'Получить список всех профилей персонала',
 				description: 'Только с ролью director'
 			}),
 			ApiOkResponse({
@@ -56,7 +56,7 @@ export class StaffDocSwagger {
 	static update() {
 		return applyDecorators(
 			ApiOperation({
-				summary: 'Изменение данных персонала',
+				summary: 'Изменить профиль персонала',
 				description: 'Только с ролью director'
 			}),
 			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
@@ -68,7 +68,7 @@ export class StaffDocSwagger {
 	static delete() {
 		return applyDecorators(
 			ApiOperation({
-				summary: 'Удаление персонала',
+				summary: 'Удалить профиль персонала',
 				description: 'Только с ролью director'
 			}),
 			BaseDocSwagger.delete()
