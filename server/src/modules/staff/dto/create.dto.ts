@@ -1,6 +1,5 @@
 import { IsEnum, IsString, IsEmail, MinLength, MaxLength } from 'class-validator'
-
-import { ECreateStaffRole, EStaffRole } from '@/core/enums'
+import { EStaffRole } from '@/core/enums'
 import { ApiProperty } from '@nestjs/swagger'
 
 export class CreateStaffDto {
@@ -31,7 +30,7 @@ export class CreateStaffDto {
 	email: string
 
 	@ApiProperty({
-		enum: ECreateStaffRole,
+		enum: EStaffRole,
 		default: 'admin'
 	})
 	@IsEnum(EStaffRole, { message: 'Невалидная роль' })

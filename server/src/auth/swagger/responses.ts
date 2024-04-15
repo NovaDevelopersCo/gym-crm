@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { GetStaffByIdOk } from '@/modules/staff/swagger'
+import { StaffDto } from '@/modules/staff/swagger'
 
 export class RefreshOk {
 	@ApiProperty({
@@ -8,5 +8,5 @@ export class RefreshOk {
 	})
 	accessToken: string
 	@ApiProperty()
-	profile: GetStaffByIdOk
+	profile: StaffDto
 }

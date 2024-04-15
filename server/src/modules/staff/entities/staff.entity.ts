@@ -1,6 +1,5 @@
 import { BaseEntity } from '@/core/database/entity'
 import { Column, Entity, OneToOne } from 'typeorm'
-
 import { EStaffRole } from '@/core/enums'
 import { ClubEntity } from '@/modules/club/entities'
 import { Exclude } from 'class-transformer'

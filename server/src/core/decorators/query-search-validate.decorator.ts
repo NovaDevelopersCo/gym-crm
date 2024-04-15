@@ -1,7 +1,6 @@
 import {
 	registerDecorator,
 	ValidationArguments,
-	minLength as minLengthValidation,
 	maxLength as maxLengthValidation
 } from 'class-validator'
 
@@ -16,17 +15,8 @@ const validation = (args: ValidationArguments) => {
 		const { q, searchBy } = args?.object as { q?: string; searchBy?: string }
 
 		if (q.length) {
-			const { maxLength, minLength } = validator[searchBy] as {
-				minLength?: number
+			const { maxLength } = validator[searchBy] as {
 				maxLength?: number
-			}
-
-			if (minLength) {
-				const isLess = minLengthValidation(q, minLength)
-
-				if (!isLess) {
-					return `Параметр 'Поиск' должен быть больше ${minLength} символов`
-				}
 			}
 
 			if (maxLength) {
