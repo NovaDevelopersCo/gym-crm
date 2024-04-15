@@ -1,5 +1,5 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger'
-import { GetClubByIdOk } from '@/modules/club/swagger'
+import { StaffClub } from '@/modules/club/swagger'
 import { CreateStaffDto } from '../dto'
 import { PaginationResponse } from '@/core/swagger'
 
@@ -10,14 +10,12 @@ export class StaffDto extends OmitType(CreateStaffDto, ['password']) {
 	id: number
 }
 
-class ClubRelation extends OmitType(GetClubByIdOk, ['groups', 'users', 'admin'] as const) {}
-
-export class GetOneStaff extends StaffDto {
+export class GetStaffByIdOk extends StaffDto {
 	@ApiProperty({ nullable: true })
-	club: ClubRelation
+	club: StaffClub
 }
 
 export class GetAllStaffsOk extends PaginationResponse {
 	@ApiProperty({ isArray: true })
-	items: GetOneStaff
+	items: GetStaffByIdOk
 }

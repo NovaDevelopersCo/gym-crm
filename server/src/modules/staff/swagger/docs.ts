@@ -5,7 +5,7 @@ import {
 	ApiNotFoundResponse,
 	ApiCreatedResponse
 } from '@nestjs/swagger'
-import { StaffDto, GetOneStaff, GetAllStaffsOk } from './responses'
+import { StaffDto, GetStaffByIdOk, GetAllStaffsOk } from './responses'
 import { ESwaggerMessages } from '@/core/swagger'
 import { BaseDocSwagger } from '@/core/swagger/docs'
 
@@ -33,7 +33,7 @@ export class StaffDocSwagger {
 			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
 			ApiOkResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_GET_ONE,
-				type: GetOneStaff
+				type: GetStaffByIdOk
 			}),
 			BaseDocSwagger.authWithRole()
 		)

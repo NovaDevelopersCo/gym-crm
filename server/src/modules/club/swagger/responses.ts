@@ -50,3 +50,4 @@ export class CreateClubOk extends PickType(ClubDto, ['address', 'id', 'name']) {
 export class UpdateClubOk extends IntersectionType(ClubDto, PickType(CreateClubOk, ['admin'])) {}
 export class GroupClub extends OmitType(ClubDto, ['groups', 'users', 'admin']) {}
 export class UserClub extends PickType(ClubDto, ['id', 'address', 'name']) {}
+export class StaffClub extends OmitType(GetClubByIdOk, ['groups', 'users', 'admin']) {}
