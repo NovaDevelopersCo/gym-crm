@@ -92,42 +92,6 @@ export const clientInfo: clientInfoItem[] = [
 		}
 	},
 	{
-		label: 'Уровень подготовки',
-		name: 'level',
-		type: 'text',
-		required: true,
-		options: [
-			{
-				value: 'trainee',
-				label: 'Ранее ничем не занимался'
-			},
-			{
-				value: 'trainee+',
-				label: 'Занимается больше 3х месяцев'
-			},
-			{
-				value: 'junior',
-				label: 'Занимается больше 6 месяцев'
-			},
-			{
-				value: 'junior+',
-				label: 'Занимается больше 1 года'
-			},
-			{
-				value: 'middle',
-				label: 'Занимается больше 2х лет'
-			},
-			{
-				value: 'middle+',
-				label: 'Мастер спорта по спорту'
-			},
-			{
-				value: 'senior',
-				label: 'Занимается всю жизнь'
-			}
-		]
-	},
-	{
 		name: 'when_purchased',
 		label: 'Куплен:',
 		type: 'date',
@@ -176,19 +140,6 @@ export const clientInfo: clientInfoItem[] = [
 		type: 'date',
 		required: false,
 		isDatepicker: true
-	},
-	{
-		label: 'Дата рождения',
-		name: 'date',
-		isDatepicker: true,
-		type: 'date',
-		required: true,
-		rules: {
-			pattern: {
-				value: /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(19\d\d|20[0-2][0-4])$/,
-				message: 'Дата должна быть в формате: ДД-ММ-ГГ'
-			}
-		}
 	},
 	{
 		label: 'Группа',
