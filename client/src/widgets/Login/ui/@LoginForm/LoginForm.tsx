@@ -6,6 +6,8 @@ import { Button, Input } from '@shared/ui'
 
 import cl from './LoginForm.module.scss'
 
+// import { notification } from '@features/Notification'
+
 const LoginForm = () => {
 	const {
 		formState: { errors },
@@ -17,6 +19,14 @@ const LoginForm = () => {
 
 	const onSubmit: SubmitHandler<LoginStaffDto> = data => {
 		dispatch(authApi.endpoints.loginUser.initiate(data))
+		// .then(({ isError }) => {
+		// 	const notificationConfig = {
+		// 		title: isError ? 'Ошибка авторизации' : 'Успешно авторизован',
+		// 		description: isError ? `${error?.message}` : `Добро пожаловать, ${user?.fio}`,
+		// 		type: isError ? "error" : "success"
+		// 	}
+		// 	const openNotification = notification(notificationConfig)
+		// })
 	}
 
 	return (

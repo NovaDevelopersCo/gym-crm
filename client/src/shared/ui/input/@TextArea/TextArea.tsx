@@ -1,4 +1,4 @@
-import { type FC, useId, type ChangeEventHandler } from 'react'
+import { type ChangeEventHandler, type FC, useId } from 'react'
 import type { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form'
 
 import { Input } from 'antd'
