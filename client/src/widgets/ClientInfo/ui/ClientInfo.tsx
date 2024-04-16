@@ -30,7 +30,7 @@ const ClientInfo = () => {
 		administration_notes: string
 	}
 
-	const [isDisabled, setIsDisabled] = useState(true)
+	const [isDisabled, setIsDisabled] = useState<boolean>(true)
 
 	const handleEdit = () => {
 		setIsDisabled(prev => !prev)
@@ -93,11 +93,13 @@ const ClientInfo = () => {
 								render={({ field }) => (
 									<Select
 										disabled={isDisabled}
+										// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+										// @ts-expect-error
 										field={field}
 										placeholder={i.name}
-										bodyClassName={
-											cl.root__container_infoBlock_info
-										}
+										// bodyClassName={
+										// 	cl.root__container_infoBlock_info
+										// }
 										{...i}
 									/>
 								)}

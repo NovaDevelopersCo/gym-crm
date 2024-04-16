@@ -49,6 +49,8 @@ const Form = () => {
 						key={i.name}
 						render={({ field }) => (
 							<Select
+								// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+								// @ts-expect-error
 								field={field}
 								placeholder={i.label}
 								bodyClassName={cl.root__item}
