@@ -12,6 +12,7 @@ type TNewClientFrom = {
 	phone: number
 	email: string
 	telegram: string
+	instagram: string
 	age: number
 	birthdayDate: string
 	howDoYouKnow: string
@@ -19,6 +20,7 @@ type TNewClientFrom = {
 	beforeDirection: string
 	direction: string[]
 	groupIds: string[]
+	commentary: string
 }
 
 const { Title } = Typography
