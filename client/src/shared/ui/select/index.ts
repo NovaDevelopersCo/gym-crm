@@ -1,5 +1,4 @@
-import CreatableSelect from './@CreatableSelect/CreatableSelect'
-import Select from './@Select/Select'
+import Select from './Select'
 
-export { Select, CreatableSelect }
+export { Select }
 export type { TOption } from './types'

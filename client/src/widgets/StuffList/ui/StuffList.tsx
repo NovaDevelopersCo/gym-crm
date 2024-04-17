@@ -103,6 +103,7 @@ export const StuffList = () => {
 			</div>
 			<Table
 				columns={columns}
+				rowKey={(record: Employee) => record.id}
 				dataSource={employees}
 				scroll={{ x: 'max-content' }}
 				pagination={{

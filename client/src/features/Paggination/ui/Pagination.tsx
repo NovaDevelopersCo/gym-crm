@@ -35,7 +35,7 @@ const Pagination: FC<TPaginationProps> = ({ page, limit, total, setPage }) => (
 		showSizeChanger={false}
 		hideOnSinglePage
 		// eslint-disable-next-line
-		onChange={(page, pageSize) => {
+		onChange={(page, _pageSize) => {
 			setPage(page)
 		}}
 	/>

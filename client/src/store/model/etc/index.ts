@@ -1,5 +1,7 @@
+import CreateAreaDto from './@dto/create-area.dto'
 import CreateClientDto from './@dto/create-client.dto'
 import CreateGroupDto from './@dto/create-group.dto'
+import CreateLocationDto from './@dto/create-location.dto'
 import CreateStaffDto from './@dto/create-staff.dto'
 import DeleteClientDto from './@dto/delete-client.dto'
 import GetClientsDto from './@dto/get-clients.dto'
@@ -21,5 +23,7 @@ export type {
 	DeleteClientDto,
 	TClientMutationResponse,
 	TGetClientsResponse,
-	GetClientsDto
+	GetClientsDto,
+	CreateAreaDto,
+	CreateLocationDto
 }

@@ -32,18 +32,18 @@ export const paramsApi = createApi({
 	tagTypes: ['GROUP', 'AREA', 'LOCATION'],
 	endpoints: build => ({
 		// Groups
-		getGroupInfo: build.query<IGroup['id'], IGroup>({
+		getGroupInfo: build.query<IGroup, IGroup['id']>({
 			query: groupId => ({
 				url: `groups/${groupId}`
 			})
 		}),
-		getGroups: build.query<unknown, IGroup[]>({
+		getGroups: build.query<IGroup[], void>({
 			query: () => ({
 				url: 'groups'
 			}),
 			providesTags: ['GROUP']
 		}),
-		createGroup: build.mutation<CreateGroupDto, IGroup>({
+		createGroup: build.mutation<IGroup, CreateGroupDto>({
 			query: group => ({
 				method: 'POST',
 				url: 'groups',
@@ -53,18 +53,18 @@ export const paramsApi = createApi({
 		}),
 
 		// Areas
-		getAreaInfo: build.query<IArea['name'], IArea>({
+		getAreaInfo: build.query<IArea, IArea['name']>({
 			query: areaId => ({
 				url: `area/${areaId}`
 			})
 		}),
-		getAreas: build.query<unknown, IArea[]>({
+		getAreas: build.query<IArea[], void>({
 			query: () => ({
 				url: 'areas'
 			}),
 			providesTags: ['AREA']
 		}),
-		createArea: build.mutation<CreateAreaDto, IArea>({
+		createArea: build.mutation<IArea, CreateAreaDto>({
 			query: area => ({
 				method: 'POST',
 				url: 'area',
@@ -74,18 +74,18 @@ export const paramsApi = createApi({
 		}),
 
 		// Locations
-		getLocationInfo: build.query<ILocation['id'], ILocation>({
+		getLocationInfo: build.query<ILocation, ILocation['id']>({
 			query: locationId => ({
 				url: `location/${locationId}`
 			})
 		}),
-		getLocations: build.query<unknown, ILocation[]>({
+		getLocations: build.query<ILocation[], void>({
 			query: () => ({
 				url: 'locations'
 			}),
 			providesTags: ['LOCATION']
 		}),
-		createLocation: build.mutation<CreateLocationDto, ILocation>({
+		createLocation: build.mutation<ILocation, CreateLocationDto>({
 			query: location => ({
 				method: 'POST',
 				url: 'locations',
