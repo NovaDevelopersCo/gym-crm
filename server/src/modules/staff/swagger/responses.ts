@@ -1,16 +1,34 @@
-import { ApiProperty, OmitType } from '@nestjs/swagger'
+import { ApiProperty, OmitType, IntersectionType } from '@nestjs/swagger'
+import { EStaffRole } from '@/core/enums'
 import { StaffClub } from '@/modules/club/swagger'
 import { CreateStaffDto } from '../dto'
 import { PaginationResponse } from '@/core/swagger'
 
-export class StaffDto extends OmitType(CreateStaffDto, ['password']) {
+export class StaffDto extends OmitType(CreateStaffDto, ['password', 'fio']) {
 	@ApiProperty({
-		default: 35
+		example: 35
 	})
 	id: number
+
+	@ApiProperty({
+		example: 'Васильев Василий Васильевич'
+	})
+	fio: string
 }
 
-export class GetStaffByIdOk extends StaffDto {
+export class FullStaff extends OmitType(StaffDto, ['role']) {
+	@ApiProperty({
+		enum: EStaffRole,
+		example: 'admin'
+	})
+	role: EStaffRole
+}
+
+export class CreateStaffOk extends StaffDto {}
+
+export class UpdateStaffOk extends IntersectionType(StaffDto, FullStaff) {}
+
+export class GetStaffByIdOk extends IntersectionType(StaffDto, FullStaff) {
 	@ApiProperty({ nullable: true })
 	club: StaffClub
 }
