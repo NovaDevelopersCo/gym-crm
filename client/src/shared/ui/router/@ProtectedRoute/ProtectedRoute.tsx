@@ -1,6 +1,6 @@
 import { Navigate, useLocation } from 'react-router-dom'
 
-import { useAppSelector, useRefreshTokenQuery } from '@store/index'
+import { useAppSelector, useRefreshTokenQuery } from '@/store'
 
 const ProtectedRoute = ({
 	children,

@@ -3,9 +3,8 @@
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
+import { DatePicker, Input, Select } from '@/shared'
 import { EditFilled } from '@ant-design/icons'
-
-import { DatePicker, Input, Select } from '@shared/ui'
 
 import cl from './ClientInfo.module.scss'
 import { clientInfo } from './clietnInfo.data'
@@ -97,9 +96,9 @@ const ClientInfo = () => {
 										// @ts-expect-error
 										field={field}
 										placeholder={i.name}
-										// bodyClassName={
-										// 	cl.root__container_infoBlock_info
-										// }
+										bodyClassName={
+											cl.root__container_infoBlock_info
+										}
 										{...i}
 									/>
 								)}

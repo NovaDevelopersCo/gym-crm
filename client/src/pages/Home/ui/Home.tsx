@@ -1,8 +1,7 @@
 import { useEffect } from 'react'
 
+import { useAppSelector } from '@/store'
 import { Typography } from 'antd'
-
-import { useAppSelector } from '@store/lib'
 
 const { Title } = Typography
 

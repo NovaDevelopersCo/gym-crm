@@ -1,6 +1,9 @@
 import { Controller, FieldValues, useForm } from 'react-hook-form'
 
-import { Checkbox, Input, Select } from 'antd'
+import { Select } from '@/shared'
+import { Checkbox, Input } from 'antd'
+
+import { SelectLocation } from '@features/Select'
 
 import cl from './ClientsFilter.module.scss'
 
@@ -32,18 +35,13 @@ export const ClientsFilter = () => {
 					name='location'
 					control={control}
 					render={({ field }) => (
-						<Select
-							{...field}
+						<SelectLocation
+							field={field}
 							placeholder='Все локации'
 							id='location'
 							mode='multiple'
 							showSearch={false}
-						>
-							<Select.Option value='moscow'>Москва</Select.Option>
-							<Select.Option value='spb'>
-								Санкт-Петербург
-							</Select.Option>
-						</Select>
+						/>
 					)}
 				/>
 			</div>
@@ -116,45 +114,30 @@ export const ClientsFilter = () => {
 					control={control}
 					render={({ field }) => (
 						<Select
+							mode='multiple'
 							placeholder='Любой'
 							id='admin'
 							className={cl.root__cell__select}
-							mode='multiple'
+							options={[
+								{
+									label: 'Андрей Иванов',
+									value: 'a.ivanov'
+								},
+								{
+									label: 'Николай Торов',
+									value: 'n.torov'
+								},
+								{
+									label: 'Иван Петров',
+									value: 'i.petrov'
+								}
+							]}
 							{...field}
-						>
-							<Select.Option value='a.ivanov'>
-								Андрей Иванов
-							</Select.Option>
-							<Select.Option value='n.torov'>
-								Николай Торов
-							</Select.Option>
-							<Select.Option value='i.petrov'>
-								Иван Петров
-							</Select.Option>
-						</Select>
+						/>
 					)}
 				/>
 			</div>
-			<div className={cl.root__cell}>
-				<label htmlFor='vaccination'>
-					Есть QR-код вакцинации от COVID-19?
-				</label>
-				<Controller
-					name='vaccination'
-					control={control}
-					render={({ field }) => (
-						<Select
-							id='vaccination'
-							className={cl.root__cell__select}
-							placeholder='Не важно'
-							{...field}
-						>
-							<Select.Option value='yes'>Да</Select.Option>
-							<Select.Option value='no'>Нет</Select.Option>
-						</Select>
-					)}
-				/>
-			</div>
+
 			<div className={cl.root__cell}>
 				<Controller
 					name='withoutTasks'

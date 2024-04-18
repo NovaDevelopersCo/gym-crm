@@ -1,6 +1,7 @@
+import { HTMLInputTypeAttribute } from 'react'
 import type { RegisterOptions } from 'react-hook-form'
 
-import type { TOption } from '@shared/ui'
+import type { TOption } from '@/shared'
 
 type TNewClientFormFields =
 	| 'fio'
@@ -19,7 +20,7 @@ type TNewClientFormFields =
 
 type TNewClientFormItem = {
 	label: string
-	type?: 'text' | 'number'
+	type?: HTMLInputTypeAttribute
 	name: TNewClientFormFields
 	options?: TOption[]
 	required?: boolean
@@ -56,7 +57,7 @@ export const newClientFromItemsArr: TNewClientFormItem[] = [
 	},
 	{
 		label: 'Почта',
-		type: 'text',
+		type: 'email',
 		name: 'email',
 		rules: {
 			pattern: {
@@ -89,7 +90,7 @@ export const newClientFromItemsArr: TNewClientFormItem[] = [
 	},
 	{
 		label: 'Возраст',
-		type: 'text',
+		type: 'number',
 		name: 'age',
 		rules: {
 			pattern: {
@@ -108,7 +109,7 @@ export const newClientFromItemsArr: TNewClientFormItem[] = [
 	},
 	{
 		label: 'Дата рождения',
-		type: 'text',
+		type: 'date',
 		name: 'birthdayDate',
 		rules: {
 			pattern: {

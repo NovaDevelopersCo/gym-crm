@@ -1,4 +1,4 @@
-import { IStuff } from '@store/index'
+import { IStuff } from '@/store'
 
 type TRefreshResponse = {
 	profile: IStuff | null

@@ -1,6 +1,6 @@
 import type { RegisterOptions } from 'react-hook-form'
 
-import { TOption } from '@shared/ui'
+import { TOption } from '@/shared'
 
 type TClientsInfoFileds =
 	| 'fio'

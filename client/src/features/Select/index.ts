@@ -1,5 +1,5 @@
-import CreatableSelectArea from './ui/SelectArea'
-import CreatableSelectGroup from './ui/SelectGroup'
-import CreatableSelectLocation from './ui/SelectLocation'
+import SelectArea from './ui/SelectArea'
+import SelectGroup from './ui/SelectGroup'
+import SelectLocation from './ui/SelectLocation'
 
-export { CreatableSelectArea, CreatableSelectGroup, CreatableSelectLocation }
+export { SelectArea, SelectGroup, SelectLocation }

@@ -1,4 +1,4 @@
-import { IStuff } from '@store/model'
+import { IStuff } from '@/store'
 
 interface LoginStuffrDto extends Pick<IStuff, 'email'> {
 	password: string

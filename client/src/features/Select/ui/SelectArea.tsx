@@ -1,13 +1,19 @@
 import { FC } from 'react'
 
-import { Select } from '@/shared'
+import { Select, TSelectOption, TSelectProps } from '@/shared'
 import { useGetAreasQuery } from '@/store'
 
-import { TSelectProps } from '../model'
-
-const SelectArea: FC<TSelectProps> = props => {
+const SelectArea: FC<Omit<TSelectProps, 'options'>> = props => {
 	const { data: areas } = useGetAreasQuery()
-	return <Select {...props} options={areas} />
+	const convertedAreasToParams: TSelectOption[] | undefined = areas?.map(
+		area =>
+			({
+				label: area.name,
+				value: area
+			}) as TSelectOption
+	)
+
+	return <Select {...props} options={convertedAreasToParams} />
 }
 
 export default SelectArea

@@ -1,8 +1,7 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 
+import { Button, Input } from '@/shared'
 import { LoginStaffDto, authApi, useAppDispatch, useAppSelector } from '@/store'
-
-import { Button, Input } from '@shared/ui'
 
 import cl from './LoginForm.module.scss'
 

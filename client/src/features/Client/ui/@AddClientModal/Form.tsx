@@ -1,8 +1,7 @@
 import { Controller, useForm } from 'react-hook-form'
 
+import { Button, Input, Select, TextArea } from '@/shared'
 import { Typography } from 'antd'
-
-import { Button, Input, Select, TextArea } from '@shared/ui'
 
 import cl from './Form.module.scss'
 import { newClientFromItemsArr } from './form.data'
@@ -41,7 +40,7 @@ const Form = () => {
 			<Title level={2} className={cl.root__title}>
 				Анкета посетителя
 			</Title>
-			{newClientFromItemsArr.map(({ isTextArea, rules, ...i }) =>
+			{newClientFromItemsArr.map(({ isTextArea, rules, type, ...i }) =>
 				i.options ? (
 					<Controller
 						name={i.name}
@@ -76,6 +75,7 @@ const Form = () => {
 							) : (
 								<Input
 									{...i}
+									type={type}
 									bodyClassName={cl.root__item}
 									field={field}
 									error={errors[i.name]?.message}

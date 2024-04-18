@@ -6,7 +6,7 @@ import clsx from 'clsx'
 
 import cl from './../index.module.scss'
 
-type TInputProps = InputProps & {
+export type TInputProps = InputProps & {
 	label?: string
 	error?: string | FieldError | Merge<FieldError, FieldErrorsImpl>
 	field: {
