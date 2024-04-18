@@ -7,7 +7,7 @@ import DeleteClientDto from './@dto/delete-client.dto'
 import GetClientsDto from './@dto/get-clients.dto'
 import LoginStaffDto from './@dto/login-staff.dto'
 import TClientMutationResponse from './@response/client-mutation-reponse.type'
-import TGetClientsResponse from './@response/get-clients-response.type'
+import TGetItemsResponse from './@response/get-items-response.type'
 import TLoginErrorResponse from './@response/login-error-response.type'
 import TRefreshResponse from './@response/refresh-response.type'
 import TRegistrationResponse from './@response/registration-response.type'
@@ -22,7 +22,7 @@ export type {
 	TLoginErrorResponse,
 	DeleteClientDto,
 	TClientMutationResponse,
-	TGetClientsResponse,
+	TGetItemsResponse,
 	GetClientsDto,
 	CreateAreaDto,
 	CreateLocationDto
