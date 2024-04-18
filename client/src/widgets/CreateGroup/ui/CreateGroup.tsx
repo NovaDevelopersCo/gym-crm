@@ -1,6 +1,6 @@
 import { Controller, useForm } from 'react-hook-form'
 
-import { Button, Input, Select } from '@shared/index'
+import { Button, Input, Select } from '@/shared'
 
 import cl from './CreateGroup.module.scss'
 import { createGroupFields } from './createGroup.data'
