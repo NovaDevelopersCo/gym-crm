@@ -3,7 +3,9 @@ import { IsNumber, IsString, MaxLength, MinLength } from 'class-validator'
 
 export class CreateClubDto {
 	@ApiProperty({
-		default: 'Mass Club'
+		example: 'Mass Club',
+		minLength: 2,
+		maxLength: 100
 	})
 	@IsString({ message: 'Название клуба должно быть строкой' })
 	@MinLength(2, { message: 'Минимальная длина названия клуба 2 символа' })
@@ -11,7 +13,9 @@ export class CreateClubDto {
 	name: string
 
 	@ApiProperty({
-		default: 'г. Москва ул. Шишкина д. 45'
+		example: 'г. Москва ул. Шишкина д. 45',
+		minLength: 2,
+		maxLength: 100
 	})
 	@IsString({ message: 'Адрес клуба должен быть строкой' })
 	@MinLength(2, { message: 'Минимальная длина названия клуба должна быть 2 символа' })
@@ -19,7 +23,7 @@ export class CreateClubDto {
 	address: string
 
 	@ApiProperty({
-		default: 111
+		example: 111
 	})
 	@IsNumber({}, { message: 'Id админа должно быть числом' })
 	admin: number

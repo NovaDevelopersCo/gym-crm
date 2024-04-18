@@ -1,14 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger'
 
-type TMeta = {
+class MetaDto {
+	@ApiProperty({
+		example: 15
+	})
 	total: number
 }
 
 export class PaginationResponse {
-	@ApiProperty({
-		default: {
-			total: 15
-		}
-	})
-	meta: TMeta
+	@ApiProperty()
+	meta: MetaDto
 }

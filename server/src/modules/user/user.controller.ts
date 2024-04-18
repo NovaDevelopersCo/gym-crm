@@ -12,7 +12,7 @@ import {
 	UsePipes,
 	ValidationPipe
 } from '@nestjs/common'
-import { CreateUserDto, FindAllUserDto } from './dto'
+import { CreateUserDto, FindAllUserDto, UpdateUserDto } from './dto'
 import { UserService } from './user.service'
 import { ApiTags } from '@nestjs/swagger'
 import { RolesAuthGuard } from '@/auth/guards/role.guard'
@@ -46,7 +46,7 @@ export class UserController {
 	// * K
 	@UserDocSwagger.update()
 	@Put(':id')
-	update(@Param() { id }: GetByIdParamsDto, @Body() dto: CreateUserDto) {
+	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateUserDto) {
 		return this.userService.update(id, dto)
 	}
 	// * K

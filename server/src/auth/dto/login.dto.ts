@@ -3,7 +3,7 @@ import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator'
 
 export class LoginDto {
 	@ApiProperty({
-		default: 'email@email.com'
+		example: 'email@email.com'
 	})
 	@IsEmail({}, { message: 'Невалидная почта' })
 	email: string
@@ -11,7 +11,7 @@ export class LoginDto {
 	@ApiProperty({
 		minLength: 8,
 		maxLength: 32,
-		default: 'password'
+		example: 'password'
 	})
 	@IsString({ message: 'Пароль должен быть строкой' })
 	@MinLength(8, { message: 'Минимальная длина пароля 8 символов' })

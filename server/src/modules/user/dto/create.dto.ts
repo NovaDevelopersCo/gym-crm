@@ -11,16 +11,16 @@ import {
 } from 'class-validator'
 
 export class CreateUserDto {
-	@ApiProperty({ default: 'email@gmail.com' })
+	@ApiProperty({ example: 'email@gmail.com', maxLength: 200 })
 	@IsEmail({}, { message: 'Невалидная почта' })
 	@MaxLength(200, { message: 'Максимальная длина почты 200 символов' })
 	email: string
 
-	@ApiProperty({ default: '79003001122' })
+	@ApiProperty({ example: '79003001122' })
 	@IsPhoneNumber('RU', { message: 'Некорректный номер' })
 	phone: string
 
-	@ApiProperty({ default: 'Иванов Иван Иванович' })
+	@ApiProperty({ example: 'Иванов Иван Иванович', maxLength: 200, minLength: 2 })
 	@MinLength(2, { message: 'Минимальная длина фио 3 символа' })
 	@MaxLength(200, { message: 'Максимальная длина фио 200 символов' })
 	@IsString({ message: 'ФИО должно быть строкой' })
@@ -28,7 +28,7 @@ export class CreateUserDto {
 
 	@ApiProperty({
 		required: false,
-		default: '2021-04-19'
+		example: '2021-04-19'
 	})
 	@IsOptional()
 	@IsDateString({}, { message: 'День рождение должен быть ISO формата (yyyy-mm-dd)' })
@@ -36,25 +36,28 @@ export class CreateUserDto {
 
 	@ApiProperty({
 		required: false,
-		default: 'Посоветовал друг, увидел в интернете'
+		example: 'Посоветовал друг, увидел в интернете',
+		maxLength: 300
 	})
 	@IsOptional()
 	@IsString({ message: 'howKnow должно быть строкой' })
 	@MaxLength(300, { message: 'Максимальная длина как узнали о нас 300 символов' })
 	howKnow?: string
 
-	@ApiProperty({ default: 2 })
+	@ApiProperty({ example: 2 })
 	@IsInt({ message: 'Id клуба должен быть числом' })
 	club: number
 
 	@ApiProperty({
-		default: [3, 5, 6]
+		example: [3, 5, 6]
 	})
 	@IsInt({ each: true, message: 'Id групп должны быть числом' })
 	groups: number[]
 
 	@ApiProperty({
-		default: 'my_account'
+		example: 'my_account',
+		required: false,
+		maxLength: 50
 	})
 	@IsOptional()
 	@IsString({ message: 'Аккаунт инстаграм должен быть строкой' })

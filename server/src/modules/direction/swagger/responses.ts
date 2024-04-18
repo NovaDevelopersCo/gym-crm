@@ -5,7 +5,7 @@ import { CreateDirectionDto } from '../dto'
 import { DirectionGroup } from '@/modules/group/swagger'
 
 export class DirectionDto extends CreateDirectionDto {
-	@ApiProperty({ default: 111 })
+	@ApiProperty({ example: 111 })
 	id: number
 
 	@ApiProperty({ isArray: true, type: () => DirectionGroup })

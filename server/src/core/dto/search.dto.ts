@@ -7,7 +7,8 @@ class ASearchDto {
 
 export class SearchDto extends ASearchDto {
 	@ApiProperty({
-		default: 'Поиск....',
+		default: '',
+		example: 'Клуб 123',
 		required: false,
 		description: 'Поиск'
 	})
