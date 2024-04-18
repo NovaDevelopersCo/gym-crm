@@ -4,18 +4,19 @@ import {
 	CreateClientDto,
 	DeleteClientDto,
 	GetClientsDto,
+	IClient,
+	RootState,
 	TClientMutationResponse,
-	TGetClientsResponse,
-	authSlice
+	TGetItemsResponse
 } from '..'
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: `${import.meta.env.VITE_SERVER_URL}/`,
+	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/user`,
 	credentials: 'include',
 
 	// Automatically use token in authorization header if it provided
-	prepareHeaders: headers => {
-		const token = authSlice.getInitialState().accessToken
+	prepareHeaders: (headers, { getState }) => {
+		const token = (getState() as RootState)['auth/slice'].accessToken
 		if (token) {
 			headers.set('Authorization', `Bearer ${token}`)
 			headers.set('Content-Type', 'application/json')
@@ -44,7 +45,7 @@ export const clientApi = createApi({
 				body: client
 			})
 		}),
-		getAllClients: build.query<TGetClientsResponse, GetClientsDto>({
+		getAllClients: build.query<TGetItemsResponse<IClient>, GetClientsDto>({
 			query: ({ page, limit }) => ({
 				url: '',
 				params: {
