@@ -1,8 +1,7 @@
 import { RouterProvider } from 'react-router-dom'
 
+import { StoreProvider } from '@/store'
 import { ConfigProvider } from 'antd'
-
-import { StoreProvider } from '@store/index'
 
 import { router } from './routes/router'
 import AntDesignTheme from './styles/AntDesign.theme'

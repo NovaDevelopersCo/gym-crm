@@ -1,5 +1,3 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-
 import {
 	CreateAreaDto,
 	CreateGroupDto,
@@ -7,16 +5,17 @@ import {
 	IArea,
 	IGroup,
 	ILocation,
-	authSlice
-} from '@store/index'
+	RootState
+} from '@/store'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const baseQuery = fetchBaseQuery({
 	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/`,
 	credentials: 'include',
 
 	// Automatically use token in authorization header if it provided
-	prepareHeaders: headers => {
-		const token = authSlice.getInitialState().accessToken
+	prepareHeaders: (headers, { getState }) => {
+		const token = (getState() as RootState)['auth/slice'].accessToken
 		if (token) {
 			headers.set('Authorization', `Bearer ${token}`)
 			headers.set('Content-Type', 'application/json')

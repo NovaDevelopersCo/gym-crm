@@ -1,12 +1,12 @@
 import { IsEnum, IsString, IsEmail, MinLength, MaxLength } from 'class-validator'
-import { EStaffRole } from '@/core/enums'
+import { EStaffRole, ECreateStaffRole } from '@/core/enums'
 import { ApiProperty } from '@nestjs/swagger'
 
 export class CreateStaffDto {
 	@ApiProperty({
 		minLength: 2,
 		maxLength: 100,
-		default: 'Васильев Василий Васильевич'
+		example: 'Васильев Василий Васильевич'
 	})
 	@IsString({ message: 'Ф.И.О. должно быть строкой' })
 	@MaxLength(100, { message: 'Максимальная длина Ф.И.О 100 символов' })
@@ -16,7 +16,7 @@ export class CreateStaffDto {
 	@ApiProperty({
 		minLength: 8,
 		maxLength: 32,
-		default: 'password'
+		example: 'password'
 	})
 	@IsString({ message: 'Пароль должен быть строкой' })
 	@MinLength(8, { message: 'Минимальная длина пароля 8 символов' })
@@ -24,14 +24,14 @@ export class CreateStaffDto {
 	password: string
 
 	@ApiProperty({
-		default: 'email@email.com'
+		example: 'email@email.com'
 	})
 	@IsEmail({}, { message: 'Невалидная почта' })
 	email: string
 
 	@ApiProperty({
-		enum: EStaffRole,
-		default: 'admin'
+		enum: ECreateStaffRole,
+		example: 'admin'
 	})
 	@IsEnum(EStaffRole, { message: 'Невалидная роль' })
 	role: EStaffRole

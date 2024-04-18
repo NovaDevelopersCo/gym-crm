@@ -1,7 +1,8 @@
 import { useState } from 'react'
 
-import data from '@/data/clients.data.json'
+import { useGetAllClientsQuery } from '@/store'
 
+// import data from '@/data/clients.data.json'
 import { Pagination } from '@features/Paggination'
 
 import { TBodyContent, Table } from '@entities/Table'
@@ -11,6 +12,10 @@ import styles from './ListOfClients.module.scss'
 export const ListOfClients = () => {
 	const [limit, setLimit] = useState<number>(20)
 	const [page, setPage] = useState<number>(1)
+	const { data } = useGetAllClientsQuery({
+		page: page,
+		limit: limit
+	})
 	const cols = [
 		{ label: 'Имя', key: 'name' },
 		{ label: 'Почта', key: 'email' },
@@ -19,23 +24,26 @@ export const ListOfClients = () => {
 		{ label: 'Пол', key: 'sex' }
 	]
 
-	const total = 100
-
 	return (
 		<div className={styles.root}>
-			<Table
-				content={data as unknown as TBodyContent[]}
-				cols={cols}
-				total={total}
-				limit={limit}
-				setLimit={setLimit}
-			/>
-			<Pagination
-				limit={limit}
-				total={total}
-				page={page}
-				setPage={setPage}
-			/>
+			{data && (
+				<>
+					<Table
+						content={data.items as TBodyContent[]}
+						cols={cols}
+						total={data.meta.total}
+						limit={limit}
+						setLimit={setLimit}
+						fallback='Пользователей нет!'
+					/>
+					<Pagination
+						limit={limit}
+						total={data.meta.total}
+						page={page}
+						setPage={setPage}
+					/>
+				</>
+			)}
 		</div>
 	)
 }

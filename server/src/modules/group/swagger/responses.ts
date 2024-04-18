@@ -1,14 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { PickType, OmitType } from '@nestjs/swagger'
 import { PaginationResponse } from '@/core/swagger'
-import { CreateGroupDto } from '../dto'
 import { GroupDirection } from '@/modules/direction/swagger'
 import { GroupClub, UserClub } from '@/modules/club/swagger'
 import { GroupUser } from '@/modules/user/swagger'
 
-export class GroupDto extends PickType(CreateGroupDto, ['name']) {
+export class GroupDto {
 	@ApiProperty({
-		default: 5
+		example: 5
 	})
 	id: number
 
@@ -20,6 +19,11 @@ export class GroupDto extends PickType(CreateGroupDto, ['name']) {
 
 	@ApiProperty({ isArray: true })
 	users: GroupUser
+
+	@ApiProperty({
+		example: 'Группа 1'
+	})
+	name: string
 }
 
 export class GetGroupByIdOk extends GroupDto {}

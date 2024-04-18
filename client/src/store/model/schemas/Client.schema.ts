@@ -6,6 +6,7 @@ export enum EClientStatus {
 }
 
 export default interface IClient {
+	[key: string]: unknown
 	id: string
 	email: string
 	phone: number

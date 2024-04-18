@@ -1,14 +1,19 @@
 import { FC } from 'react'
 
-import { Select } from '@/shared'
+import { Select, TSelectOption, TSelectProps } from '@/shared'
+import { useGetLocationsQuery } from '@/store'
 
-import { useGetLocationsQuery } from '@store/index'
-
-import { TSelectProps } from '../model'
-
-const SelectLocation: FC<TSelectProps> = props => {
-	const { data: areas } = useGetLocationsQuery()
-	return <Select {...props} options={areas} />
+const SelectLocation: FC<Omit<TSelectProps, 'options'>> = props => {
+	const { data: locations } = useGetLocationsQuery()
+	const convertedLocationsToParams: TSelectOption[] | undefined =
+		locations?.map(
+			location =>
+				({
+					label: location.name,
+					value: location
+				}) as TSelectOption
+		)
+	return <Select {...props} options={convertedLocationsToParams} />
 }
 
 export default SelectLocation

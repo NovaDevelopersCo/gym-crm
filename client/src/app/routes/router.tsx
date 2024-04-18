@@ -2,9 +2,9 @@
 import { Suspense, lazy } from 'react'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 
-import Layout from '@pages/Layout'
+import { ProtectedRoute } from '@/shared'
 
-import { ProtectedRoute } from '@shared/ui'
+import Layout from '@pages/Layout'
 
 const Login = lazy(() => import('@pages/Login'))
 

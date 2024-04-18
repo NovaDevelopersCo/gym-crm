@@ -1,8 +1,7 @@
 import { useState } from 'react'
 
+import { Modal } from '@/shared'
 import { Button, Input, Radio, Table } from 'antd'
-
-import { Modal } from '@shared/ui'
 
 import cl from './StuffList.module.scss'
 import { stuffArr } from './stuff.data'

@@ -1,7 +1,6 @@
 import { FC, HTMLAttributes } from 'react'
 
-import { authApi } from '@store/api'
-import { useAppDispatch } from '@store/lib'
+import { authApi, useAppDispatch } from '@/store'
 
 const LogoutBtn: FC<HTMLAttributes<HTMLButtonElement>> = props => {
 	const dispatch = useAppDispatch()

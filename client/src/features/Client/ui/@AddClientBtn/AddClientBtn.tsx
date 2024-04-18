@@ -1,17 +1,17 @@
 import { useState } from 'react'
 
-import { Button, Modal } from '@shared/ui'
+import { Button, Modal } from '@/shared'
 
-import { Form } from './form'
+import Form from '../@AddClientModal/Form'
 
-const NewClient = () => {
+const AddClientBtn = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-
 	return (
 		<>
 			<Button size='large' onClick={() => setIsModalOpen(true)}>
 				Добавить анкету
 			</Button>
+
 			<Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
 				<Form />
 			</Modal>
@@ -19,4 +19,4 @@ const NewClient = () => {
 	)
 }
 
-export default NewClient
+export default AddClientBtn
