@@ -1,5 +1,5 @@
 import { EStaffRoles } from '@/store'
-import { BarChart3, CloudCog, Home, Users } from 'lucide-react'
+import { BarChart3, Building2, CloudCog, Home, Users } from 'lucide-react'
 
 type TAllRoles = EStaffRoles.ADMIN | EStaffRoles.DIRECTOR | EStaffRoles.TRAINER
 
@@ -31,6 +31,12 @@ export const sidebarItemsArr: {
 		title: 'Аналитика',
 		path: '/dashboard',
 		icon: <BarChart3 />,
+		allowedRoles: [EStaffRoles.DIRECTOR]
+	},
+	{
+		title: 'Клубы',
+		path: '/clubs',
+		icon: <Building2 />,
 		allowedRoles: [EStaffRoles.DIRECTOR]
 	},
 	{
