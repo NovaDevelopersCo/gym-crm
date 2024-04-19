@@ -1,25 +1,20 @@
 import { useState } from 'react'
 
+// eslint-disable-next-line import/no-internal-modules
+import staff from '@/data/staff.json'
 import { Modal } from '@/shared'
+import { EStaffRoles, IStaff } from '@/store'
 import { Button, Input, Radio, Table } from 'antd'
 
-import cl from './StuffList.module.scss'
-import { stuffArr } from './stuff.data'
+import cl from './StaffList.module.scss'
 
-export type Employee = {
-	id: number
-	name: string
-	position: string
-	age: number
-}
-
-export const StuffList = () => {
-	const [employees, setEmployees] = useState(stuffArr)
+export const StaffList = () => {
+	const [employees, setEmployees] = useState<IStaff[]>(staff as IStaff[])
 	const [isModalVisible, setIsModalVisible] = useState(false)
-	const [newEmployee, setNewEmployee] = useState({
-		name: '',
-		position: '',
-		age: 0
+	const [newEmployee, setNewEmployee] = useState<Omit<IStaff, 'id'>>({
+		fio: '',
+		role: EStaffRoles.TRAINER,
+		email: ''
 	})
 	const paginationSizeOptions = [10, 20, 50]
 	const [paginationSize, setPaginationSize] = useState(
@@ -32,27 +27,25 @@ export const StuffList = () => {
 			dataIndex: 'id',
 			key: 'id',
 			width: '10px',
-			sorter: (a: Employee, b: Employee) => a.id - b.id
+			sorter: (a: IStaff, b: IStaff) => a.id - b.id
 		},
-		{ title: 'Name', dataIndex: 'name', key: 'name', width: '300px' },
+		{ title: 'FIO', dataIndex: 'fio', key: 'fio', width: '300px' },
 		{
-			title: 'Position',
-			dataIndex: 'position',
-			key: 'position',
-			sorter: (a: Employee, b: Employee) =>
-				a.position.localeCompare(b.position)
+			title: 'Email',
+			dataIndex: 'email',
+			key: 'email',
+			sorter: (a: IStaff, b: IStaff) => a.email.localeCompare(b.email)
 		},
 		{
-			title: 'Age',
-			dataIndex: 'age',
-			key: 'age',
-			sorter: (a: Employee, b: Employee) => a.age - b.age,
-			width: '10px'
+			title: 'Role',
+			dataIndex: 'role',
+			key: 'role',
+			sorter: (a: IStaff, b: IStaff) => a.role.localeCompare(b.role)
 		},
 		{
 			title: 'Action',
 			key: 'action',
-			render: (record: Employee) => (
+			render: (record: IStaff) => (
 				<Button onClick={() => handleDelete(record.id)}>Delete</Button>
 			)
 		}
@@ -68,14 +61,14 @@ export const StuffList = () => {
 
 	const handleCancel = () => {
 		setIsModalVisible(false)
-		setNewEmployee({ name: '', position: '', age: 0 })
+		setNewEmployee({ fio: '', role: EStaffRoles.TRAINER, email: '' })
 	}
 
 	const handleSubmit = () => {
 		const newId = employees.length + 1
 		setEmployees([...employees, { id: newId, ...newEmployee }])
 		setIsModalVisible(false)
-		setNewEmployee({ name: '', position: '', age: 0 })
+		setNewEmployee({ fio: '', role: EStaffRoles.TRAINER, email: '' })
 	}
 
 	return (
@@ -102,7 +95,7 @@ export const StuffList = () => {
 			</div>
 			<Table
 				columns={columns}
-				rowKey={(record: Employee) => record.id}
+				rowKey={(record: IStaff) => record.id}
 				dataSource={employees}
 				scroll={{ x: 'max-content' }}
 				pagination={{
@@ -113,41 +106,28 @@ export const StuffList = () => {
 				<form className={cl.root__form}>
 					<h2 className={cl.root__form__title}>Add Employee</h2>
 					<label autoFocus htmlFor='name'>
-						Name:
+						FIO:
 					</label>
 					<Input
 						required
-						id='name'
-						value={newEmployee.name}
+						id='fio'
+						value={newEmployee.fio}
 						onChange={e =>
 							setNewEmployee({
 								...newEmployee,
-								name: e.target.value
+								fio: e.target.value
 							})
 						}
 					/>
-					<label htmlFor='position'>Position:</label>
+					<label htmlFor='role'>role:</label>
 					<Input
 						required
-						id='position'
-						value={newEmployee.position}
+						id='role'
+						value={newEmployee.role}
 						onChange={e =>
 							setNewEmployee({
 								...newEmployee,
-								position: e.target.value
-							})
-						}
-					/>
-					<label htmlFor='age'>Age:</label>
-					<Input
-						type='number'
-						required
-						id='age'
-						value={newEmployee.age}
-						onChange={e =>
-							setNewEmployee({
-								...newEmployee,
-								age: parseInt(e.target.value)
+								role: e.target.value as EStaffRoles
 							})
 						}
 					/>

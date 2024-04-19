@@ -1,7 +1,7 @@
-import { IStuff } from '@/store'
+import { IStaff } from '@/store'
 
-interface LoginStuffrDto extends Pick<IStuff, 'email'> {
+interface LoginStaffDto extends Pick<IStaff, 'email'> {
 	password: string
 }
 
-export default LoginStuffrDto
+export default LoginStaffDto
