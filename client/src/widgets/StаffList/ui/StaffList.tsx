@@ -10,7 +10,7 @@ import cl from './StaffList.module.scss'
 
 export const StaffList = () => {
 	const [employees, setEmployees] = useState<IStaff[]>(staff as IStaff[])
-	const [isModalVisible, setIsModalVisible] = useState(false)
+	const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 	const [newEmployee, setNewEmployee] = useState<Omit<IStaff, 'id'>>({
 		fio: '',
 		role: EStaffRoles.TRAINER,

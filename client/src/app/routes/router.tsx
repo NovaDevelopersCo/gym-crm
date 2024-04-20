@@ -15,6 +15,7 @@ const Dashboard = lazy(() => import('@pages/Dashboard'))
 const Home = lazy(() => import('@pages/Home'))
 const Staff = lazy(() => import('@pages/Staff'))
 const ClubsPage = lazy(() => import('@pages/ClubsPage'))
+const DirectionsPage = lazy(() => import('@pages/DirectionsPage'))
 
 export const router = createBrowserRouter([
 	{
@@ -75,6 +76,16 @@ export const router = createBrowserRouter([
 						element: (
 							<ProtectedRoute allowedRoles={['director']}>
 								<ClubsPage />
+							</ProtectedRoute>
+						)
+					},
+					{
+						path: '/directions',
+						element: (
+							<ProtectedRoute
+								allowedRoles={['director', 'admin']}
+							>
+								<DirectionsPage />
 							</ProtectedRoute>
 						)
 					},

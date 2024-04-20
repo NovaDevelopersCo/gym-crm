@@ -1,9 +1,8 @@
 import { Controller, FieldValues, useForm } from 'react-hook-form'
 
-import { Select } from '@/shared'
 import { Checkbox, Input } from 'antd'
 
-import { SelectLocation } from '@features/Select'
+import { SelectClub } from '@features/Select'
 
 import cl from './ClientsFilter.module.scss'
 
@@ -30,15 +29,15 @@ export const ClientsFilter = () => {
 				/>
 			</div>
 			<div className={cl.root__cell}>
-				<label htmlFor='location'>Локация</label>
+				<label htmlFor='club'>Клубы</label>
 				<Controller
-					name='location'
+					name='club'
 					control={control}
 					render={({ field }) => (
-						<SelectLocation
+						<SelectClub
 							field={field}
-							placeholder='Все локации'
-							id='location'
+							placeholder='Все клубы'
+							id='club'
 							mode='multiple'
 							showSearch={false}
 						/>
@@ -102,36 +101,6 @@ export const ClientsFilter = () => {
 							placeholder='Количество дней'
 							type='number'
 							id='visit'
-							{...field}
-						/>
-					)}
-				/>
-			</div>
-			<div className={cl.root__cell}>
-				<label htmlFor='admin'>Ответственный администратор</label>
-				<Controller
-					name='admin'
-					control={control}
-					render={({ field }) => (
-						<Select
-							mode='multiple'
-							placeholder='Любой'
-							id='admin'
-							className={cl.root__cell__select}
-							options={[
-								{
-									label: 'Андрей Иванов',
-									value: 'a.ivanov'
-								},
-								{
-									label: 'Николай Торов',
-									value: 'n.torov'
-								},
-								{
-									label: 'Иван Петров',
-									value: 'i.petrov'
-								}
-							]}
 							{...field}
 						/>
 					)}

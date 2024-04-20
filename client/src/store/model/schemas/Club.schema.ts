@@ -2,7 +2,7 @@ import { IClient } from '.'
 import IGroup from './Group.schema'
 import IStaff from './Staff.schema'
 
-export default interface ILocation {
+export default interface IClub {
 	id: string
 	address: string
 	name: string

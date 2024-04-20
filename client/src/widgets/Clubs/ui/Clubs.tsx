@@ -2,26 +2,20 @@ import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import { Modal } from '@/shared'
+import { IClub } from '@/store'
 import { Button, Input, Table } from 'antd'
 
 import cl from './Clubs.module.scss'
 import { clubsArr } from './clubs.data'
 
-export type TClub = {
-	id: number
-	name: string
-	address: string
-	admin: string
-}
-
 export const Clubs = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false)
-	const [clubs, setClubs] = useState<TClub[]>(clubsArr)
+	const [clubs, seIClubs] = useState(clubsArr)
 
-	const { handleSubmit, control, reset } = useForm<TClub>()
+	const { handleSubmit, control, reset } = useForm<IClub>()
 
-	const handleDelete = (id: number) => {
-		setClubs(clubs.filter(club => club.id !== id))
+	const handleDelete = (id: string) => {
+		seIClubs(clubs.filter(club => club.id !== id))
 	}
 
 	const handleCancel = () => {
@@ -29,10 +23,10 @@ export const Clubs = () => {
 		reset()
 	}
 
-	const onSubmit = (data: Omit<TClub, 'id'>) => {
-		const id = clubs.length + 1
-		const newClub = { id, ...data }
-		setClubs([...clubs, newClub])
+	const onSubmit = (data: Omit<IClub, 'id'>) => {
+		const id: Pick<IClub, 'id'>['id'] = (clubs.length + 1).toString()
+		const newClub: IClub = { id, ...data }
+		seIClubs([...clubs, newClub])
 		setIsModalOpen(false)
 		reset()
 	}
@@ -43,25 +37,24 @@ export const Clubs = () => {
 			dataIndex: 'id',
 			key: 'id',
 			width: '10px',
-			sorter: (a: TClub, b: TClub) => a.id - b.id
+			sorter: (a: IClub, b: IClub) => a.id.localeCompare(b.id)
 		},
 		{ title: 'Name', dataIndex: 'name', key: 'name', width: '300px' },
 		{
 			title: 'Address',
 			dataIndex: 'address',
 			key: 'address',
-			sorter: (a: TClub, b: TClub) => a.address.localeCompare(b.address)
+			sorter: (a: IClub, b: IClub) => a.address.localeCompare(b.address)
 		},
-		{
-			title: 'Admin',
-			dataIndex: 'admin',
-			key: 'admin',
-			sorter: (a: TClub, b: TClub) => a.admin.localeCompare(b.admin)
-		},
+		// {
+		// 	title: 'Admin',
+		// 	dataIndex: 'admin',
+		// 	key: 'admin'
+		// },
 		{
 			title: 'Action',
 			key: 'action',
-			render: (record: TClub) => (
+			render: (record: IClub) => (
 				<Button onClick={() => handleDelete(record.id)}>Delete</Button>
 			)
 		}
@@ -75,6 +68,8 @@ export const Clubs = () => {
 			>
 				Add Club
 			</Button>
+			{/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+			{/* @ts-expect-error */}
 			<Table columns={columns} dataSource={clubs} />
 			<Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
 				<form
@@ -102,7 +97,7 @@ export const Clubs = () => {
 							<Input {...field} id='address' type='text' />
 						)}
 					/>
-
+					{/*
 					<label htmlFor='admin'>Admin</label>
 
 					<Controller
@@ -112,7 +107,7 @@ export const Clubs = () => {
 						render={({ field }) => (
 							<Input {...field} id='admin' type='text' />
 						)}
-					/>
+					/> */}
 
 					<Button htmlType='submit' type='primary'>
 						Add

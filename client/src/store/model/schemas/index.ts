@@ -1,9 +1,9 @@
-import IArea from './Area.schema'
+import IDirection from './Direction.schema'
 import IClient, { EClientStatus } from './Client.schema'
 import IGroup from './Group.schema'
-import ILocation from './Location.schema'
+import IClub from './Club.schema'
 import IStaff, { EStaffRoles } from './Staff.schema'
 
-export type { IClient, IStaff, IArea, ILocation, IGroup }
+export type { IClient, IStaff, IDirection, IClub, IGroup }
 
 export { EStaffRoles, EClientStatus }

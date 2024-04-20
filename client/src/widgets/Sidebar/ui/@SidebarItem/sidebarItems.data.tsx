@@ -34,6 +34,12 @@ export const sidebarItemsArr: {
 		allowedRoles: [EStaffRoles.DIRECTOR]
 	},
 	{
+		title: 'Направления',
+		path: '/directions',
+		icon: <Building2 />,
+		allowedRoles: [EStaffRoles.DIRECTOR, EStaffRoles.ADMIN]
+	},
+	{
 		title: 'Клубы',
 		path: '/clubs',
 		icon: <Building2 />,
