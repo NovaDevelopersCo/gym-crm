@@ -53,6 +53,9 @@ const Form = () => {
 								field={field}
 								placeholder={i.label}
 								bodyClassName={cl.root__item}
+								getPopupContainer={trigger =>
+									trigger.parentElement
+								}
 								{...i}
 							/>
 						)}

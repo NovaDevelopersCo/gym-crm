@@ -17,7 +17,9 @@
 		opacity: 1;
 		visibility: visible;
 	}
+
 	&__body {
+		position: relative;
 		height: 70dvh;
 		overflow-y: scroll;
 		background: #fff;
