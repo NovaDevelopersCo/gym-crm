@@ -1,0 +1,62 @@
+[
+	{
+		"id": 1,
+		"fio": "Paolina Surmeyers",
+		"email": "psurmeyers0@msu.edu",
+		"role": "trainer"
+	},
+	{
+		"id": 2,
+		"fio": "Susanne Davidi",
+		"email": "sdavidi1@psu.edu",
+		"role": "admin"
+	},
+	{
+		"id": 3,
+		"fio": "Charmian Tourot",
+		"email": "ctourot2@artisteer.com",
+		"role": "trainer"
+	},
+	{
+		"id": 4,
+		"fio": "Lauritz Roux",
+		"email": "lroux3@ucla.edu",
+		"role": "admin"
+	},
+	{
+		"id": 5,
+		"fio": "Corabella McElroy",
+		"email": "cmcelroy4@forbes.com",
+		"role": "trainer"
+	},
+	{
+		"id": 6,
+		"fio": "Andrei Kleinmintz",
+		"email": "akleinmintz5@yolasite.com",
+		"role": "admin"
+	},
+	{
+		"id": 7,
+		"fio": "Alverta Pay",
+		"email": "apay6@earthlink.net",
+		"role": "admin"
+	},
+	{
+		"id": 8,
+		"fio": "Kiele Jeduch",
+		"email": "kjeduch7@shutterfly.com",
+		"role": "admin"
+	},
+	{
+		"id": 9,
+		"fio": "Susanetta Balsillie",
+		"email": "sbalsillie8@tripod.com",
+		"role": "admin"
+	},
+	{
+		"id": 10,
+		"fio": "Norry Murra",
+		"email": "nmurra9@ca.gov",
+		"role": "admin"
+	}
+]

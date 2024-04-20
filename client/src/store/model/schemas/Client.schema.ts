@@ -1,4 +1,4 @@
-import { EStuffRoles, IArea, IGroup, IStuff } from '.'
+import { EStaffRoles, IArea, IGroup, IStaff } from '.'
 
 export enum EClientStatus {
 	member = 'CLUB_MEMBER',
@@ -28,9 +28,9 @@ export default interface IClient {
 	groups: IGroup[]
 
 	directions: IArea[]
-	trainer: Omit<IStuff, 'role'> &
+	trainer: Omit<IStaff, 'role'> &
 		{
-			role: EStuffRoles.TRAINER
+			role: EStaffRoles.TRAINER
 		}[]
 
 	sex: 'male' | 'female'

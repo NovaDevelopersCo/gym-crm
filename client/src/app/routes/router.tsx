@@ -13,7 +13,7 @@ const ClientsPage = lazy(() => import('@pages/Clients'))
 const ClientProfile = lazy(() => import('@pages/ClientProfile'))
 const Dashboard = lazy(() => import('@pages/Dashboard'))
 const Home = lazy(() => import('@pages/Home'))
-const Stuff = lazy(() => import('@pages/Stuff'))
+const Staff = lazy(() => import('@pages/Staff'))
 
 export const router = createBrowserRouter([
 	{
@@ -62,10 +62,10 @@ export const router = createBrowserRouter([
 						)
 					},
 					{
-						path: '/stuff',
+						path: '/Staff',
 						element: (
 							<ProtectedRoute allowedRoles={['director']}>
-								<Stuff />
+								<Staff />
 							</ProtectedRoute>
 						)
 					},

@@ -1,6 +1,6 @@
-import { IStuff } from '../..'
+import { IStaff } from '../..'
 
-interface CreateStaffDto extends Omit<IStuff, 'id'> {
+interface CreateStaffDto extends Omit<IStaff, 'id'> {
 	password: string
 }
 
