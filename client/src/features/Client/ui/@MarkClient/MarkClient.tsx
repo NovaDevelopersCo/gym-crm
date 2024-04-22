@@ -45,9 +45,9 @@ const MarkClient = () => {
 						key={idx}
 						className={clsx(
 							styles.elem,
-							idx == 2 && styles.elem_active,
 							today.getDate() == day.getDate() &&
-								styles.elem_current
+								styles.elem_current,
+							idx == 2 && styles.elem_active
 						)}
 					>
 						<h4>{day.getDate()}</h4>
