@@ -3,9 +3,8 @@ import { NestFactory } from '@nestjs/core'
 import { ENodeEnv } from './core/enums'
 import { SwaggerModule } from '@nestjs/swagger'
 import { AppModule } from './app.module'
-import { swaggerConfig, winstonConfig } from '@configs'
+import { swaggerConfig } from '@configs'
 import * as cookieParser from 'cookie-parser'
-import { WinstonModule } from 'nest-winston'
 
 //TODO: FIX:
 // * (Going) make cascade in other schemas
@@ -18,9 +17,7 @@ import { WinstonModule } from 'nest-winston'
 // * use Pagination class
 
 async function bootstrap() {
-	const app = await NestFactory.create(AppModule, {
-		logger: WinstonModule.createLogger(winstonConfig)
-	})
+	const app = await NestFactory.create(AppModule)
 	app.use(cookieParser())
 	app.setGlobalPrefix('/api')
 

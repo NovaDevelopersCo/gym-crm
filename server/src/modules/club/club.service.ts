@@ -8,6 +8,7 @@ import { EStaffRole } from '@/core/enums'
 import { StaffEntity } from '../staff/entities'
 import { DataBaseService } from '@/core/database/database.service'
 import { PaginationDto } from '@/core/pagination'
+import { LoggerService } from '@/core/logger/logger.service'
 
 @Injectable()
 export class ClubService {
@@ -15,7 +16,8 @@ export class ClubService {
 		@InjectRepository(ClubEntity)
 		private readonly clubRepository: Repository<ClubEntity>,
 		private readonly staffService: StaffService,
-		private readonly dataBaseService: DataBaseService
+		private readonly dataBaseService: DataBaseService,
+		private readonly logger: LoggerService
 	) {}
 
 	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllClubDto) {
@@ -49,6 +51,7 @@ export class ClubService {
 		})
 
 		if (!club) {
+			this.logger.error('Клуб с id не найден', 404)
 			throw new NotFoundException(`Клуб с id: ${id} не найден`)
 		}
 
