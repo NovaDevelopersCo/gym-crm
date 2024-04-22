@@ -10,6 +10,7 @@ import { AbonementModule } from './modules/abonement/abonement.module'
 import { TypeOrmModule } from '@nestjs/typeorm'
 import { GroupModule } from './modules/group/group.module'
 import { DataBaseModule } from './core/database/database.module'
+import { Logger } from '@nestjs/common'
 
 @Module({
 	imports: [
@@ -27,6 +28,7 @@ import { DataBaseModule } from './core/database/database.module'
 			inject: [ConfigService],
 			useFactory: getTypeormOptions
 		})
-	]
+	],
+	providers: [Logger]
 })
 export class AppModule {}
