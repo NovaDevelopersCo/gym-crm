@@ -1,0 +1,51 @@
+.markClient {
+	display: flex;
+	margin-left: 20px;
+	margin-top: 20px;
+	flex-direction: column;
+	max-width: 300px;
+	padding: 20px;
+	box-shadow: 5px 5px 5px grey;
+	border-radius: 6px;
+	border: 1px solid grey;
+
+	&__title {
+		font-size: 22px;
+	}
+
+	&__viewList {
+		margin-top: 20px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-around;
+
+		.elem {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 30px;
+			height: 30px;
+			border-radius: 50%;
+			background-color: #d0d0d0;
+			border: 1px solid #a5a5a5;
+			box-shadow: 2px 2px 2px grey;
+			color: white;
+			&_active {
+				background-color: green	;
+			}
+			&_current {
+				background-color: orange;
+			}
+		}
+	}
+
+	&__markBtn {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		margin-top: 10px;
+		width: max-content;
+		padding: 10px 20px;
+		height: min-content;
+	}
+}
