@@ -14,8 +14,9 @@ const ClientProfile = lazy(() => import('@pages/ClientProfile'))
 const Dashboard = lazy(() => import('@pages/Dashboard'))
 const Home = lazy(() => import('@pages/Home'))
 const Staff = lazy(() => import('@pages/Staff'))
-const ClubsPage = lazy(() => import('@pages/ClubsPage'))
-const DirectionsPage = lazy(() => import('@pages/DirectionsPage'))
+const Clubs = lazy(() => import('@pages/Clubs'))
+const Directions = lazy(() => import('@pages/Directions'))
+const Groups = lazy(() => import('@pages/Groups'))
 
 export const router = createBrowserRouter([
 	{
@@ -64,7 +65,7 @@ export const router = createBrowserRouter([
 						)
 					},
 					{
-						path: '/Staff',
+						path: '/staff',
 						element: (
 							<ProtectedRoute allowedRoles={['director']}>
 								<Staff />
@@ -75,7 +76,17 @@ export const router = createBrowserRouter([
 						path: '/clubs',
 						element: (
 							<ProtectedRoute allowedRoles={['director']}>
-								<ClubsPage />
+								<Clubs />
+							</ProtectedRoute>
+						)
+					},
+					{
+						path: '/groups',
+						element: (
+							<ProtectedRoute
+								allowedRoles={['director', 'admin']}
+							>
+								<Groups />
 							</ProtectedRoute>
 						)
 					},
@@ -85,7 +96,7 @@ export const router = createBrowserRouter([
 							<ProtectedRoute
 								allowedRoles={['director', 'admin']}
 							>
-								<DirectionsPage />
+								<Directions />
 							</ProtectedRoute>
 						)
 					},

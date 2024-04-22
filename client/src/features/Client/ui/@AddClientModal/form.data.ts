@@ -10,11 +10,9 @@ type TNewClientFormFields =
 	| 'telegram'
 	| 'instagram'
 	| 'commentary'
-	| 'age'
 	| 'birthdayDate'
 	| 'howDoYouKnow'
 	| 'club'
-	| 'beforeDirection'
 	| 'direction'
 	| 'groupIds'
 
@@ -89,25 +87,6 @@ export const newClientFromItemsArr: TNewClientFormItem[] = [
 		}
 	},
 	{
-		label: 'Возраст',
-		type: 'number',
-		name: 'age',
-		rules: {
-			pattern: {
-				value: /^\d+$/,
-				message: 'Возраст должен быть числом'
-			},
-			min: {
-				value: 1,
-				message: 'Возраст должен быть больше 0'
-			},
-			max: {
-				value: 200,
-				message: 'Возраст должен быть не более 200'
-			}
-		}
-	},
-	{
 		label: 'Дата рождения',
 		type: 'date',
 		name: 'birthdayDate',
@@ -148,20 +127,7 @@ export const newClientFromItemsArr: TNewClientFormItem[] = [
 		required: true
 	},
 	{
-		label: 'Чем вы занимались до?',
-		type: 'text',
-		name: 'beforeDirection',
-		required: true,
-		isTextArea: true,
-		rules: {
-			maxLength: {
-				value: 1000,
-				message: 'Это поле не можем быть длиннее 1000 символов'
-			}
-		}
-	},
-	{
-		label: 'В каких группах вы занимаетесь?',
+		label: 'Группы',
 		name: 'groupIds',
 		options: [
 			{ value: '345', label: 'Группа 345' },
@@ -172,7 +138,7 @@ export const newClientFromItemsArr: TNewClientFormItem[] = [
 		isMulti: true
 	},
 	{
-		label: 'Чем занимаетесь сейчас?',
+		label: 'Направление',
 		name: 'direction',
 		options: [
 			{ value: 'Box', label: 'Бокс' },

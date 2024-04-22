@@ -1,1 +1,3 @@
-export * from './ui/CreateGroup'
+import CreateGroup from './ui/CreateGroup'
+
+export { CreateGroup }
