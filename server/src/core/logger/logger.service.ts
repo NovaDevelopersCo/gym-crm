@@ -10,15 +10,11 @@ export class LoggerService {
 		private readonly logger: Logger
 	) {}
 
-	error(message: string, status: HttpStatus) {
-		this.logger.log(ELoggerLevels.ERROR, JSON.stringify({ message, status }))
+	error(event: string, message: string, status: HttpStatus) {
+		this.logger.log(ELoggerLevels.ERROR, JSON.stringify({ message, status, event }))
 	}
 
-	info(message: string) {
-		this.logger.log(ELoggerLevels.INFO, JSON.stringify({ message }))
-	}
-
-	event(message: string) {
-		this.logger.log(ELoggerLevels.EVENT, JSON.stringify({ message }))
+	event(event: string, message: string) {
+		this.logger.log(ELoggerLevels.EVENT, JSON.stringify({ message, event }))
 	}
 }

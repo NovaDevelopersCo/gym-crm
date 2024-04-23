@@ -7,7 +7,7 @@ const { printf } = format
 
 export class LoggerUtils {
 	private isProduction: boolean
-	private readonly expectedLevels = ['event', 'info', 'error']
+	private readonly expectedLevels = ['event', 'error']
 
 	constructor(configService: ConfigService) {
 		this.isProduction = configService.get('NODE_ENV') === ENodeEnv.PRODUCTION
@@ -42,16 +42,20 @@ export class LoggerUtils {
 	private getFormattedMessage({
 		message,
 		level,
-		status
+		status,
+		event
 	}: {
 		message: string
 		level: string
 		status?: HttpStatus
+		event?: string
 	}) {
-		if (level === ELoggerLevels.EVENT) {
-			return '<event>' + `${JSON.stringify({ message, status })}` + '</event>'
+		const body: { event: string; message: string; status?: HttpStatus } = { event, message }
+
+		if (level === ELoggerLevels.ERROR) {
+			body.status = status
 		}
 
-		return message
+		return '<log>' + JSON.stringify(body) + '</log>'
 	}
 }

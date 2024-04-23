@@ -51,7 +51,6 @@ export class ClubService {
 		})
 
 		if (!club) {
-			this.logger.error('Клуб с id не найден', 404)
 			throw new NotFoundException(`Клуб с id: ${id} не найден`)
 		}
 

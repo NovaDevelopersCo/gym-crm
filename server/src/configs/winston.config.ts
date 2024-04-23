@@ -34,8 +34,7 @@ export const getWinstonConfig = (configService: ConfigService): WinstonModuleOpt
 		],
 		levels: {
 			[ELoggerLevels.EVENT]: 0,
-			[ELoggerLevels.INFO]: 1,
-			[ELoggerLevels.ERROR]: 2
+			[ELoggerLevels.ERROR]: 1
 		}
 	}
 }
