@@ -35,7 +35,6 @@ export class LoggerUtils {
 
 	parseMessage = format(info => {
 		Object.assign(info, JSON.parse(info.message))
-		console.log(info)
 		return info
 	})
 
