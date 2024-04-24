@@ -1,0 +1,76 @@
+#vector.toml
+[sources.app_logs]  # ! эта секция описывает настройки того откуда сборщику логов брать данные.
+  type = "file"
+  include = ["/logs/*.log"]
+  
+[transforms.remap_app_logs] #! Секция настроек описывающая трансформацию данных
+inputs = ["app_logs"] #! Входные данные, ссылается на выше описанную секцию
+type = "remap" #! задает тип трансформации, документация: https://vector.dev/docs/reference/configuration/transforms/
+file="/etc/vector/transform.vrl" #! ссылка на файл с алгоритмом преобразования данных
+
+
+[transforms.filter_events] #! Секция фильтрации событий
+inputs = ["remap_app_logs"] 
+type = "filter" 
+condition = '.status == null'
+
+[transforms.filter_logs] # !Секция фильтрации лога приложения
+inputs = ["remap_app_logs"] 
+type = "filter" 
+condition = '.status != null'
+
+[sinks.emit_events] #! секция описывающая место доставки событий приложения
+  type = "clickhouse"
+  inputs = ["filter_events"]
+  endpoint = "http://clickhouse:8123"
+  auth.strategy = "basic"
+  auth.user = "admin"
+  auth.password = "qwerty"
+  database = "log_storage"
+  table = "logs_event"
+  skip_unknown_fields = true
+  encoding.timestamp_format = "unix"
+  batch.max_events = 1
+  batch.timeout_secs = 1
+
+[sinks.emit_logs] #!секция описывающая место доставки логов приложения
+  type = "clickhouse"
+  inputs = ["filter_logs"]
+  endpoint = "http://clickhouse:8123"
+  auth.strategy = "basic"
+  auth.user = "admin"
+  auth.password = "qwerty"
+  database = "log_storage"
+  table = "logs_app"
+  skip_unknown_fields = true
+  encoding.timestamp_format = "unix"
+  batch.max_events = 100
+  batch.timeout_secs = 5
+
+
+
+# [sources.debug_logs]  # откуда сборщику логов брать данные.
+# type = "demo_logs" # в качестве источника логов будут использоваться демо данные, подробнее: https://vector.dev/docs/reference/configuration/sources/demo_logs/
+# format = "shuffle"
+# count = 3
+# lines = [ # массив демо данных
+# '2024-04-23T21:56:39.032Z event: <log>{"event":"Получение клуба по id","message":"Клуб с id: 12 не найден"}</log>',
+# '2024-04-23T21:56:39.032Z error: <log>{"event":"Получение клуба по id","message":"Клуб с id: 12 не найден","status":404}</log>'
+# ]
+ 
+# [transforms.remap_debug_logs] # Секция настроек описывающая трансформацию данных
+# inputs = ["debug_logs"] # Входные данные, ссылается на выше описанную секцию
+# type = "remap" # задает тип трансформации, документация: https://vector.dev/docs/reference/configuration/transforms/
+# file="/etc/vector/transform.vrl" # ссылка на файл с алгоритмом преобразования данных
+
+
+
+# [transforms.filter_events] #! Секция фильтрации событий
+# inputs = ["remap_debug_logs"] 
+# type = "filter" 
+# condition = '.status != null'
+ 
+# [sinks.emit_debug_logs] # секция настроек описывающая место назначения
+# inputs = ["filter_events"] # Входные данные, результат работы предыдущей секции
+# type = "console" # Тип назначения (в консоль), документация: https://vector.dev/docs/reference/configuration/sinks/
+# encoding.codec = "json" # формат вывода данных
