@@ -40,7 +40,7 @@ export class AuthService {
 		userId: string
 	): Promise<{
 		tokens: RefreshDto
-		profile: Pick<StaffEntity, 'email' | 'id' | 'role' | 'fio'>
+		profile: Pick<StaffEntity, 'email' | 'id' | 'role'>
 	} | null> {
 		const tokenFromDb = await this.tokenService.findToken(refresh)
 		const profile = await this.staffService.getById(+userId)

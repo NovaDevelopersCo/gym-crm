@@ -4,16 +4,6 @@ import { ApiProperty } from '@nestjs/swagger'
 
 export class CreateStaffDto {
 	@ApiProperty({
-		minLength: 2,
-		maxLength: 100,
-		example: 'Васильев Василий Васильевич'
-	})
-	@IsString({ message: 'Ф.И.О. должно быть строкой' })
-	@MaxLength(100, { message: 'Максимальная длина Ф.И.О 100 символов' })
-	@MinLength(2, { message: 'Минимальная длина Ф.И.О 5 символа' })
-	fio: string
-
-	@ApiProperty({
 		minLength: 8,
 		maxLength: 32,
 		example: 'password'

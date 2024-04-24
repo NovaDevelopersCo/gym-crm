@@ -53,8 +53,8 @@ export class StaffService {
 		const hashPassword = await hash(password, 7)
 		const savedStaff = await this.staffRepository.save({ ...data, password: hashPassword })
 
-		const { id, email, role, fio } = savedStaff
-		return { id, email, role, fio }
+		const { id, email, role } = savedStaff
+		return { id, email, role }
 	}
 
 	async getAll({ sortBy, count, page, q, searchBy, sortOrder }: FindAllStaffDto) {
@@ -89,11 +89,9 @@ export class StaffService {
 			staff.email = dto.email
 		}
 
-		if (staff.fio === dto.fio) staff.fio = dto.fio
-
 		const savedStaff = await this.staffRepository.save({ ...staff })
-		const { email, fio, role: staffRole } = savedStaff
-		return { id, email, fio, role: staffRole }
+		const { email, role: staffRole } = savedStaff
+		return { id, email, role: staffRole }
 	}
 
 	//! Обсудить
