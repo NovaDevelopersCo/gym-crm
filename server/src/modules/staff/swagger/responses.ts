@@ -3,6 +3,7 @@ import { EStaffRole } from '@/core/enums'
 import { StaffClub } from '@/modules/club/swagger'
 import { CreateStaffDto } from '../dto'
 import { PaginationResponse } from '@/core/swagger'
+import { StaffDecoratorsSwagger } from './decorators'
 
 export class StaffDto extends OmitType(CreateStaffDto, ['password']) {
 	@ApiProperty({
@@ -12,10 +13,7 @@ export class StaffDto extends OmitType(CreateStaffDto, ['password']) {
 }
 
 export class FullStaff extends OmitType(StaffDto, ['role']) {
-	@ApiProperty({
-		enum: EStaffRole,
-		example: 'admin'
-	})
+	@StaffDecoratorsSwagger.role()
 	role: EStaffRole
 }
 

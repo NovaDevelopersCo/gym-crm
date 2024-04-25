@@ -1,9 +1,9 @@
 import { StaffEntity } from '@/modules/staff/entities'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { hash } from 'bcrypt'
+import { hash, compare } from 'bcrypt'
 import { ILike, Repository, FindOneOptions, In } from 'typeorm'
-import { CreateStaffDto, FindAllStaffDto, UpdateStaffDto } from './dto'
+import { CreateStaffDto, FindAllStaffDto, UpdateStaffDto, UpdatePasswordStaffDto } from './dto'
 import { EStaffRole } from '@/core/enums'
 import { PaginationDto } from '@/core/pagination'
 
@@ -150,5 +150,21 @@ export class StaffService {
 		}
 
 		return staffs
+	}
+
+	async updatePassword(id: number, dto: UpdatePasswordStaffDto) {
+		const { password: oldPassword, newPassword } = dto
+
+		const user = await this.getById(id)
+
+		const isPasswordValid = await compare(user.password, oldPassword)
+
+		if (!isPasswordValid) {
+			throw new BadRequestException('Неверный пароль')
+		}
+
+		const hashPassword = await hash(newPassword, 7)
+
+		return this.staffRepository.save({ ...user, password: hashPassword })
 	}
 }
