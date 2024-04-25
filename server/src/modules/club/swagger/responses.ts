@@ -1,14 +1,13 @@
 import { IntersectionType, ApiProperty, PickType, OmitType } from '@nestjs/swagger'
-import { PaginationResponse } from '@/core/swagger'
+import { PaginationResponse, CommonDecoratorsSwagger } from '@/core/swagger'
 import { CreateClubDto } from '../dto'
 import { StaffDto } from '@/modules/staff/swagger'
 import { ClubGroup } from '@/modules/group/swagger'
 import { ClubUser } from '@/modules/user/swagger'
+import { ClubDecoratorsSwagger } from './decorators'
 
 export class ClubDto extends OmitType(CreateClubDto, ['admin', 'name', 'address']) {
-	@ApiProperty({
-		example: 1
-	})
+	@CommonDecoratorsSwagger.id()
 	id: number
 
 	@ApiProperty({
@@ -28,14 +27,10 @@ export class ClubDto extends OmitType(CreateClubDto, ['admin', 'name', 'address'
 	})
 	admin: StaffDto
 
-	@ApiProperty({
-		example: 'Mass Club'
-	})
+	@ClubDecoratorsSwagger.name_()
 	name: string
 
-	@ApiProperty({
-		example: 'г. Москва ул. Шишкина д. 45'
-	})
+	@ClubDecoratorsSwagger.address()
 	address: string
 }
 
@@ -49,9 +44,7 @@ export class GetAllClubsOk extends PaginationResponse {
 }
 
 class ClubAdmin {
-	@ApiProperty({
-		example: 1
-	})
+	@CommonDecoratorsSwagger.id()
 	id: number
 }
 

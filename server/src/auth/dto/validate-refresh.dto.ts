@@ -1,8 +1,6 @@
-import { IsString } from 'class-validator'
+import { AuthDecoratorsSwagger } from '../swagger/decorators'
 
 export class ValidateRefreshDto {
-	@IsString({
-		message: 'Refresh токен должен быть строкой'
-	})
+	@AuthDecoratorsSwagger.refresh()
 	refresh: string
 }

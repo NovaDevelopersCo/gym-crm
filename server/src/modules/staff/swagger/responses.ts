@@ -2,14 +2,15 @@ import { ApiProperty, OmitType, IntersectionType } from '@nestjs/swagger'
 import { EStaffRole } from '@/core/enums'
 import { StaffClub } from '@/modules/club/swagger'
 import { CreateStaffDto } from '../dto'
-import { PaginationResponse } from '@/core/swagger'
+import { CommonDecoratorsSwagger, PaginationResponse } from '@/core/swagger'
 import { StaffDecoratorsSwagger } from './decorators'
 
-export class StaffDto extends OmitType(CreateStaffDto, ['password']) {
-	@ApiProperty({
-		example: 35
-	})
+export class StaffDto extends OmitType(CreateStaffDto, ['password', 'email']) {
+	@CommonDecoratorsSwagger.id()
 	id: number
+
+	@CommonDecoratorsSwagger.email()
+	email: string
 }
 
 export class FullStaff extends OmitType(StaffDto, ['role']) {
