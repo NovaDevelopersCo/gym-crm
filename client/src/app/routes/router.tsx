@@ -2,9 +2,9 @@
 import { Suspense, lazy } from 'react'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 
-import Layout from '@pages/Layout'
+import { ProtectedRoute } from '@/shared'
 
-import { ProtectedRoute } from '@shared/ui'
+import Layout from '@pages/Layout'
 
 const Login = lazy(() => import('@pages/Login'))
 
@@ -13,7 +13,10 @@ const ClientsPage = lazy(() => import('@pages/Clients'))
 const ClientProfile = lazy(() => import('@pages/ClientProfile'))
 const Dashboard = lazy(() => import('@pages/Dashboard'))
 const Home = lazy(() => import('@pages/Home'))
-const Stuff = lazy(() => import('@pages/Stuff'))
+const Staff = lazy(() => import('@pages/Staff'))
+const Clubs = lazy(() => import('@pages/Clubs'))
+const Directions = lazy(() => import('@pages/Directions'))
+const Groups = lazy(() => import('@pages/Groups'))
 
 export const router = createBrowserRouter([
 	{
@@ -62,10 +65,38 @@ export const router = createBrowserRouter([
 						)
 					},
 					{
-						path: '/stuff',
+						path: '/staff',
 						element: (
 							<ProtectedRoute allowedRoles={['director']}>
-								<Stuff />
+								<Staff />
+							</ProtectedRoute>
+						)
+					},
+					{
+						path: '/clubs',
+						element: (
+							<ProtectedRoute allowedRoles={['director']}>
+								<Clubs />
+							</ProtectedRoute>
+						)
+					},
+					{
+						path: '/groups',
+						element: (
+							<ProtectedRoute
+								allowedRoles={['director', 'admin']}
+							>
+								<Groups />
+							</ProtectedRoute>
+						)
+					},
+					{
+						path: '/directions',
+						element: (
+							<ProtectedRoute
+								allowedRoles={['director', 'admin']}
+							>
+								<Directions />
 							</ProtectedRoute>
 						)
 					},

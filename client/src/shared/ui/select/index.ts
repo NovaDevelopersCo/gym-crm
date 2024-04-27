@@ -1,4 +1,5 @@
 import Select from './Select'
 
+export * from './Select.types'
+
 export { Select }
-export type { TOption } from './types'

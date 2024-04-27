@@ -1,15 +1,12 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { PickType, OmitType } from '@nestjs/swagger'
-import { PaginationResponse } from '@/core/swagger'
-import { CreateGroupDto } from '../dto'
+import { PickType, OmitType, ApiProperty } from '@nestjs/swagger'
+import { PaginationResponse, CommonDecoratorsSwagger } from '@/core/swagger'
 import { GroupDirection } from '@/modules/direction/swagger'
 import { GroupClub, UserClub } from '@/modules/club/swagger'
 import { GroupUser } from '@/modules/user/swagger'
+import { GroupDecoratorsSwagger } from './decorators'
 
-export class GroupDto extends PickType(CreateGroupDto, ['name']) {
-	@ApiProperty({
-		default: 5
-	})
+export class GroupDto {
+	@CommonDecoratorsSwagger.id()
 	id: number
 
 	@ApiProperty()
@@ -20,6 +17,9 @@ export class GroupDto extends PickType(CreateGroupDto, ['name']) {
 
 	@ApiProperty({ isArray: true })
 	users: GroupUser
+
+	@GroupDecoratorsSwagger.name_()
+	name: string
 }
 
 export class GetGroupByIdOk extends GroupDto {}

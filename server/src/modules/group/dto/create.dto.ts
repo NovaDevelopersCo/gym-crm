@@ -1,24 +1,13 @@
-import { ApiProperty } from '@nestjs/swagger'
-import { IsNumber, IsString, MaxLength, MinLength } from 'class-validator'
+import { CommonDecoratorsSwagger } from '@/core/swagger'
+import { GroupDecoratorsSwagger } from '../swagger'
 
 export class CreateGroupDto {
-	@ApiProperty({
-		default: 'Группа 1'
-	})
-	@IsString({ message: 'Название группы должно быть строкой' })
-	@MaxLength(100, { message: 'Максимальная длина названия группы 100 символов' })
-	@MinLength(2, { message: 'Минимальная длина названия группы 2 символа' })
+	@GroupDecoratorsSwagger.name_(true)
 	name: string
 
-	@ApiProperty({
-		default: 3
-	})
-	@IsNumber({}, { message: 'Id направления должен быть числом ' })
+	@GroupDecoratorsSwagger.directionId(true)
 	direction: number
 
-	@ApiProperty({
-		default: 5
-	})
-	@IsNumber({}, { message: 'Id клуба должен быть числом' })
+	@CommonDecoratorsSwagger.clubId(true)
 	club: number
 }

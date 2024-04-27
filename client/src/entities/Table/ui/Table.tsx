@@ -1,6 +1,6 @@
 import type { Dispatch, FC, SetStateAction } from 'react'
 
-import 'redux'
+import { Typography } from 'antd'
 
 import { TBodyContent, TColumnProps } from '../model'
 import TBody from './@TBody/TBody'
@@ -13,9 +13,12 @@ type TTabelProps = {
 	total: number
 	limit: number
 	setLimit: Dispatch<SetStateAction<number>>
+	fallback: string
 }
 
-const Table: FC<TTabelProps> = ({ cols, content, ...props }) => {
+const { Title } = Typography
+
+const Table: FC<TTabelProps> = ({ cols, content, fallback, ...props }) => {
 	return (
 		<div className={styles.table__viewport}>
 			<div
@@ -25,7 +28,13 @@ const Table: FC<TTabelProps> = ({ cols, content, ...props }) => {
 				}}
 			>
 				<THeader cols={cols} {...props} />
-				<TBody cols={cols} content={content} />
+				{content.length == 0 ? (
+					<Title level={3} className={styles.table__fallback}>
+						{fallback}
+					</Title>
+				) : (
+					<TBody cols={cols} content={content} />
+				)}
 			</div>
 		</div>
 	)

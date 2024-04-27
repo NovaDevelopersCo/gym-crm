@@ -3,12 +3,12 @@
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
+import { Input, Select } from '@/shared'
 import { EditFilled } from '@ant-design/icons'
 
-import { DatePicker, Input, Select } from '@shared/ui'
-
+// eslint-disable-next-line import/no-internal-modules
+import { clientInfo } from '../data/clietnInfo.data'
 import cl from './ClientInfo.module.scss'
-import { clientInfo } from './clietnInfo.data'
 
 const ClientInfo = () => {
 	type TClientInfo = {
@@ -21,13 +21,17 @@ const ClientInfo = () => {
 		card: number
 		level: string[]
 		trainer: string[]
-		group: string[]
+		groups: string[]
 		discipline: string[]
 		abonement: string[]
 		when_purchased: number
 		when_expires: number
 		clients_notes: string
 		administration_notes: string
+		status: string
+		birthday: string
+		instagram: string
+		telegram: string
 	}
 
 	const [isDisabled, setIsDisabled] = useState<boolean>(true)
@@ -84,7 +88,7 @@ const ClientInfo = () => {
 					</button>
 				</div>
 				<div className={cl.root__container_infoBlock}>
-					{clientInfo.map(({ isDatepicker, rules, ...i }) =>
+					{clientInfo.map(({ rules, ...i }) =>
 						i.options ? (
 							<Controller
 								name={i.name}
@@ -92,14 +96,15 @@ const ClientInfo = () => {
 								key={i.name}
 								render={({ field }) => (
 									<Select
+										style={{ zIndex: 2 }}
 										disabled={isDisabled}
 										// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 										// @ts-expect-error
 										field={field}
 										placeholder={i.name}
-										// bodyClassName={
-										// 	cl.root__container_infoBlock_info
-										// }
+										bodyClassName={
+											cl.root__container_infoBlock_info
+										}
 										{...i}
 									/>
 								)}
@@ -110,33 +115,17 @@ const ClientInfo = () => {
 								control={control}
 								key={i.name}
 								rules={rules}
-								render={({ field }) =>
-									isDatepicker ? (
-										<DatePicker
-											style={{
-												zIndex: 2
-											}}
-											disabled={isDisabled}
-											field={field}
-											className={
-												cl.root__container_infoBlock_info
-											}
-											format='DD-MM-YY'
-											error={errors[i.name]?.message}
-											{...i}
-										/>
-									) : (
-										<Input
-											disabled={isDisabled}
-											field={field}
-											bodyClassName={
-												cl.root__container_infoBlock_info
-											}
-											error={errors[i.name]?.message}
-											{...i}
-										/>
-									)
-								}
+								render={({ field }) => (
+									<Input
+										disabled={isDisabled}
+										field={field}
+										bodyClassName={
+											cl.root__container_infoBlock_info
+										}
+										error={errors[i.name]?.message}
+										{...i}
+									/>
+								)}
 							/>
 						)
 					)}

@@ -1,25 +1,67 @@
 import { FC } from 'react'
-import type { ControllerRenderProps, FieldValues } from 'react-hook-form'
 
-import { Select as SelectAntd, type SelectProps } from 'antd'
+import { Select as SelectAntd } from 'antd'
 import clsx from 'clsx'
 
 import cl from './Select.module.scss'
 import './Select.scss'
+import { TSelectOption, TSelectProps } from './Select.types'
 
-const Select: FC<
-	SelectProps & {
-		field?: ControllerRenderProps<FieldValues, string>
-	}
-> = ({ className, field, style, ...props }) => {
+const Select: FC<TSelectProps> = ({
+	className,
+	field,
+	style,
+	value,
+	setValue,
+	bodyClassName,
+	...props
+}) => {
 	return (
-		<SelectAntd
-			showSearch
-			style={style || { width: '100%' }}
-			className={clsx(cl.root, className)}
-			{...field}
-			{...props}
-		/>
+		<>
+			{value && setValue ? (
+				<SelectAntd
+					showSearch
+					style={style || { width: '100%' }}
+					className={clsx(cl.root, className)}
+					/** Custom react control */
+					value={() => {
+						return value && typeof value === 'object'
+							? (value as TSelectOption)?.value
+							: Array.isArray(value)
+								? (value as TSelectOption[] | undefined)?.map(
+										item => item.value
+									)
+								: undefined
+					}}
+					onChange={(_val, opt) => {
+						if (!setValue) return _val
+						if (Array.isArray(opt)) setValue(opt as TSelectOption[])
+						else if (typeof opt === 'object')
+							setValue(opt as TSelectOption)
+					}}
+					popupClassName={bodyClassName}
+					{...props}
+				/>
+			) : field != undefined ? (
+				<SelectAntd
+					showSearch
+					style={style || { width: '100%' }}
+					className={clsx(cl.root, className)}
+					popupClassName={bodyClassName}
+					{...props}
+					// React Hook Form control
+					{...field}
+				/>
+			) : (
+				<SelectAntd
+					showSearch
+					style={style || { width: '100%' }}
+					className={clsx(cl.root, className)}
+					popupClassName={bodyClassName}
+					{...props}
+				/>
+			)}
+		</>
 	)
 }
 

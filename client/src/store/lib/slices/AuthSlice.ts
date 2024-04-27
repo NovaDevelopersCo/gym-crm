@@ -1,10 +1,9 @@
+import { IStaff, authApi } from '@/store'
 import { createSlice } from '@reduxjs/toolkit'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query'
 
-import { IStuff, authApi } from '@store/index'
-
 interface IAuthState {
-	user: IStuff | null
+	user: IStaff | null
 	accessToken: string | null
 	isAuth: boolean
 	error: string | null | FetchBaseQueryError

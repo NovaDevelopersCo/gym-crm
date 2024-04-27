@@ -1,15 +1,19 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger'
 
 import { PaginationResponse } from '@/core/swagger'
-import { CreateDirectionDto } from '../dto'
 import { DirectionGroup } from '@/modules/group/swagger'
+import { CommonDecoratorsSwagger } from '@/core/swagger'
+import { DirectionDecoratorsSwagger } from './decorators'
 
-export class DirectionDto extends CreateDirectionDto {
-	@ApiProperty({ default: 111 })
+export class DirectionDto {
+	@CommonDecoratorsSwagger.id()
 	id: number
 
 	@ApiProperty({ isArray: true, type: () => DirectionGroup })
 	groups?: DirectionGroup
+
+	@DirectionDecoratorsSwagger.name_()
+	name: string
 }
 
 export class UpdateDirectionOk extends DirectionDto {}

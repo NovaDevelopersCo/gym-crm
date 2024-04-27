@@ -1,14 +1,11 @@
 import { BaseEntity } from '@/core/database/entity'
-import { Column, Entity, OneToOne } from 'typeorm'
+import { Column, Entity, ManyToOne } from 'typeorm'
 import { EStaffRole } from '@/core/enums'
 import { ClubEntity } from '@/modules/club/entities'
 import { Exclude } from 'class-transformer'
 
 @Entity('Staff')
 export class StaffEntity extends BaseEntity {
-	@Column()
-	fio: string
-
 	@Exclude()
 	@Column()
 	password: string
@@ -24,6 +21,6 @@ export class StaffEntity extends BaseEntity {
 	})
 	role: EStaffRole
 
-	@OneToOne(() => ClubEntity, club => club.admin, { onDelete: 'SET NULL' })
+	@ManyToOne(() => ClubEntity, club => club.admins, { onDelete: 'SET NULL' })
 	club: ClubEntity
 }

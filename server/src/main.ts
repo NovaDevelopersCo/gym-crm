@@ -6,25 +6,17 @@ import { AppModule } from './app.module'
 import { swaggerConfig } from '@configs'
 import * as cookieParser from 'cookie-parser'
 
-//TODO: FIX:
-// * (Going) make cascade in other schemas
-// TODO: return data in update
-// TODO: Common decorator with 400s status code
-// TODO: common/dto rename in common/query
-// TODO: hard search
-// TODO: fix swagger style (404 + 400 for query params (getAll))
-
-// * use Pagination class
-
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
 	app.use(cookieParser())
 	app.setGlobalPrefix('/api')
 
 	const configService = app.get(ConfigService)
+
+	const NODE_ENV = configService.get('NODE_ENV')
+
 	const PORT = configService.get('PORT')
 	const CLIENT_URL = configService.get('CLIENT_URL')
-	const NODE_ENV = configService.get('NODE_ENV')
 
 	if (NODE_ENV === ENodeEnv.DEVELOPMENT) {
 		const document = SwaggerModule.createDocument(app, swaggerConfig)

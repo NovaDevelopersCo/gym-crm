@@ -1,7 +1,7 @@
-import { IStuff } from '@store/index'
+import { IStaff } from '@/store'
 
 type TRefreshResponse = {
-	profile: IStuff | null
+	profile: IStaff | null
 	accessToken: string
 }
 

@@ -1,11 +1,10 @@
 import { useState } from 'react'
 
+import { useAppSelector } from '@/store'
 import clsx from 'clsx'
 import { ChevronLeft } from 'lucide-react'
 
-import { useAppSelector } from '@store/lib'
-
-import SidebarItem from './@SidebarItem'
+import SidebarItem from './@SidebarItem/SidebarItem'
 import { sidebarItemsArr } from './@SidebarItem/sidebarItems.data'
 import cl from './Sidebar.module.scss'
 

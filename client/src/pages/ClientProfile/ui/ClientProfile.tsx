@@ -1,10 +1,17 @@
-import ClientInfo from '@widgets/ClientInfo/ui/ClientInfo'
+import { ClientInfo } from '@widgets/ClientInfo'
+import { Sales } from '@widgets/ClientSales'
+import { StagesOfCooperation } from '@widgets/ClientStages'
+
+import { MarkClient } from '@features/MarkClient'
 
 const ClientProfile = () => {
 	return (
-		<div>
+		<>
 			<ClientInfo />
-		</div>
+			<MarkClient />
+			<StagesOfCooperation />
+			<Sales />
+		</>
 	)
 }
 

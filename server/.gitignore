@@ -2,6 +2,7 @@
 /dist
 /node_modules
 .env
+/clickhouse/db
 # Logs
 logs
 *.log
@@ -34,3 +35,5 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 *.env
+
+/logs
