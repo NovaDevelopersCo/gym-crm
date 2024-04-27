@@ -37,13 +37,13 @@ export class AuthService {
 
 	async refresh(
 		refresh: string,
-		userId: string
+		userId: number
 	): Promise<{
 		tokens: RefreshDto
 		profile: Pick<StaffEntity, 'email' | 'id' | 'role'>
 	} | null> {
 		const tokenFromDb = await this.tokenService.findToken(refresh)
-		const profile = await this.staffService.getById(+userId)
+		const profile = await this.staffService.getById(userId)
 
 		if (!tokenFromDb || !profile) {
 			return null
