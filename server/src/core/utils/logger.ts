@@ -14,8 +14,6 @@ export class LoggerUtils {
 	}
 
 	filterForDev = format(info => {
-		console.log(info)
-		console.log(this.isProduction)
 		if (!this.isProduction) {
 			return false
 		}
