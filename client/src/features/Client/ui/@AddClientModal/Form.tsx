@@ -13,12 +13,12 @@ type TNewClientFrom = {
 	telegram: string
 	instagram: string
 	age: number
-	birthdayDate: string
-	howDoYouKnow: string
+	birthday: string
+	howKnow: string
 	club: string
 	beforeDirection: string
 	direction: string[]
-	groupIds: string[]
+	groups: string[]
 	commentary: string
 }
 
@@ -43,6 +43,7 @@ const Form = () => {
 			{newClientFromItemsArr.map(({ isTextArea, rules, type, ...i }) =>
 				i.options ? (
 					<Controller
+						rules={rules}
 						name={i.name}
 						control={control}
 						key={i.name}

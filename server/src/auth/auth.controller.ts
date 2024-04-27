@@ -12,17 +12,11 @@ import {
 	ClassSerializerInterceptor
 } from '@nestjs/common'
 import { AuthService } from './auth.service'
-
 import { AuthDocSwagger } from './swagger'
-
 import { ApiTags } from '@nestjs/swagger'
-
-import { LoginDto, ValidateRefreshDto } from './dto'
-
+import { LoginDto } from './dto'
 import type { CookieOptions, Response } from 'express'
-
 import { Cookie, Staff } from '@/core/decorators'
-
 import { RefreshGuard } from './guards'
 
 @ApiTags('Авторизация')
@@ -51,8 +45,8 @@ export class AuthController {
 	@RefreshGuard()
 	@Get('refresh')
 	async refresh(
-		@Staff('id') user: string,
-		@Cookie('refresh') { refresh }: ValidateRefreshDto,
+		@Staff('id') user: number,
+		@Cookie('refresh') refresh: string,
 		@Res({ passthrough: true }) res: Response
 	) {
 		const data = await this.authService.refresh(refresh, user)
