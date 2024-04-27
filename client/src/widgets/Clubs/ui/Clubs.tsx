@@ -11,8 +11,9 @@ import { clubsArr } from './clubs.data'
 export const Clubs = () => {
 	const [isModalOpen, setIsModalOpen] = useState(false)
 	const [clubs, seIClubs] = useState(clubsArr)
+	const [editingClub, setEditingClub] = useState<IClub | null>(null)
 
-	const { handleSubmit, control, reset } = useForm<IClub>()
+	const { handleSubmit, control, reset, setValue } = useForm<IClub>()
 
 	const handleDelete = (id: string) => {
 		seIClubs(clubs.filter(club => club.id !== id))
@@ -23,10 +24,25 @@ export const Clubs = () => {
 		reset()
 	}
 
+	const handleEdit = (club: IClub) => {
+		setEditingClub(club)
+		setIsModalOpen(true)
+		setValue('name', club.name)
+		setValue('address', club.address)
+	}
 	const onSubmit = (data: Omit<IClub, 'id'>) => {
-		const id: Pick<IClub, 'id'>['id'] = (clubs.length + 1).toString()
-		const newClub: IClub = { id, ...data }
-		seIClubs([...clubs, newClub])
+		if (editingClub) {
+			const updatedClubs = clubs.map(club =>
+				club.id === editingClub.id ? { ...club, ...data } : club
+			)
+			seIClubs(updatedClubs)
+			setEditingClub(null)
+		} else {
+			const id: Pick<IClub, 'id'>['id'] = (clubs.length + 1).toString()
+			const newClub: IClub = { id, ...data }
+			seIClubs([...clubs, newClub])
+		}
+
 		setIsModalOpen(false)
 		reset()
 	}
@@ -55,7 +71,12 @@ export const Clubs = () => {
 			title: 'Action',
 			key: 'action',
 			render: (record: IClub) => (
-				<Button onClick={() => handleDelete(record.id)}>Delete</Button>
+				<div className={cl.root__action}>
+					<Button onClick={() => handleEdit(record)}>Edit</Button>
+					<Button onClick={() => handleDelete(record.id)}>
+						Delete
+					</Button>
+				</div>
 			)
 		}
 	]
@@ -70,13 +91,15 @@ export const Clubs = () => {
 			</Button>
 			{/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
 			{/* @ts-expect-error */}
-			<Table columns={columns} dataSource={clubs} />
+			<Table columns={columns} dataSource={clubs} rowKey={'id'} />
 			<Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
 				<form
 					onSubmit={handleSubmit(onSubmit)}
 					className={cl.root__form}
 				>
-					<h2 className={cl.root__form__title}>Add Club</h2>
+					<h2 className={cl.root__form__title}>
+						{editingClub ? 'Edit Club' : 'Add Club'}
+					</h2>
 					<label htmlFor='name'>Name</label>
 					<Controller
 						name='name'
@@ -86,9 +109,7 @@ export const Clubs = () => {
 							<Input {...field} id='name' type='text' autoFocus />
 						)}
 					/>
-
 					<label htmlFor='address'>Address</label>
-
 					<Controller
 						name='address'
 						control={control}
@@ -99,7 +120,6 @@ export const Clubs = () => {
 					/>
 					{/*
 					<label htmlFor='admin'>Admin</label>
-
 					<Controller
 						name='admin'
 						control={control}
@@ -108,9 +128,8 @@ export const Clubs = () => {
 							<Input {...field} id='admin' type='text' />
 						)}
 					/> */}
-
 					<Button htmlType='submit' type='primary'>
-						Add
+						{editingClub ? 'Save' : 'Add'}
 					</Button>
 					<Button
 						onClick={handleCancel}
