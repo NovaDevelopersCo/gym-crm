@@ -10,8 +10,10 @@ import cl from './StaffList.module.scss'
 
 export const StaffList = () => {
 	const [employees, setEmployees] = useState<IStaff[]>(staff as IStaff[])
-	const [isModalVisible, setIsModalVisible] = useState(false)
-	const [newEmployee, setNewEmployee] = useState<Omit<IStaff, 'id'>>({
+	const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
+	const [newEmployee, setNewEmployee] = useState<
+		Omit<IStaff, 'id' | 'lastActivity'>
+	>({
 		fio: '',
 		role: EStaffRoles.TRAINER,
 		email: ''
@@ -43,6 +45,13 @@ export const StaffList = () => {
 			sorter: (a: IStaff, b: IStaff) => a.role.localeCompare(b.role)
 		},
 		{
+			title: 'Last activity',
+			dataIndex: 'lastActivity',
+			key: 'lastActivity',
+			sorter: (a: IStaff, b: IStaff) =>
+				a.lastActivity.localeCompare(b.lastActivity)
+		},
+		{
 			title: 'Action',
 			key: 'action',
 			render: (record: IStaff) => (
@@ -66,7 +75,10 @@ export const StaffList = () => {
 
 	const handleSubmit = () => {
 		const newId = employees.length + 1
-		setEmployees([...employees, { id: newId, ...newEmployee }])
+		setEmployees([
+			...employees,
+			{ id: newId, ...newEmployee, lastActivity: '' }
+		])
 		setIsModalVisible(false)
 		setNewEmployee({ fio: '', role: EStaffRoles.TRAINER, email: '' })
 	}

@@ -1,6 +1,4 @@
-import { IClient } from '.'
-import IArea from './Area.schema'
-import IStaff, { EStaffRoles } from './Staff.schema'
+import { EStaffRoles, IClient, IDirection, IStaff } from '.'
 
 export default interface IGroup {
 	id: string
@@ -9,5 +7,5 @@ export default interface IGroup {
 	trainer: Omit<IStaff, 'role'> & {
 		role: EStaffRoles.TRAINER
 	}
-	area_id: IArea['id']
+	direction_id: IDirection['id']
 }

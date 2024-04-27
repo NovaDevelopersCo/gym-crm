@@ -1,5 +1,5 @@
-import SelectArea from './ui/SelectArea'
+import SelectDirection from './ui/SelectDirection'
 import SelectGroup from './ui/SelectGroup'
-import SelectLocation from './ui/SelectLocation'
+import SelectClub from './ui/SelectClub'
 
-export { SelectArea, SelectGroup, SelectLocation }
+export { SelectDirection, SelectGroup, SelectClub }

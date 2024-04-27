@@ -10,7 +10,6 @@ import cl from './DatePicker.module.scss'
 type TDatePickerProps = DatePickerProps & {
 	label?: string
 	error?: string | FieldError | Merge<FieldError, FieldErrorsImpl>
-	common?: string
 	field: {
 		onChange: ChangeEventHandler<unknown>
 		value: unknown
@@ -23,7 +22,6 @@ export const DatePicker: FC<TDatePickerProps> = ({
 	error,
 	field,
 	bodyClassName,
-	common,
 	...props
 }) => {
 	const id = useId()
@@ -33,7 +31,6 @@ export const DatePicker: FC<TDatePickerProps> = ({
 			{!!label && (
 				<label htmlFor={id} className={cl.root__label}>
 					<span>{label}</span>
-					<span>{common}</span>
 				</label>
 			)}
 			<AntdDatePicker
@@ -41,7 +38,7 @@ export const DatePicker: FC<TDatePickerProps> = ({
 				{...props}
 				id={id}
 				placeholder='Выберите дату'
-				format='DD-MM-YY'
+				format='YYYY-MM-DD'
 				className={clsx(
 					cl.root__input,
 					error ? cl.root__input_inputErr : ''

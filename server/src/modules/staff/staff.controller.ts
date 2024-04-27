@@ -10,9 +10,11 @@ import {
 	Param,
 	Query,
 	UseInterceptors,
-	ClassSerializerInterceptor
+	ClassSerializerInterceptor,
+	Patch,
+	HttpCode
 } from '@nestjs/common'
-import { CreateStaffDto, UpdateStaffDto, FindAllStaffDto } from './dto'
+import { CreateStaffDto, UpdateStaffDto, FindAllStaffDto, UpdatePasswordStaffDto } from './dto'
 import { StaffService } from './staff.service'
 import { RolesAuthGuard } from '@/auth/guards/role.guard'
 import { EStaffRole } from '@/core/enums'
@@ -43,7 +45,7 @@ export class StaffController {
 	@StaffDocSwagger.getById()
 	@Get(':id')
 	getOne(@Param() { id }: GetByIdParamsDto) {
-		return this.staffService.getById(id, true)
+		return this.staffService.getById(id, true, { relations: { club: true } })
 	}
 
 	@StaffDocSwagger.update()
@@ -56,5 +58,12 @@ export class StaffController {
 	@Delete(':id')
 	delete(@Param() { id }: GetByIdParamsDto) {
 		return this.staffService.delete(id)
+	}
+
+	@StaffDocSwagger.updatePassword()
+	@HttpCode(204)
+	@Patch('/password/:id')
+	updatePassword(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdatePasswordStaffDto) {
+		return this.staffService.updatePassword(id, dto)
 	}
 }

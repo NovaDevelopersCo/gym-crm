@@ -1,14 +1,13 @@
-import { IntersectionType, ApiProperty, PickType, OmitType } from '@nestjs/swagger'
-import { PaginationResponse } from '@/core/swagger'
+import { ApiProperty, PickType, OmitType } from '@nestjs/swagger'
+import { PaginationResponse, CommonDecoratorsSwagger } from '@/core/swagger'
 import { CreateClubDto } from '../dto'
 import { StaffDto } from '@/modules/staff/swagger'
 import { ClubGroup } from '@/modules/group/swagger'
 import { ClubUser } from '@/modules/user/swagger'
+import { ClubDecoratorsSwagger } from './decorators'
 
-export class ClubDto extends OmitType(CreateClubDto, ['admin', 'name', 'address']) {
-	@ApiProperty({
-		example: 1
-	})
+export class ClubDto extends OmitType(CreateClubDto, ['admins', 'name', 'address']) {
+	@CommonDecoratorsSwagger.id()
 	id: number
 
 	@ApiProperty({
@@ -24,18 +23,14 @@ export class ClubDto extends OmitType(CreateClubDto, ['admin', 'name', 'address'
 	users: ClubUser
 
 	@ApiProperty({
-		type: () => StaffDto
+		type: () => [StaffDto]
 	})
-	admin: StaffDto
+	admins: StaffDto
 
-	@ApiProperty({
-		example: 'Mass Club'
-	})
+	@ClubDecoratorsSwagger.name_()
 	name: string
 
-	@ApiProperty({
-		example: 'г. Москва ул. Шишкина д. 45'
-	})
+	@ClubDecoratorsSwagger.address()
 	address: string
 }
 
@@ -49,17 +44,17 @@ export class GetAllClubsOk extends PaginationResponse {
 }
 
 class ClubAdmin {
-	@ApiProperty({
-		example: 1
-	})
+	@CommonDecoratorsSwagger.id()
 	id: number
 }
 
 export class CreateClubOk extends PickType(ClubDto, ['address', 'id', 'name']) {
-	@ApiProperty()
-	admin: ClubAdmin
+	@ApiProperty({
+		type: () => [ClubAdmin]
+	})
+	admins: ClubAdmin
 }
-export class UpdateClubOk extends IntersectionType(ClubDto, ClubAdmin) {}
-export class GroupClub extends OmitType(ClubDto, ['groups', 'users', 'admin']) {}
+export class UpdateClubOk extends ClubDto {}
+export class GroupClub extends OmitType(ClubDto, ['groups', 'users', 'admins']) {}
 export class UserClub extends PickType(ClubDto, ['id', 'address', 'name']) {}
-export class StaffClub extends OmitType(GetClubByIdOk, ['groups', 'users', 'admin']) {}
+export class StaffClub extends OmitType(GetClubByIdOk, ['groups', 'users', 'admins']) {}
