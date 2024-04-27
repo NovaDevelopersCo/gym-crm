@@ -1,0 +1,14 @@
+#transform.vrl
+.event = ""
+.status = ""
+structured, err = parse_regex(.message, r'(<log>)(?P<log>.*?)(</log>)', numeric_groups: false)
+
+if err == null{
+  json, err_json = parse_json(structured.log)
+
+  if err_json == null {
+    .event = json.event
+    .data = json.message
+    .status = json.status
+  }
+}

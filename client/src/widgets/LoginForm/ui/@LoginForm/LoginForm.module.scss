@@ -1,0 +1,31 @@
+.root {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	padding: 20px;
+	justify-content: center;
+	align-items: center;
+
+	&__container {
+		width: 300px;
+		height: fit-content;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		row-gap: 25px;
+
+		&__validate {
+			width: 100%;
+		}
+		&__button {
+			width: 100%;
+		}
+		&__message {
+			color: white;
+			padding: 10px 20px;
+			background-color: rgb(255, 63, 63);
+			border-radius: 20px;
+		}
+	}
+}

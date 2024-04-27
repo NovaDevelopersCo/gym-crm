@@ -1,17 +1,18 @@
-import { Provider } from 'react-redux'
 import { RouterProvider } from 'react-router-dom'
 
-import { setupStore } from '@store/index'
+import { StoreProvider } from '@/store'
+import { ConfigProvider } from 'antd'
 
 import { router } from './routes/router'
-
-const store = setupStore()
+import AntDesignTheme from './styles/AntDesign.theme'
 
 function App() {
 	return (
-		<Provider store={store}>
-			<RouterProvider router={router} />
-		</Provider>
+		<StoreProvider>
+			<ConfigProvider theme={AntDesignTheme}>
+				<RouterProvider router={router} />
+			</ConfigProvider>
+		</StoreProvider>
 	)
 }
 

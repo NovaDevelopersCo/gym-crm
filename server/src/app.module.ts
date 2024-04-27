@@ -1,10 +1,28 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { Module } from '@nestjs/common'
+import { ConfigModule } from '@nestjs/config'
+import { EnvConfigOptions } from '@configs'
+import { AuthModule } from './auth/auth.module'
+import { StaffModule } from './modules/staff/staff.module'
+import { ClubModule } from './modules/club/club.module'
+import { DirectionModule } from './modules/direction/direction.module'
+import { UserModule } from './modules/user/user.module'
+import { AbonementModule } from './modules/abonement/abonement.module'
+import { GroupModule } from './modules/group/group.module'
+import { DataBaseModule } from './core/database/database.module'
+import { LoggerModule } from './core/logger/logger.module'
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+	imports: [
+		ConfigModule.forRoot(EnvConfigOptions),
+		AuthModule,
+		StaffModule,
+		ClubModule,
+		DirectionModule,
+		UserModule,
+		GroupModule,
+		AbonementModule,
+		DataBaseModule,
+		LoggerModule
+	]
 })
 export class AppModule {}

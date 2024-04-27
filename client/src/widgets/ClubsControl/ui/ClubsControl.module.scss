@@ -1,0 +1,9 @@
+.root {
+	&__button {
+		margin-bottom: 20px;
+	}
+	&__action {
+		display: flex;
+		gap: 5px;
+	}
+}

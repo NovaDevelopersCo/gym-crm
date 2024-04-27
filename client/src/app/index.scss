@@ -1,1 +1,37 @@
 @import 'modern-normalize/modern-normalize.css';
+@import './styles/reset';
+
+:root {
+	--accent: rgb(0, 149, 55);
+	--accent-darker: rgb(0, 114, 42);
+	--accent-lighter-transparent: rgba(0, 184, 68, 0.2);
+
+	--hover-outline-color: #dfdfdf;
+}
+
+body {
+	background: #f5f5f5;
+}
+
+/* width */
+::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+	border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #888;
+	border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #555;
+}

@@ -7,7 +7,7 @@ module.exports = {
 		'plugin:react-hooks/recommended',
 		'plugin:react/recommended',
 		'@feature-sliced/eslint-config/rules/layers-slices',
-		'@feature-sliced/eslint-config/rules/public-api/lite',
+		'@feature-sliced/eslint-config/rules/public-api/lite'
 	],
 	ignorePatterns: ['dist', '.eslintrc.cjs', 'eslint'],
 	parser: '@typescript-eslint/parser',
@@ -55,6 +55,32 @@ module.exports = {
 			files: ['./src/**/index.ts'],
 			rules: {
 				'import/no-relative-parent-imports': 'error',
+				'import/no-internal-modules': 'off'
+			}
+		},
+		{
+			files: ['*.schema.ts'],
+			rules: {
+				'no-unused-vars': 'off'
+			}
+		},
+		{
+			files: ['./src/store/lib/slices/AuthSlice.ts'],
+			rules: {
+				'@typescript-eslint/ban-ts-comment': 'off',
+				'@typescript-eslint/no-unused-vars': 'off',
+				'no-unused-vars': 'off'
+			}
+		},
+		{
+			files: ['./src/widgets/ListOfClients/ui/ListOfClients.tsx'],
+			rules: {
+				'import/no-internal-modules': 'off'
+			}
+		},
+		{
+			files: ['./src/pages/ClientProfile/ui/ClientProfile.tsx'],
+			rules: {
 				'import/no-internal-modules': 'off'
 			}
 		}
