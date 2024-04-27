@@ -3,21 +3,25 @@ import type { RegisterOptions } from 'react-hook-form'
 import { TOption } from '@/shared'
 
 type TClientsInfoFileds =
-	| 'fio'
 	| 'phone'
-	| 'email'
-	| 'date'
+	| 'birthday'
+	| 'groups'
 	| 'club'
+	| 'email'
+	| 'fio'
+	| 'date'
 	| 'card'
 	| 'abonement'
 	| 'level'
 	| 'when_purchased'
 	| 'trainer'
 	| 'when_expires'
-	| 'group'
 	| 'clients_notes'
 	| 'discipline'
 	| 'administration_notes'
+	| 'status'
+	| 'instagram'
+	| 'telegram'
 
 type clientInfoItem = {
 	label: string
@@ -26,7 +30,6 @@ type clientInfoItem = {
 	type?: 'text' | 'date' | 'tel' | 'email' | 'number'
 	required?: boolean
 	rules?: RegisterOptions
-	isDatepicker?: boolean
 }
 
 export const clientInfo: clientInfoItem[] = [
@@ -56,6 +59,34 @@ export const clientInfo: clientInfoItem[] = [
 		}
 	},
 	{
+		name: 'birthday',
+		label: 'Дата рождения:',
+		type: 'date',
+		required: false,
+		rules: {
+			pattern: {
+				value: /^(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/i,
+				message: 'Введён некорректный формат даты'
+			},
+			maxLength: {
+				value: 10,
+				message: 'Это поле не может быть длиннее'
+			}
+		}
+	},
+	{
+		label: 'Номер телефона',
+		name: 'phone',
+		type: 'tel',
+		required: true,
+		rules: {
+			pattern: {
+				value: /^7\d{10}$/,
+				message: 'Номер телефона должен быть в формате: 79999999999'
+			}
+		}
+	},
+	{
 		label: 'Абонемент',
 		name: 'abonement',
 		type: 'text',
@@ -80,14 +111,26 @@ export const clientInfo: clientInfoItem[] = [
 		]
 	},
 	{
-		label: 'Телефон',
-		name: 'phone',
-		type: 'tel',
+		label: 'Инстаграм',
+		name: 'instagram',
+		type: 'text',
 		required: true,
 		rules: {
 			pattern: {
-				value: /^7\d{10}$/,
-				message: 'Номер телефона должен быть в формате: 79999999999'
+				value: /^(?:http(?:s)?:\/\/)?(?:www\.)?instagram\.com\/([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)/i,
+				message: 'Ссылка должна быть в формате: instagram.com/профиль'
+			}
+		}
+	},
+	{
+		label: 'Телеграм',
+		name: 'telegram',
+		type: 'text',
+		required: true,
+		rules: {
+			pattern: {
+				value: /^@[a-z0-9]+$/i,
+				message: 'Аккаунт должен быть в формате: @профиль'
 			}
 		}
 	},
@@ -96,7 +139,16 @@ export const clientInfo: clientInfoItem[] = [
 		label: 'Куплен:',
 		type: 'date',
 		required: false,
-		isDatepicker: true
+		rules: {
+			pattern: {
+				value: /^(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/i,
+				message: 'Введён некорректный формат даты'
+			},
+			maxLength: {
+				value: 10,
+				message: 'Это поле не может быть длиннее'
+			}
+		}
 	},
 	{
 		label: 'Почта',
@@ -139,11 +191,20 @@ export const clientInfo: clientInfoItem[] = [
 		label: 'Истечёт:',
 		type: 'date',
 		required: false,
-		isDatepicker: true
+		rules: {
+			pattern: {
+				value: /^(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/i,
+				message: 'Введён некорректный формат даты'
+			},
+			maxLength: {
+				value: 10,
+				message: 'Это поле не может быть длиннее'
+			}
+		}
 	},
 	{
 		label: 'Группа',
-		name: 'group',
+		name: 'groups',
 		type: 'text',
 		required: false,
 		options: [
@@ -162,13 +223,19 @@ export const clientInfo: clientInfoItem[] = [
 		]
 	},
 	{
+		name: 'status',
+		label: 'Статус',
+		type: 'text',
+		required: true
+	},
+	{
 		label: '*Примечания клиентов',
 		name: 'clients_notes',
 		type: 'text',
 		required: false
 	},
 	{
-		label: 'Локация',
+		label: 'Клуб',
 		name: 'club',
 		type: 'text',
 		options: [

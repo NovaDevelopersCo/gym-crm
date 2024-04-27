@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { IsNumber, IsString, MaxLength, MinLength } from 'class-validator'
+import { ArrayMaxSize, IsNumber, IsString, MaxLength, MinLength } from 'class-validator'
 
 export class CreateClubDto {
 	@ApiProperty({
@@ -23,8 +23,9 @@ export class CreateClubDto {
 	address: string
 
 	@ApiProperty({
-		example: 111
+		example: [111, 222]
 	})
-	@IsNumber({}, { message: 'Id админа должно быть числом' })
-	admin: number
+	@ArrayMaxSize(2, { message: 'У клуба может быть не более двух админов' })
+	@IsNumber({}, { message: 'Id админа должно быть числом', each: true })
+	admins: number[]
 }
