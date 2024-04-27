@@ -34,7 +34,7 @@ export class GroupDecoratorsSwagger {
 		)
 	}
 
-	static direction(withDirection?: boolean) {
+	static directionId(withDirection?: boolean) {
 		const decorators = []
 
 		if (withDirection) {

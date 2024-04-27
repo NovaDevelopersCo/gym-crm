@@ -66,7 +66,7 @@ export class ClubDecoratorsSwagger {
 		)
 	}
 
-	static admins(withValidation?: boolean) {
+	static adminIds(withValidation?: boolean) {
 		const { arrayMaxSize } = clubValidation.admins
 
 		const decorators = [

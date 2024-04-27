@@ -146,11 +146,13 @@ export class StaffService {
 
 	async updatePassword(id: number, dto: UpdatePasswordStaffDto) {
 		const { password: oldPassword, newPassword } = dto
+		// if (oldPassword === newPassword) {
+		// 	throw new BadRequestException('Новый и старый пароль должны отличаться')
+		// }
 
 		const user = await this.getById(id)
 
-		const isPasswordValid = await compare(user.password, oldPassword)
-
+		const isPasswordValid = await compare(oldPassword, user.password)
 		if (!isPasswordValid) {
 			throw new BadRequestException('Неверный пароль')
 		}

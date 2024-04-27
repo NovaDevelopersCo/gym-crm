@@ -7,6 +7,6 @@ export class CreateClubDto {
 	@ClubDecoratorsSwagger.address(true)
 	address: string
 
-	@ClubDecoratorsSwagger.admins(true)
+	@ClubDecoratorsSwagger.adminIds(true)
 	admins: number[]
 }
