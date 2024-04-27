@@ -8,7 +8,7 @@ import {
 	IsOptional,
 	IsDateString
 } from 'class-validator'
-import { userConfig } from '../config'
+import { userValidation } from '../validation'
 
 export class UserDecoratorsSwagger {
 	static phone(withValidation?: boolean) {
@@ -22,7 +22,7 @@ export class UserDecoratorsSwagger {
 	}
 
 	static fio(withValidation?: boolean) {
-		const { minLength, maxLength } = userConfig.fio
+		const { minLength, maxLength } = userValidation.fio
 
 		const decorators = []
 
@@ -63,7 +63,7 @@ export class UserDecoratorsSwagger {
 	}
 
 	static howKnow(withValidation?: boolean) {
-		const { maxLength } = userConfig.howKnow
+		const { maxLength } = userValidation.howKnow
 
 		const decorators = []
 
@@ -91,7 +91,7 @@ export class UserDecoratorsSwagger {
 	}
 
 	static instagram(withValidation?: boolean) {
-		const { maxLength, minLength } = userConfig.instagram
+		const { maxLength, minLength } = userValidation.instagram
 		const decorators = []
 
 		const validation: ApiPropertyOptions = {}

@@ -1,3 +1,4 @@
+import { CommonDecoratorsSwagger } from '@/core/swagger'
 import { GroupDecoratorsSwagger } from '../swagger'
 
 export class CreateGroupDto {
@@ -7,6 +8,6 @@ export class CreateGroupDto {
 	@GroupDecoratorsSwagger.direction(true)
 	direction: number
 
-	@GroupDecoratorsSwagger.club(true)
+	@CommonDecoratorsSwagger.club(true)
 	club: number
 }

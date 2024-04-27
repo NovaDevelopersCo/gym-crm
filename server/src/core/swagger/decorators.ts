@@ -4,8 +4,8 @@ import { IsString, MinLength, MaxLength, IsEmail, IsInt } from 'class-validator'
 
 export class CommonDecoratorsSwagger {
 	static password(withValidation?: boolean) {
-		const maxLength = 8
-		const minLength = 32
+		const minLength = 8
+		const maxLength = 32
 
 		const validation: ApiPropertyOptions = {}
 

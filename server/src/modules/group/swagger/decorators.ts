@@ -1,11 +1,11 @@
 import { applyDecorators } from '@nestjs/common'
-import { groupConfig } from '../config'
+import { groupValidation } from '../validation'
 import { ApiPropertyOptions, ApiProperty } from '@nestjs/swagger'
 import { MaxLength, MinLength, IsString, IsNumber } from 'class-validator'
 
 export class GroupDecoratorsSwagger {
 	static name_(withValidation?: boolean) {
-		const { minLength, maxLength } = groupConfig.name
+		const { minLength, maxLength } = groupValidation.name
 
 		const decorators = []
 
@@ -44,21 +44,6 @@ export class GroupDecoratorsSwagger {
 		return applyDecorators(
 			ApiProperty({
 				example: 3
-			}),
-			...decorators
-		)
-	}
-
-	static club(withDirection?: boolean) {
-		const decorators = []
-
-		if (withDirection) {
-			decorators.push(IsNumber({}, { message: 'Id клуба должен быть числом' }))
-		}
-
-		return applyDecorators(
-			ApiProperty({
-				example: 5
 			}),
 			...decorators
 		)

@@ -17,7 +17,7 @@ import { AuthDocSwagger } from './swagger'
 
 import { ApiTags } from '@nestjs/swagger'
 
-import { LoginDto } from './dto'
+import { LoginDto, ValidateRefreshDto } from './dto'
 
 import type { CookieOptions, Response } from 'express'
 
@@ -52,7 +52,7 @@ export class AuthController {
 	@Get('refresh')
 	async refresh(
 		@Staff('id') user: string,
-		@Cookie('refresh') refresh: string,
+		@Cookie('refresh') { refresh }: ValidateRefreshDto,
 		@Res({ passthrough: true }) res: Response
 	) {
 		const data = await this.authService.refresh(refresh, user)

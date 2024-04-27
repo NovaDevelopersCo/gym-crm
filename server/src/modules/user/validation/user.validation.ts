@@ -1,4 +1,4 @@
-export const userConfig = {
+export const userValidation = {
 	fio: {
 		minLength: 2,
 		maxLength: 200

@@ -1,11 +1,11 @@
 import { applyDecorators } from '@nestjs/common'
-import { directionConfig } from '../config'
+import { directionValidation } from '../validation'
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger'
 import { IsString, MaxLength, MinLength } from 'class-validator'
 
 export class DirectionDecoratorsSwagger {
 	static name_(withValidation?: boolean) {
-		const { minLength, maxLength } = directionConfig.name
+		const { minLength, maxLength } = directionValidation.name
 
 		const decorators = []
 

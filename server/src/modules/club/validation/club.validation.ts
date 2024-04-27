@@ -1,4 +1,4 @@
-export const clubConfig = {
+export const clubValidation = {
 	name: {
 		minLength: 2,
 		maxLength: 100

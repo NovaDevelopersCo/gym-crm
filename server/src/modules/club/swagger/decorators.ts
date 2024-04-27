@@ -1,11 +1,11 @@
 import { applyDecorators } from '@nestjs/common'
-import { clubConfig } from '../config'
+import { clubValidation } from '../validation'
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger'
 import { IsString, MinLength, MaxLength, IsNumber, ArrayMaxSize } from 'class-validator'
 
 export class ClubDecoratorsSwagger {
 	static name_(withValidation?: boolean) {
-		const { minLength, maxLength } = clubConfig.name
+		const { minLength, maxLength } = clubValidation.name
 
 		const validations: ApiPropertyOptions = {}
 
@@ -36,7 +36,7 @@ export class ClubDecoratorsSwagger {
 	}
 
 	static address(withValidation?: boolean) {
-		const { minlength, maxLength } = clubConfig.address
+		const { minlength, maxLength } = clubValidation.address
 
 		const validations: ApiPropertyOptions = {}
 
@@ -67,7 +67,7 @@ export class ClubDecoratorsSwagger {
 	}
 
 	static admins(withValidation?: boolean) {
-		const { arrayMaxSize } = clubConfig.admins
+		const { arrayMaxSize } = clubValidation.admins
 
 		const decorators = [
 			ApiProperty({
