@@ -9,3 +9,33 @@ services:
               required: true
         ports:
             - '${POSTGRES_PORT}:5432'
+    clickhouse:
+        image: yandex/clickhouse-server
+        container_name: clickhouse
+        ports:
+            - "8123:8123"
+            - "9000:9000"
+        volumes:
+            - ./clickhouse/db:/var/lib/clickhouse
+            - ./clickhouse/users.xml:/etc/clickhouse-server/users.xml:rwF
+    vector-agent:
+        image: timberio/vector:0.23.X-alpine
+        container_name: vector_agent
+        volumes:
+            - ./vector/vector.toml:/etc/vector/vector.toml:ro
+            - ./vector/transform.vrl:/etc/vector/transform.vrl:ro
+            - ./logs/:/logs/
+        depends_on:
+            - clickhouse
+    grafana:
+        image: grafana/grafana-enterprise:9.2.0-ubuntu
+        container_name: grafana
+        environment:
+            - GF_SECURITY_ADMIN_USER=admin
+            - GF_SECURITY_ADMIN_PASSWORD=admin
+        volumes:
+            - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+            - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+        ports:
+            - "3000:3000"
+        restart: unless-stopped
