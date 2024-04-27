@@ -149,7 +149,7 @@ export class StaffService {
 
 		const user = await this.getById(id)
 
-		const isPasswordValid = await compare(user.password, oldPassword)
+		const isPasswordValid = await compare(oldPassword, user.password)
 
 		if (!isPasswordValid) {
 			throw new BadRequestException('Неверный пароль')

@@ -5,9 +5,9 @@ export class CreateGroupDto {
 	@GroupDecoratorsSwagger.name_(true)
 	name: string
 
-	@GroupDecoratorsSwagger.direction(true)
+	@GroupDecoratorsSwagger.directionId(true)
 	direction: number
 
-	@CommonDecoratorsSwagger.club(true)
+	@CommonDecoratorsSwagger.clubId(true)
 	club: number
 }
