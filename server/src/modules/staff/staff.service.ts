@@ -1,9 +1,9 @@
 import { StaffEntity } from '@/modules/staff/entities'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { hash } from 'bcrypt'
+import { hash, compare } from 'bcrypt'
 import { ILike, Repository, FindOneOptions, In } from 'typeorm'
-import { CreateStaffDto, FindAllStaffDto, UpdateStaffDto } from './dto'
+import { CreateStaffDto, FindAllStaffDto, UpdateStaffDto, UpdatePasswordStaffDto } from './dto'
 import { EStaffRole } from '@/core/enums'
 import { PaginationDto } from '@/core/pagination'
 
@@ -53,8 +53,8 @@ export class StaffService {
 		const hashPassword = await hash(password, 7)
 		const savedStaff = await this.staffRepository.save({ ...data, password: hashPassword })
 
-		const { id, email, role, fio } = savedStaff
-		return { id, email, role, fio }
+		const { id, email, role } = savedStaff
+		return { id, email, role }
 	}
 
 	async getAll({ sortBy, count, page, q, searchBy, sortOrder }: FindAllStaffDto) {
@@ -89,11 +89,9 @@ export class StaffService {
 			staff.email = dto.email
 		}
 
-		if (staff.fio === dto.fio) staff.fio = dto.fio
-
 		const savedStaff = await this.staffRepository.save({ ...staff })
-		const { email, fio, role: staffRole } = savedStaff
-		return { id, email, fio, role: staffRole }
+		const { email, role: staffRole } = savedStaff
+		return { id, email, role: staffRole }
 	}
 
 	//! Обсудить
@@ -144,6 +142,22 @@ export class StaffService {
 		}
 
 		return staffs
+	}
+
+	async updatePassword(id: number, dto: UpdatePasswordStaffDto) {
+		const { password: oldPassword, newPassword } = dto
+
+		const user = await this.getById(id)
+
+		const isPasswordValid = await compare(user.password, oldPassword)
+
+		if (!isPasswordValid) {
+			throw new BadRequestException('Неверный пароль')
+		}
+
+		const hashPassword = await hash(newPassword, 7)
+
+		return this.staffRepository.save({ ...user, password: hashPassword })
 	}
 
 	async clearAdminsClub(ids: number[]) {

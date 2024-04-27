@@ -2,7 +2,8 @@ import { ApiProperty, OmitType, PickType } from '@nestjs/swagger'
 import { CreateUserDto as CUserDto } from '../dto'
 import { UserGroup, UserGroupSmall } from '@/modules/group/swagger'
 import { UserClub } from '@/modules/club/swagger'
-import { PaginationResponse } from '@/core/swagger'
+import { CommonDecoratorsSwagger, PaginationResponse } from '@/core/swagger'
+import { UserDecoratorsSwagger } from './decorators'
 
 export class UserDto extends PickType(CUserDto, ['birthday', 'phone']) {
 	@ApiProperty({
@@ -16,36 +17,24 @@ export class UserDto extends PickType(CUserDto, ['birthday', 'phone']) {
 	})
 	club: UserClub
 
-	@ApiProperty({
-		example: 1
-	})
+	@CommonDecoratorsSwagger.id()
 	id: number
 
-	@ApiProperty({
-		example: 'email@gmail.com'
-	})
+	@CommonDecoratorsSwagger.email()
 	email: string
 
-	@ApiProperty({
-		example: 'Иванов Иван Иванович'
-	})
+	@UserDecoratorsSwagger.fio()
 	fio: string
 
-	@ApiProperty({
-		example: 'Посоветовал друг, увидел в интернете'
-	})
+	@UserDecoratorsSwagger.howKnow()
 	howKnow: string
 
-	@ApiProperty({
-		example: 'my_account'
-	})
+	@UserDecoratorsSwagger.instagram()
 	instagram: string
 }
 
 export class CreateUserOk extends OmitType(UserDto, ['groups']) {
-	@ApiProperty({
-		example: 1
-	})
+	@CommonDecoratorsSwagger.id()
 	id: number
 
 	@ApiProperty({ isArray: true, type: () => UserGroup })

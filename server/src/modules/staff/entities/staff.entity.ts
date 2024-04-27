@@ -6,9 +6,6 @@ import { Exclude } from 'class-transformer'
 
 @Entity('Staff')
 export class StaffEntity extends BaseEntity {
-	@Column()
-	fio: string
-
 	@Exclude()
 	@Column()
 	password: string

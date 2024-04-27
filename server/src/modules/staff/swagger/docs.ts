@@ -3,7 +3,8 @@ import {
 	ApiOperation,
 	ApiOkResponse,
 	ApiNotFoundResponse,
-	ApiCreatedResponse
+	ApiCreatedResponse,
+	ApiNoContentResponse
 } from '@nestjs/swagger'
 import { GetStaffByIdOk, GetAllStaffsOk, CreateStaffOk, UpdateStaffOk } from './responses'
 import { ESwaggerMessages } from '@/core/swagger'
@@ -75,6 +76,18 @@ export class StaffDocSwagger {
 				description: 'Только с ролью director'
 			}),
 			BaseDocSwagger.delete()
+		)
+	}
+
+	static updatePassword() {
+		return applyDecorators(
+			ApiOperation({
+				summary: 'Обновить пароль профиля персонала',
+				description: 'Только с ролью director'
+			}),
+			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
+			ApiNoContentResponse({ description: ESwaggerMessages.SUCCESSFULLY_UPDATE }),
+			BaseDocSwagger.authWithRole()
 		)
 	}
 }
