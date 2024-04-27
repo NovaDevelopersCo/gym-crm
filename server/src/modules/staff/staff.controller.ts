@@ -45,7 +45,7 @@ export class StaffController {
 	@StaffDocSwagger.getById()
 	@Get(':id')
 	getOne(@Param() { id }: GetByIdParamsDto) {
-		return this.staffService.getById(id, true)
+		return this.staffService.getById(id, true, { relations: { club: true } })
 	}
 
 	@StaffDocSwagger.update()

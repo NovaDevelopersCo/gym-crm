@@ -120,14 +120,6 @@ export class StaffService {
 		return admin
 	}
 
-	async clearAdminClub(id: number) {
-		const admin = await this.staffRepository.findOne({ where: { id } })
-
-		admin.club = null
-
-		return admin
-	}
-
 	async getByIds(ids: number[]) {
 		const staffs = await this.staffRepository.find({
 			where: { id: In(ids) },
@@ -166,5 +158,13 @@ export class StaffService {
 		const hashPassword = await hash(newPassword, 7)
 
 		return this.staffRepository.save({ ...user, password: hashPassword })
+	}
+
+	async clearAdminsClub(ids: number[]) {
+		const admins = await this.getByIds(ids)
+		admins.forEach(admin => {
+			admin.club = null
+		})
+		return admins
 	}
 }

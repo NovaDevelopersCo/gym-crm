@@ -29,7 +29,7 @@ export class ClubService {
 			take: count,
 			skip: page * count - count,
 			relations: {
-				admin: true,
+				admins: true,
 				groups: true,
 				users: true
 			}
@@ -42,7 +42,7 @@ export class ClubService {
 		const club = await this.clubRepository.findOne({
 			where: { id },
 			relations: {
-				admin: true,
+				admins: true,
 				groups: true,
 				users: true
 			}
@@ -57,14 +57,12 @@ export class ClubService {
 
 	async create(dto: CreateClubDto) {
 		await this.nameCheck(dto.name)
-		await this.adminFreeCheck(dto.admin)
 		await this.addressCheck(dto.address)
-
+		const admins = await this.adminsFreeCheck(dto.admins)
 		const createClub = this.clubRepository.create({
 			...dto,
-			admin: { id: dto.admin }
+			admins
 		})
-
 		return this.clubRepository.save(createClub)
 	}
 
@@ -72,13 +70,12 @@ export class ClubService {
 		const club = await this.getById(id)
 
 		await this.nameCheck(dto.name, id)
-		await this.adminFreeCheck(dto.admin, id)
 		await this.addressCheck(dto.address, id)
-
-		const updatedClub = await this.clubChangeAdminTransaction(club.admin.id, {
+		const admins = await this.adminsFreeCheck(dto.admins, id)
+		const updatedClub = await this.clubChangeAdminsTransaction(dto.admins, {
 			...club,
 			...dto,
-			admin: { id: dto.admin }
+			admins
 		})
 
 		if (!updatedClub) {
@@ -110,18 +107,25 @@ export class ClubService {
 		}
 	}
 
-	private async adminFreeCheck(adminId: number, clubId?: number) {
-		const admin = await this.staffService.checkRole(adminId, EStaffRole.ADMIN)
+	private async adminsFreeCheck(adminIds: number[], clubId?: number) {
+		const admins = await this.staffService.getByIds(adminIds)
+		const role = EStaffRole.ADMIN
+		const checkedAdmins = admins.map(admin => {
+			if (admin.role !== role) {
+				throw new BadRequestException(`Профиль с id: ${admin.id} не является ${role}`)
+			}
+			const messageError = `Администратор с id: ${admin.id} уже занят`
+			let isError = false
+			if (!clubId && admin.club) isError = true
+			if (admin.club && admin.club.id !== clubId) isError = true
 
-		if (!clubId && admin.club) {
-			throw new BadRequestException('Этот администратор уже занят')
-		}
-
-		if (admin.club && admin.club.id !== clubId) {
-			throw new BadRequestException('Этот администратор уже занят')
-		}
-
-		return admin
+			if (isError) {
+				throw new BadRequestException(messageError)
+			}
+			delete admin.club
+			return admin
+		})
+		return checkedAdmins
 	}
 
 	private async addressCheck(address: string, clubId?: number) {
@@ -136,16 +140,13 @@ export class ClubService {
 		}
 	}
 
-	private async clubChangeAdminTransaction(
-		adminId: number,
-		updatedClub: Omit<ClubEntity, 'admin'> & { admin: { id: number } }
-	) {
+	private async clubChangeAdminsTransaction(adminIds: number[], updatedClub: ClubEntity) {
 		return this.dataBaseService.transaction(async queryRunner => {
-			const updatedAdmin = await this.staffService.clearAdminClub(adminId)
-
-			await queryRunner.manager.save(StaffEntity, updatedAdmin)
+			const updatedAdmins = await this.staffService.clearAdminsClub(adminIds)
+			updatedAdmins.forEach(async admin => {
+				await queryRunner.manager.save(StaffEntity, admin)
+			})
 			const club = await queryRunner.manager.save(ClubEntity, updatedClub)
-
 			return club
 		})
 	}

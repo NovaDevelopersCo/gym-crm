@@ -6,5 +6,8 @@ export const clubConfig = {
 	address: {
 		minlength: 2,
 		maxLength: 100
+	},
+	admins: {
+		arrayMaxSize: 2
 	}
 }

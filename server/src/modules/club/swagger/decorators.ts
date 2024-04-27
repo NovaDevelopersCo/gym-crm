@@ -1,7 +1,7 @@
 import { applyDecorators } from '@nestjs/common'
 import { clubConfig } from '../config'
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger'
-import { IsString, MinLength, MaxLength, IsNumber } from 'class-validator'
+import { IsString, MinLength, MaxLength, IsNumber, ArrayMaxSize } from 'class-validator'
 
 export class ClubDecoratorsSwagger {
 	static name_(withValidation?: boolean) {
@@ -66,15 +66,22 @@ export class ClubDecoratorsSwagger {
 		)
 	}
 
-	static admin(withValidation?: boolean) {
+	static admins(withValidation?: boolean) {
+		const { arrayMaxSize } = clubConfig.admins
+
 		const decorators = [
 			ApiProperty({
-				example: 111
+				example: [111, 222]
 			})
 		]
 
 		if (withValidation) {
-			decorators.push(IsNumber({}, { message: 'Id админа должно быть числом' }))
+			decorators.push(
+				ArrayMaxSize(arrayMaxSize, {
+					message: `У клуба может быть не более ${arrayMaxSize} админов`
+				}),
+				IsNumber({}, { message: 'Id админа должно быть числом', each: true })
+			)
 		}
 
 		return applyDecorators(...decorators)
