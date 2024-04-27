@@ -1,11 +1,11 @@
-import { IntersectionType, ApiProperty, PickType, OmitType } from '@nestjs/swagger'
+import { ApiProperty, PickType, OmitType } from '@nestjs/swagger'
 import { PaginationResponse } from '@/core/swagger'
 import { CreateClubDto } from '../dto'
 import { StaffDto } from '@/modules/staff/swagger'
 import { ClubGroup } from '@/modules/group/swagger'
 import { ClubUser } from '@/modules/user/swagger'
 
-export class ClubDto extends OmitType(CreateClubDto, ['admin', 'name', 'address']) {
+export class ClubDto extends OmitType(CreateClubDto, ['admins', 'name', 'address']) {
 	@ApiProperty({
 		example: 1
 	})
@@ -24,9 +24,9 @@ export class ClubDto extends OmitType(CreateClubDto, ['admin', 'name', 'address'
 	users: ClubUser
 
 	@ApiProperty({
-		type: () => StaffDto
+		type: () => [StaffDto]
 	})
-	admin: StaffDto
+	admins: StaffDto
 
 	@ApiProperty({
 		example: 'Mass Club'
@@ -48,18 +48,13 @@ export class GetAllClubsOk extends PaginationResponse {
 	items: ClubDto
 }
 
-class ClubAdmin {
-	@ApiProperty({
-		example: 1
-	})
-	id: number
-}
-
 export class CreateClubOk extends PickType(ClubDto, ['address', 'id', 'name']) {
-	@ApiProperty()
-	admin: ClubAdmin
+	@ApiProperty({
+		type: () => [StaffDto]
+	})
+	admins: StaffDto
 }
-export class UpdateClubOk extends IntersectionType(ClubDto, ClubAdmin) {}
-export class GroupClub extends OmitType(ClubDto, ['groups', 'users', 'admin']) {}
+export class UpdateClubOk extends ClubDto {}
+export class GroupClub extends OmitType(ClubDto, ['groups', 'users', 'admins']) {}
 export class UserClub extends PickType(ClubDto, ['id', 'address', 'name']) {}
-export class StaffClub extends OmitType(GetClubByIdOk, ['groups', 'users', 'admin']) {}
+export class StaffClub extends OmitType(GetClubByIdOk, ['groups', 'users', 'admins']) {}

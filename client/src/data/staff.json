@@ -3,60 +3,70 @@
 		"id": 1,
 		"fio": "Paolina Surmeyers",
 		"email": "psurmeyers0@msu.edu",
-		"role": "trainer"
+		"role": "trainer",
+		"lastActivity": "04/15/2024"
 	},
 	{
 		"id": 2,
 		"fio": "Susanne Davidi",
 		"email": "sdavidi1@psu.edu",
-		"role": "admin"
+		"role": "admin",
+		"lastActivity": "03/28/2024"
 	},
 	{
 		"id": 3,
 		"fio": "Charmian Tourot",
 		"email": "ctourot2@artisteer.com",
-		"role": "trainer"
+		"role": "trainer",
+		"lastActivity": "04/05/2024"
 	},
 	{
 		"id": 4,
 		"fio": "Lauritz Roux",
 		"email": "lroux3@ucla.edu",
-		"role": "admin"
+		"role": "admin",
+		"lastActivity": "04/21/2024"
 	},
 	{
 		"id": 5,
 		"fio": "Corabella McElroy",
 		"email": "cmcelroy4@forbes.com",
-		"role": "trainer"
+		"role": "trainer",
+		"lastActivity": "04/10/2024"
 	},
 	{
 		"id": 6,
 		"fio": "Andrei Kleinmintz",
 		"email": "akleinmintz5@yolasite.com",
-		"role": "admin"
+		"role": "admin",
+		"lastActivity": "04/18/2024"
 	},
 	{
 		"id": 7,
 		"fio": "Alverta Pay",
 		"email": "apay6@earthlink.net",
-		"role": "admin"
+		"role": "admin",
+		"lastActivity": "03/31/2024"
 	},
 	{
 		"id": 8,
 		"fio": "Kiele Jeduch",
 		"email": "kjeduch7@shutterfly.com",
-		"role": "admin"
+		"role": "admin",
+		"lastActivity": "04/22/2024"
 	},
 	{
 		"id": 9,
 		"fio": "Susanetta Balsillie",
 		"email": "sbalsillie8@tripod.com",
-		"role": "admin"
+		"role": "admin",
+		"lastActivity": "04/07/2024"
 	},
 	{
 		"id": 10,
 		"fio": "Norry Murra",
 		"email": "nmurra9@ca.gov",
-		"role": "admin"
+		"role": "admin",
+		"lastActivity": ""
 	}
 ]

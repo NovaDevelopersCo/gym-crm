@@ -4,17 +4,15 @@ import type { RegisterOptions } from 'react-hook-form'
 import type { TOption } from '@/shared'
 
 type TNewClientFormFields =
-	| 'fio'
-	| 'phone'
 	| 'email'
-	| 'telegram'
+	| 'phone'
+	| 'fio'
+	| 'birthday'
+	| 'howKnow'
+	| 'club'
+	| 'groups'
 	| 'instagram'
 	| 'commentary'
-	| 'birthdayDate'
-	| 'howDoYouKnow'
-	| 'club'
-	| 'direction'
-	| 'groupIds'
 
 type TNewClientFormItem = {
 	label: string
@@ -25,6 +23,7 @@ type TNewClientFormItem = {
 	isMulti?: boolean
 	isTextArea?: boolean
 	rules?: RegisterOptions
+	format?: string
 }
 
 export const newClientFromItemsArr: TNewClientFormItem[] = [
@@ -65,17 +64,6 @@ export const newClientFromItemsArr: TNewClientFormItem[] = [
 		}
 	},
 	{
-		label: 'Телеграм',
-		type: 'text',
-		name: 'telegram',
-		rules: {
-			pattern: {
-				value: /^@[a-z0-9]+$/i,
-				message: 'Аккаунт должен быть в формате: @профиль'
-			}
-		}
-	},
-	{
 		label: 'Инстаграм',
 		type: 'text',
 		name: 'instagram',
@@ -89,31 +77,42 @@ export const newClientFromItemsArr: TNewClientFormItem[] = [
 	{
 		label: 'Дата рождения',
 		type: 'date',
-		name: 'birthdayDate',
+		name: 'birthday',
+		format: 'YYYY-MM-DD',
+		required: true,
 		rules: {
 			pattern: {
-				value: /^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(19\d\d|20[0-2][0-4])$/,
-				message:
-					'Дата рождения должна быть валидной, в формате: ДД-ММ-ГГ'
+				value: /^(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/i,
+				message: 'Введён некорректный формат даты'
+			},
+			maxLength: {
+				value: 10,
+				message: 'Это поле не может быть длиннее'
 			}
 		}
 	},
 	{
 		label: 'Как вы узнали о нас?',
 		type: 'text',
-		name: 'howDoYouKnow',
+		name: 'howKnow',
 		required: true,
 		isTextArea: true,
 		rules: {
 			maxLength: {
 				value: 1000,
-				message: 'Это поле не можем быть длиннее 1000 символов'
+				message: 'Это поле не может быть длиннее 1000 символов'
 			}
 		}
 	},
 	{
 		label: 'Клуб',
 		name: 'club',
+		rules: {
+			required: {
+				value: true,
+				message: 'Пожалуйста, выберите вариант!'
+			}
+		},
 		options: [
 			{
 				value: 'Strength Club',
@@ -123,12 +122,11 @@ export const newClientFromItemsArr: TNewClientFormItem[] = [
 				value: 'Mass Club',
 				label: 'Mass Club г. Москва, ул. Шишинская д. 12'
 			}
-		],
-		required: true
+		]
 	},
 	{
+		name: 'groups',
 		label: 'Группы',
-		name: 'groupIds',
 		options: [
 			{ value: '345', label: 'Группа 345' },
 			{ value: '987', label: 'Группа 987' },
@@ -137,24 +135,6 @@ export const newClientFromItemsArr: TNewClientFormItem[] = [
 		required: true,
 		isMulti: true
 	},
-	{
-		label: 'Направление',
-		name: 'direction',
-		options: [
-			{ value: 'Box', label: 'Бокс' },
-			{
-				label: 'Kикбоксинг',
-				value: 'Kickboxing'
-			},
-			{
-				label: 'Карате',
-				value: 'Karate'
-			}
-		],
-		required: true,
-		isMulti: true
-	},
-
 	{
 		label: 'Комментарий',
 		type: 'text',
