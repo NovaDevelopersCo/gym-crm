@@ -15,10 +15,6 @@ async function bootstrap() {
 
 	const NODE_ENV = configService.get('NODE_ENV')
 
-	// function getLoggerInstance() {
-	// 	return NODE_ENV === ENodeEnv.PRODUCTION ? createLogger(winstonConfig) : false
-	// }
-
 	const PORT = configService.get('PORT')
 	const CLIENT_URL = configService.get('CLIENT_URL')
 
