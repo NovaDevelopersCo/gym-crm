@@ -17,10 +17,10 @@ export class CreateUserDto {
 	@UserDecoratorsSwagger.howKnow(true)
 	howKnow?: string
 
-	@CommonDecoratorsSwagger.club(true)
+	@CommonDecoratorsSwagger.clubId(true)
 	club: number
 
-	@CommonDecoratorsSwagger.groups(true)
+	@CommonDecoratorsSwagger.groupIds(true)
 	groups: number[]
 
 	@UserDecoratorsSwagger.instagram(true)

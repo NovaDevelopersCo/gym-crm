@@ -8,6 +8,6 @@ export class CreateGroupDto {
 	@GroupDecoratorsSwagger.direction(true)
 	direction: number
 
-	@CommonDecoratorsSwagger.club(true)
+	@CommonDecoratorsSwagger.clubId(true)
 	club: number
 }

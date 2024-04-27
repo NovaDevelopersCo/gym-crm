@@ -68,7 +68,7 @@ export class CommonDecoratorsSwagger {
 		)
 	}
 
-	static club(withValidation?: boolean) {
+	static clubId(withValidation?: boolean) {
 		const decorators = [ApiProperty({ example: 2 })]
 
 		if (withValidation) {
@@ -78,7 +78,7 @@ export class CommonDecoratorsSwagger {
 		return applyDecorators(...decorators)
 	}
 
-	static groups(withValidation?: boolean) {
+	static groupIds(withValidation?: boolean) {
 		const decorators = [
 			ApiProperty({
 				example: [3, 5, 6]
