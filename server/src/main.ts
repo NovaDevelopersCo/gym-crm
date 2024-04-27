@@ -12,9 +12,11 @@ async function bootstrap() {
 	app.setGlobalPrefix('/api')
 
 	const configService = app.get(ConfigService)
+
+	const NODE_ENV = configService.get('NODE_ENV')
+
 	const PORT = configService.get('PORT')
 	const CLIENT_URL = configService.get('CLIENT_URL')
-	const NODE_ENV = configService.get('NODE_ENV')
 
 	if (NODE_ENV === ENodeEnv.DEVELOPMENT) {
 		const document = SwaggerModule.createDocument(app, swaggerConfig)
