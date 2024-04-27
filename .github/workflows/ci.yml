@@ -16,3 +16,14 @@ jobs:
               run: npm i
             - name: run building 
               run: npm run build
+    server_ci:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: server
+        steps:
+            - uses: actions/checkout@master
+            - name: install dependencies
+              run: npm i
+            - name: run building 
+              run: npm run build

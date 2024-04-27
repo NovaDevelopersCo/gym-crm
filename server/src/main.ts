@@ -29,6 +29,6 @@ async function bootstrap() {
 	})
 
 	await app.listen(PORT)
-	console.log('Server started on port ' + PORT)
+	console.log(`Server started. Port: ${PORT}. Env: ${NODE_ENV}`)
 }
 bootstrap()
