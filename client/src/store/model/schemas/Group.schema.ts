@@ -1,11 +1,9 @@
-import { EStaffRoles, IClient, IDirection, IStaff } from '.'
+import { IClient, IDirection } from '.'
 
 export default interface IGroup {
 	id: string
 	name: string
 	users: IClient[]
-	trainer: Omit<IStaff, 'role'> & {
-		role: EStaffRoles.TRAINER
-	}
+	trainer: unknown
 	direction_id: IDirection['id']
 }

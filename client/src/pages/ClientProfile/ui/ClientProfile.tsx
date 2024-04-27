@@ -1,17 +1,17 @@
 import { ClientInfo } from '@widgets/ClientInfo'
-import { Sales } from '@widgets/Sales'
-import { StagesOfCooperation } from '@widgets/StagesOfCooperation'
+import { Sales } from '@widgets/ClientSales'
+import { StagesOfCooperation } from '@widgets/ClientStages'
 
-import { MarkClient } from '@features/Client/'
+import { MarkClient } from '@features/MarkClient'
 
 const ClientProfile = () => {
 	return (
-		<div>
+		<>
 			<ClientInfo />
+			<MarkClient />
 			<StagesOfCooperation />
 			<Sales />
-			<MarkClient />
-		</div>
+		</>
 	)
 }
 

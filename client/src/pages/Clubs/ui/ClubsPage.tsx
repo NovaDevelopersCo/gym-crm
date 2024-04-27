@@ -1,7 +1,7 @@
-import { Clubs } from '@widgets/Clubs'
+import { ClubsControl } from '@widgets/ClubsControl'
 
 const ClubsPage = () => {
-	return <Clubs />
+	return <ClubsControl />
 }
 
 export default ClubsPage

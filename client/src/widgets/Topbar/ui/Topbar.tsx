@@ -1,8 +1,7 @@
-// import { Bell, File, FolderClosed,  } from 'lucide-react'
 import { useAppSelector } from '@/store'
 import { User } from 'lucide-react'
 
-import { LogoutBtn } from '@features/Auth'
+import { LogoutBtn } from '@features/Logout'
 import { ShowUpdateBtn } from '@features/Updates'
 
 import cl from './Topbar.module.scss'

@@ -6,8 +6,9 @@ import { Controller, useForm } from 'react-hook-form'
 import { Input, Select } from '@/shared'
 import { EditFilled } from '@ant-design/icons'
 
+// eslint-disable-next-line import/no-internal-modules
+import { clientInfo } from '../data/clietnInfo.data'
 import cl from './ClientInfo.module.scss'
-import { clientInfo } from './clietnInfo.data'
 
 const ClientInfo = () => {
 	type TClientInfo = {

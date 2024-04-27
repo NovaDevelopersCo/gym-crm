@@ -1,7 +1,7 @@
-import { DirectionsControll } from '@widgets/Directions'
+import { DirectionsControl } from '@widgets/DirectionsControl'
 
 const DirectionsPage = () => {
-	return <DirectionsControll />
+	return <DirectionsControl />
 }
 
 export default DirectionsPage

@@ -1,4 +1,4 @@
-import { EStaffRoles, IDirection, IGroup, IStaff } from '.'
+import { IDirection, IGroup } from '.'
 
 export enum EClientStatus {
 	member = 'CLUB_MEMBER',
@@ -11,13 +11,13 @@ export default interface IClient {
 	email: string
 	phone: number
 	cardNumber: number
-	status?: EClientStatus
+	status: EClientStatus
 	segment: string
-	name: string
-	surname: string
-	birthday: string
+	fio: string
+	birthday?: string
 	dateRegistration: string
 	payed: boolean
+	howKnow?: string
 
 	advertisingSource: string
 	registrationMethod: string
@@ -26,12 +26,8 @@ export default interface IClient {
 	club: string | number
 
 	groups: IGroup[]
+	instagram?: string
 
 	directions: IDirection[]
-	trainer: Omit<IStaff, 'role'> &
-		{
-			role: EStaffRoles.TRAINER
-		}[]
-
 	sex: 'male' | 'female'
 }

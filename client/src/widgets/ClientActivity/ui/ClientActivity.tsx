@@ -1,6 +1,7 @@
+// eslint-disable-next-line import/no-internal-modules
+import { clientActivityArr } from '../data/clientActivity.data'
 import cl from './ClientActivity.module.scss'
 import ClientActivityTable from './ClientActivityTable'
-import { clientActivityArr } from './clientActivity.data'
 
 const ClientActivity = () => {
 	return (

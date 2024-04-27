@@ -1,4 +1,4 @@
-import { RootState } from '@/store'
+import { IStaff, RootState, TGetItemsResponse } from '@/store'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const baseQuery = fetchBaseQuery({
@@ -19,8 +19,14 @@ const baseQuery = fetchBaseQuery({
 export const staffApi = createApi({
 	reducerPath: 'staff/api',
 	baseQuery,
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-	endpoints: _build => ({})
+	endpoints: build => ({
+		getStaff: build.query<TGetItemsResponse<IStaff>, void>({
+			query: () => ({
+				method: 'GET',
+				url: `staff`
+			})
+		})
+	})
 })
 
-// export const {} = staffApi
+export const { useGetStaffQuery } = staffApi

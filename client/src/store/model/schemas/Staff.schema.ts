@@ -1,7 +1,6 @@
 export enum EStaffRoles {
 	DIRECTOR = 'director',
-	ADMIN = 'admin',
-	TRAINER = 'trainer'
+	ADMIN = 'admin'
 }
 
 export default interface IStaff {

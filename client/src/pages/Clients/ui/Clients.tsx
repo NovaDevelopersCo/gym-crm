@@ -1,19 +1,7 @@
-import { useAppSelector } from '@/store'
-
-import { ClientsFilter } from '@widgets/ClientsFilter'
-import { ListOfClients } from '@widgets/ListOfClients'
-
-import { AddClientBtn } from '@features/Client'
+import { ClientsList } from '@widgets/ClientsList'
 
 const ClientsPage = () => {
-	const user = useAppSelector(state => state['auth/slice'].user!)
-	return (
-		<>
-			<ClientsFilter />
-			{user.role != 'trainer' && <AddClientBtn />}
-			<ListOfClients />
-		</>
-	)
+	return <ClientsList />
 }
 
 export default ClientsPage

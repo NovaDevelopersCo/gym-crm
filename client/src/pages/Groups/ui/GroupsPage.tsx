@@ -1,10 +1,10 @@
-import { CreateGroup } from '@widgets/CreateGroup'
+import { AddGroupForm } from '@features/AddGroup'
 
 const GroupsPage = () => {
 	return (
-		<div>
-			<CreateGroup />
-		</div>
+		<>
+			<AddGroupForm />
+		</>
 	)
 }
 
