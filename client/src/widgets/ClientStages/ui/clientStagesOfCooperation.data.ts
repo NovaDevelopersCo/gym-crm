@@ -4,6 +4,7 @@ type TStagesOfCooperationFields =
 	| 'clientVisited'
 	| 'clientBuyAbonement'
 	| 'clientRenewedAbonement'
+	| 'clientDoNotSkipTrainings'
 
 interface IStagesOfCooperation {
 	label: string
@@ -35,6 +36,11 @@ export const stagesOfCooperationArr: IStagesOfCooperation[] = [
 	{
 		label: 'Клиент продлил абонемент',
 		name: 'clientRenewedAbonement',
+		commentary: 'Комментарий'
+	},
+	{
+		label: 'Клиент не пропускает тренировки',
+		name: 'clientDoNotSkipTrainings',
 		commentary: 'Комментарий'
 	}
 ]

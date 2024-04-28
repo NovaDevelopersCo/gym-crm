@@ -4,8 +4,8 @@ import { Controller, useForm } from 'react-hook-form'
 import { Button, TextArea } from '@/shared/ui'
 import { Descriptions } from 'antd'
 
-import cl from './StagesOfCooperation.module.scss'
-import { stagesOfCooperationArr } from './stagesOfCooperation.data'
+import cl from './ClientStagesOfCooperation.module.scss'
+import { stagesOfCooperationArr } from './clientStagesOfCooperation.data'
 
 interface TStagesOfCooperation {
 	clientInBase: string
@@ -13,8 +13,10 @@ interface TStagesOfCooperation {
 	clientVisited: string
 	clientBuyAbonement: string
 	clientRenewedAbonement: string
+	clientDoNotSkipTrainings: string
 }
-export const StagesOfCooperation = () => {
+
+export const ClientStagesOfCooperation = () => {
 	const {
 		handleSubmit,
 		control,
@@ -65,7 +67,7 @@ export const StagesOfCooperation = () => {
 							key={item.name}
 							render={({ field }) => (
 								<TextArea
-									style={{ zIndex: 1 }}
+									style={{ zIndex: 1, height: 120 }}
 									disabled={isDisabled}
 									field={field}
 									error={errors[item.name]}
