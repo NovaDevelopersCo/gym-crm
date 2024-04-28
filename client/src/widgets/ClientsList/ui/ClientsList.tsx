@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useGetAllClientsQuery } from '@/store'
 
 import { AddClientBtn } from '@features/AddClient'
-import { Pagination } from '@features/Paggination'
+import { Pagination } from '@features/Pagination'
 
 import { TBodyContent, Table } from '@entities/Table'
 
