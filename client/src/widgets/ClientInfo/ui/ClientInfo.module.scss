@@ -44,7 +44,7 @@
 		}
 
 		&_infoBlock {
-			overflow-x: scroll;
+			// overflow-x: scroll;
 			display: grid;
 			grid-template-columns: 1fr 1fr 1fr;
 			gap: 0 30px;
@@ -54,7 +54,7 @@
 			z-index: 2;
 
 			&_info {
-				min-width: 300px;
+				min-width: 250px;
 				z-index: 2;
 			}
 
@@ -65,7 +65,13 @@
 			}
 		}
 
-		@media (max-width: 1000px) {
+		@media (max-width: 1200px) {
+			&_infoBlock {
+				grid-template-columns: 1fr 1fr;
+				padding: 9px;
+			}
+		}
+		@media (max-width: 950px) {
 			&_infoBlock {
 				grid-template-columns: 1fr;
 				padding: 9px;
