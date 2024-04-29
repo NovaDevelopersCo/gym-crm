@@ -1,8 +1,6 @@
-export enum EStaffRoles {
+enum EStaffRoles {
 	DIRECTOR = 'director',
 	ADMIN = 'admin'
 }
 
-export enum ECreateStaffRole {
-	ADMIN = 'admin'
-}
+export default EStaffRoles
