@@ -1,8 +1,8 @@
 import {
+	LoginErrorResponse,
 	LoginStaffDto,
+	RefreshResponse,
 	RootState,
-	TLoginErrorResponse,
-	TRefreshResponse,
 	authSlice
 } from '@/store'
 import {
@@ -34,7 +34,7 @@ const baseQuery = fetchBaseQuery({
 const baseQueryWithReauth: BaseQueryFn<
 	string | FetchArgs,
 	unknown,
-	FetchBaseQueryError | TLoginErrorResponse
+	FetchBaseQueryError | LoginErrorResponse
 > = async (args, api, extraOptions) => {
 	const result = await baseQuery(
 		args
@@ -57,15 +57,7 @@ const baseQueryWithReauth: BaseQueryFn<
 export const authApi = createApi({
 	reducerPath: 'auth/api',
 	baseQuery: baseQueryWithReauth,
-	// tagTypes: ['Auth'],
 	endpoints: build => ({
-		// createUser: build.query<TRegistrationResponse, CreateUserDto>({
-		// 	query: user => ({
-		// 		method: 'POST',
-		// 		url: `registration`,
-		// 		body: user
-		// 	})
-		// }),
 		loginUser: build.query<void, LoginStaffDto>({
 			query: user => ({
 				method: 'POST',
@@ -73,12 +65,12 @@ export const authApi = createApi({
 				body: user
 			})
 		}),
-		logoutUser: build.query({
+		logoutUser: build.query<void, void>({
 			query: () => ({
 				url: 'logout'
 			})
 		}),
-		refreshToken: build.query<TRefreshResponse, void>({
+		refreshToken: build.query<RefreshResponse, void>({
 			query: () => ({
 				url: 'refresh'
 			})
@@ -86,9 +78,5 @@ export const authApi = createApi({
 	})
 })
 
-export const {
-	// useCreateUserQuery,
-	useLoginUserQuery,
-	useLogoutUserQuery,
-	useRefreshTokenQuery
-} = authApi
+export const { useLoginUserQuery, useLogoutUserQuery, useRefreshTokenQuery } =
+	authApi

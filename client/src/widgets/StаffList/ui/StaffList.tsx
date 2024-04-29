@@ -1,22 +1,22 @@
 import { useState } from 'react'
 
 import { Modal } from '@/shared'
-import { EStaffRoles, IStaff, useGetStaffQuery } from '@/store'
+import { CreateStaffDto, EStaffRoles, IStaff, useGetStaffQuery } from '@/store'
 import { Button, Input, Radio, Table } from 'antd'
 
 import cl from './StaffList.module.scss'
+import { DeleteStaffBtn } from '@features/DeleteStaff'
 
 export const StaffList = () => {
-	// const [employees, ] = useState<IStaff[]>(staff as IStaff[])
-
 	const { data: employees } = useGetStaffQuery()
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 	const [newEmployee, setNewEmployee] = useState<
-		Omit<IStaff, 'id' | 'lastActivity'>
+		CreateStaffDto
 	>({
 		fio: '',
 		role: EStaffRoles.ADMIN,
-		email: ''
+		email: '',
+		club: ''
 	})
 	const paginationSizeOptions = [10, 20, 50]
 	const [paginationSize, setPaginationSize] = useState(
@@ -54,17 +54,11 @@ export const StaffList = () => {
 		{
 			title: 'Action',
 			key: 'action',
-			// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-			render: (_record: IStaff) => (
-				<Button onClick={() => handleDelete()}>Delete</Button>
+			render: (record: IStaff) => (
+				<DeleteStaffBtn staffId={record.id} />
 			)
 		}
 	]
-
-	// id: number
-	const handleDelete = () => {
-		// setEmployees(employees.filter(employee => employee.id !== id))
-	}
 
 	const handleAdd = () => {
 		setIsModalVisible(true)
@@ -72,7 +66,7 @@ export const StaffList = () => {
 
 	const handleCancel = () => {
 		setIsModalVisible(false)
-		setNewEmployee({ fio: '', role: EStaffRoles.ADMIN, email: '' })
+		// setNewEmployee({ fio: '', role: EStaffRoles.ADMIN, email: '' })
 	}
 
 	const handleSubmit = () => {
@@ -82,7 +76,7 @@ export const StaffList = () => {
 		// 	{ id: newId, ...newEmployee, lastActivity: '' }
 		// ])
 		setIsModalVisible(false)
-		setNewEmployee({ fio: '', role: EStaffRoles.ADMIN, email: '' })
+		// setNewEmployee({ fio: '', role: EStaffRoles.ADMIN, email: '' })
 	}
 
 	return (

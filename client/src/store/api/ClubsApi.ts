@@ -2,14 +2,14 @@ import {
 	CreateClubDto,
 	DeleteClubDto,
 	EditClubDto,
+	GetItemsResponse,
 	IClub,
-	RootState,
-	TGetItemsResponse
+	RootState
 } from '@/store'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/`,
+	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/club`,
 	credentials: 'include',
 
 	// Automatically use token in authorization header if it provided
@@ -31,19 +31,19 @@ export const clubsApi = createApi({
 	endpoints: build => ({
 		getClubInfo: build.query<IClub, IClub['id']>({
 			query: clubId => ({
-				url: `club/${clubId}`
+				url: `${clubId}`
 			})
 		}),
-		getClubs: build.query<TGetItemsResponse<IClub>, void>({
+		getClubs: build.query<GetItemsResponse<IClub>, void>({
 			query: () => ({
-				url: 'club'
+				url: ''
 			}),
 			providesTags: ['CLUB']
 		}),
 		createClub: build.mutation<IClub, CreateClubDto>({
 			query: clubDto => ({
 				method: 'POST',
-				url: 'club',
+				url: '',
 				body: clubDto
 			}),
 			invalidatesTags: ['CLUB']
@@ -51,14 +51,14 @@ export const clubsApi = createApi({
 		deleteClub: build.mutation<IClub, DeleteClubDto>({
 			query: clubId => ({
 				method: 'DELETE',
-				url: `club/${clubId}`
+				url: `${clubId}`
 			}),
 			invalidatesTags: ['CLUB']
 		}),
 		editClub: build.mutation<IClub, EditClubDto & { id: string }>({
 			query: dto => ({
 				method: 'PUT',
-				url: `club/${dto.id}`,
+				url: `${dto.id}`,
 				body: dto
 			}),
 			invalidatesTags: ['CLUB']
@@ -70,5 +70,6 @@ export const {
 	useGetClubInfoQuery,
 	useGetClubsQuery,
 	useCreateClubMutation,
-	useDeleteClubMutation
+	useDeleteClubMutation,
+	useEditClubMutation
 } = clubsApi

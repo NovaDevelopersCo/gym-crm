@@ -9,7 +9,7 @@ const LogoutBtn: FC<HTMLAttributes<HTMLButtonElement>> = props => {
 			{...props}
 			onClick={e => {
 				if (props.onClick) props.onClick(e)
-				dispatch(authApi.endpoints.logoutUser.initiate(''))
+				dispatch(authApi.endpoints.logoutUser.initiate())
 			}}
 		>
 			Logout

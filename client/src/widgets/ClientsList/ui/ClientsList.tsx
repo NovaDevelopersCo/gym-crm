@@ -13,7 +13,7 @@ import styles from './ClientsList.module.scss'
 const ClientsList = () => {
 	const [limit, setLimit] = useState<number>(20)
 	const [page, setPage] = useState<number>(1)
-	const { data } = useGetAllClientsQuery({
+	const { data: clients } = useGetAllClientsQuery({
 		page: page,
 		limit: limit
 	})
@@ -30,19 +30,19 @@ const ClientsList = () => {
 			<ClientsFilter />
 			<AddClientBtn />
 			<div className={styles.root}>
-				{data && (
+				{clients && (
 					<>
 						<Table
-							content={data.items as TBodyContent[]}
+							content={clients.items as TBodyContent[]}
 							cols={cols}
-							total={data.meta.total}
+							total={clients.meta.total}
 							limit={limit}
 							setLimit={setLimit}
 							fallback='Пользователей нет!'
 						/>
 						<Pagination
 							limit={limit}
-							total={data.meta.total}
+							total={clients.meta.total}
 							page={page}
 							setPage={setPage}
 						/>

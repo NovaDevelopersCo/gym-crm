@@ -16,8 +16,7 @@ const EditClubBtn: FC<{
 			<Button onClick={() => setIsModalOpen(true)}>Edit</Button>
 			<AddClubModal
 				isModalOpen={isModalOpen}
-				setIsModalOpen={setIsModalOpen}
-			/>
+				setIsModalOpen={setIsModalOpen} />
 		</>
 	)
 }

@@ -10,7 +10,7 @@ const SelectClub: FC<Omit<TSelectProps, 'options'>> = props => {
 			club =>
 				({
 					label: club.name,
-					value: club
+					value: club.id
 				}) as TSelectOption
 		)
 	return <Select {...props} options={convertedClubsToParams} />

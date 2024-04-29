@@ -23,6 +23,7 @@ const Select: FC<TSelectProps> = ({
 					showSearch
 					style={style || { width: '100%' }}
 					className={clsx(cl.root, className)}
+					
 					/** Custom react control */
 					value={() => {
 						return value && typeof value === 'object'

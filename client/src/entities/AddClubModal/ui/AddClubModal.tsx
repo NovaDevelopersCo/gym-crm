@@ -1,14 +1,16 @@
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react'
+import { Dispatch, FC, SetStateAction, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import { Button, Input, Modal } from '@/shared'
-import { IClub } from '@/store'
+import { CreateClubDto, IClub, useCreateClubMutation } from '@/store'
 
 import styles from './AddClubModal.module.scss'
+// eslint-disable-next-line 
+import { SelectAdmin } from '@features/Select'
 
 type AddClubModalProps = {
 	isModalOpen: boolean
-	setIsModalOpen: Dispatch<SetStateAction<boolean>>
+	setIsModalOpen: Dispatch<SetStateAction<boolean>>,
 }
 
 const AddClubModal: FC<AddClubModalProps> = ({
@@ -16,31 +18,17 @@ const AddClubModal: FC<AddClubModalProps> = ({
 	setIsModalOpen
 }) => {
 	const [editingClub] = useState<IClub | null>(null)
-	const { handleSubmit, control, reset } = useForm<IClub>()
+	const { handleSubmit, control, reset } = useForm<CreateClubDto>()
 
-	useEffect(() => {
-		// Something to do here
-	}, [editingClub])
+	const [createClub,] = useCreateClubMutation()
 
 	const handleCancel = () => {
 		setIsModalOpen(false)
 		reset()
 	}
 
-	// data: Omit<IClub, 'id'>
-	const onSubmit = () => {
-		// if (editingClub) {
-		// 	const updatedClubs = clubs.map(club =>
-		// 		club.id === editingClub.id ? { ...club, ...data } : club
-		// 	)
-		// 	// setClubs(updatedClubs)
-		// 	setEditingClub(null)
-		// } else {
-		// 	const id: Pick<IClub, 'id'>['id'] = (clubs.length + 1).toString()
-		// 	const newClub: IClub = { id, ...data }
-		// 	// setClubs([...clubs, newClub])
-		// }
-
+	const onSubmit = (data: CreateClubDto) => {
+		createClub(data)
 		setIsModalOpen(false)
 		reset()
 	}
@@ -49,7 +37,7 @@ const AddClubModal: FC<AddClubModalProps> = ({
 		<Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
 			<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 				<h2 className={styles.form__title}>
-					{editingClub ? 'Edit Club' : 'Add Club'}
+					{editingClub != null ? 'Edit Club' : 'Add Club'}
 				</h2>
 				<label htmlFor='name'>Name</label>
 				<Controller
@@ -69,18 +57,20 @@ const AddClubModal: FC<AddClubModalProps> = ({
 						<Input {...field} id='address' type='text' />
 					)}
 				/>
-				{/*
-					<label htmlFor='admin'>Admin</label>
-					<Controller
-						name='admin'
-						control={control}
-						rules={{ required: true }}
-						render={({ field }) => (
-							<Input {...field} id='admin' type='text' />
-						)}
-					/> */}
+
+				<label htmlFor='admins'>Admin</label>
+				<Controller
+					name='admins'
+					control={control}
+					rules={{ required: true }}
+					render={({ field }) => {
+						return (
+							<SelectAdmin field={field} id='admins' placeholder="Select admin" />
+						)
+					}}
+				/>
 				<Button htmlType='submit' type='primary'>
-					{editingClub ? 'Save' : 'Add'}
+					{editingClub != null ? 'Save' : 'Add'}
 				</Button>
 				<Button
 					onClick={handleCancel}

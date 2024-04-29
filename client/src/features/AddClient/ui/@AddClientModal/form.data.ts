@@ -1,20 +1,10 @@
-import { HTMLInputTypeAttribute } from 'react'
+import type { HTMLInputTypeAttribute } from 'react'
 import type { RegisterOptions } from 'react-hook-form'
 
 import type { TOption } from '@/shared'
-import { CreateClientDto } from '@/store'
+import type { CreateClientDto } from '@/store'
 
-type TNewClientFormFields = CreateClientDto
-// | 'fio'
-// | 'phone'
-// 	| 'email'
-// 	| 'telegram'
-// 	| 'birthday'
-// 	| 'howKnow'
-// 	| 'club'
-// 	| 'groups'
-// 	| 'instagram'
-// 	| 'commentary'
+type TNewClientFormFields = keyof CreateClientDto
 
 type TNewClientFormItem = {
 	label: string
@@ -136,17 +126,17 @@ export const newClientFormFields: TNewClientFormItem[] = [
 		],
 		required: true,
 		isMulti: true
-	},
-	{
-		label: 'Комментарий',
-		type: 'text',
-		name: 'commentary',
-		isTextArea: true,
-		rules: {
-			maxLength: {
-				value: 1000,
-				message: 'Это поле не можем быть длиннее 1000 символов'
-			}
-		}
 	}
+	// {
+	// 	label: 'Комментарий',
+	// 	type: 'text',
+	// 	name: 'commentary',
+	// 	isTextArea: true,
+	// 	rules: {
+	// 		maxLength: {
+	// 			value: 1000,
+	// 			message: 'Это поле не можем быть длиннее 1000 символов'
+	// 		}
+	// 	}
+	// }
 ]

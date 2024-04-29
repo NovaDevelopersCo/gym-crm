@@ -12,7 +12,6 @@ const AddClubBtn: FC<ButtonProps> = props => {
 		<>
 			<Button
 				{...props}
-				// className={cl.root__button}
 				onClick={() => setIsModalOpen(true)}
 			>
 				Add Club
