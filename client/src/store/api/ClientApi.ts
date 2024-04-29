@@ -1,13 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 import {
+	ClientMutationResponse,
 	CreateClientDto,
 	DeleteClientDto,
-	GetClientsDto,
+	GetItemsParams,
+	GetItemsResponse,
 	IClient,
 	RootState,
-	TClientMutationResponse,
-	TGetItemsResponse
 } from '..'
 
 const baseQuery = fetchBaseQuery({
@@ -31,21 +31,21 @@ export const clientApi = createApi({
 	baseQuery: baseQuery,
 	tagTypes: ['Client'],
 	endpoints: build => ({
-		createClient: build.mutation<TClientMutationResponse, CreateClientDto>({
+		createClient: build.mutation<ClientMutationResponse, CreateClientDto>({
 			query: client => ({
 				method: 'POST',
 				url: '',
 				body: client
 			})
 		}),
-		deleteClient: build.mutation<TClientMutationResponse, DeleteClientDto>({
+		deleteClient: build.mutation<ClientMutationResponse, DeleteClientDto>({
 			query: client => ({
 				method: 'DELETE',
 				url: '',
 				body: client
 			})
 		}),
-		getAllClients: build.query<TGetItemsResponse<IClient>, GetClientsDto>({
+		getAllClients: build.query<GetItemsResponse<IClient>, GetItemsParams>({
 			query: ({ page, limit }) => ({
 				url: '',
 				params: {

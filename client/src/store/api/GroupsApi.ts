@@ -1,8 +1,14 @@
-import { CreateGroupDto, DeleteGroupDto, IGroup, RootState } from '@/store'
+import {
+	CreateGroupDto,
+	DeleteGroupDto,
+	GetItemsResponse,
+	IGroup,
+	RootState
+} from '@/store'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/`,
+	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/group`,
 	credentials: 'include',
 
 	// Automatically use token in authorization header if it provided
@@ -24,19 +30,19 @@ export const groupsApi = createApi({
 	endpoints: build => ({
 		getGroupInfo: build.query<IGroup, IGroup['id']>({
 			query: groupId => ({
-				url: `groups/${groupId}`
+				url: `${groupId}`
 			})
 		}),
-		getGroups: build.query<IGroup[], void>({
+		getGroups: build.query<GetItemsResponse<IGroup>, void>({
 			query: () => ({
-				url: 'groups'
+				url: ''
 			}),
 			providesTags: ['GROUP']
 		}),
 		createGroup: build.mutation<IGroup, CreateGroupDto>({
 			query: group => ({
 				method: 'POST',
-				url: 'groups',
+				url: '',
 				body: group
 			}),
 			invalidatesTags: ['GROUP']
@@ -44,7 +50,7 @@ export const groupsApi = createApi({
 		deleteGroup: build.mutation<IGroup, DeleteGroupDto>({
 			query: groupId => ({
 				method: 'DELETE',
-				url: `groups/${groupId}`
+				url: `${groupId}`
 			}),
 			invalidatesTags: ['GROUP']
 		})

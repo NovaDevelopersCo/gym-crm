@@ -1,5 +1,4 @@
-// eslint-disable-next-line import/no-internal-modules
-import { TClientActivity } from '../ui/ClientActivityTable'
+import { TClientActivity } from '../model'
 
 export const clientActivityArr: TClientActivity['data'] = [
 	{

@@ -1,14 +1,5 @@
 import { Table } from 'antd'
-
-export type TClientActivity = {
-	data: {
-		id: string
-		date: string
-		activityType: string
-		duration: string
-		notes: string
-	}[]
-}
+import { TClientActivity } from '../model'
 
 const ClientActivityTable = ({ data }: TClientActivity) => {
 	const columns = [

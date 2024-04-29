@@ -1,10 +1,13 @@
-import { Controller, FieldValues, useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 
-import { Button, Input, Select, TextArea } from '@/shared'
+import { Button, Input, TextArea } from '@/shared'
 import { Typography } from 'antd'
 
 import cl from './Form.module.scss'
 import { newClientFormFields } from './form.data'
+import { CreateClientDto, useCreateClientMutation } from '@/store'
+// eslint-disable-next-line
+import { SelectClub, SelectGroup } from '@features/Select'
 
 const { Title } = Typography
 
@@ -13,10 +16,15 @@ const Form = () => {
 		handleSubmit,
 		control,
 		formState: { errors }
-	} = useForm<FieldValues>()
+	} = useForm<CreateClientDto>()
 
-	const onSubmit = (data: FieldValues) => {
-		console.log(data)
+	const [createUser, result] = useCreateClientMutation()
+
+	const onSubmit = (data: CreateClientDto) => {
+		createUser(data)
+		console.groupCollapsed('createUser')
+		console.log(result)
+		console.groupEnd()
 	}
 
 	return (
@@ -31,17 +39,32 @@ const Form = () => {
 						name={i.name}
 						control={control}
 						key={i.name}
-						render={({ field }) => (
-							<Select
-								field={field}
-								placeholder={i.label}
-								bodyClassName={cl.root__item}
-								getPopupContainer={trigger =>
-									trigger.parentElement
-								}
-								{...i}
-							/>
-						)}
+						render={({ field }) => {
+							const props = {
+								field: field,
+								placeholder: i.label,
+								bodyClassName: cl.root__item,
+								// getPopupContainer: trigger => {
+								// 	trigger.parentElement
+								// },
+								...i
+							}
+							return (
+								<>
+									{field.name == 'club' && <SelectClub {...props} />}
+									{field.name == 'groups' && <SelectGroup {...props} />}
+									{/* <Select
+										field={field}
+										placeholder={i.label}
+										bodyClassName={cl.root__item}
+										getPopupContainer={trigger =>
+											trigger.parentElement
+										}
+										{...i}
+									/> */}
+								</>
+							)
+						}}
 					/>
 				) : (
 					<Controller
