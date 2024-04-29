@@ -1,0 +1,20 @@
+.root {
+	&__head {
+		display: flex;
+		gap: 15px;
+		align-items: center;
+
+		&__title {
+			font-size: 16px;
+			font-weight: 600;
+			margin: 25px 0;
+		}
+	}
+
+	&__action {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
+	}
+}

@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
-import { Button, TextArea } from '@/shared/ui'
+import { Button, Checkbox, TextArea } from '@/shared/ui'
 import { Descriptions } from 'antd'
 
-import cl from './StagesOfCooperation.module.scss'
-import { stagesOfCooperationArr } from './stagesOfCooperation.data'
+import cl from './ClientStagesOfCooperation.module.scss'
+import { stagesOfCooperationArr } from './clientStagesOfCooperation.data'
 
 interface TStagesOfCooperation {
 	clientInBase: string
@@ -13,8 +13,17 @@ interface TStagesOfCooperation {
 	clientVisited: string
 	clientBuyAbonement: string
 	clientRenewedAbonement: string
+	clientDoNotSkipTrainings: string
+
+	clientInBaseTask: string
+	clientRegistratedTask: string
+	clientVisitedTask: string
+	clientBuyAbonementTask: string
+	clientRenewedAbonementTask: string
+	clientDoNotSkipTrainingsTask: string
 }
-export const StagesOfCooperation = () => {
+
+export const ClientStagesOfCooperation = () => {
 	const {
 		handleSubmit,
 		control,
@@ -57,22 +66,32 @@ export const StagesOfCooperation = () => {
 				bordered
 				title='Этапы сотрудничества'
 			>
-				{stagesOfCooperationArr.map(item => (
-					<Descriptions.Item key={item.name} label={item.label}>
+				{stagesOfCooperationArr.map((item, i) => (
+					<Descriptions.Item key={i} label={item.label}>
 						<Controller
 							name={item.name}
 							control={control}
 							key={item.name}
 							render={({ field }) => (
 								<TextArea
-									style={{ zIndex: 1 }}
+									style={{ zIndex: 1, height: 120 }}
 									disabled={isDisabled}
 									field={field}
 									error={errors[item.name]}
 									placeholder={item.commentary}
-									bodyClassName={
-										cl.root__container_infoBlock_info
-									}
+								/>
+							)}
+						/>
+						<Controller
+							name={item.task}
+							control={control}
+							key={item.task}
+							render={({ field }) => (
+								<Checkbox
+									style={{ zIndex: 1 }}
+									field={{ ...field, checked: !!field.value }}
+									label={`${field.value ? 'задача выполнена' : 'задача не выполнена'}`}
+									disabled={isDisabled}
 								/>
 							)}
 						/>

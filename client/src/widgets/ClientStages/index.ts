@@ -1,1 +1,1 @@
-export * from './ui/StagesOfCooperation'
+export * from './ui/ClientStagesOfCooperation'
