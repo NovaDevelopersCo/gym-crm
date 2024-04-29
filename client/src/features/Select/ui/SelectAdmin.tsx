@@ -13,7 +13,7 @@ const SelectAdmin: FC<Omit<TSelectProps, 'options'>> = props => {
 					value: staff.id
 				}) as TSelectOption
 		)
-	return <Select {...props} options={convertedStaffToParams} />
+	return <Select {...props} options={convertedStaffToParams!} />
 }
 
 export default SelectAdmin

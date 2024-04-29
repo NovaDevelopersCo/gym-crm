@@ -4,7 +4,7 @@ import { Button, Input, Select } from '@/shared'
 
 import { createGroupFields } from './createGroupForm.data'
 import cl from './AddGroupForm.module.scss'
-import { CreateGroupDto } from '@/store'
+import { CreateGroupDto, useCreateGroupMutation } from '@/store'
 // eslint-disable-next-line
 import { SelectClub, SelectDirection } from '@features/Select'
 
@@ -15,8 +15,10 @@ const AddGroupForm = () => {
 		formState: { errors }
 	} = useForm<CreateGroupDto>()
 
+	const [createGroup, ] = useCreateGroupMutation()
+
 	const onSubmit = (data: CreateGroupDto) => {
-		console.log(data)
+		createGroup(data)
 	}
 
 	return (
