@@ -60,6 +60,7 @@ export const ClientVisits = () => {
 				pagination={{ pageSize: 5 }}
 				bordered
 				columns={columns}
+				rowKey={visitsDataArr => visitsDataArr.id}
 				dataSource={visitsDataArr}
 				scroll={{ x: 1000 }}
 			/>

@@ -65,6 +65,7 @@ export const ClientSales = () => {
 			<Table
 				pagination={{ pageSize: 5 }}
 				bordered
+				rowKey={salesDataArr => salesDataArr.id}
 				columns={columns}
 				dataSource={salesDataArr}
 				scroll={{ x: 1000 }}

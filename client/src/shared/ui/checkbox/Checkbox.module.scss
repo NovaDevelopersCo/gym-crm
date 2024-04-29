@@ -1,0 +1,26 @@
+.root {
+	display: flex;
+	gap: 10px;
+
+	&__label {
+		z-index: 1;
+		font-size: 16px;
+		font-weight: 500;
+		padding-left: 4px;
+		display: block;
+		margin-bottom: 5px;
+	}
+
+	&__checkbox {
+		&_checkboxErr {
+			outline: 1px solid #e03737;
+		}
+	}
+
+	&_textErr {
+		display: block;
+		padding: 4px;
+		font-size: 14px;
+		color: #e03737;
+	}
+}
