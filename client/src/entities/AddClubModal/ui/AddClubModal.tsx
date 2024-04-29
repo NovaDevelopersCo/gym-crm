@@ -5,7 +5,7 @@ import { Button, Input, Modal } from '@/shared'
 import { CreateClubDto, IClub, useCreateClubMutation } from '@/store'
 
 import styles from './AddClubModal.module.scss'
-// eslint-disable-next-line 
+// eslint-disable-next-line
 import { SelectAdmin } from '@features/Select'
 
 type AddClubModalProps = {
@@ -65,7 +65,7 @@ const AddClubModal: FC<AddClubModalProps> = ({
 					rules={{ required: true }}
 					render={({ field }) => {
 						return (
-							<SelectAdmin field={field} id='admins' placeholder="Select admin" />
+							<SelectAdmin field={field} id='admins' placeholder="Select admin" mode="multiple" />
 						)
 					}}
 				/>

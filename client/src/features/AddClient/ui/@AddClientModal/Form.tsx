@@ -44,15 +44,12 @@ const Form = () => {
 								field: field,
 								placeholder: i.label,
 								bodyClassName: cl.root__item,
-								// getPopupContainer: trigger => {
-								// 	trigger.parentElement
-								// },
 								...i
 							}
 							return (
 								<>
 									{field.name == 'club' && <SelectClub {...props} />}
-									{field.name == 'groups' && <SelectGroup {...props} />}
+									{field.name == 'groups' && <SelectGroup {...props} mode="multiple" />}
 									{/* <Select
 										field={field}
 										placeholder={i.label}
