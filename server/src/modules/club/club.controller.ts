@@ -12,8 +12,7 @@ import {
 	HttpCode,
 	UseInterceptors,
 	ClassSerializerInterceptor,
-	Query,
-	UnauthorizedException
+	Query
 } from '@nestjs/common'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { ClubService } from './club.service'
@@ -34,7 +33,6 @@ export class ClubController {
 	@ClubDocSwagger.getAll()
 	@Get()
 	getAll(@Query() query: FindAllClubDto) {
-		throw new UnauthorizedException()
 		return this.clubService.getAll(query)
 	}
 
