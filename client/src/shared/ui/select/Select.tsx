@@ -23,6 +23,7 @@ const Select: FC<TSelectProps> = ({
 					showSearch
 					style={style || { width: '100%' }}
 					className={clsx(cl.root, className)}
+					
 					/** Custom react control */
 					value={() => {
 						return value && typeof value === 'object'
@@ -41,7 +42,6 @@ const Select: FC<TSelectProps> = ({
 					}}
 					popupClassName={bodyClassName}
 					{...props}
-					getPopupContainer={trigger => trigger.parentNode}
 				/>
 			) : field != undefined ? (
 				<SelectAntd
@@ -52,7 +52,6 @@ const Select: FC<TSelectProps> = ({
 					{...props}
 					// React Hook Form control
 					{...field}
-					getPopupContainer={trigger => trigger.parentNode}
 				/>
 			) : (
 				<SelectAntd
@@ -61,7 +60,6 @@ const Select: FC<TSelectProps> = ({
 					className={clsx(cl.root, className)}
 					popupClassName={bodyClassName}
 					{...props}
-					getPopupContainer={trigger => trigger.parentNode}
 				/>
 			)}
 		</>
