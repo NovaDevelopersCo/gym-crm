@@ -10,6 +10,7 @@ import { AbonementModule } from './modules/abonement/abonement.module'
 import { GroupModule } from './modules/group/group.module'
 import { DataBaseModule } from './core/database/database.module'
 import { LoggerModule } from './core/logger/logger.module'
+import { ProductModule } from './modules/product/product.module'
 
 @Module({
 	imports: [
@@ -22,7 +23,8 @@ import { LoggerModule } from './core/logger/logger.module'
 		GroupModule,
 		AbonementModule,
 		DataBaseModule,
-		LoggerModule
+		LoggerModule,
+		ProductModule
 	]
 })
 export class AppModule {}
