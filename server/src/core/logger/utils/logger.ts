@@ -1,5 +1,5 @@
 import { ConfigService } from '@nestjs/config'
-import { ELoggerLevels, ENodeEnv } from '../enums'
+import { ELoggerLevels, ENodeEnv } from '../../enums'
 import { format } from 'winston'
 import { HttpStatus } from '@nestjs/common'
 

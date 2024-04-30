@@ -62,11 +62,11 @@ export class ClubService {
 		await this.nameCheck(dto.name)
 		await this.addressCheck(dto.address)
 		const admins = await this.adminsFreeCheck(dto.admins)
-		const createClub = this.clubRepository.create({
+		const createdClub = this.clubRepository.create({
 			...dto,
 			admins
 		})
-		return this.clubRepository.save(createClub)
+		return this.clubRepository.save(createdClub)
 	}
 
 	async update(id: number, dto: UpdateClubDto) {

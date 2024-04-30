@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { IsEnum } from 'class-validator'
 import { ECreateStaffRole, EStaffRole } from '@/core/enums'
 
-export class StaffDecoratorsSwagger {
+export class StaffPropertiesSwagger {
 	static role(withValidation?: boolean, isCreate?: boolean) {
 		const decorators = [
 			ApiProperty({

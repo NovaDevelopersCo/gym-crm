@@ -1,16 +1,13 @@
 import { applyDecorators } from '@nestjs/common'
-import { ApiOperation, ApiOkResponse, ApiNotFoundResponse } from '@nestjs/swagger'
-import { ESwaggerMessages } from '@/core/swagger'
+import { ApiOkResponse, ApiNotFoundResponse } from '@nestjs/swagger'
+import { ESwaggerMessages, BaseDocSwagger, DocDecoratorsSwagger } from '@/core/swagger'
 import { GetAllClubsOk, GetClubByIdOk, CreateClubOk, UpdateClubOk } from './responses'
-import { BaseDocSwagger } from '@/core/swagger/docs'
+import { EStaffRole } from '@/core/enums'
 
 export class ClubDocSwagger {
 	static getAll() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Получить список всех клубов',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.getAll([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
 				type: GetAllClubsOk,
 				description: ESwaggerMessages.SUCCESSFULLY_GET_ALL
@@ -21,10 +18,7 @@ export class ClubDocSwagger {
 
 	static getById() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Получить клуб по id',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.getById([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
 				type: GetClubByIdOk,
 				description: ESwaggerMessages.SUCCESSFULLY_GET_ONE
@@ -36,10 +30,7 @@ export class ClubDocSwagger {
 
 	static create() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Создание нового клуба',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.create([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
 				type: CreateClubOk,
 				description: ESwaggerMessages.SUCCESSFULLY_CREATE
@@ -51,7 +42,7 @@ export class ClubDocSwagger {
 
 	static update() {
 		return applyDecorators(
-			ApiOperation({ summary: 'Изменить клуб', description: 'Только с ролью director' }),
+			DocDecoratorsSwagger.update([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
 				type: UpdateClubOk,
 				description: ESwaggerMessages.SUCCESSFULLY_UPDATE
@@ -63,7 +54,7 @@ export class ClubDocSwagger {
 
 	static delete() {
 		return applyDecorators(
-			ApiOperation({ summary: 'Удалить клуб', description: 'Только с ролью director' }),
+			DocDecoratorsSwagger.delete([EStaffRole.DIRECTOR]),
 			BaseDocSwagger.delete()
 		)
 	}

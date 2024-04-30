@@ -3,7 +3,7 @@ import { clubValidation } from '../validation'
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger'
 import { IsString, MinLength, MaxLength, IsNumber, ArrayMaxSize } from 'class-validator'
 
-export class ClubDecoratorsSwagger {
+export class ClubPropertiesSwagger {
 	static name_(withValidation?: boolean) {
 		const { minLength, maxLength } = clubValidation.name
 

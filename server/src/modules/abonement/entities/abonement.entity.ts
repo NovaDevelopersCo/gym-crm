@@ -1,18 +1,23 @@
 import { BaseEntity } from '@/core/database/entity'
-import { EAbonementStatus } from '@/core/enums'
-import { UserEntity } from '@/modules/user/entities'
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
+import { Column, Entity } from 'typeorm'
 
 @Entity('Abonement')
 export class AbonementEntity extends BaseEntity {
-	@OneToOne(() => UserEntity)
-	@JoinColumn()
-	user: UserEntity
+	@Column()
+	price: number
 
 	@Column({
-		type: 'enum',
-		enum: EAbonementStatus,
-		default: EAbonementStatus.NOT_BUY
+		unique: true
 	})
-	status: EAbonementStatus
+	name: string
+
+	@Column({
+		nullable: true
+	})
+	count?: number
+
+	@Column({
+		nullable: true
+	})
+	duration: string
 }

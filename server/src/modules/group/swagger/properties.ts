@@ -3,7 +3,7 @@ import { groupValidation } from '../validation'
 import { ApiPropertyOptions, ApiProperty } from '@nestjs/swagger'
 import { MaxLength, MinLength, IsString, IsNumber } from 'class-validator'
 
-export class GroupDecoratorsSwagger {
+export class GroupPropertiesSwagger {
 	static name_(withValidation?: boolean) {
 		const { minLength, maxLength } = groupValidation.name
 

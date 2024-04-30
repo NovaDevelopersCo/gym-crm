@@ -3,7 +3,7 @@ import { directionValidation } from '../validation'
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger'
 import { IsString, MaxLength, MinLength } from 'class-validator'
 
-export class DirectionDecoratorsSwagger {
+export class DirectionPropertiesSwagger {
 	static name_(withValidation?: boolean) {
 		const { minLength, maxLength } = directionValidation.name
 

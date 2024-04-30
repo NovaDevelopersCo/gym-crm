@@ -1,2 +1,2 @@
 export * from './env-validate'
-export * from './logger'
+export * from '../logger/utils/logger'

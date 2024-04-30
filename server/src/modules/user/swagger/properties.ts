@@ -10,7 +10,7 @@ import {
 } from 'class-validator'
 import { userValidation } from '../validation'
 
-export class UserDecoratorsSwagger {
+export class UserPropertiesSwagger {
 	static phone(withValidation?: boolean) {
 		const decorators = [ApiProperty({ example: '79003001122' })]
 
