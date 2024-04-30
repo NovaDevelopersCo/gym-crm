@@ -10,22 +10,16 @@ export class HttpExceptionFilter implements ExceptionFilter {
 		const ctx = host.switchToHttp()
 		const res = ctx.getResponse<Response>()
 		const req = ctx.getRequest<Request>()
-		const {
-			message,
-			statusCode,
-			error = message
-		} = exception.getResponse() as {
+		const { message, statusCode } = exception.getResponse() as {
 			message: string
 			statusCode: HttpStatus
-			error?: string
 		}
 
 		this.logger.error(req.url, message, statusCode)
 
 		res.status(statusCode).json({
 			message,
-			statusCode,
-			error
+			statusCode
 		})
 	}
 }
