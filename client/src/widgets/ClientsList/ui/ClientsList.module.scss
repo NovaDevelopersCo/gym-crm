@@ -1,8 +1,26 @@
-.root {
+.table {
 	margin-top: 20px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	row-gap: 10px;
-	z-index: 10;
+
+	&__info {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		background: #fafafa;
+		padding: 10px 10px 0 10px;
+		width: 100%;
+
+		span {
+			font-weight: 500;
+		}
+
+		&__pagination {
+			display: flex;
+			align-items: center;
+			column-gap: 10px;
+		}
+	}
 }

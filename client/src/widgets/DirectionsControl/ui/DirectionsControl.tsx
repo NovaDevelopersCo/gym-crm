@@ -1,4 +1,4 @@
-import { IDirection, useGetDirectionsQuery } from '@/store'
+import { IDirection, IGroup, useGetDirectionsQuery } from '@/store'
 import { Table } from 'antd'
 
 import { AddDirectionForm } from '@features/AddDirection'
@@ -19,7 +19,10 @@ const DirectionsControl = () => {
 		{
 			title: 'Groups',
 			dataIndex: 'groups',
-			key: 'groups'
+			key: 'groups',
+			render: (groups: IGroup[]) => (
+				groups.map(group=>group.name).join(', ')
+			)
 		},
 		{
 			title: 'Action',
@@ -32,7 +35,7 @@ const DirectionsControl = () => {
 	return (
 		<>
 			<AddDirectionForm />
-			{directions?.items.length != 0 ? (
+			{directions?.meta.total != 0 ? (
 				<Table columns={columns} dataSource={directions?.items} />
 			) : (
 				<h1>Направлений нет</h1>

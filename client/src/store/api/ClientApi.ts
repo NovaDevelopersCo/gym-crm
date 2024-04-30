@@ -29,21 +29,23 @@ const baseQuery = fetchBaseQuery({
 export const clientApi = createApi({
 	reducerPath: 'client/api',
 	baseQuery: baseQuery,
-	tagTypes: ['Client'],
+	tagTypes: ['CLIENT'],
 	endpoints: build => ({
 		createClient: build.mutation<ClientMutationResponse, CreateClientDto>({
 			query: client => ({
 				method: 'POST',
 				url: '',
 				body: client
-			})
+			}),
+			invalidatesTags: ['CLIENT']
 		}),
 		deleteClient: build.mutation<ClientMutationResponse, DeleteClientDto>({
 			query: client => ({
 				method: 'DELETE',
 				url: '',
 				body: client
-			})
+			}),
+			invalidatesTags: ['CLIENT']
 		}),
 		getAllClients: build.query<GetItemsResponse<IClient>, GetItemsParams>({
 			query: ({ page, limit }) => ({
@@ -52,7 +54,8 @@ export const clientApi = createApi({
 					page: page,
 					limit: limit
 				}
-			})
+			}),
+			providesTags: ['CLIENT']
 		})
 	})
 })

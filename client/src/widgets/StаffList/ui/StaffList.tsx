@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
 import { Modal } from '@/shared'
-import { CreateStaffDto, EStaffRoles, IStaff, useGetStaffQuery } from '@/store'
+import { CreateStaffDto, EStaffRoles, IClub, IStaff, useGetStaffQuery } from '@/store'
 import { Button, Input, Radio, Table } from 'antd'
 
 import cl from './StaffList.module.scss'
@@ -31,12 +31,18 @@ export const StaffList = () => {
 			width: '10px',
 			sorter: (a: IStaff, b: IStaff) => a.id - b.id
 		},
-		{ title: 'FIO', dataIndex: 'fio', key: 'fio', width: '300px' },
 		{
 			title: 'Email',
 			dataIndex: 'email',
 			key: 'email',
 			sorter: (a: IStaff, b: IStaff) => a.email.localeCompare(b.email)
+		},
+		{
+			title: 'Club',
+			dataIndex: 'club',
+			key: 'club',
+			sorter: (a: IStaff, b: IStaff) => a.club.localeCompare(b.email),
+			render: (club: IClub) => club?.name
 		},
 		{
 			title: 'Role',
