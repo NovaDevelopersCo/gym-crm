@@ -1,5 +1,6 @@
 import { BaseEntity } from '@/core/database/entity'
 import { GroupEntity } from '@/modules/group/entities'
+import { ProductEntity } from '@/modules/product/entities'
 import { StaffEntity } from '@/modules/staff/entities'
 import { UserEntity } from '@/modules/user/entities'
 import { Column, Entity, OneToMany } from 'typeorm'
@@ -24,4 +25,7 @@ export class ClubEntity extends BaseEntity {
 
 	@OneToMany(() => UserEntity, user => user.club, { cascade: true })
 	users: UserEntity[]
+
+	@OneToMany(() => ProductEntity, product => product.club)
+	products: ProductEntity[]
 }
