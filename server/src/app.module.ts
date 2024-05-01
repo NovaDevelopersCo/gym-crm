@@ -11,6 +11,7 @@ import { GroupModule } from './modules/group/group.module'
 import { DataBaseModule } from './core/database/database.module'
 import { LoggerModule } from './core/logger/logger.module'
 import { ProductModule } from './modules/product/product.module'
+import { OrderModule } from './modules/order/order.module'
 
 @Module({
 	imports: [
@@ -24,7 +25,8 @@ import { ProductModule } from './modules/product/product.module'
 		AbonementModule,
 		DataBaseModule,
 		LoggerModule,
-		ProductModule
+		ProductModule,
+		OrderModule
 	]
 })
 export class AppModule {}
