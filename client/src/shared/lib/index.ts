@@ -1,4 +1,4 @@
-import convertToTOptions from './convertToTOptions'
+import convertToTOptions from './ConvertToTOptions'
 import anyToString from './anyToString'
 
 export { convertToTOptions, anyToString }
