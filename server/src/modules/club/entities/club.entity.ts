@@ -26,6 +26,6 @@ export class ClubEntity extends BaseEntity {
 	@OneToMany(() => UserEntity, user => user.club, { cascade: true })
 	users: UserEntity[]
 
-	@OneToMany(() => ProductEntity, product => product.club)
+	@OneToMany(() => ProductEntity, product => product.club, { cascade: true })
 	products: ProductEntity[]
 }

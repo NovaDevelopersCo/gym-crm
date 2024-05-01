@@ -1,6 +1,7 @@
 import { BaseEntity } from '@/core/database/entity'
 import { ClubEntity } from '@/modules/club/entities'
-import { Column, Entity, ManyToOne } from 'typeorm'
+import { OrderItemEntity } from '@/modules/order/entities'
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm'
 
 @Entity('Product')
 export class ProductEntity extends BaseEntity {
@@ -10,8 +11,9 @@ export class ProductEntity extends BaseEntity {
 	@Column()
 	price: number
 
-	@ManyToOne(() => ClubEntity, club => club.products)
+	@ManyToOne(() => ClubEntity, club => club.products, { onDelete: 'SET NULL' })
 	club: ClubEntity
 
-	// orders:
+	@OneToMany(() => OrderItemEntity, item => item.product)
+	orders: OrderItemEntity
 }
