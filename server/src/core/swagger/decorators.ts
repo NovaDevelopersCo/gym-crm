@@ -60,12 +60,14 @@ export class CommonDecoratorsSwagger {
 		)
 	}
 
-	static id() {
-		return applyDecorators(
-			ApiProperty({
-				example: 1
-			})
-		)
+	static id(withValidation?: boolean) {
+		const decorators = [ApiProperty({ example: 1 })]
+
+		if (withValidation) {
+			decorators.push(IsInt({ message: 'Id должен быть числом' }))
+		}
+
+		return applyDecorators(...decorators)
 	}
 
 	static clubId(withValidation?: boolean) {
@@ -73,6 +75,16 @@ export class CommonDecoratorsSwagger {
 
 		if (withValidation) {
 			decorators.push(IsInt({ message: 'Id клуба должен быть числом' }))
+		}
+
+		return applyDecorators(...decorators)
+	}
+
+	static userId(withValidation?: boolean) {
+		const decorators = [ApiProperty({ example: 2 })]
+
+		if (withValidation) {
+			decorators.push(IsInt({ message: 'Id пользователя должен быть числом' }))
 		}
 
 		return applyDecorators(...decorators)
