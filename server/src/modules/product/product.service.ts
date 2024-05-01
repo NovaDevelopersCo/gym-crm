@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { CreateProductDto, UpdateProductDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { ProductEntity } from './entities'
-import { ILike, Repository } from 'typeorm'
+import { ILike, In, Repository } from 'typeorm'
 import { FindAllProductDto } from './dto/find-all.dto'
 import { PaginationDto } from '@/core/pagination'
 import { ClubService } from '../club/club.service'
@@ -74,5 +74,29 @@ export class ProductService {
 		await this.getById(id)
 		await this.productRepository.delete({ id })
 		return
+	}
+
+	async getByIds(ids: number[]) {
+		const products = await this.productRepository.find({
+			where: { id: In(ids) },
+			relations: {
+				club: true
+			}
+		})
+
+		const errorMessages = []
+
+		ids.map(id => {
+			const product = products.some(g => g.id === id)
+			if (!product) {
+				errorMessages.push(`Товар с id: ${id} не найден`)
+			}
+		})
+
+		if (errorMessages.length) {
+			throw new BadRequestException(errorMessages)
+		}
+
+		return products
 	}
 }
