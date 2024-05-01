@@ -1,19 +1,23 @@
-import { useState } from 'react'
+import { FC } from 'react'
 
-import { Button } from 'antd'
+import { Button } from '@/shared'
+import { IGroup } from '@/store'
+import { ButtonProps } from 'antd'
 
-import { EditGroupModal } from '@entities/EditGroupModal'
+type EditGroupBtnProps = {
+	groupId: IGroup['id']
+} & ButtonProps
 
-export const EditGroupBtn = () => {
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-
+const EditGroupBtn: FC<EditGroupBtnProps> = ({ groupId, ...props }) => {
 	return (
-		<>
-			<Button onClick={() => setIsModalOpen(prev => !prev)}>edit</Button>
-			<EditGroupModal
-				isModalOpen={isModalOpen}
-				setIsModalOpen={setIsModalOpen}
-			/>
-		</>
+		<Button
+			onClick={() => console.log(`Edit group with id: ${groupId}`)}
+			{...props}
+			type='dashed'
+		>
+			Изменить
+		</Button>
 	)
 }
+
+export default EditGroupBtn

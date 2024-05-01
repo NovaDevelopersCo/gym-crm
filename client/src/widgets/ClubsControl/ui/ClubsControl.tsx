@@ -16,11 +16,11 @@ export const ClubsControl = () => {
 			dataIndex: 'id',
 			key: 'id',
 			width: '10px',
-			sorter: (a: IClub, b: IClub) => a.id.localeCompare(b.id)
+			sorter: (a: IClub, b: IClub) => (+a.id) - (+b.id)
 		},
-		{ title: 'Name', dataIndex: 'name', key: 'name', width: '300px' },
+		{ title: 'Название', dataIndex: 'name', key: 'name', width: '300px' },
 		{
-			title: 'Address',
+			title: 'Адрес',
 			dataIndex: 'address',
 			key: 'address',
 			sorter: (a: IClub, b: IClub) => a.address.localeCompare(b.address)
@@ -31,7 +31,7 @@ export const ClubsControl = () => {
 		// 	key: 'admin'
 		// },
 		{
-			title: 'Action',
+			title: 'Действия',
 			key: 'action',
 			render: (record: IClub) => (
 				<div className={cl.root__action}>

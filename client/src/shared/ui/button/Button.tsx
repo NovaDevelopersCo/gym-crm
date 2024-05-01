@@ -9,7 +9,7 @@ import cl from './Button.module.scss'
 type TButtonProps = ButtonProps
 
 const Button: FC<TButtonProps> = ({ children, className, ...props }) => (
-	<AntdButton {...props} className={clsx(cl.root, className)}>
+	<AntdButton className={clsx(className != undefined && cl.root, className)} {...props}>
 		{children}
 	</AntdButton>
 )

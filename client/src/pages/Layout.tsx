@@ -5,6 +5,7 @@ import { Sidebar } from '@widgets/Sidebar'
 import { Topbar } from '@widgets/Topbar'
 
 import styles from './Layout.module.scss'
+import { FullPageSpinner } from '@/shared'
 
 const Layout = () => {
 	return (
@@ -14,7 +15,7 @@ const Layout = () => {
 				<div className={styles.vertical__wrapper}>
 					<Topbar />
 					<main className={styles.outlet__wrapper}>
-						<Suspense fallback={<h1>Loading...</h1>}>
+						<Suspense fallback={<FullPageSpinner />}>
 							<Outlet />
 						</Suspense>
 					</main>

@@ -1,7 +1,12 @@
 import { Controller, useForm } from 'react-hook-form'
 
 import { Button, Input, Select } from '@/shared'
-import { CreateGroupDto, useCreateGroupMutation } from '@/store'
+import {
+	CreateGroupDto,
+	EStaffRoles,
+	useAppSelector,
+	useCreateGroupMutation
+} from '@/store'
 
 // eslint-disable-next-line
 import { SelectClub, SelectDirection } from '@features/Select'
@@ -22,6 +27,7 @@ const AddGroupForm = () => {
 		createGroup(data)
 	}
 
+	const { role, club } = useAppSelector(state => state['auth/slice'].user!)
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className={cl.root}>
 			{createGroupFields.map(({ rules, ...formFieldProps }) => (
@@ -40,7 +46,19 @@ const AddGroupForm = () => {
 						if (formFieldProps.type == 'select') {
 							switch (field.name) {
 								case 'club':
-									return <SelectClub {...fieldProps} />
+									return (
+										<>
+											{role != EStaffRoles.ADMIN ? (
+												<SelectClub {...fieldProps} />
+											) : (
+												<SelectClub
+													{...fieldProps}
+													disabled
+													defaultValue={club}
+												/>
+											)}
+										</>
+									)
 								case 'direction':
 									return <SelectDirection {...fieldProps} />
 								default:

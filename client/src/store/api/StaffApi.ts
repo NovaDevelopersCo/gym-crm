@@ -25,21 +25,31 @@ const baseQuery = fetchBaseQuery({
 export const staffApi = createApi({
 	reducerPath: 'staff/api',
 	baseQuery,
+	tagTypes: ['STAFF'],
 	endpoints: build => ({
 		getStaff: build.query<GetItemsResponse<IStaff>, void>({
 			query: () => ({
 				method: 'GET',
 				url: ''
-			})
+			}),
+			providesTags: ['STAFF']
 		}),
 		createStaff: build.mutation<CreateStaffResponse, CreateStaffDto>({
 			query: user => ({
 				method: 'POST',
 				url: '',
 				body: user
-			})
+			}),
+			invalidatesTags: ['STAFF']
+		}),
+		deleteStaff: build.mutation<void, IStaff['id']>({
+			query: id => ({
+				method: 'DELETE',
+				url: `${id}`
+			}),
+			invalidatesTags: ['STAFF']
 		})
 	})
 })
 
-export const { useGetStaffQuery } = staffApi
+export const { useGetStaffQuery, useCreateStaffMutation, useDeleteStaffMutation } = staffApi

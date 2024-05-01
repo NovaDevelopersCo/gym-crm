@@ -1,1 +1,3 @@
-export * from './ui/EditGroupBtn'
+import EditGroupBtn from './ui/EditGroupBtn'
+
+export { EditGroupBtn }

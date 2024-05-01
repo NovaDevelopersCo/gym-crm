@@ -2,7 +2,7 @@
 import { Suspense, lazy } from 'react'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 
-import { ProtectedRoute } from '@/shared'
+import { FullPageSpinner, ProtectedRoute } from '@/shared'
 
 import Layout from '@pages/Layout'
 
@@ -114,7 +114,7 @@ export const router = createBrowserRouter([
 						redirectPath='/'
 						isReverse
 					>
-						<Suspense fallback={<h1>Loading...</h1>}>
+						<Suspense fallback={<FullPageSpinner />}>
 							<Login />
 						</Suspense>
 					</ProtectedRoute>

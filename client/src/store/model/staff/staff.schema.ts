@@ -2,8 +2,7 @@ import { IClub } from '../club'
 import { EStaffRoles } from './'
 
 export default interface IStaff {
-	id: number
-	fio: string
+	id: string
 	email: string
 	lastActivity: string
 	role: EStaffRoles

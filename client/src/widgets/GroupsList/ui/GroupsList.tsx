@@ -87,7 +87,7 @@ export const GroupsList = () => {
 			align: 'center' as const,
 			render: (record: IGroup) => (
 				<div className={cl.root__action}>
-					<EditGroupBtn />
+					<EditGroupBtn groupId={record.id} />
 					<DeleteGroupBtn groupId={record.id} />
 				</div>
 			)
