@@ -1,7 +1,8 @@
 import { BaseEntity } from '@/core/database/entity'
 import { ClubEntity } from '@/modules/club/entities'
 import { GroupEntity } from '@/modules/group/entities'
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm'
+import { OrderEntity } from '@/modules/order/entities'
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm'
 
 @Entity('Users')
 export class UserEntity extends BaseEntity {
@@ -36,4 +37,7 @@ export class UserEntity extends BaseEntity {
 
 	@ManyToOne(() => ClubEntity, club => club.users, { onDelete: 'SET NULL' })
 	club: ClubEntity
+
+	@OneToMany(() => OrderEntity, order => order.user, { cascade: true })
+	orders: OrderEntity
 }
