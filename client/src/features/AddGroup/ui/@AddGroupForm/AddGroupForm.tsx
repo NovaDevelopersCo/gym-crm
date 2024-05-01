@@ -1,12 +1,13 @@
 import { Controller, useForm } from 'react-hook-form'
 
 import { Button, Input, Select } from '@/shared'
-
-import { createGroupFields } from './createGroupForm.data'
-import cl from './AddGroupForm.module.scss'
 import { CreateGroupDto, useCreateGroupMutation } from '@/store'
+
 // eslint-disable-next-line
 import { SelectClub, SelectDirection } from '@features/Select'
+
+import cl from './AddGroupForm.module.scss'
+import { createGroupFields } from './createGroupForm.data'
 
 const AddGroupForm = () => {
 	const {
@@ -15,7 +16,7 @@ const AddGroupForm = () => {
 		formState: { errors }
 	} = useForm<CreateGroupDto>()
 
-	const [createGroup, ] = useCreateGroupMutation()
+	const [createGroup] = useCreateGroupMutation()
 
 	const onSubmit = (data: CreateGroupDto) => {
 		createGroup(data)
@@ -23,7 +24,7 @@ const AddGroupForm = () => {
 
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className={cl.root}>
-			{createGroupFields.map(({ rules, ...formFieldProps }) =>
+			{createGroupFields.map(({ rules, ...formFieldProps }) => (
 				<Controller
 					name={formFieldProps.name}
 					control={control}
@@ -47,14 +48,16 @@ const AddGroupForm = () => {
 							}
 						}
 
-						return <Input
-							bodyClassName={cl.root__input}
-							error={errors[formFieldProps.name]?.message}
-							{...fieldProps}
-						/>
+						return (
+							<Input
+								bodyClassName={cl.root__input}
+								error={errors[formFieldProps.name]?.message}
+								{...fieldProps}
+							/>
+						)
 					}}
 				/>
-			)}
+			))}
 			<Button className={cl.root__btn} htmlType='submit'>
 				Создать
 			</Button>

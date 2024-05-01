@@ -1,4 +1,4 @@
-import { IGroup, useGetGroupsQuery } from '@/store'
+import { IClient, IGroup, useGetGroupsQuery } from '@/store'
 import { Table } from 'antd'
 
 import { DeleteGroupBtn } from '@features/DeleteGroup'
@@ -8,17 +8,20 @@ import cl from './GroupsList.module.scss'
 
 export const GroupsList = () => {
 	const { data: groups } = useGetGroupsQuery()
+	console.log(groups)
 
 	const columns = [
 		{
 			title: 'id',
 			dataIndex: 'id',
-			key: 'id'
+			key: 'id',
+			align: 'center' as const
 		},
 		{
 			title: 'название группы',
 			dataIndex: 'name',
-			key: 'name'
+			key: 'name',
+			align: 'center' as const
 		},
 		{
 			title: 'Направления',
@@ -26,29 +29,34 @@ export const GroupsList = () => {
 				{
 					title: 'id направления',
 					dataIndex: ['direction', 'id'],
-					key: ['direction', 'id']
+					key: ['direction', 'id'],
+					align: 'center' as const
 				},
 				{
 					title: 'название направления',
 					dataIndex: ['direction', 'name'],
-					key: ['direction', 'name']
+					key: ['direction', 'name'],
+					align: 'center' as const
 				}
 			]
 		},
 		{
 			title: 'участники',
-			children: [
-				{
-					title: 'id пользователя',
-					dataIndex: ['users', 'id'],
-					key: ['users', 'id']
-				},
-				{
-					title: 'ФИО пользователя',
-					dataIndex: ['users', 'fio'],
-					key: ['users', 'fio']
-				}
-			]
+			dataIndex: 'users',
+			render: (users: IClient[]) => (
+				<div className={cl.root__users}>
+					{users.map(user => (
+						<div
+							className={`${cl.root__users_item} ${users.length > 1 && cl.root__users_item_borderBottom}`}
+							key={user.id}
+						>
+							{user.fio}
+						</div>
+					))}
+				</div>
+			),
+			key: 'users',
+			align: 'center' as const
 		},
 		{
 			title: 'клуб',
@@ -56,23 +64,27 @@ export const GroupsList = () => {
 				{
 					title: 'id клуба',
 					dataIndex: ['club', 'id'],
-					key: ['club', 'id']
+					key: ['club', 'id'],
+					align: 'center' as const
 				},
 				{
 					title: 'название клуба',
 					dataIndex: ['club', 'name'],
-					key: ['club', 'name']
+					key: ['club', 'name'],
+					align: 'center' as const
 				},
 				{
 					title: 'адрес клуба',
 					dataIndex: ['club', 'address'],
-					key: ['club', 'address']
+					key: ['club', 'address'],
+					align: 'center' as const
 				}
 			]
 		},
 		{
 			title: 'action',
 			key: 'action',
+			align: 'center' as const,
 			render: (record: IGroup) => (
 				<div className={cl.root__action}>
 					<EditGroupBtn />
