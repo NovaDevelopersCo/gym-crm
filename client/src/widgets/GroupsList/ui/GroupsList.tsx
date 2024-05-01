@@ -103,7 +103,6 @@ export const GroupsList = () => {
 	return (
 		<div className={cl.root}>
 			<Table
-				style={{ zIndex: -1 }}
 				pagination={{ pageSize: 5 }}
 				columns={columns}
 				scroll={{ x: 1200 }}
