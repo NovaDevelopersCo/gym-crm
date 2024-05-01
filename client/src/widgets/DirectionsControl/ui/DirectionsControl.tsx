@@ -13,11 +13,11 @@ const DirectionsControl = () => {
 			dataIndex: 'id',
 			key: 'id',
 			width: '10px',
-			sorter: (a: IDirection, b: IDirection) => a.id.localeCompare(b.id)
+			sorter: (a: IDirection, b: IDirection) => (+a.id)-(+b.id)
 		},
-		{ title: 'Name', dataIndex: 'name', key: 'name', width: '300px' },
+		{ title: 'Название', dataIndex: 'name', key: 'name', width: '300px' },
 		{
-			title: 'Groups',
+			title: 'Группы',
 			dataIndex: 'groups',
 			key: 'groups',
 			render: (groups: IGroup[]) => (
@@ -25,7 +25,7 @@ const DirectionsControl = () => {
 			)
 		},
 		{
-			title: 'Action',
+			title: 'Действия',
 			key: 'action',
 			render: (record: IDirection) => (
 				<DeleteDirectionBtn directionId={record.id} />

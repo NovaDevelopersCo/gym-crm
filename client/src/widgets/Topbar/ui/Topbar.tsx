@@ -13,7 +13,7 @@ export const Topbar = () => {
 			<h1 className={cl.root__title}>Наставник академия единоборств</h1>
 			<div className={cl.root__buttons}>
 				<h1 className={cl.root__fio}>
-					{user?.fio} ({user?.role})
+					{user?.email} ({user?.role})
 				</h1>
 				<ShowUpdateBtn />
 				<button className={cl.root__buttons__profile}>
