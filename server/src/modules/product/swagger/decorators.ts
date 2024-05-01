@@ -1,7 +1,7 @@
 import { applyDecorators } from '@nestjs/common'
 import { productValidation } from '../validation'
 import { ApiPropertyOptions, ApiProperty } from '@nestjs/swagger'
-import { MaxLength, MinLength, IsString, IsNumber, IsPositive } from 'class-validator'
+import { MaxLength, MinLength, IsString, IsPositive } from 'class-validator'
 
 export class ProductDecoratorsSwagger {
 	static name_(withValidation?: boolean) {
@@ -41,8 +41,7 @@ export class ProductDecoratorsSwagger {
 
 		if (withValidation) {
 			decorators.push(
-				IsPositive({ message: 'Цена продукта должна быть положительным числом' }),
-				IsNumber({}, { message: 'Цена продукта должно быть числом' })
+				IsPositive({ message: 'Цена продукта должна быть положительным числом' })
 			)
 		}
 
