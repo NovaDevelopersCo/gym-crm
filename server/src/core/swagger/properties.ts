@@ -1,94 +1,64 @@
-import { applyDecorators } from '@nestjs/common'
-import { ApiProperty, type ApiPropertyOptions } from '@nestjs/swagger'
 import { IsString, MinLength, MaxLength, IsEmail, IsInt } from 'class-validator'
+import { propertiesSwagger } from '../utils'
 
 export class PropertyDecoratorsSwagger {
 	static password(withValidation?: boolean) {
 		const minLength = 8
 		const maxLength = 32
 
-		const validation: ApiPropertyOptions = {}
-
-		const decorators = []
-
-		if (withValidation) {
-			validation.minLength = minLength
-			validation.maxLength = maxLength
-			decorators.push(
-				IsString({ message: 'Пароль должен быть строкой' }),
-				MinLength(minLength, {
-					message: `Минимальная длина пароля ${minLength} символов`
-				}),
-				MaxLength(maxLength, {
-					message: `Максимальная длина пароля ${maxLength} символа`
-				})
-			)
-		}
-
-		decorators.push(
-			ApiProperty({
-				example: 'password',
-				...validation
-			})
-		)
-
-		return applyDecorators(...decorators)
+		return propertiesSwagger({
+			example: 'password',
+			decorators: withValidation
+				? [
+						IsString({ message: 'Пароль должен быть строкой' }),
+						MinLength(minLength, {
+							message: `Минимальная длина пароля ${minLength} символов`
+						}),
+						MaxLength(maxLength, {
+							message: `Максимальная длина пароля ${maxLength} символа`
+						})
+					]
+				: [],
+			validation: withValidation ? { maxLength, minLength } : {}
+		})
 	}
 
 	static email(withValidation?: boolean) {
 		const maxLength = 200
 
-		const decorators = []
-
-		const validation: ApiPropertyOptions = {}
-
-		if (withValidation) {
-			validation.maxLength = maxLength
-
-			decorators.push(
-				IsEmail({}, { message: 'Невалидная почта' }),
-				MaxLength(maxLength, { message: `Максимальная длина почты ${maxLength} символов` })
-			)
-		}
-
-		return applyDecorators(
-			ApiProperty({
-				example: 'email@email.com',
-				...validation
-			}),
-			...decorators
-		)
+		return propertiesSwagger({
+			example: 'email@email.com',
+			decorators: withValidation
+				? [
+						IsEmail({}, { message: 'Невалидная почта' }),
+						MaxLength(maxLength, {
+							message: `Максимальная длина почты ${maxLength} символов`
+						})
+					]
+				: [],
+			validation: withValidation ? { maxLength } : {}
+		})
 	}
 
 	static id() {
-		return applyDecorators(
-			ApiProperty({
-				example: 1
-			})
-		)
+		return propertiesSwagger({
+			example: 1
+		})
 	}
 
 	static clubId(withValidation?: boolean) {
-		const decorators = [ApiProperty({ example: 2 })]
-
-		if (withValidation) {
-			decorators.push(IsInt({ message: 'Id клуба должен быть числом' }))
-		}
-
-		return applyDecorators(...decorators)
+		return propertiesSwagger({
+			example: 2,
+			decorators: withValidation ? [IsInt({ message: 'Id клуба должен быть числом' })] : []
+		})
 	}
 
 	static groupIds(withValidation?: boolean) {
-		const decorators = [
-			ApiProperty({
-				example: [3, 5, 6]
-			})
-		]
-
-		if (withValidation) {
-			decorators.push(IsInt({ each: true, message: 'Id групп должны быть числом' }))
-		}
-
-		return applyDecorators(...decorators)
+		return propertiesSwagger({
+			example: [3, 5, 8],
+			decorators: withValidation
+				? [IsInt({ each: true, message: 'Id групп должны быть числом' })]
+				: []
+		})
 	}
 }

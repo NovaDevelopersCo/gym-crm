@@ -10,13 +10,11 @@ export const abonementValidation = {
 	count: {
 		minimum: 1,
 		maximum: 999,
-		required: false,
 		nullable: true
 	},
 	duration: {
 		minLength: 2,
 		maxLength: 10,
-		required: false,
 		nullable: true
 	}
 }
