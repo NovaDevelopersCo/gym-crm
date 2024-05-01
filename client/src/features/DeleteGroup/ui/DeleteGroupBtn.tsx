@@ -6,5 +6,9 @@ import { Button } from 'antd'
 export const DeleteGroupBtn: FC<{ groupId: IGroup['id'] }> = ({ groupId }) => {
 	const [deleteGroup] = useDeleteGroupMutation()
 
-	return <Button onClick={() => deleteGroup(groupId)}>delete</Button>
+	return (
+		<Button danger onClick={() => deleteGroup(groupId)} type='primary'>
+			Удалить
+		</Button>
+	)
 }
