@@ -1,9 +1,10 @@
-import { IClient, IDirection, IGroup, useGetGroupsQuery } from '@/store'
+import { IClient, IGroup, useGetGroupsQuery } from '@/store'
 import { Table } from 'antd'
 
 import { DeleteGroupBtn } from '@features/DeleteGroup'
 import { EditGroupBtn } from '@features/EditGroup'
 
+import './GroupList.scss'
 import cl from './GroupsList.module.scss'
 
 export const GroupsList = () => {
@@ -102,6 +103,7 @@ export const GroupsList = () => {
 	return (
 		<div className={cl.root}>
 			<Table
+				style={{ zIndex: -1 }}
 				pagination={{ pageSize: 5 }}
 				columns={columns}
 				scroll={{ x: 1200 }}

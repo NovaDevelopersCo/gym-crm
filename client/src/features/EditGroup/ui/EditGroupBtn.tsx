@@ -4,7 +4,7 @@ import { Button } from '@/shared'
 import { IGroup } from '@/store'
 import { ButtonProps } from 'antd'
 
-import { EditGroupModal } from '@entities/EditGroupModal'
+import { EditGroupModal } from './@EditGroupModal/EditGroupModal'
 
 type EditGroupBtnProps = {
 	groupId: IGroup['id']
