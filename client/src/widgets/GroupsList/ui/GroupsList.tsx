@@ -1,4 +1,4 @@
-import { IClient, IGroup, useGetGroupsQuery } from '@/store'
+import { IClient, IDirection, IGroup, useGetGroupsQuery } from '@/store'
 import { Table } from 'antd'
 
 import { DeleteGroupBtn } from '@features/DeleteGroup'
@@ -8,20 +8,23 @@ import cl from './GroupsList.module.scss'
 
 export const GroupsList = () => {
 	const { data: groups } = useGetGroupsQuery()
-	console.log(groups)
 
 	const columns = [
 		{
+			width: 50,
 			title: 'id',
 			dataIndex: 'id',
 			key: 'id',
-			align: 'center' as const
+			align: 'center' as const,
+			sorter: (a: IGroup, b: IGroup) => +a.id - +b.id
 		},
 		{
+			fixed: 'left' as const,
 			title: 'название группы',
 			dataIndex: 'name',
 			key: 'name',
-			align: 'center' as const
+			align: 'center' as const,
+			sorter: (a: IGroup, b: IGroup) => a.name.localeCompare(b.name)
 		},
 		{
 			title: 'Направления',
@@ -56,7 +59,8 @@ export const GroupsList = () => {
 				</div>
 			),
 			key: 'users',
-			align: 'center' as const
+			align: 'center' as const,
+			sorter: (a: IGroup, b: IGroup) => b.users.length - a.users.length
 		},
 		{
 			title: 'клуб',
@@ -82,6 +86,7 @@ export const GroupsList = () => {
 			]
 		},
 		{
+			fixed: 'right' as const,
 			title: 'action',
 			key: 'action',
 			align: 'center' as const,
@@ -97,8 +102,9 @@ export const GroupsList = () => {
 	return (
 		<div className={cl.root}>
 			<Table
+				pagination={{ pageSize: 5 }}
 				columns={columns}
-				scroll={{ x: 1000 }}
+				scroll={{ x: 1200 }}
 				bordered
 				dataSource={groups?.items}
 			/>

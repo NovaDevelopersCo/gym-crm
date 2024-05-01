@@ -1,8 +1,11 @@
 .root {
+	padding: 10px 0;
+
 	&__action {
 		display: flex;
+		flex-direction: column;
 		gap: 10px;
-		justify-content: space-around;
+		// justify-content: space-around;
 	}
 
 	&__users {

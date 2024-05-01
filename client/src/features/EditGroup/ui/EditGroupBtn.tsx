@@ -13,19 +13,19 @@ type EditGroupBtnProps = {
 const EditGroupBtn: FC<EditGroupBtnProps> = ({ groupId, ...props }) => {
 	const [isModalOpen, setIsModalOpen] = useState(false)
 
-	const handleEdit = () => {
-		console.log(`Edit group with id: ${groupId}`)
-		setIsModalOpen(prev => !prev)
-	}
-
 	return (
 		<>
-			<Button onClick={handleEdit} {...props} type='dashed'>
+			<Button
+				onClick={() => setIsModalOpen(true)}
+				{...props}
+				type='dashed'
+			>
 				Изменить
 			</Button>
 			<EditGroupModal
 				isModalOpen={isModalOpen}
 				setIsModalOpen={setIsModalOpen}
+				groupId={groupId}
 			/>
 		</>
 	)

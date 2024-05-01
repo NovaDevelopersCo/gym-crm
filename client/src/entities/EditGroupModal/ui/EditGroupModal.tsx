@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import { Button, Input, Modal } from '@/shared'
-import { EditGroupDto } from '@/store'
+import { EditGroupDto, useEditGroupMutation } from '@/store'
 
 import { SelectClub, SelectDirection } from '@features/Select'
 
@@ -10,15 +10,22 @@ import cl from './EditGroupModal.module.scss'
 
 export const EditGroupModal = ({
 	isModalOpen,
-	setIsModalOpen
+	setIsModalOpen,
+	groupId
 }: {
 	isModalOpen: boolean
 	setIsModalOpen: Dispatch<SetStateAction<boolean>>
+	groupId: EditGroupDto['id']
 }) => {
 	const { handleSubmit, control, reset } = useForm<EditGroupDto>()
 
-	const onSubmit = (data: EditGroupDto) => {
-		console.log(data)
+	const [editGroup] = useEditGroupMutation()
+
+	const onSubmit = (data: Omit<EditGroupDto, 'id'>) => {
+		editGroup({
+			id: groupId,
+			...data
+		})
 		reset()
 	}
 
@@ -55,6 +62,14 @@ export const EditGroupModal = ({
 					)}
 				/>
 				<Button htmlType='submit'>Сохранить</Button>
+				<Button
+					onClick={() => setIsModalOpen(false)}
+					danger
+					htmlType='reset'
+					type='text'
+				>
+					Отмена
+				</Button>
 			</form>
 		</Modal>
 	)
