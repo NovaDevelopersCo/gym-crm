@@ -40,15 +40,16 @@ export class PropertyDecoratorsSwagger {
 		})
 	}
 
-	static id() {
+	static id(withValidation?: boolean) {
 		return propertiesSwagger({
-			example: 1
+			example: 1,
+			decorators: withValidation ? [IsInt({ message: 'Id должен быть числом' })] : []
 		})
 	}
 
 	static clubId(withValidation?: boolean) {
 		return propertiesSwagger({
-			example: 2,
+			example: 1,
 			decorators: withValidation ? [IsInt({ message: 'Id клуба должен быть числом' })] : []
 		})
 	}
