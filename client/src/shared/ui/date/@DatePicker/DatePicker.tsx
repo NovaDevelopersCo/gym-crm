@@ -1,5 +1,5 @@
-import { ChangeEventHandler, FC, useId } from 'react'
-import type { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form'
+import { FC, useId } from 'react'
+import type { ControllerRenderProps, FieldError, FieldErrorsImpl, Merge } from 'react-hook-form'
 
 import { DatePicker as AntdDatePicker, type DatePickerProps } from 'antd'
 import clsx from 'clsx'
@@ -10,10 +10,8 @@ import cl from './DatePicker.module.scss'
 type TDatePickerProps = DatePickerProps & {
 	label?: string
 	error?: string | FieldError | Merge<FieldError, FieldErrorsImpl>
-	field: {
-		onChange: ChangeEventHandler<unknown>
-		value: unknown
-	}
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	field?: ControllerRenderProps<any, any>
 	bodyClassName?: string
 }
 

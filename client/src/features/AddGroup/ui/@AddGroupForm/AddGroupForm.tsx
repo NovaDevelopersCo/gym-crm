@@ -2,54 +2,63 @@ import { Controller, useForm } from 'react-hook-form'
 
 import { Button, Input, Select } from '@/shared'
 
-// eslint-disable-next-line import/no-internal-modules
-import { createGroupFields } from '../../data/createGroupForm.data'
+import { createGroupFields } from './createGroupForm.data'
 import cl from './AddGroupForm.module.scss'
+import { CreateGroupDto, EStaffRoles, useAppSelector, useCreateGroupMutation } from '@/store'
+// eslint-disable-next-line
+import { SelectClub, SelectDirection } from '@features/Select'
 
 const AddGroupForm = () => {
 	const {
 		handleSubmit,
 		control,
 		formState: { errors }
-	} = useForm()
+	} = useForm<CreateGroupDto>()
 
-	const onSubmit = (data: unknown) => {
-		console.log(data)
+	const [createGroup,] = useCreateGroupMutation()
+
+	const onSubmit = (data: CreateGroupDto) => {
+		createGroup(data)
 	}
 
+	const { role, club } = useAppSelector(state => state['auth/slice'].user!)
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className={cl.root}>
-			{createGroupFields.map(({ rules, ...i }) =>
-				i.options ? (
-					<Controller
-						name={i.name}
-						control={control}
-						key={i.name}
-						rules={rules}
-						render={({ field }) => (
-							<Select
-								field={field}
-								placeholder={i.label}
-								{...i}
-							/>
-						)}
-					/>
-				) : (
-					<Controller
-						name={i.name}
-						control={control}
-						key={i.name}
-						rules={rules}
-						render={({ field }) => (
-							<Input
-								field={field}
-								bodyClassName={cl.root__input}
-								error={errors[i.name]?.message}
-								{...i}
-							/>
-						)}
-					/>
-				)
+			{createGroupFields.map(({ rules, ...formFieldProps }) =>
+				<Controller
+					name={formFieldProps.name}
+					control={control}
+					key={formFieldProps.name}
+					rules={rules}
+					render={({ field }) => {
+						const fieldProps = {
+							field: field,
+							placeholder: formFieldProps.label,
+							...formFieldProps
+						}
+
+
+						if (formFieldProps.type == 'select') {
+							switch (field.name) {
+								case 'club':
+									return <>
+										{role != EStaffRoles.ADMIN
+											? <SelectClub {...fieldProps} />
+											: <SelectClub {...fieldProps} disabled defaultValue={club} />}</>
+								case 'direction':
+									return <SelectDirection {...fieldProps} />
+								default:
+									return <Select {...fieldProps} />
+							}
+						}
+
+						return <Input
+							bodyClassName={cl.root__input}
+							error={errors[formFieldProps.name]?.message}
+							{...fieldProps}
+						/>
+					}}
+				/>
 			)}
 			<Button className={cl.root__btn} htmlType='submit'>
 				Создать

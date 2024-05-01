@@ -10,7 +10,7 @@ const SelectDirection: FC<Omit<TSelectProps, 'options'>> = props => {
 			direction =>
 				({
 					label: direction.name,
-					value: direction
+					value: direction.id
 				}) as TSelectOption
 		)
 

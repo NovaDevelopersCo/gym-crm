@@ -33,6 +33,8 @@ const Select: FC<TSelectProps> = ({
 									)
 								: undefined
 					}}
+					// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+					// @ts-expect-error
 					onChange={(_val, opt) => {
 						if (!setValue) return _val
 						if (Array.isArray(opt)) setValue(opt as TSelectOption[])
@@ -41,6 +43,7 @@ const Select: FC<TSelectProps> = ({
 					}}
 					popupClassName={bodyClassName}
 					{...props}
+					getPopupContainer={trigger => trigger.parentNode}
 				/>
 			) : field != undefined ? (
 				<SelectAntd
@@ -51,6 +54,7 @@ const Select: FC<TSelectProps> = ({
 					{...props}
 					// React Hook Form control
 					{...field}
+					getPopupContainer={trigger => trigger.parentNode}
 				/>
 			) : (
 				<SelectAntd
@@ -59,6 +63,7 @@ const Select: FC<TSelectProps> = ({
 					className={clsx(cl.root, className)}
 					popupClassName={bodyClassName}
 					{...props}
+					getPopupContainer={trigger => trigger.parentNode}
 				/>
 			)}
 		</>

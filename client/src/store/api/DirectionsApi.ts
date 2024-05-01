@@ -1,14 +1,14 @@
 import {
 	CreateDirectionDto,
 	DeleteDirectionDto,
+	GetItemsResponse,
 	IDirection,
-	RootState,
-	TGetItemsResponse
+	RootState
 } from '@/store'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/`,
+	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/direction`,
 	credentials: 'include',
 
 	// Automatically use token in authorization header if it provided
@@ -30,19 +30,19 @@ export const directionsApi = createApi({
 	endpoints: build => ({
 		getDirectionInfo: build.query<IDirection, IDirection['name']>({
 			query: directionId => ({
-				url: `direction/${directionId}`
+				url: `${directionId}`
 			})
 		}),
-		getDirections: build.query<TGetItemsResponse<IDirection>, void>({
+		getDirections: build.query<GetItemsResponse<IDirection>, void>({
 			query: () => ({
-				url: 'direction'
+				url: ''
 			}),
 			providesTags: ['DIRECTION']
 		}),
 		createDirection: build.mutation<IDirection, CreateDirectionDto>({
 			query: directionDto => ({
 				method: 'POST',
-				url: 'direction',
+				url: '',
 				body: directionDto
 			}),
 			invalidatesTags: ['DIRECTION']
@@ -50,7 +50,7 @@ export const directionsApi = createApi({
 		deleteDirection: build.mutation<IDirection, DeleteDirectionDto>({
 			query: directionId => ({
 				method: 'DELETE',
-				url: `direction/${directionId}`
+				url: `${directionId}`
 			}),
 			invalidatesTags: ['DIRECTION']
 		})

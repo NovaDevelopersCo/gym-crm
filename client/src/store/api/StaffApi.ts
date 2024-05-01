@@ -1,8 +1,14 @@
-import { IStaff, RootState, TGetItemsResponse } from '@/store'
+import {
+	CreateStaffDto,
+	CreateStaffResponse,
+	GetItemsResponse,
+	IStaff,
+	RootState
+} from '@/store'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const baseQuery = fetchBaseQuery({
-	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/`,
+	baseUrl: `${import.meta.env.VITE_SERVER_URL}/api/staff`,
 	credentials: 'include',
 
 	// Automatically use token in authorization header if it provided
@@ -19,14 +25,31 @@ const baseQuery = fetchBaseQuery({
 export const staffApi = createApi({
 	reducerPath: 'staff/api',
 	baseQuery,
+	tagTypes: ['STAFF'],
 	endpoints: build => ({
-		getStaff: build.query<TGetItemsResponse<IStaff>, void>({
+		getStaff: build.query<GetItemsResponse<IStaff>, void>({
 			query: () => ({
 				method: 'GET',
-				url: `staff`
-			})
+				url: ''
+			}),
+			providesTags: ['STAFF']
+		}),
+		createStaff: build.mutation<CreateStaffResponse, CreateStaffDto>({
+			query: user => ({
+				method: 'POST',
+				url: '',
+				body: user
+			}),
+			invalidatesTags: ['STAFF']
+		}),
+		deleteStaff: build.mutation<void, IStaff['id']>({
+			query: id => ({
+				method: 'DELETE',
+				url: `${id}`
+			}),
+			invalidatesTags: ['STAFF']
 		})
 	})
 })
 
-export const { useGetStaffQuery } = staffApi
+export const { useGetStaffQuery, useCreateStaffMutation, useDeleteStaffMutation } = staffApi

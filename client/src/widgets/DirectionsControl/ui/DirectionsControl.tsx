@@ -1,4 +1,4 @@
-import { IDirection, useGetDirectionsQuery } from '@/store'
+import { IDirection, IGroup, useGetDirectionsQuery } from '@/store'
 import { Table } from 'antd'
 
 import { AddDirectionForm } from '@features/AddDirection'
@@ -13,16 +13,19 @@ const DirectionsControl = () => {
 			dataIndex: 'id',
 			key: 'id',
 			width: '10px',
-			sorter: (a: IDirection, b: IDirection) => a.id.localeCompare(b.id)
+			sorter: (a: IDirection, b: IDirection) => (+a.id)-(+b.id)
 		},
-		{ title: 'Name', dataIndex: 'name', key: 'name', width: '300px' },
+		{ title: 'Название', dataIndex: 'name', key: 'name', width: '300px' },
 		{
-			title: 'Groups',
+			title: 'Группы',
 			dataIndex: 'groups',
-			key: 'groups'
+			key: 'groups',
+			render: (groups: IGroup[]) => (
+				groups.map(group=>group.name).join(', ')
+			)
 		},
 		{
-			title: 'Action',
+			title: 'Действия',
 			key: 'action',
 			render: (record: IDirection) => (
 				<DeleteDirectionBtn directionId={record.id} />
@@ -32,7 +35,7 @@ const DirectionsControl = () => {
 	return (
 		<>
 			<AddDirectionForm />
-			{directions?.items.length != 0 ? (
+			{directions?.meta.total != 0 ? (
 				<Table columns={columns} dataSource={directions?.items} />
 			) : (
 				<h1>Направлений нет</h1>

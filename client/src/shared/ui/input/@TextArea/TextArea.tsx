@@ -1,5 +1,5 @@
-import { type ChangeEventHandler, type FC, useId } from 'react'
-import type { FieldError, FieldErrorsImpl, Merge } from 'react-hook-form'
+import { type FC, useId } from 'react'
+import type { ControllerRenderProps, FieldError, FieldErrorsImpl, Merge } from 'react-hook-form'
 
 import { Input } from 'antd'
 import { TextAreaProps } from 'antd/es/input'
@@ -12,10 +12,8 @@ const { TextArea: AntdTextArea } = Input
 type TTextAreaProps = TextAreaProps & {
 	label?: string
 	error?: string | FieldError | Merge<FieldError, FieldErrorsImpl>
-	field: {
-		onChange: ChangeEventHandler<HTMLTextAreaElement>
-		value: string | string[] | number
-	}
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	field?: ControllerRenderProps<any, any>
 	bodyClassName?: string
 }
 

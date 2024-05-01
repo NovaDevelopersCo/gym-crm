@@ -1,6 +1,7 @@
 import { ClientInfo } from '@widgets/ClientInfo'
-import { Sales } from '@widgets/ClientSales'
-import { StagesOfCooperation } from '@widgets/ClientStages'
+import { ClientSales } from '@widgets/ClientSales'
+import { ClientStagesOfCooperation } from '@widgets/ClientStages'
+import { ClientVisits } from '@widgets/ClientVisits'
 
 import { MarkClient } from '@features/MarkClient'
 
@@ -9,8 +10,9 @@ const ClientProfile = () => {
 		<>
 			<ClientInfo />
 			<MarkClient />
-			<StagesOfCooperation />
-			<Sales />
+			<ClientStagesOfCooperation />
+			<ClientSales />
+			<ClientVisits />
 		</>
 	)
 }

@@ -98,8 +98,6 @@ const ClientInfo = () => {
 									<Select
 										style={{ zIndex: 2 }}
 										disabled={isDisabled}
-										// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-										// @ts-expect-error
 										field={field}
 										placeholder={i.name}
 										bodyClassName={

@@ -5,11 +5,11 @@ import { useGetGroupsQuery } from '@/store'
 
 const SelectGroup: FC<Omit<TSelectProps, 'options'>> = props => {
 	const { data: groups } = useGetGroupsQuery()
-	const convertedGroupsToParams: TSelectOption[] | undefined = groups?.map(
+	const convertedGroupsToParams: TSelectOption[] | undefined = groups?.items?.map(
 		group =>
 			({
 				label: group.name,
-				value: group
+				value: group.id
 			}) as TSelectOption
 	)
 	return <Select {...props} options={convertedGroupsToParams} />

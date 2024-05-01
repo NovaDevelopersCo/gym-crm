@@ -1,0 +1,22 @@
+.root {
+	margin: 25px 0;
+
+	&__blackout {
+		display: none;
+		position: fixed;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		z-index: 1;
+
+		&_active {
+			display: flex;
+		}
+	}
+
+	&__extra {
+		display: flex;
+		gap: 15px;
+	}
+}

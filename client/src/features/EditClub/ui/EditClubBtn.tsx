@@ -3,20 +3,24 @@ import { FC, useState } from 'react'
 import { Button } from '@/shared'
 import { IClub } from '@/store'
 
-import { AddClubModal } from '@entities/AddClubModal'
+import EditClubModal from './@EditClubModal/EditClubModal'
+import { ButtonProps } from 'antd'
 
-const EditClubBtn: FC<{
+type EditClubBtnProps = {
 	clubId: IClub['id']
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-}> = _props => {
+} & ButtonProps
+
+const EditClubBtn: FC<EditClubBtnProps> = ({ clubId, ...props }) => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
 	return (
 		<>
-			<Button onClick={() => setIsModalOpen(true)}>Edit</Button>
-			<AddClubModal
+			<Button onClick={() => setIsModalOpen(true)}
+				{...props} className='' type='dashed'>Изменить</Button>
+			<EditClubModal
 				isModalOpen={isModalOpen}
 				setIsModalOpen={setIsModalOpen}
+				clubId={clubId}
 			/>
 		</>
 	)
