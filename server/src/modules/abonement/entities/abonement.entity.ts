@@ -1,6 +1,7 @@
 import { BaseEntity } from '@/core/database/entity'
-import { Column, Entity, OneToMany } from 'typeorm'
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm'
 import { UserAbonementEntity } from './user-abonement.entity'
+import { ClubEntity } from '@/modules/club/entities'
 
 @Entity('Abonement')
 export class AbonementEntity extends BaseEntity {
@@ -24,4 +25,8 @@ export class AbonementEntity extends BaseEntity {
 
 	@OneToMany(() => UserAbonementEntity, userAbonement => userAbonement.abonement)
 	userAbonements: UserAbonementEntity[]
+
+	@ManyToMany(() => ClubEntity)
+	@JoinTable()
+	clubs: ClubEntity[]
 }
