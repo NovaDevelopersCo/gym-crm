@@ -1,5 +1,6 @@
 import { BaseEntity } from '@/core/database/entity'
-import { Column, Entity } from 'typeorm'
+import { Column, Entity, OneToMany } from 'typeorm'
+import { UserAbonementEntity } from './user-abonement.entity'
 
 @Entity('Abonement')
 export class AbonementEntity extends BaseEntity {
@@ -19,5 +20,8 @@ export class AbonementEntity extends BaseEntity {
 	@Column({
 		nullable: true
 	})
-	duration: string
+	duration?: string
+
+	@OneToMany(() => UserAbonementEntity, userAbonement => userAbonement.abonement)
+	userAbonements: UserAbonementEntity[]
 }

@@ -51,7 +51,6 @@ export class ClubService {
 		})
 
 		if (!club) {
-			this.logger.event('Получение клуба по id', `Клуб с id: ${id} не найден`)
 			throw new NotFoundException(`Клуб с id: ${id} не найден`)
 		}
 

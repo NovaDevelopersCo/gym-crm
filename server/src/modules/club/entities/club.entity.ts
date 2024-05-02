@@ -4,6 +4,7 @@ import { StaffEntity } from '@/modules/staff/entities'
 import { UserEntity } from '@/modules/user/entities'
 import { Column, Entity, OneToMany } from 'typeorm'
 
+// добавить клубы в абонементы
 @Entity('Club')
 export class ClubEntity extends BaseEntity {
 	@Column({
@@ -24,4 +25,7 @@ export class ClubEntity extends BaseEntity {
 
 	@OneToMany(() => UserEntity, user => user.club, { cascade: true })
 	users: UserEntity[]
+
+	// @ManyToMany(() => User)
+	// abonements: A
 }
