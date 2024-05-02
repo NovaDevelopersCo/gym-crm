@@ -4,7 +4,6 @@ import { Table } from 'antd'
 import { DeleteGroupBtn } from '@features/DeleteGroup'
 import { EditGroupBtn } from '@features/EditGroup'
 
-import './GroupList.scss'
 import cl from './GroupsList.module.scss'
 
 export const GroupsList = () => {
@@ -20,7 +19,6 @@ export const GroupsList = () => {
 			sorter: (a: IGroup, b: IGroup) => +a.id - +b.id
 		},
 		{
-			fixed: 'left' as const,
 			title: 'название группы',
 			dataIndex: 'name',
 			key: 'name',
@@ -87,7 +85,6 @@ export const GroupsList = () => {
 			]
 		},
 		{
-			fixed: 'right' as const,
 			title: 'action',
 			key: 'action',
 			align: 'center' as const,
