@@ -16,3 +16,5 @@ export class CreateOrderDto {
 	@OrderDecoratorsSwagger.productCountObject(true)
 	products: ProductWithCount[]
 }
+
+// FIX: add validation

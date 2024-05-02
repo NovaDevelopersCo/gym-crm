@@ -4,3 +4,5 @@ export const productValidation = {
 		maxLength: 100
 	}
 }
+
+// FIX: добавить валидацию для цен

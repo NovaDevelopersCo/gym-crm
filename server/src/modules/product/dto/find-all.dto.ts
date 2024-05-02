@@ -21,5 +21,5 @@ export class FindAllProductDto extends FullQueryDto {
 		},
 		price: {}
 	})
-	searchBy: ESort = ESort.NAME
+	searchBy: ESearch = ESearch.NAME
 }

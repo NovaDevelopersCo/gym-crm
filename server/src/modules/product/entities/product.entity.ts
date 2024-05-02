@@ -15,5 +15,5 @@ export class ProductEntity extends BaseEntity {
 	club: ClubEntity
 
 	@OneToMany(() => OrderItemEntity, item => item.product)
-	orders: OrderItemEntity
+	orders: OrderItemEntity[]
 }
