@@ -83,6 +83,12 @@ module.exports = {
 			rules: {
 				'import/no-internal-modules': 'off'
 			}
+		},
+		{
+			files: ['*.enum.ts'],
+			rules: {
+				'no-unused-vars': 'off'
+			}
 		}
 	],
 	reportUnusedDisableDirectives: true,
