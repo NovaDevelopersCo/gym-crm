@@ -3,7 +3,7 @@ import { CreateProductDto, UpdateProductDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { ProductEntity } from './entities'
 import { ILike, In, Repository } from 'typeorm'
-import { FindAllProductDto } from './dto/find-all.dto'
+import { ESearch, FindAllProductDto } from './dto/find-all.dto'
 import { PaginationDto } from '@/core/pagination'
 import { ClubService } from '../club/club.service'
 
@@ -27,13 +27,20 @@ export class ProductService {
 	}
 
 	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllProductDto) {
+		const where = {}
+		if (searchBy === ESearch.CLUB) {
+			const isNumber = Number.isInteger(+q)
+			if (!isNumber) throw new BadRequestException('Id клуба должно быть числом ')
+			where['club'] = { id: +q }
+		} else {
+			where[searchBy] = ILike(`%${q}%`)
+		}
+
 		const [items, total] = await this.productRepository.findAndCount({
 			order: {
 				[sortBy]: sortOrder
 			},
-			where: {
-				[searchBy]: ILike(`%${q}%`)
-			},
+			where,
 			take: count,
 			skip: page * count - count,
 			relations: {

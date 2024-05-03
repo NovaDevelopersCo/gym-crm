@@ -1,9 +1,10 @@
 import { FullQueryDto } from '@/core/dto'
 import { QuerySearch } from '@/core/decorators'
 
-enum ESearch {
+export enum ESearch {
 	NAME = 'name',
-	PRICE = 'price'
+	PRICE = 'price',
+	CLUB = 'club'
 }
 
 enum ESort {
@@ -19,7 +20,8 @@ export class FindAllProductDto extends FullQueryDto {
 		name: {
 			maxLength: 100
 		},
-		price: {}
+		price: {},
+		club: {}
 	})
 	searchBy: ESearch = ESearch.NAME
 }
