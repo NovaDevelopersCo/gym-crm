@@ -11,12 +11,12 @@ export class UserAbonementEntity extends BaseEntity {
 	@Column({
 		nullable: true
 	})
-	start?: string
+	start: string | null
 
 	@Column({
 		nullable: true
 	})
-	end?: string
+	end: string | null
 
 	@Column({
 		default: false
@@ -32,5 +32,5 @@ export class UserAbonementEntity extends BaseEntity {
 	@Column({
 		nullable: true
 	})
-	count?: number
+	count: number | null
 }

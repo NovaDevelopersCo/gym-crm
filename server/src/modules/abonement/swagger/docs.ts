@@ -4,8 +4,11 @@ import { EStaffRole } from '@/core/enums'
 import { ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger'
 import {
 	CreateAbonementOk,
+	CreateUserAbonementOk,
 	GetAbonementByIdOk,
 	GetAllAbonementsOk,
+	GetAllUserAbonementsOk,
+	GetUserAbonementByIdOk,
 	UpdateAbonementOk
 } from './responses'
 
@@ -68,6 +71,46 @@ export class AbonementDocSwagger {
 		return applyDecorators(
 			DocDecoratorsSwagger.delete([EStaffRole.DIRECTOR]),
 			BaseDocSwagger.delete()
+		)
+	}
+
+	static createUserAbonement() {
+		return applyDecorators(
+			DocDecoratorsSwagger.create([EStaffRole.DIRECTOR]),
+			ApiOkResponse({
+				type: CreateUserAbonementOk,
+				description: ESwaggerMessages.SUCCESSFULLY_CREATE
+			}),
+			BaseDocSwagger.authWithRole()
+		)
+	}
+
+	static getByIdUserAbonement() {
+		return applyDecorators(
+			DocDecoratorsSwagger.getById([EStaffRole.DIRECTOR]),
+			ApiOkResponse({
+				type: GetUserAbonementByIdOk,
+				description: ESwaggerMessages.SUCCESSFULLY_CREATE
+			}),
+			BaseDocSwagger.authWithRole()
+		)
+	}
+
+	static deleteUserAbonement() {
+		return applyDecorators(
+			DocDecoratorsSwagger.delete([EStaffRole.DIRECTOR]),
+			BaseDocSwagger.authWithRole()
+		)
+	}
+
+	static getAllUserAbonement() {
+		return applyDecorators(
+			DocDecoratorsSwagger.getAll([EStaffRole.DIRECTOR]),
+			ApiOkResponse({
+				type: GetAllUserAbonementsOk,
+				description: ESwaggerMessages.SUCCESSFULLY_GET_ALL
+			}),
+			BaseDocSwagger.authWithRole()
 		)
 	}
 }

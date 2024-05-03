@@ -50,3 +50,4 @@ export class GetAllUsersOk extends PaginationResponse {
 
 export class ClubUser extends OmitType(UserDto, ['groups', 'club']) {}
 export class GroupUser extends OmitType(UserDto, ['groups', 'club']) {}
+export class UserAbonementUser extends OmitType(UserDto, ['groups', 'club']) {}

@@ -1,19 +1,19 @@
 import { ConfigModuleOptions } from '@nestjs/config'
-import { IsEnum, IsNumber, IsOptional, IsString } from 'class-validator'
+import { IsEnum, IsInt, IsOptional, IsString } from 'class-validator'
 import { envValidate } from '@core/utils'
 import { Type } from 'class-transformer'
 import { ENodeEnv } from '@/core/enums'
 
 export class EnvironmentVariables {
 	@Type(() => Number)
-	@IsNumber()
+	@IsInt()
 	PORT: number
 
 	@IsString()
 	POSTGRES_HOST: string
 
 	@Type(() => Number)
-	@IsNumber()
+	@IsInt()
 	POSTGRES_PORT: number
 
 	@IsString()

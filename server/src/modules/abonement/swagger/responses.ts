@@ -1,7 +1,8 @@
 import { PropertyDecoratorsSwagger } from '@/core/swagger'
 import { AbonementPropertiesSwagger } from './properties'
 import { PaginationDto } from '@/core/dto'
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty, OmitType } from '@nestjs/swagger'
+import { UserAbonementUser } from '@/modules/user/swagger'
 
 class AbonementDto {
 	@PropertyDecoratorsSwagger.id()
@@ -28,4 +29,41 @@ export class GetAllAbonementsOk extends PaginationDto {
 		isArray: true
 	})
 	items: AbonementDto
+}
+
+class UserAbonementDto {
+	@AbonementPropertiesSwagger.isFinish()
+	isFinish: boolean
+
+	@AbonementPropertiesSwagger.start()
+	start: string
+
+	@AbonementPropertiesSwagger.end()
+	end: string
+
+	@AbonementPropertiesSwagger.user()
+	user: UserAbonementUser
+
+	@ApiProperty({
+		type: AbonementDto
+	})
+	abonement: AbonementDto
+
+	@PropertyDecoratorsSwagger.id()
+	id: number
+
+	@AbonementPropertiesSwagger.price()
+	price: number
+
+	@AbonementPropertiesSwagger.count()
+	count: number
+}
+
+export class GetUserAbonementByIdOk extends UserAbonementDto {}
+export class CreateUserAbonementOk extends OmitType(UserAbonementDto, ['user', 'abonement']) {}
+export class GetAllUserAbonementsOk extends PaginationDto {
+	@ApiProperty({
+		isArray: true
+	})
+	items: UserAbonementDto
 }

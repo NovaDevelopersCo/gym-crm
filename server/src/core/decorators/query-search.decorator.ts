@@ -1,7 +1,6 @@
-import { applyDecorators } from '@nestjs/common'
 import { IsEnum, IsOptional } from 'class-validator'
-import { ApiProperty } from '@nestjs/swagger'
 import { QuerySearchValidate } from './query-search-validate.decorator'
+import { propertiesSwagger } from '../utils'
 
 import type { TQuerySearchValidatorObj } from '@/core/types'
 
@@ -12,15 +11,18 @@ export const QuerySearch = <T extends string = ''>(
 	message: string,
 	validator?: TQuerySearchValidatorObj<T>
 ) => {
-	const decorators = [
-		ApiProperty({ required: false, description, enum: eList }),
-		IsOptional(),
-		IsEnum(eList, { message })
-	]
+	const decorators = [IsOptional(), IsEnum(eList, { message })]
 
 	if (validator) {
 		decorators.push(QuerySearchValidate<T>(validator))
 	}
 
-	return applyDecorators(...decorators)
+	return propertiesSwagger({
+		validation: {
+			required: false,
+			description,
+			enum: eList
+		},
+		decorators
+	})
 }

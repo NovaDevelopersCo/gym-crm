@@ -1,5 +1,5 @@
 import { clubValidation } from '../validation'
-import { IsString, MinLength, MaxLength, IsNumber, ArrayMaxSize } from 'class-validator'
+import { IsString, MinLength, MaxLength, IsInt, ArrayMaxSize } from 'class-validator'
 import { propertiesSwagger } from '@/core/utils'
 
 export class ClubPropertiesSwagger {
@@ -53,7 +53,7 @@ export class ClubPropertiesSwagger {
 						ArrayMaxSize(maxItems, {
 							message: `У клуба может быть не более ${maxItems} админов`
 						}),
-						IsNumber({}, { message: 'Id админа должно быть числом', each: true })
+						IsInt({ message: 'Id админа должно быть числом', each: true })
 					]
 				: [],
 			validation: withValidation ? clubValidation.admins : {}

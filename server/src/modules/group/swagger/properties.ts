@@ -1,5 +1,5 @@
 import { groupValidation } from '../validation'
-import { MaxLength, MinLength, IsString, IsNumber } from 'class-validator'
+import { MaxLength, MinLength, IsString, IsInt } from 'class-validator'
 import { propertiesSwagger } from '@/core/utils'
 
 export class GroupPropertiesSwagger {
@@ -27,7 +27,7 @@ export class GroupPropertiesSwagger {
 		return propertiesSwagger({
 			example: 3,
 			decorators: withValidation
-				? [IsNumber({}, { message: 'Id направления должен быть числом ' })]
+				? [IsInt({ message: 'Id направления должен быть числом ' })]
 				: []
 		})
 	}

@@ -62,4 +62,22 @@ export class PropertyDecoratorsSwagger {
 				: []
 		})
 	}
+
+	static userId(withValidation?: boolean) {
+		return propertiesSwagger({
+			example: 6,
+			decorators: withValidation
+				? [IsInt({ message: 'Id пользователя должен быть числом' })]
+				: []
+		})
+	}
+
+	static abonementId(withValidation?: boolean) {
+		return propertiesSwagger({
+			example: 8,
+			decorators: withValidation
+				? [IsInt({ message: 'Id абонемента должно быть числом' })]
+				: []
+		})
+	}
 }

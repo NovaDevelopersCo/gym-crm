@@ -20,16 +20,16 @@ export class UserEntity extends BaseEntity {
 	fio: string
 
 	@Column({ type: 'date', nullable: true })
-	birthday?: string
+	birthday: string | null
 
 	@Column({ nullable: true })
-	howKnow?: string
+	howKnow: string | null
 
 	@Column({
 		unique: true,
 		nullable: true
 	})
-	instagram: string
+	instagram: string | null
 
 	@ManyToMany(() => GroupEntity, group => group.users)
 	@JoinTable()

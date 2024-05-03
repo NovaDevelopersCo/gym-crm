@@ -16,12 +16,12 @@ export class AbonementEntity extends BaseEntity {
 	@Column({
 		nullable: true
 	})
-	count?: number
+	count: number | null
 
 	@Column({
 		nullable: true
 	})
-	duration?: string
+	duration: string | null
 
 	@OneToMany(() => UserAbonementEntity, userAbonement => userAbonement.abonement)
 	userAbonements: UserAbonementEntity[]

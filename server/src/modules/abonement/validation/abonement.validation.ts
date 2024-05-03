@@ -5,7 +5,7 @@ export const abonementValidation = {
 	},
 	price: {
 		minimum: 0,
-		maximum: 9999999
+		maximum: 999999
 	},
 	count: {
 		minimum: 1,
@@ -14,7 +14,7 @@ export const abonementValidation = {
 	},
 	duration: {
 		minLength: 2,
-		maxLength: 10,
+		maxLength: 5,
 		nullable: true
 	}
 }

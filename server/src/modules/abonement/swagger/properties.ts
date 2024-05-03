@@ -1,6 +1,8 @@
 import { propertiesSwagger } from '@/core/utils'
-import { abonementValidation } from '../validation'
-import { MaxLength, MinLength, Min, Max, IsOptional, IsNumber, IsString } from 'class-validator'
+import { abonementValidation, userAbonementValidation } from '../validation'
+import { MaxLength, MinLength, Min, Max, IsOptional, IsString, IsInt } from 'class-validator'
+import { DurationValidate } from '../decorators'
+import { UserAbonementUser } from '@/modules/user/swagger'
 
 export class AbonementPropertiesSwagger {
 	static name_(withValidation?: boolean) {
@@ -31,7 +33,7 @@ export class AbonementPropertiesSwagger {
 			validation: withValidation ? abonementValidation.price : {},
 			decorators: withValidation
 				? [
-						IsNumber({}, { message: 'Цена абонемента должна быть числом' }),
+						IsInt({ message: 'Цена абонемента должна быть числом' }),
 						Min(minimum, { message: `Минимальная цена абонемента ${minimum}` }),
 						Max(maximum, { message: `Максимальная цена абонемента ${maximum}` })
 					]
@@ -47,10 +49,10 @@ export class AbonementPropertiesSwagger {
 			validation: withValidation ? abonementValidation.count : { nullable },
 			decorators: withValidation
 				? [
-						IsNumber({}, { message: 'Количество занятий должно быть числом' }),
+						IsOptional(),
+						IsInt({ message: 'Количество занятий должно быть числом' }),
 						Min(minimum, { message: `Минимальное количество занятий ${minimum}` }),
-						Max(maximum, { message: `Максимальное количество занятий ${maximum}` }),
-						IsOptional()
+						Max(maximum, { message: `Максимальное количество занятий ${maximum}` })
 					]
 				: []
 		})
@@ -64,16 +66,45 @@ export class AbonementPropertiesSwagger {
 			validation: withValidation ? abonementValidation.duration : { nullable },
 			decorators: withValidation
 				? [
+						IsOptional(),
 						IsString({ message: 'Длительность абонемента должна быть строкой' }),
+						DurationValidate(),
 						MinLength(minLength, {
 							message: `Минимальная длина длительности абонемента ${minLength} символов`
 						}),
 						MaxLength(maxLength, {
 							message: `Максимальная длина длительности абонемента ${maxLength} символов`
-						}),
-						IsOptional()
+						})
 					]
 				: []
+		})
+	}
+
+	static start() {
+		return propertiesSwagger({
+			example: '2024-05-01',
+			validation: userAbonementValidation.start
+		})
+	}
+
+	static end() {
+		return propertiesSwagger({
+			example: '2025-06-09',
+			validation: userAbonementValidation.end
+		})
+	}
+
+	static isFinish() {
+		return propertiesSwagger({
+			example: false
+		})
+	}
+
+	static user() {
+		return propertiesSwagger({
+			validation: {
+				type: UserAbonementUser
+			}
 		})
 	}
 }
