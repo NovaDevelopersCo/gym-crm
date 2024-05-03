@@ -1,6 +1,7 @@
 import {
 	CreateStaffDto,
 	CreateStaffResponse,
+	EditStaffDto,
 	GetItemsResponse,
 	IStaff,
 	RootState
@@ -48,8 +49,16 @@ export const staffApi = createApi({
 				url: `${id}`
 			}),
 			invalidatesTags: ['STAFF']
+		}),
+		editStaff: build.mutation<IStaff, EditStaffDto>({
+			query: dto => ({
+				method: 'PUT',
+				url: `${dto.id}`,
+				body: dto
+			}),
+			invalidatesTags: ['STAFF']
 		})
 	})
 })
 
-export const { useGetStaffQuery, useCreateStaffMutation, useDeleteStaffMutation } = staffApi
+export const { useGetStaffQuery, useCreateStaffMutation, useDeleteStaffMutation, useEditStaffMutation } = staffApi
