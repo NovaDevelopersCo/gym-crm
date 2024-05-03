@@ -81,13 +81,13 @@ export class AbonementService {
 	}
 
 	async nameCheck(name: string, abonementId?: number) {
-		const club = await this.abonementRepository.findOne({ where: { name } })
+		const abonement = await this.abonementRepository.findOne({ where: { name } })
 
-		if (!abonementId && club) {
+		if (!abonementId && abonement) {
 			throw new BadRequestException('Абонемент с таким именем уже существует')
 		}
 
-		if (club && club.id !== abonementId) {
+		if (abonement && abonement.id !== abonementId) {
 			throw new BadRequestException('Абонемент с таким именем уже существует')
 		}
 	}
