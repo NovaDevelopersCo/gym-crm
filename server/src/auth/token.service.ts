@@ -51,8 +51,8 @@ export class TokenService {
 		return this.sessionRepository.save({ token, user })
 	}
 
-	async validateRefreshToken(refresh: string) {
-		return this.jwtService.verify<{ id: string }>(refresh, {
+	async validateAccessToken(access: string) {
+		return this.jwtService.verify(access, {
 			secret: this.configService.get('ACCESS_JWT_SECRET')
 		})
 	}

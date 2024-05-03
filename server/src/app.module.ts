@@ -12,6 +12,7 @@ import { DataBaseModule } from './core/database/database.module'
 import { LoggerModule } from './core/logger/logger.module'
 import { APP_FILTER } from '@nestjs/core'
 import { HttpExceptionFilter } from './core/exceptions'
+import { OnlineModule } from './modules/online/online.module'
 
 @Module({
 	imports: [
@@ -24,7 +25,8 @@ import { HttpExceptionFilter } from './core/exceptions'
 		GroupModule,
 		AbonementModule,
 		DataBaseModule,
-		LoggerModule
+		LoggerModule,
+		OnlineModule
 	],
 	providers: [
 		{
