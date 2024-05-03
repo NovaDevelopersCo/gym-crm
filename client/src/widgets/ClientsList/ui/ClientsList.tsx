@@ -29,7 +29,7 @@ const ClientsList = () => {
 
 	return (
 		<>
-			<ClientsFilter setParams={setParams}/>
+			<ClientsFilter setParams={setParams} />
 			<AddClientBtn />
 			<div className={styles.table}>
 				<div className={styles.table__info}>
@@ -53,7 +53,7 @@ const ClientsList = () => {
 					columns={columns}
 					dataSource={clients?.items}
 					scroll={{ x: 1500, y: '70vh' }}
-
+					rowKey={(record) => record.id}
 					pagination={{
 						pageSize: params.count,
 						current: params.page,
