@@ -9,8 +9,7 @@ export class ProductDocSwagger {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Получить список всех товаров',
-				// ! ==
-				description: 'Только с ролью director'
+				description: 'Только с ролью director и admin'
 			}),
 			ApiOkResponse({
 				type: GetAllProductsOk,
@@ -24,8 +23,7 @@ export class ProductDocSwagger {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Получить товар по id',
-				// ! ==
-				description: 'Только с ролью director'
+				description: 'Только с ролью director и admin'
 			}),
 			ApiOkResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_GET_ONE,
@@ -40,7 +38,6 @@ export class ProductDocSwagger {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Создать новый товар',
-				// ! ==
 				description: 'Только с ролью director'
 			}),
 			ApiOkResponse({
@@ -56,7 +53,6 @@ export class ProductDocSwagger {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Изменить товар',
-				// !===
 				description: 'Только с ролью director'
 			}),
 			ApiOkResponse({
