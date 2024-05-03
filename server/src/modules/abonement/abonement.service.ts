@@ -36,12 +36,15 @@ export class AbonementService {
 	}
 
 	async create({ name, count, duration, price }: CreateAbonementDto) {
-		await this.nameCheck(name)
-
+		// ! [FOR REFACTOR]: Вынести в слой валидации с помощью декоратора
+		// ! [FOR REFACTOR]: Максимальная цена больше
 		if (count && duration) {
 			throw new BadRequestException('Абонемент должен быть одного типа')
 		}
-
+		if (!count && !duration) {
+			throw new BadRequestException('Абонемент должен быть хотя бы одного типа')
+		}
+		await this.nameCheck(name)
 		const createdAbonement = this.abonementRepository.create({
 			name,
 			price,

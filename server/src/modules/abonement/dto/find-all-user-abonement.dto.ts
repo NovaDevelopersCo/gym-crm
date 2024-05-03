@@ -1,9 +1,11 @@
 import { QuerySearch } from '@/core/decorators'
 import { FullQueryDto } from '@/core/dto'
 
-enum ESearch {
+export enum ESearch {
 	IS_FINISH = 'isFinish',
-	COUNT = 'count'
+	COUNT = 'count',
+	USER = 'user',
+	ABONEMENT = 'abonement'
 }
 
 enum ESort {
@@ -22,7 +24,10 @@ export class FindAllUserAbonementDto extends FullQueryDto {
 		isFinish: {
 			minLength: 4,
 			maxLength: 5
-		}
+		},
+		// ! пофиксить в рефакторинге
+		user: {},
+		abonement: {}
 	})
 	searchBy: ESearch = ESearch.IS_FINISH
 }

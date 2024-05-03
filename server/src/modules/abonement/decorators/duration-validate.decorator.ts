@@ -11,7 +11,6 @@ export const DurationValidate = () => (object: object, propertyName: string) => 
 			// 12y. / 1m. / 16d.
 			validate: value => {
 				const { prefix, count } = formatDate(value)
-
 				const EXPECTED_PREFIXES = ['y.', 'm.', 'd.']
 
 				const isValid = EXPECTED_PREFIXES.includes(prefix)

@@ -1,5 +1,6 @@
 import { AbonementPropertiesSwagger } from '../swagger'
 
+// ! add clubs
 export class CreateAbonementDto {
 	@AbonementPropertiesSwagger.price(true)
 	price: number

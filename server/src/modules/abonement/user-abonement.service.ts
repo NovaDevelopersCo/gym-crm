@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common'
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { ILike, Repository } from 'typeorm'
 import { UserAbonementEntity } from './entities'
 import { UserService } from '../user/user.service'
-import { CreateUserAbonementDto, FindAllUserAbonementDto } from './dto'
+import { CreateUserAbonementDto, ESearch, FindAllUserAbonementDto } from './dto'
 import { AbonementService } from './abonement.service'
 import { formatDate } from './utils'
 import { PaginationDto } from '@/core/pagination'
@@ -17,6 +17,7 @@ export class UserAbonementService {
 		private readonly abonementService: AbonementService
 	) {}
 
+	// ! (?) Проверять что у пользователя уже есть этот абонемент
 	async create({ userId, abonementId }: CreateUserAbonementDto) {
 		await this.userService.getOneById(userId)
 
@@ -53,13 +54,34 @@ export class UserAbonementService {
 	}
 
 	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllUserAbonementDto) {
+		const where = {}
+		// ! мейби рефакторинг
+		if (searchBy === ESearch.USER || searchBy === ESearch.ABONEMENT) {
+			const isNumber = Number.isInteger(+q)
+			if (!isNumber) throw new BadRequestException('Id клуба должно быть числом ')
+			where[searchBy] = { id: +q }
+		} else {
+			q ? (where[searchBy] = ILike(`%${q}%`)) : {}
+		}
+
 		const [items, total] = await this.userAbonementRepository.findAndCount({
 			order: {
 				[sortBy]: sortOrder
 			},
 			take: count,
 			skip: page * count - count,
-			where: q ? { [searchBy]: ILike(`%${q}%`) } : {}
+			where,
+			relations: {
+				user: true,
+				abonement: true
+			},
+			select: {
+				user: {
+					id: true,
+					fio: true,
+					email: true
+				}
+			}
 		})
 
 		return new PaginationDto(items, total)

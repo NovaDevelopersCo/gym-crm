@@ -20,7 +20,6 @@ import { AbonementDocSwagger } from './swagger'
 import { GetByIdParamsDto } from '@/core/dto'
 import { CreateAbonementDto, UpdateAbonementDto } from './dto'
 import { FindAllAbonementDto } from './dto/find-all.dto'
-import { UserAbonementService } from './user-abonement.service'
 
 @ApiTags('Абонементы')
 @ApiBearerAuth('access-auth')
@@ -29,11 +28,9 @@ import { UserAbonementService } from './user-abonement.service'
 @RolesAuthGuard(EStaffRole.DIRECTOR)
 @Controller('abonement')
 export class AbonementController {
-	constructor(
-		private readonly abonementService: AbonementService,
-		private readonly userAbonementService: UserAbonementService
-	) {}
+	constructor(private readonly abonementService: AbonementService) {}
 
+	// TODO: Фикс DTO
 	@AbonementDocSwagger.create()
 	@Post()
 	create(@Body() dto: CreateAbonementDto) {
