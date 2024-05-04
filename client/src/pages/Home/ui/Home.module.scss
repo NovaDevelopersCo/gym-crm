@@ -1,0 +1,17 @@
+.horizontal__wrapper {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-evenly;
+	overflow-x: auto;
+
+	div {
+		margin: 0 10px;
+		border-radius: 6px;
+		background-color: #ccc;
+		padding: 20px;
+		width: 45%;
+		min-width: 350px;
+		margin-bottom: 20px;
+	}
+}

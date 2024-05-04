@@ -3,7 +3,7 @@ import { FC, useState } from 'react'
 import { Button } from '@/shared'
 import { ButtonProps } from 'antd'
 
-import { AddClubModal } from '@entities/AddClubModal'
+import AddClubModal from './@AddClubModal/AddClubModal'
 
 const AddClubBtn: FC<ButtonProps> = props => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
@@ -14,7 +14,7 @@ const AddClubBtn: FC<ButtonProps> = props => {
 				{...props}
 				onClick={() => setIsModalOpen(true)}
 			>
-				Add Club
+				Добавить клуб
 			</Button>
 			<AddClubModal
 				isModalOpen={isModalOpen}

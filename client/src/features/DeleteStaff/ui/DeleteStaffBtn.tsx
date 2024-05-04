@@ -1,15 +1,17 @@
-import { IStaff } from "@/store"
-import { Button } from "antd"
+import { IStaff, useDeleteStaffMutation } from "@/store"
+import { ButtonProps } from "antd"
 import { FC } from "react"
+import { Button } from '@/shared';
 
-const DeleteStaffBtn: FC<{ staffId: IStaff['id'] }> = ({ staffId }) => {
+type DeleteStaffBtnProps = {
+	staffId: IStaff['id']
+} & ButtonProps
 
-	const handleDelete = (id: string | number) => {
-		console.log(`Delete staff with id: ${id}`)
-	}
+const DeleteStaffBtn: FC<DeleteStaffBtnProps> = ({ staffId, ...props }) => {
+	const [deleteStaff,] = useDeleteStaffMutation()
 
 	return (
-		<Button onClick={() => handleDelete(staffId)}>Delete</Button>
+		<Button onClick={() => deleteStaff(staffId)} {...props} danger type="primary">Удалить</Button>
 	)
 }
 

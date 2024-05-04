@@ -1,4 +1,4 @@
-import { IClub, useGetClubsQuery } from '@/store'
+import { IClub, IStaff, useGetClubsQuery } from '@/store'
 import { Table } from 'antd'
 
 import { AddClubBtn } from '@features/AddClub'
@@ -16,22 +16,25 @@ export const ClubsControl = () => {
 			dataIndex: 'id',
 			key: 'id',
 			width: '10px',
-			sorter: (a: IClub, b: IClub) => a.id.localeCompare(b.id)
+			sorter: (a: IClub, b: IClub) => (+a.id) - (+b.id)
 		},
-		{ title: 'Name', dataIndex: 'name', key: 'name', width: '300px' },
+		{ title: 'Название', dataIndex: 'name', key: 'name', width: '300px' },
 		{
-			title: 'Address',
+			title: 'Адрес',
 			dataIndex: 'address',
 			key: 'address',
 			sorter: (a: IClub, b: IClub) => a.address.localeCompare(b.address)
 		},
-		// {
-		// 	title: 'Admin',
-		// 	dataIndex: 'admin',
-		// 	key: 'admin'
-		// },
 		{
-			title: 'Action',
+			title: 'Админы',
+			dataIndex: 'admins',
+			key: 'admins',
+			render: (record: IStaff[]) => {
+				return (record?.map(admin => admin.email).join(', '))
+			}
+		},
+		{
+			title: 'Действия',
 			key: 'action',
 			render: (record: IClub) => (
 				<div className={cl.root__action}>

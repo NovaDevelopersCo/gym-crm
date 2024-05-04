@@ -8,7 +8,7 @@ const AddClientBtn = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 	return (
 		<>
-			<Button size='large' onClick={() => setIsModalOpen(true)}>
+			<Button size='large' onClick={() => setIsModalOpen(true)} className=''>
 				Добавить анкету
 			</Button>
 
