@@ -4,12 +4,14 @@ import { AbonementEntity } from './entities'
 import { ILike, Repository } from 'typeorm'
 import { CreateAbonementDto, UpdateAbonementDto, FindAllAbonementDto } from './dto'
 import { PaginationDto } from '@/core/pagination'
+import { ClubService } from '../club/club.service'
 
 @Injectable()
 export class AbonementService {
 	constructor(
 		@InjectRepository(AbonementEntity)
-		private readonly abonementRepository: Repository<AbonementEntity>
+		private readonly abonementRepository: Repository<AbonementEntity>,
+		private readonly clubService: ClubService
 	) {}
 
 	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllAbonementDto) {
@@ -19,14 +21,22 @@ export class AbonementService {
 			},
 			where: q ? { [searchBy]: ILike(`%${q}%`) } : {},
 			take: count,
-			skip: page * count - count
+			skip: page * count - count,
+			relations: {
+				clubs: true
+			}
 		})
 
 		return new PaginationDto(items, total)
 	}
 
 	async getById(id: number) {
-		const abonement = await this.abonementRepository.findOne({ where: { id } })
+		const abonement = await this.abonementRepository.findOne({
+			where: { id },
+			relations: {
+				clubs: true
+			}
+		})
 
 		if (!abonement) {
 			throw new NotFoundException(`Абонемент с id: ${id} не найден`)
@@ -35,7 +45,7 @@ export class AbonementService {
 		return abonement
 	}
 
-	async create({ name, count, duration, price }: CreateAbonementDto) {
+	async create({ name, count, duration, price, clubs: clubIds }: CreateAbonementDto) {
 		// ! [FOR REFACTOR]: Вынести в слой валидации с помощью декоратора
 		// ! [FOR REFACTOR]: Максимальная цена больше
 		if (count && duration) {
@@ -44,12 +54,16 @@ export class AbonementService {
 		if (!count && !duration) {
 			throw new BadRequestException('Абонемент должен быть хотя бы одного типа')
 		}
+
+		const clubs = await this.clubService.checkClubs(clubIds)
+
 		await this.nameCheck(name)
 		const createdAbonement = this.abonementRepository.create({
 			name,
 			price,
 			count: count ?? null,
-			duration: duration ?? null
+			duration: duration ?? null,
+			clubs
 		})
 
 		return this.abonementRepository.save(createdAbonement)

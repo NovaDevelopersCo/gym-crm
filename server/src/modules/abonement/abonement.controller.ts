@@ -30,7 +30,6 @@ import { FindAllAbonementDto } from './dto/find-all.dto'
 export class AbonementController {
 	constructor(private readonly abonementService: AbonementService) {}
 
-	// TODO: Фикс DTO
 	@AbonementDocSwagger.create()
 	@Post()
 	create(@Body() dto: CreateAbonementDto) {

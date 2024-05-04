@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
-import { ILike, Repository } from 'typeorm'
+import { ILike, In, Repository } from 'typeorm'
 import { ClubEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
 import { CreateClubDto, UpdateClubDto, FindAllClubDto } from './dto'
@@ -151,5 +151,19 @@ export class ClubService {
 			const club = await queryRunner.manager.save(ClubEntity, updatedClub)
 			return club
 		})
+	}
+
+	async checkClubs(ids: number[]) {
+		const clubs = await this.clubRepository.find({
+			where: {
+				id: In(ids)
+			}
+		})
+
+		if (clubs.length !== ids.length) {
+			throw new BadRequestException('Указан несуществующий клуб')
+		}
+
+		return clubs
 	}
 }

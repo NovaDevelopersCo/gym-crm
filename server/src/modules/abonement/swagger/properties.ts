@@ -50,7 +50,6 @@ export class AbonementPropertiesSwagger {
 			decorators: withValidation
 				? [
 						IsOptional(),
-						// ! мейби просто значение isPosition?
 						IsInt({ message: 'Количество занятий должно быть числом' }),
 						Min(minimum, { message: `Минимальное количество занятий ${minimum}` }),
 						Max(maximum, { message: `Максимальное количество занятий ${maximum}` })

@@ -63,6 +63,15 @@ export class PropertyDecoratorsSwagger {
 		})
 	}
 
+	static clubIds(withValidation?: boolean) {
+		return propertiesSwagger({
+			example: [1, 7, 10],
+			decorators: withValidation
+				? [IsInt({ each: true, message: 'Id клубов должны быть числом' })]
+				: []
+		})
+	}
+
 	static userId(withValidation?: boolean) {
 		return propertiesSwagger({
 			example: 6,

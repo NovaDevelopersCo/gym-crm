@@ -17,9 +17,23 @@ export class UserAbonementService {
 		private readonly abonementService: AbonementService
 	) {}
 
-	// ! (?) Проверять что у пользователя уже есть этот абонемент
 	async create({ userId, abonementId }: CreateUserAbonementDto) {
 		await this.userService.getOneById(userId)
+
+		const abonement = await this.userAbonementRepository.findOne({
+			where: {
+				abonement: {
+					id: abonementId
+				},
+				user: {
+					id: userId
+				}
+			}
+		})
+
+		if (abonement) {
+			throw new BadRequestException('У этого пользователя уже есть такой абонемент')
+		}
 
 		const { price, count, duration } = await this.abonementService.getById(abonementId)
 
