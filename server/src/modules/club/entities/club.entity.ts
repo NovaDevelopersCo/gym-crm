@@ -1,6 +1,7 @@
 import { BaseEntity } from '@/core/database/entity'
 import { AbonementEntity } from '@/modules/abonement/entities'
 import { GroupEntity } from '@/modules/group/entities'
+import { ProductEntity } from '@/modules/product/entities'
 import { StaffEntity } from '@/modules/staff/entities'
 import { UserEntity } from '@/modules/user/entities'
 import { Column, Entity, OneToMany, ManyToMany } from 'typeorm'
@@ -25,6 +26,9 @@ export class ClubEntity extends BaseEntity {
 
 	@OneToMany(() => UserEntity, user => user.club, { cascade: true })
 	users: UserEntity[]
+
+	@OneToMany(() => ProductEntity, product => product.club, { cascade: true })
+	products: ProductEntity[]
 
 	@ManyToMany(() => AbonementEntity)
 	abonements: AbonementEntity[]

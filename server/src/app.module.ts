@@ -10,8 +10,11 @@ import { AbonementModule } from './modules/abonement/abonement.module'
 import { GroupModule } from './modules/group/group.module'
 import { DataBaseModule } from './core/database/database.module'
 import { LoggerModule } from './core/logger/logger.module'
+import { ProductModule } from './modules/product/product.module'
+import { OrderModule } from './modules/order/order.module'
 import { APP_FILTER } from '@nestjs/core'
 import { HttpExceptionFilter } from './core/exceptions'
+import { OnlineModule } from './modules/online/online.module'
 
 @Module({
 	imports: [
@@ -24,7 +27,11 @@ import { HttpExceptionFilter } from './core/exceptions'
 		GroupModule,
 		AbonementModule,
 		DataBaseModule,
+		LoggerModule,
+		ProductModule,
+		OrderModule,
 		LoggerModule
+		OnlineModule
 	],
 	providers: [
 		{
