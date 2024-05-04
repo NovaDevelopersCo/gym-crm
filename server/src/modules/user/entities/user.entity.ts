@@ -1,4 +1,5 @@
 import { BaseEntity } from '@/core/database/entity'
+import { UserAbonementEntity } from '@/modules/abonement/entities'
 import { ClubEntity } from '@/modules/club/entities'
 import { GroupEntity } from '@/modules/group/entities'
 import { OrderEntity } from '@/modules/order/entities'
@@ -20,16 +21,16 @@ export class UserEntity extends BaseEntity {
 	fio: string
 
 	@Column({ type: 'date', nullable: true })
-	birthday?: string
+	birthday: string | null
 
 	@Column({ nullable: true })
-	howKnow?: string
+	howKnow: string | null
 
 	@Column({
 		unique: true,
 		nullable: true
 	})
-	instagram: string
+	instagram: string | null
 
 	@ManyToMany(() => GroupEntity, group => group.users)
 	@JoinTable()
@@ -40,4 +41,6 @@ export class UserEntity extends BaseEntity {
 
 	@OneToMany(() => OrderEntity, order => order.user, { cascade: true })
 	orders: OrderEntity
+	@OneToMany(() => UserAbonementEntity, abonements => abonements.user)
+	abonements: UserAbonementEntity[]
 }

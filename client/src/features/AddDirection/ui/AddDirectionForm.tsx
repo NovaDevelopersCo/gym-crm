@@ -39,18 +39,17 @@ const AddDirectionForm = () => {
 			</Form.Item>
 
 			<Form.Item<Pick<CreateDirectionDto, 'name'>>
-				label='Direction name'
 				name='name'
 				rules={[
-					{ required: true, message: 'Please input direction name!' }
+					{ required: true, message: 'Введите название направления!' }
 				]}
 			>
-				<Input />
+				<Input placeholder='Название'/>
 			</Form.Item>
 
 			<Form.Item>
 				<Button type='primary' htmlType='submit'>
-					Submit
+					Создать
 				</Button>
 			</Form.Item>
 		</Form>

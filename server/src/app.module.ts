@@ -12,6 +12,8 @@ import { DataBaseModule } from './core/database/database.module'
 import { LoggerModule } from './core/logger/logger.module'
 import { ProductModule } from './modules/product/product.module'
 import { OrderModule } from './modules/order/order.module'
+import { APP_FILTER } from '@nestjs/core'
+import { HttpExceptionFilter } from './core/exceptions'
 
 @Module({
 	imports: [
@@ -26,7 +28,14 @@ import { OrderModule } from './modules/order/order.module'
 		DataBaseModule,
 		LoggerModule,
 		ProductModule,
-		OrderModule
+		OrderModule,
+		LoggerModule
+	],
+	providers: [
+		{
+			provide: APP_FILTER,
+			useClass: HttpExceptionFilter
+		}
 	]
 })
 export class AppModule {}

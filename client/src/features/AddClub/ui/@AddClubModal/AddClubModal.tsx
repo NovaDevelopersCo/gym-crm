@@ -1,8 +1,8 @@
-import { Dispatch, FC, SetStateAction, useState } from 'react'
+import { Dispatch, FC, SetStateAction } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import { Button, Input, Modal } from '@/shared'
-import { CreateClubDto, IClub, useCreateClubMutation } from '@/store'
+import { CreateClubDto, useCreateClubMutation } from '@/store'
 
 import styles from './AddClubModal.module.scss'
 // eslint-disable-next-line
@@ -17,7 +17,6 @@ const AddClubModal: FC<AddClubModalProps> = ({
 	isModalOpen,
 	setIsModalOpen
 }) => {
-	const [editingClub] = useState<IClub | null>(null)
 	const { handleSubmit, control, reset } = useForm<CreateClubDto>()
 
 	const [createClub,] = useCreateClubMutation()
@@ -37,9 +36,9 @@ const AddClubModal: FC<AddClubModalProps> = ({
 		<Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
 			<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
 				<h2 className={styles.form__title}>
-					{editingClub != null ? 'Edit Club' : 'Add Club'}
+					Добавить клуб
 				</h2>
-				<label htmlFor='name'>Name</label>
+				<label htmlFor='name'>Имя</label>
 				<Controller
 					name='name'
 					control={control}
@@ -48,7 +47,7 @@ const AddClubModal: FC<AddClubModalProps> = ({
 						<Input {...field} id='name' type='text' autoFocus />
 					)}
 				/>
-				<label htmlFor='address'>Address</label>
+				<label htmlFor='address'>Адрес</label>
 				<Controller
 					name='address'
 					control={control}
@@ -58,19 +57,19 @@ const AddClubModal: FC<AddClubModalProps> = ({
 					)}
 				/>
 
-				<label htmlFor='admins'>Admin</label>
+				<label htmlFor='admins'>Админы</label>
 				<Controller
 					name='admins'
 					control={control}
 					rules={{ required: true }}
 					render={({ field }) => {
 						return (
-							<SelectAdmin field={field} id='admins' placeholder="Select admin" mode="multiple" />
+							<SelectAdmin field={field} id='admins' placeholder="Администраторы" mode="multiple" />
 						)
 					}}
 				/>
 				<Button htmlType='submit' type='primary'>
-					{editingClub != null ? 'Save' : 'Add'}
+					Добавить
 				</Button>
 				<Button
 					onClick={handleCancel}
@@ -78,7 +77,7 @@ const AddClubModal: FC<AddClubModalProps> = ({
 					type='text'
 					danger
 				>
-					Cancel
+					Отмена
 				</Button>
 			</form>
 		</Modal>

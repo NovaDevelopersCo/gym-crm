@@ -7,7 +7,7 @@ import {
 	GetItemsParams,
 	GetItemsResponse,
 	IClient,
-	RootState,
+	RootState
 } from '..'
 
 const baseQuery = fetchBaseQuery({
@@ -47,13 +47,10 @@ export const clientApi = createApi({
 			}),
 			invalidatesTags: ['CLIENT']
 		}),
-		getAllClients: build.query<GetItemsResponse<IClient>, GetItemsParams>({
-			query: ({ page, limit }) => ({
+		getAllClients: build.query<GetItemsResponse<IClient>, GetItemsParams<IClient>>({
+			query: (params) => ({
 				url: '',
-				params: {
-					page: page,
-					limit: limit
-				}
+				params: params
 			}),
 			providesTags: ['CLIENT']
 		})

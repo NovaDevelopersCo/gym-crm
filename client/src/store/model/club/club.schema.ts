@@ -6,7 +6,7 @@ export default interface IClub {
 	id: string
 	address: string
 	name: string
-	admins: IStaff['id'][]
+	admins: IStaff[]
 	groups: IGroup[]
 	users: IClient[]
 }

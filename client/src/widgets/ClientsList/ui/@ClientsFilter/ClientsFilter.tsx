@@ -5,11 +5,19 @@ import { Checkbox, Input } from 'antd'
 import { SelectClub } from '@features/Select'
 
 import cl from './ClientsFilter.module.scss'
+import { Button } from '@/shared';
+import { GetItemsParams, IClient } from '@/store';
+import { Dispatch, FC, SetStateAction } from 'react';
 
-const ClientsFilter = () => {
+type ClientsFilterProps = {
+	setParams: Dispatch<SetStateAction<GetItemsParams<IClient>>>
+}
+
+const ClientsFilter: FC<ClientsFilterProps> = ({ setParams }) => {
 	const { control, handleSubmit } = useForm()
 
 	const onSubmit = (data: FieldValues) => {
+		setParams(data)
 		console.log(data)
 	}
 
@@ -155,7 +163,7 @@ const ClientsFilter = () => {
 					)}
 				/>
 			</div>
-			<button>Найти</button>
+			<Button type="default">Найти</Button>
 		</form>
 	)
 }
