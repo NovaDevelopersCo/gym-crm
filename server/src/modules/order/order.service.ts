@@ -6,7 +6,7 @@ import { Repository } from 'typeorm'
 import { ProductService } from '../product/product.service'
 import { UserService } from '../user/user.service'
 import { FindAllOrderDto } from './dto/find-all.dto'
-import { PaginationDto } from '@/core/pagination'
+import { Pagination } from '@/core/pagination'
 import { ProductEntity } from '../product/entities'
 
 @Injectable()
@@ -73,7 +73,7 @@ export class OrderService {
 			}
 		})
 
-		return new PaginationDto(items, total)
+		return new Pagination(items, total)
 	}
 
 	async getById(id: number) {

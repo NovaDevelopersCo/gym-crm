@@ -10,7 +10,7 @@ import { UserEntity } from './entities'
 import { ILike, Repository } from 'typeorm'
 import { GroupService } from '@modules/group/group.service'
 import { ClubService } from '@modules/club/club.service'
-import { PaginationDto } from '@/core/pagination'
+import { Pagination } from '@/core/pagination'
 import { GroupEntity } from '../group/entities'
 import { StaffService } from '../staff/staff.service'
 import { EStaffRole } from '@/core/enums'
@@ -111,7 +111,7 @@ export class UserService {
 			}
 		})
 
-		return new PaginationDto(users, total)
+		return new Pagination(users, total)
 	}
 
 	async update(id: number, dto: UpdateUserDto) {

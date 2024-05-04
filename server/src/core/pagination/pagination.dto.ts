@@ -1,4 +1,4 @@
-export class PaginationDto {
+export class Pagination {
 	items: object[]
 	meta: { total: number }
 	constructor(items: object[], totalCount: number) {

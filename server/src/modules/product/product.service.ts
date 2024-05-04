@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { ProductEntity } from './entities'
 import { ILike, In, Repository } from 'typeorm'
 import { ESearch, FindAllProductDto } from './dto/find-all.dto'
-import { PaginationDto } from '@/core/pagination'
+import { Pagination } from '@/core/pagination'
 import { ClubService } from '../club/club.service'
 
 // TODO: продумать логику
@@ -48,7 +48,7 @@ export class ProductService {
 			}
 		})
 
-		return new PaginationDto(items, total)
+		return new Pagination(items, total)
 	}
 
 	async getById(id: number) {

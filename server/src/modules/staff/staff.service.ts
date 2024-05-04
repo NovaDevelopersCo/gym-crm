@@ -5,7 +5,7 @@ import { hash, compare } from 'bcrypt'
 import { ILike, Repository, FindOneOptions, In } from 'typeorm'
 import { CreateStaffDto, FindAllStaffDto, UpdateStaffDto, UpdatePasswordStaffDto } from './dto'
 import { EStaffRole } from '@/core/enums'
-import { PaginationDto } from '@/core/pagination'
+import { Pagination } from '@/core/pagination'
 
 @Injectable()
 export class StaffService {
@@ -71,7 +71,7 @@ export class StaffService {
 				club: true
 			}
 		})
-		return new PaginationDto(items, total)
+		return new Pagination(items, total)
 	}
 
 	async update(id: number, dto: UpdateStaffDto) {

@@ -6,7 +6,7 @@ import { UserService } from '../user/user.service'
 import { CreateUserAbonementDto, ESearch, FindAllUserAbonementDto } from './dto'
 import { AbonementService } from './abonement.service'
 import { formatDate } from './utils'
-import { PaginationDto } from '@/core/pagination'
+import { Pagination } from '@/core/pagination'
 
 @Injectable()
 export class UserAbonementService {
@@ -98,7 +98,7 @@ export class UserAbonementService {
 			}
 		})
 
-		return new PaginationDto(items, total)
+		return new Pagination(items, total)
 	}
 
 	async delete(id: number) {

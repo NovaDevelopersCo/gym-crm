@@ -3,7 +3,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { DirectionEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
 import { CreateDirectionDto, UpdateDirectionDto, FindAllDirectionDto } from './dto'
-import { PaginationDto } from '@/core/pagination'
+import { Pagination } from '@/core/pagination'
 
 @Injectable()
 export class DirectionService {
@@ -29,7 +29,7 @@ export class DirectionService {
 			}
 		})
 
-		return new PaginationDto(items, total)
+		return new Pagination(items, total)
 	}
 
 	async getById(directionId: number) {

@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm'
 import { AbonementEntity } from './entities'
 import { ILike, Repository } from 'typeorm'
 import { CreateAbonementDto, UpdateAbonementDto, FindAllAbonementDto } from './dto'
-import { PaginationDto } from '@/core/pagination'
+import { Pagination } from '@/core/pagination'
 import { ClubService } from '../club/club.service'
 
 @Injectable()
@@ -27,7 +27,7 @@ export class AbonementService {
 			}
 		})
 
-		return new PaginationDto(items, total)
+		return new Pagination(items, total)
 	}
 
 	async getById(id: number) {
