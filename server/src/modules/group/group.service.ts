@@ -6,6 +6,7 @@ import { CreateGroupDto, UpdateGroupDto, FindAllGroupDto } from './dto'
 import { ClubService } from '../club/club.service'
 import { DirectionService } from '../direction/direction.service'
 import { Pagination } from '@/core/pagination'
+import { skipCount } from '@/core/utils'
 
 @Injectable()
 export class GroupService {
@@ -24,7 +25,7 @@ export class GroupService {
 				[searchBy]: ILike(`%${q}%`)
 			},
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			relations: {
 				direction: true,
 				club: true,

@@ -4,6 +4,7 @@ import { DirectionEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
 import { CreateDirectionDto, UpdateDirectionDto, FindAllDirectionDto } from './dto'
 import { Pagination } from '@/core/pagination'
+import { skipCount } from '@/core/utils'
 
 @Injectable()
 export class DirectionService {
@@ -23,7 +24,7 @@ export class DirectionService {
 					}
 				: {},
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			relations: {
 				groups: true
 			}

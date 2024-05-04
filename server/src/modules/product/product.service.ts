@@ -6,6 +6,7 @@ import { ILike, In, Repository } from 'typeorm'
 import { ESearch, FindAllProductDto } from './dto/find-all.dto'
 import { Pagination } from '@/core/pagination'
 import { ClubService } from '../club/club.service'
+import { skipCount } from '@/core/utils'
 
 // TODO: продумать логику
 @Injectable()
@@ -42,7 +43,7 @@ export class ProductService {
 			},
 			where,
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			relations: {
 				club: true
 			}

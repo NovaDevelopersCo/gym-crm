@@ -6,6 +6,7 @@ import { ILike, Repository, FindOneOptions, In } from 'typeorm'
 import { CreateStaffDto, FindAllStaffDto, UpdateStaffDto, UpdatePasswordStaffDto } from './dto'
 import { EStaffRole } from '@/core/enums'
 import { Pagination } from '@/core/pagination'
+import { skipCount } from '@/core/utils'
 
 @Injectable()
 export class StaffService {
@@ -66,7 +67,7 @@ export class StaffService {
 				[searchBy]: ILike(`%${q}%`)
 			},
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			relations: {
 				club: true
 			}

@@ -9,6 +9,7 @@ import { StaffEntity } from '../staff/entities'
 import { DataBaseService } from '@/core/database/database.service'
 import { Pagination } from '@/core/pagination'
 import { LoggerService } from '@/core/logger/logger.service'
+import { skipCount } from '@/core/utils'
 
 @Injectable()
 export class ClubService {
@@ -29,7 +30,7 @@ export class ClubService {
 				[searchBy]: ILike(`%${q}%`)
 			},
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			relations: {
 				admins: true,
 				groups: true,

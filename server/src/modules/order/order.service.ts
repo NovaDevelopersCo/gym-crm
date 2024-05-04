@@ -8,6 +8,7 @@ import { UserService } from '../user/user.service'
 import { FindAllOrderDto } from './dto/find-all.dto'
 import { Pagination } from '@/core/pagination'
 import { ProductEntity } from '../product/entities'
+import { skipCount } from '@/core/utils'
 
 @Injectable()
 export class OrderService {
@@ -55,9 +56,10 @@ export class OrderService {
 			order: {
 				[sortBy]: sortOrder
 			},
+
 			where,
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			relations: {
 				user: true,
 				items: {

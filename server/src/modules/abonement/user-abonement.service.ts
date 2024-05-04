@@ -7,6 +7,7 @@ import { CreateUserAbonementDto, ESearch, FindAllUserAbonementDto } from './dto'
 import { AbonementService } from './abonement.service'
 import { formatDate } from './utils'
 import { Pagination } from '@/core/pagination'
+import { skipCount } from '@/core/utils'
 
 @Injectable()
 export class UserAbonementService {
@@ -83,7 +84,7 @@ export class UserAbonementService {
 				[sortBy]: sortOrder
 			},
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			where,
 			relations: {
 				user: true,

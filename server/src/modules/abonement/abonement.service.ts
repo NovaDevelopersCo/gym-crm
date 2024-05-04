@@ -5,6 +5,7 @@ import { ILike, Repository } from 'typeorm'
 import { CreateAbonementDto, UpdateAbonementDto, FindAllAbonementDto } from './dto'
 import { Pagination } from '@/core/pagination'
 import { ClubService } from '../club/club.service'
+import { skipCount } from '@/core/utils'
 
 @Injectable()
 export class AbonementService {
@@ -21,7 +22,7 @@ export class AbonementService {
 			},
 			where: q ? { [searchBy]: ILike(`%${q}%`) } : {},
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			relations: {
 				clubs: true
 			}
