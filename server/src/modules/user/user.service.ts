@@ -70,6 +70,8 @@ export class UserService {
 		if (isAdmin && user.club !== staff.club) {
 			throw new ForbiddenException('Этот пользователь не относится к вашему клубу')
 		}
+
+		return user
 	}
 
 	async getOneById(id: number) {
