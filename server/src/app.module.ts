@@ -30,7 +30,7 @@ import { OnlineModule } from './modules/online/online.module'
 		LoggerModule,
 		ProductModule,
 		OrderModule,
-		LoggerModule
+		LoggerModule,
 		OnlineModule
 	],
 	providers: [
