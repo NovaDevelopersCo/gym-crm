@@ -1,10 +1,10 @@
-import { CommonDecoratorsSwagger, PaginationResponse } from '@/core/swagger'
+import { PropertyDecoratorsSwagger, PaginationResponse } from '@/core/swagger'
 import { GroupClub } from '@/modules/club/swagger'
 import { ProductDecoratorsSwagger } from './decorators'
 import { ApiProperty, IntersectionType, PickType } from '@nestjs/swagger'
 
 export class ProductDto {
-	@CommonDecoratorsSwagger.id()
+	@PropertyDecoratorsSwagger.id()
 	id: number
 
 	@ProductDecoratorsSwagger.name_()

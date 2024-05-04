@@ -1,4 +1,4 @@
-import { CommonDecoratorsSwagger, PaginationResponse } from '@/core/swagger'
+import { PropertyDecoratorsSwagger, PaginationResponse } from '@/core/swagger'
 import { OrderDecoratorsSwagger } from './decorators'
 import { ApiProperty, IntersectionType, PickType } from '@nestjs/swagger'
 import { ProductDto } from '@/modules/product/swagger'
@@ -17,7 +17,7 @@ export class FullProduct {
 }
 
 export class OrderItemDto {
-	@CommonDecoratorsSwagger.id()
+	@PropertyDecoratorsSwagger.id()
 	id: number
 
 	@OrderDecoratorsSwagger.count()
@@ -34,7 +34,7 @@ export class OrderItemDtoWithProduct extends IntersectionType(OrderItemDto, Full
 export class OrderItemDtoWithProductId extends IntersectionType(OrderItemDto, ProductWithId) {}
 
 export class OrderDto {
-	@CommonDecoratorsSwagger.id()
+	@PropertyDecoratorsSwagger.id()
 	id: number
 
 	@ApiProperty({ example: 3424 })

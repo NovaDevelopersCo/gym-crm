@@ -1,8 +1,8 @@
-import { CommonDecoratorsSwagger } from '@/core/swagger'
+import { PropertyDecoratorsSwagger } from '@/core/swagger'
 import { OrderDecoratorsSwagger } from '../swagger'
 
 export class ProductWithCount {
-	@CommonDecoratorsSwagger.id(true)
+	@PropertyDecoratorsSwagger.id(true)
 	id: number
 
 	@OrderDecoratorsSwagger.count(true)
@@ -10,7 +10,7 @@ export class ProductWithCount {
 }
 
 export class CreateOrderDto {
-	@CommonDecoratorsSwagger.userId(true)
+	@PropertyDecoratorsSwagger.userId(true)
 	user: number
 
 	@OrderDecoratorsSwagger.productCountObject(true)

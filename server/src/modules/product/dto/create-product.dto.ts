@@ -1,4 +1,4 @@
-import { CommonDecoratorsSwagger } from '@/core/swagger'
+import { PropertyDecoratorsSwagger } from '@/core/swagger'
 import { ProductDecoratorsSwagger } from '../swagger'
 
 // TODO: Сделать дробные значения
@@ -9,6 +9,6 @@ export class CreateProductDto {
 	@ProductDecoratorsSwagger.price(true)
 	price: number
 
-	@CommonDecoratorsSwagger.clubId(true)
+	@PropertyDecoratorsSwagger.clubId(true)
 	club: number
 }
