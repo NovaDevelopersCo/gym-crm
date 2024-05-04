@@ -42,7 +42,7 @@ export const QuerySearchValidate =
 		return registerDecorator({
 			name: 'querySearchValidate',
 			target: object.constructor,
-			propertyName: propertyName,
+			propertyName,
 			constraints: [validator],
 			options: {},
 			validator: {

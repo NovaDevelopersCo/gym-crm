@@ -1,12 +1,12 @@
 import { PickType, OmitType, ApiProperty } from '@nestjs/swagger'
-import { PaginationResponse, CommonDecoratorsSwagger } from '@/core/swagger'
+import { PaginationResponse, PropertyDecoratorsSwagger } from '@/core/swagger'
 import { GroupDirection } from '@/modules/direction/swagger'
 import { GroupClub, UserClub } from '@/modules/club/swagger'
 import { GroupUser } from '@/modules/user/swagger'
-import { GroupDecoratorsSwagger } from './decorators'
+import { GroupPropertiesSwagger } from './properties'
 
 export class GroupDto {
-	@CommonDecoratorsSwagger.id()
+	@PropertyDecoratorsSwagger.id()
 	id: number
 
 	@ApiProperty()
@@ -18,7 +18,7 @@ export class GroupDto {
 	@ApiProperty({ isArray: true })
 	users: GroupUser
 
-	@GroupDecoratorsSwagger.name_()
+	@GroupPropertiesSwagger.name_()
 	name: string
 }
 
