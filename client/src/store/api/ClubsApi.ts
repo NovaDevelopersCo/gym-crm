@@ -55,12 +55,15 @@ export const clubsApi = createApi({
 			}),
 			invalidatesTags: ['CLUB']
 		}),
-		editClub: build.mutation<IClub, EditClubDto & { id: string }>({
-			query: dto => ({
-				method: 'PUT',
-				url: `${dto.id}`,
-				body: dto
-			}),
+		editClub: build.mutation<IClub, EditClubDto>({
+			query: dto => {
+				const { id, ...dtoBody } = dto
+				return {
+					method: 'PUT',
+					url: `${id}`,
+					body: dtoBody
+				}
+			},
 			invalidatesTags: ['CLUB']
 		})
 	})

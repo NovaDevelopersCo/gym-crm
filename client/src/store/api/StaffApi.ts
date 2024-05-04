@@ -1,6 +1,7 @@
 import {
 	CreateStaffDto,
 	CreateStaffResponse,
+	EditStaffDto,
 	GetItemsResponse,
 	IStaff,
 	RootState
@@ -25,21 +26,39 @@ const baseQuery = fetchBaseQuery({
 export const staffApi = createApi({
 	reducerPath: 'staff/api',
 	baseQuery,
+	tagTypes: ['STAFF'],
 	endpoints: build => ({
 		getStaff: build.query<GetItemsResponse<IStaff>, void>({
 			query: () => ({
 				method: 'GET',
 				url: ''
-			})
+			}),
+			providesTags: ['STAFF']
 		}),
 		createStaff: build.mutation<CreateStaffResponse, CreateStaffDto>({
 			query: user => ({
 				method: 'POST',
 				url: '',
 				body: user
-			})
+			}),
+			invalidatesTags: ['STAFF']
+		}),
+		deleteStaff: build.mutation<void, IStaff['id']>({
+			query: id => ({
+				method: 'DELETE',
+				url: `${id}`
+			}),
+			invalidatesTags: ['STAFF']
+		}),
+		editStaff: build.mutation<IStaff, EditStaffDto>({
+			query: dto => ({
+				method: 'PUT',
+				url: `${dto.id}`,
+				body: dto
+			}),
+			invalidatesTags: ['STAFF']
 		})
 	})
 })
 
-export const { useGetStaffQuery } = staffApi
+export const { useGetStaffQuery, useCreateStaffMutation, useDeleteStaffMutation, useEditStaffMutation } = staffApi

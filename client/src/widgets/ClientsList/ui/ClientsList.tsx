@@ -1,17 +1,19 @@
 import { useState } from 'react'
-import { IClient, IClub, IGroup, useGetAllClientsQuery } from '@/store'
+import { GetItemsParams, IClient, IClub, IGroup, useGetAllClientsQuery } from '@/store'
 import { AddClientBtn } from '@features/AddClient'
 import ClientsFilter from './@ClientsFilter/ClientsFilter'
 import styles from './ClientsList.module.scss'
 import { Table, Radio, TableColumnsType } from 'antd';
 
 const ClientsList = () => {
-	const [limit, setLimit] = useState<number>(20)
-	const [page, setPage] = useState<number>(1)
-	const { data: clients } = useGetAllClientsQuery({
-		page: page,
-		limit: limit
+	const [params, setParams] = useState<GetItemsParams<IClient>>({
+		page: 1,
+		count: 20,
+		searchBy: undefined,
+		sortBy: undefined,
+		sortOrder: undefined
 	})
+	const { data: clients } = useGetAllClientsQuery(params)
 	const liimitSizeOptions = [20, 50, 100]
 
 	const columns: TableColumnsType<IClient> = [
@@ -27,7 +29,7 @@ const ClientsList = () => {
 
 	return (
 		<>
-			<ClientsFilter />
+			<ClientsFilter setParams={setParams} />
 			<AddClientBtn />
 			<div className={styles.table}>
 				<div className={styles.table__info}>
@@ -37,7 +39,7 @@ const ClientsList = () => {
 					<div className={styles.table__info__pagination}>
 						<p>Отображать по:</p>
 						<Radio.Group
-							onChange={e => setLimit(e.target.value)}
+							onChange={e => setParams(prev => ({ ...prev, count: e.target.value }))}
 						>
 							{liimitSizeOptions.map(size => (
 								<Radio.Button key={size} value={size}>
@@ -51,13 +53,13 @@ const ClientsList = () => {
 					columns={columns}
 					dataSource={clients?.items}
 					scroll={{ x: 1500, y: '70vh' }}
-
+					rowKey={(record) => record.id}
 					pagination={{
-						pageSize: limit,
-						current: page,
+						pageSize: params.count,
+						current: params.page,
 						total: clients?.meta.total,
 						onChange: (page: number) => {
-							setPage(page)
+							setParams(prev => ({ ...prev, page }))
 						}
 					}}
 				/>

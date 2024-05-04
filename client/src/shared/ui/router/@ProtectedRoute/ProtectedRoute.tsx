@@ -1,6 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom'
 
 import { useAppSelector, useRefreshTokenQuery } from '@/store'
+import { FullPageSpinner } from '@/shared'
 
 const ProtectedRoute = ({
 	children,
@@ -21,7 +22,7 @@ const ProtectedRoute = ({
 	const isAllowed =
 		isAuthenticated &&
 		(allowedRoles.includes(user.role) || allowedRoles.includes('*'))
-	if (isLoading) return <h1>Loading...</h1>
+	if (isLoading) return <FullPageSpinner />
 	if (isReverse) {
 		return isAllowed ? (
 			<Navigate to={redirectPath} state={{ from: location }} replace />
