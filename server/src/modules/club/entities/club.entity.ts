@@ -29,7 +29,7 @@ export class ClubEntity extends BaseEntity {
 
 	@OneToMany(() => ProductEntity, product => product.club, { cascade: true })
 	products: ProductEntity[]
-	
+
 	@ManyToMany(() => AbonementEntity)
 	abonements: AbonementEntity[]
 }
