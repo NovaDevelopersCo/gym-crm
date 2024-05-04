@@ -206,7 +206,7 @@ export class UserService {
 
 	private checkAllGroupInClub(groups: GroupEntity[], clubId: number) {
 		groups.forEach(group => {
-			if (group.club.id !== clubId) {
+			if (group.club?.id !== clubId) {
 				throw new BadRequestException(
 					`Группы с id: ${group.id} нет в клубе с id: ${clubId}`
 				)
