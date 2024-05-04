@@ -1,5 +1,4 @@
 export * from './get-by-id-params.dto'
-
 export * from './pagination.dto'
 export * from './sort.dto'
 export * from './full-query.dto'

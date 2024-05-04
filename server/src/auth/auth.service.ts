@@ -1,10 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-
 import { LoginDto, RefreshDto } from './dto'
-
 import { compare } from 'bcrypt'
 import { TokenService } from './token.service'
-
 import { StaffService } from '@/modules/staff/staff.service'
 import { StaffEntity } from '@/modules/staff/entities'
 

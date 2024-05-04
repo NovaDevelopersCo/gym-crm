@@ -3,7 +3,6 @@ import {
 	ValidationArguments,
 	maxLength as maxLengthValidation
 } from 'class-validator'
-
 import type { TQuerySearchValidatorObj } from '@/core/types'
 
 const validation = (args: ValidationArguments) => {

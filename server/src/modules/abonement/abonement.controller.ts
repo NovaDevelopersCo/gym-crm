@@ -18,8 +18,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { AbonementService } from './abonement.service'
 import { AbonementDocSwagger } from './swagger'
 import { GetByIdParamsDto } from '@/core/dto'
-import { CreateAbonementDto, UpdateAbonementDto } from './dto'
-import { FindAllAbonementDto } from './dto/find-all.dto'
+import { CreateAbonementDto, UpdateAbonementDto, FindAllAbonementDto } from './dto'
 
 @ApiTags('Абонементы')
 @ApiBearerAuth('access-auth')

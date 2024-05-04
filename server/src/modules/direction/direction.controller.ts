@@ -13,7 +13,6 @@ import {
 	UsePipes,
 	ValidationPipe
 } from '@nestjs/common'
-
 import { ApiTags, ApiBearerAuth } from '@nestjs/swagger'
 import { DirectionDocSwagger } from './swagger'
 import { DirectionService } from './direction.service'

@@ -1,7 +1,6 @@
 import { IsEnum, IsOptional } from 'class-validator'
 import { QuerySearchValidate } from './query-search-validate.decorator'
 import { propertiesSwagger } from '../utils'
-
 import type { TQuerySearchValidatorObj } from '@/core/types'
 
 // * for swagger

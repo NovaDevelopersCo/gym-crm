@@ -1,8 +1,6 @@
 import { ApiProperty, OmitType } from '@nestjs/swagger'
-
-import { PaginationResponse } from '@/core/swagger'
+import { PaginationResponse, PropertyDecoratorsSwagger } from '@/core/swagger'
 import { DirectionGroup } from '@/modules/group/swagger'
-import { PropertyDecoratorsSwagger } from '@/core/swagger'
 import { DirectionPropertiesSwagger } from './properties'
 
 export class DirectionDto {

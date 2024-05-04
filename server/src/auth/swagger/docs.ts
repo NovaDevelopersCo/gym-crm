@@ -1,5 +1,4 @@
 import { applyDecorators } from '@nestjs/common'
-
 import {
 	ApiOperation,
 	ApiOkResponse,
@@ -7,11 +6,8 @@ import {
 	ApiNoContentResponse,
 	ApiBadRequestResponse
 } from '@nestjs/swagger'
-
 import { EAuthSwaggerMessages } from './messages.enum'
-
 import { RefreshOk } from './responses'
-
 import { ESwaggerMessages } from '@/core/swagger'
 
 export class AuthDocSwagger {

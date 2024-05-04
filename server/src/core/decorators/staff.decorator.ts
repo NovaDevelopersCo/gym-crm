@@ -1,6 +1,5 @@
 import { JwtPayload } from '@auth/dto'
 import { ExecutionContext, createParamDecorator } from '@nestjs/common'
-
 import { Request } from 'express'
 
 export const Staff = createParamDecorator((key: keyof JwtPayload, ctx: ExecutionContext) => {

@@ -68,7 +68,7 @@ export class AbonementPropertiesSwagger {
 				? [
 						IsOptional(),
 						IsString({ message: 'Длительность абонемента должна быть строкой' }),
-						DurationValidate(),
+						DurationValidate,
 						MinLength(minLength, {
 							message: `Минимальная длина длительности абонемента ${minLength} символов`
 						}),

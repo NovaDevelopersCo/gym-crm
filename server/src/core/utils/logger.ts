@@ -2,7 +2,6 @@ import { ConfigService } from '@nestjs/config'
 import { ELoggerLevels, ENodeEnv } from '../enums'
 import { format } from 'winston'
 import { HttpStatus } from '@nestjs/common'
-
 const { printf } = format
 
 export class LoggerUtils {

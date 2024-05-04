@@ -2,8 +2,7 @@ import { ILike, Repository } from 'typeorm'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { DirectionEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
-import { CreateDirectionDto, UpdateDirectionDto } from './dto'
-import { FindAllDirectionDto } from './dto'
+import { CreateDirectionDto, UpdateDirectionDto, FindAllDirectionDto } from './dto'
 import { PaginationDto } from '@/core/pagination'
 
 @Injectable()
