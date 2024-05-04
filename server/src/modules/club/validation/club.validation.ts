@@ -8,6 +8,6 @@ export const clubValidation = {
 		maxLength: 100
 	},
 	admins: {
-		arrayMaxSize: 2
+		maxItems: 2
 	}
 }

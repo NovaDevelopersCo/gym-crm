@@ -1,6 +1,6 @@
 import { applyDecorators } from '@nestjs/common'
-import { ApiOperation, ApiOkResponse, ApiNotFoundResponse } from '@nestjs/swagger'
-import { ESwaggerMessages } from '@/core/swagger'
+import { ApiOkResponse, ApiNotFoundResponse } from '@nestjs/swagger'
+import { DocDecoratorsSwagger, ESwaggerMessages } from '@/core/swagger'
 import {
 	GetAllDirectionsOk,
 	GetDirectionByIdOk,
@@ -8,14 +8,12 @@ import {
 	UpdateDirectionOk
 } from './responses'
 import { BaseDocSwagger } from '@/core/swagger/docs'
+import { EStaffRole } from '@/core/enums'
 
 export class DirectionDocSwagger {
 	static getAll() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Получить список всех направлений',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.getAll([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_GET_ALL,
 				type: GetAllDirectionsOk
@@ -26,10 +24,7 @@ export class DirectionDocSwagger {
 
 	static getById() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Получить направление по id',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.getById([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_GET_ONE,
 				type: GetDirectionByIdOk
@@ -41,10 +36,7 @@ export class DirectionDocSwagger {
 
 	static create() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Создать новое направление',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.create([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_CREATE,
 				type: CreateDirectionOk
@@ -55,10 +47,7 @@ export class DirectionDocSwagger {
 
 	static update() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Изменить направление',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.update([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_UPDATE,
 				type: UpdateDirectionOk
@@ -70,10 +59,7 @@ export class DirectionDocSwagger {
 
 	static delete() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Удалить направление',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.delete([EStaffRole.DIRECTOR]),
 			BaseDocSwagger.delete()
 		)
 	}

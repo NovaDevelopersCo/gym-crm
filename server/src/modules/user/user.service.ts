@@ -67,7 +67,7 @@ export class UserService {
 
 		const user = await this.getOneById(id)
 
-		if (!isAdmin && user.club !== staff.club) {
+		if (isAdmin && user.club !== staff.club) {
 			throw new ForbiddenException('Этот пользователь не относится к вашему клубу')
 		}
 	}
