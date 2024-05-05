@@ -7,17 +7,16 @@ import {
 } from 'class-validator'
 import { ETypeSearch, type TQuerySearchBody, type TQuerySearchValidatorObj } from '@/core/types'
 
+type ArgsObject = { q: string; searchBy: string }
 class Validation {
 	private validator: TQuerySearchBody
 	private result: string = ''
 
 	constructor(private args: ValidationArguments) {
-		const { q, searchBy } = args?.object as { q?: string; searchBy?: string }
-		const { object } = args
+		const { q, searchBy } = args?.object as ArgsObject
 		this.validator = args?.constraints[0][searchBy]
-
 		if (this.validator && q.length) {
-			this.mainValidation(object as { q: string; searchBy: string })
+			this.mainValidation(q)
 		}
 	}
 
@@ -29,36 +28,35 @@ class Validation {
 			}
 		}
 	}
-
 	private validationBoolean(q: string) {
 		if (!['true', 'false'].includes(q)) {
-			this.result = "Параметр 'Поиск' должен быть boolean"
+			this.result = "Параметр 'Поиск' должен быть boolean-string"
 		}
 	}
 
 	private validationNumber(q: string) {
-		if (!Number.isInteger(+q)) {
+		const number = Number(q)
+		if (!Number.isInteger(number)) {
 			this.result = `Параметр 'Поиск' должен быть числом`
 			return
 		}
 
 		const { min, max } = this.validator
-
 		if (min) {
-			if (!minValidation(q, min)) {
+			if (!minValidation(number, min)) {
 				this.result = `Параметр 'Поиск' должен быть больше ${min}`
 				return
 			}
 		}
 
 		if (max) {
-			if (!maxValidation(q, max)) {
+			if (!maxValidation(number, max)) {
 				this.result = `Параметр 'Поиск' должен быть меньше ${max}`
 			}
 		}
 	}
 
-	private mainValidation({ q }: { q: string; searchBy: string }) {
+	private mainValidation(q: string) {
 		const { type = ETypeSearch.STRING } = this.validator
 
 		switch (type) {

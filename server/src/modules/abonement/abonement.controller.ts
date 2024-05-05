@@ -22,12 +22,14 @@ import {
 	FindAllAbonementDto,
 	AbonementCheckFields
 } from './dto'
+import { EStaffRole } from '@/core/enums'
+import { RolesAuthGuard } from '@/auth/guards'
 
 @ApiTags('Абонементы')
 @ApiBearerAuth('access-auth')
 @UseInterceptors(ClassSerializerInterceptor)
 @UsePipes(new ValidationPipe({ whitelist: true }))
-// @RolesAuthGuard(EStaffRole.DIRECTOR)
+@RolesAuthGuard(EStaffRole.DIRECTOR)
 @Controller('abonement')
 export class AbonementController {
 	constructor(private readonly abonementService: AbonementService) {}
