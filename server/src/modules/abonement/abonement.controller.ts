@@ -1,5 +1,3 @@
-import { RolesAuthGuard } from '@/auth/guards'
-import { EStaffRole } from '@/core/enums'
 import {
 	Controller,
 	Delete,
@@ -18,13 +16,18 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { AbonementService } from './abonement.service'
 import { AbonementDocSwagger } from './swagger'
 import { GetByIdParamsDto } from '@/core/dto'
-import { CreateAbonementDto, UpdateAbonementDto, FindAllAbonementDto } from './dto'
+import {
+	CreateAbonementDto,
+	UpdateAbonementDto,
+	FindAllAbonementDto,
+	AbonementCheckFields
+} from './dto'
 
 @ApiTags('Абонементы')
 @ApiBearerAuth('access-auth')
 @UseInterceptors(ClassSerializerInterceptor)
 @UsePipes(new ValidationPipe({ whitelist: true }))
-@RolesAuthGuard(EStaffRole.DIRECTOR)
+// @RolesAuthGuard(EStaffRole.DIRECTOR)
 @Controller('abonement')
 export class AbonementController {
 	constructor(private readonly abonementService: AbonementService) {}
@@ -32,6 +35,7 @@ export class AbonementController {
 	@AbonementDocSwagger.create()
 	@Post()
 	create(@Body() dto: CreateAbonementDto) {
+		new AbonementCheckFields(dto)
 		return this.abonementService.create(dto)
 	}
 
@@ -50,6 +54,7 @@ export class AbonementController {
 	@AbonementDocSwagger.update()
 	@Put(':id')
 	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateAbonementDto) {
+		new AbonementCheckFields(dto)
 		return this.abonementService.update(id, dto)
 	}
 

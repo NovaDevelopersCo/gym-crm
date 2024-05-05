@@ -14,7 +14,7 @@ export class FindAllUserDto extends FullQueryDto {
 	@QuerySearch(ESort, 'Сортировка по', "Параметр 'Сортировка по' невалиден")
 	sortBy: ESort = ESort.FIO
 
-	@QuerySearch<ESearch>(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
+	@QuerySearch(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
 		fio: {
 			maxLength: 200
 		},

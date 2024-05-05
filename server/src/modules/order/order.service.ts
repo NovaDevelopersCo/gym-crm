@@ -110,7 +110,6 @@ export class OrderService {
 
 	private checkAllProductInClub(products: ProductEntity[], clubId: number) {
 		products.forEach(product => {
-			// ! Если клуб null
 			if (!product.club) return
 			if (product.club.id !== clubId) {
 				throw new BadRequestException(

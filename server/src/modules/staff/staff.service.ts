@@ -76,6 +76,7 @@ export class StaffService {
 	}
 
 	async update(id: number, dto: UpdateStaffDto) {
+		// ! replace logic
 		// if (staffId !== id && role !== EStaffRole.DIRECTOR) {
 		// 	throw new BadRequestException('Вы не можете менять данные чужого пользователя')
 		// }
@@ -95,7 +96,6 @@ export class StaffService {
 		return { id, email, role: staffRole }
 	}
 
-	//! Обсудить
 	async delete(id: number) {
 		const staff = await this.getById(id, true)
 		if (staff.role === EStaffRole.DIRECTOR) {
@@ -147,9 +147,6 @@ export class StaffService {
 
 	async updatePassword(id: number, dto: UpdatePasswordStaffDto) {
 		const { password: oldPassword, newPassword } = dto
-		// if (oldPassword === newPassword) {
-		// 	throw new BadRequestException('Новый и старый пароль должны отличаться')
-		// }
 
 		const user = await this.getById(id)
 

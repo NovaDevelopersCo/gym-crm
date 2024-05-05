@@ -167,7 +167,6 @@ export class UserService {
 		return uniqueFirstArray.toString() === uniqueSecondArray.toString()
 	}
 
-	// * For checking
 	private async checkEmail(email: string, userId?: number) {
 		const user = await this.userRepository.findOne({ where: { email } })
 

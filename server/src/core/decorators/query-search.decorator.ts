@@ -4,16 +4,16 @@ import { propertiesSwagger } from '../utils'
 import type { TQuerySearchValidatorObj } from '@/core/types'
 
 // * for swagger
-export const QuerySearch = <T extends string = ''>(
+export const QuerySearch = (
 	eList: object,
 	description: string,
 	message: string,
-	validator?: TQuerySearchValidatorObj<T>
+	validator?: TQuerySearchValidatorObj
 ) => {
 	const decorators = [IsOptional(), IsEnum(eList, { message })]
 
 	if (validator) {
-		decorators.push(QuerySearchValidate<T>(validator))
+		decorators.push(QuerySearchValidate(validator))
 	}
 
 	return propertiesSwagger({

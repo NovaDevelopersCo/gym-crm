@@ -47,15 +47,6 @@ export class AbonementService {
 	}
 
 	async create({ name, count, duration, price, clubs: clubIds }: CreateAbonementDto) {
-		// ! [FOR REFACTOR]: Вынести в слой валидации с помощью декоратора
-		// ! [FOR REFACTOR]: Максимальная цена больше
-		if (count && duration) {
-			throw new BadRequestException('Абонемент должен быть одного типа')
-		}
-		if (!count && !duration) {
-			throw new BadRequestException('Абонемент должен быть хотя бы одного типа')
-		}
-
 		const clubs = await this.clubService.checkClubs(clubIds)
 
 		await this.nameCheck(name)
@@ -74,10 +65,6 @@ export class AbonementService {
 		const abonement = await this.getById(id)
 
 		await this.nameCheck(name, id)
-
-		if (count && duration) {
-			throw new BadRequestException('Абонемент должен быть одного типа')
-		}
 
 		// eslint-disable-next-line
 		const { createDate, updateDate, ...data } = await this.abonementRepository.save({
