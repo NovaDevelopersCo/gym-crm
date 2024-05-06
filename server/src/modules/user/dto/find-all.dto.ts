@@ -1,5 +1,6 @@
 import { FullQueryDto } from '@/core/dto'
 import { QuerySearch } from '@/core/decorators'
+import { userValidation } from '../validation'
 
 enum ESort {
 	FIO = 'fio',
@@ -16,10 +17,10 @@ export class FindAllUserDto extends FullQueryDto {
 
 	@QuerySearch(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
 		fio: {
-			maxLength: 200
+			maxLength: userValidation.fio.maxLength
 		},
 		phone: {
-			maxLength: 10
+			maxLength: userValidation.phone.maxLength
 		}
 	})
 	searchBy: ESearch = ESearch.FIO

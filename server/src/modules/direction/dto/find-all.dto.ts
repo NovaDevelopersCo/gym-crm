@@ -1,5 +1,6 @@
 import { FullQueryDto } from '@/core/dto'
 import { QuerySearch } from '@/core/decorators'
+import { directionValidation } from '../validation'
 
 enum ESearch {
 	NAME = 'name'
@@ -15,8 +16,8 @@ export class FindAllDirectionDto extends FullQueryDto {
 
 	@QuerySearch(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
 		name: {
-			maxLength: 50
+			maxLength: directionValidation.name.maxLength
 		}
 	})
-	searchBy: ESort = ESort.NAME
+	searchBy: ESearch = ESearch.NAME
 }

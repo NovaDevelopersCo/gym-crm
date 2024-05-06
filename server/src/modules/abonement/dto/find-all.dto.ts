@@ -1,6 +1,6 @@
+import { abonementValidation } from './../validation/abonement.validation'
 import { FullQueryDto } from '@/core/dto'
 import { QuerySearch } from '@/core/decorators'
-import { ETypeSearch } from '@/core/types'
 
 enum ESearch {
 	NAME = 'name'
@@ -17,7 +17,7 @@ export class FindAllAbonementDto extends FullQueryDto {
 
 	@QuerySearch(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
 		name: {
-			type: ETypeSearch.BOOLEAN
+			maxLength: abonementValidation.name.maxLength
 		}
 	})
 	searchBy: ESearch = ESearch.NAME

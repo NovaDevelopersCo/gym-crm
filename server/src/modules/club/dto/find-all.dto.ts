@@ -1,5 +1,6 @@
 import { FullQueryDto } from '@/core/dto'
 import { QuerySearch } from '@/core/decorators'
+import { clubValidation } from '../validation'
 
 enum ESort {
 	NAME = 'name',
@@ -17,10 +18,10 @@ export class FindAllClubDto extends FullQueryDto {
 
 	@QuerySearch(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
 		name: {
-			maxLength: 100
+			maxLength: clubValidation.name.maxLength
 		},
 		address: {
-			maxLength: 100
+			maxLength: clubValidation.address.maxLength
 		}
 	})
 	searchBy: ESearch = ESearch.NAME

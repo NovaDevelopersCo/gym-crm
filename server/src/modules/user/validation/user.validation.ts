@@ -9,5 +9,8 @@ export const userValidation = {
 	instagram: {
 		minLength: 2,
 		maxLength: 30
+	},
+	phone: {
+		maxLength: 100
 	}
 }

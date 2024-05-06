@@ -1,5 +1,6 @@
 import { FullQueryDto } from '@/core/dto'
 import { QuerySearch } from '@/core/decorators'
+import { staffValidation } from '../validation'
 
 enum ESearch {
 	EMAIL = 'email'
@@ -15,7 +16,7 @@ export class FindAllStaffDto extends FullQueryDto {
 
 	@QuerySearch(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
 		email: {
-			maxLength: 200
+			maxLength: staffValidation.email.maxLength
 		}
 	})
 	searchBy: ESearch = ESearch.EMAIL

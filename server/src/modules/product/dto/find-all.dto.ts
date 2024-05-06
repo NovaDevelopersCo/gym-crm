@@ -1,6 +1,7 @@
 import { FullQueryDto } from '@/core/dto'
 import { QuerySearch } from '@/core/decorators'
 import { ETypeSearch } from '@/core/types'
+import { productValidation } from '../validation'
 
 export enum ESearch {
 	NAME = 'name',
@@ -19,12 +20,12 @@ export class FindAllProductDto extends FullQueryDto {
 
 	@QuerySearch(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
 		name: {
-			maxLength: 100
+			maxLength: productValidation.name.maxLength
 		},
 		price: {
 			type: ETypeSearch.NUMBER,
-			max: 1,
-			min: 1
+			max: productValidation.price.max,
+			min: productValidation.price.min
 		},
 		club: {}
 	})
