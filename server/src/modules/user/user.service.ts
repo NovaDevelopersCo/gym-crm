@@ -67,9 +67,11 @@ export class UserService {
 
 		const user = await this.getOneById(id)
 
-		if (!isAdmin && user.club !== staff.club) {
+		if (isAdmin && user.club !== staff.club) {
 			throw new ForbiddenException('Этот пользователь не относится к вашему клубу')
 		}
+
+		return user
 	}
 
 	async getOneById(id: number) {
@@ -204,7 +206,7 @@ export class UserService {
 
 	private checkAllGroupInClub(groups: GroupEntity[], clubId: number) {
 		groups.forEach(group => {
-			if (group.club.id !== clubId) {
+			if (group.club?.id !== clubId) {
 				throw new BadRequestException(
 					`Группы с id: ${group.id} нет в клубе с id: ${clubId}`
 				)

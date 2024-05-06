@@ -2,8 +2,8 @@ import { ApiProperty, OmitType, PickType } from '@nestjs/swagger'
 import { CreateUserDto as CUserDto } from '../dto'
 import { UserGroup, UserGroupSmall } from '@/modules/group/swagger'
 import { UserClub } from '@/modules/club/swagger'
-import { CommonDecoratorsSwagger, PaginationResponse } from '@/core/swagger'
-import { UserDecoratorsSwagger } from './decorators'
+import { PropertyDecoratorsSwagger, PaginationResponse } from '@/core/swagger'
+import { UserPropertiesSwagger } from './properties'
 
 export class UserDto extends PickType(CUserDto, ['birthday', 'phone']) {
 	@ApiProperty({
@@ -17,24 +17,24 @@ export class UserDto extends PickType(CUserDto, ['birthday', 'phone']) {
 	})
 	club: UserClub
 
-	@CommonDecoratorsSwagger.id()
+	@PropertyDecoratorsSwagger.id()
 	id: number
 
-	@CommonDecoratorsSwagger.email()
+	@PropertyDecoratorsSwagger.email()
 	email: string
 
-	@UserDecoratorsSwagger.fio()
+	@UserPropertiesSwagger.fio()
 	fio: string
 
-	@UserDecoratorsSwagger.howKnow()
+	@UserPropertiesSwagger.howKnow()
 	howKnow: string
 
-	@UserDecoratorsSwagger.instagram()
+	@UserPropertiesSwagger.instagram()
 	instagram: string
 }
 
 export class CreateUserOk extends OmitType(UserDto, ['groups']) {
-	@CommonDecoratorsSwagger.id()
+	@PropertyDecoratorsSwagger.id()
 	id: number
 
 	@ApiProperty({ isArray: true, type: () => UserGroup })
@@ -50,3 +50,4 @@ export class GetAllUsersOk extends PaginationResponse {
 
 export class ClubUser extends OmitType(UserDto, ['groups', 'club']) {}
 export class GroupUser extends OmitType(UserDto, ['groups', 'club']) {}
+export class UserAbonementUser extends OmitType(UserDto, ['groups', 'club']) {}

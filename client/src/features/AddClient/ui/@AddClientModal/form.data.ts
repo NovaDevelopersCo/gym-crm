@@ -12,7 +12,7 @@ type TNewClientFormItem = {
 	name: TNewClientFormFields
 	options?: TOption[]
 	required?: boolean
-	isMulti?: boolean
+	ismulti?: "true" | "false"
 	isTextArea?: boolean
 	rules?: RegisterOptions
 	format?: string
@@ -119,7 +119,7 @@ export const newClientFormFields: TNewClientFormItem[] = [
 			{ value: '433', label: 'Группа 433' }
 		],
 		required: true,
-		isMulti: true
+		ismulti: "true"
 	}
 	// {
 	// 	label: 'Комментарий',

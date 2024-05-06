@@ -1,9 +1,9 @@
-import { CommonDecoratorsSwagger } from '@/core/swagger'
+import { PropertyDecoratorsSwagger } from '@/core/swagger'
 
 export class LoginDto {
-	@CommonDecoratorsSwagger.email(true)
+	@PropertyDecoratorsSwagger.email(true)
 	email: string
 
-	@CommonDecoratorsSwagger.password(true)
+	@PropertyDecoratorsSwagger.password(true)
 	password: string
 }

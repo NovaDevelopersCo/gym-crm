@@ -34,7 +34,7 @@ const AddStaffModal: FC<AddStaffModalProps> = ({ isModalVisible, setIsModalVisib
 	return (
 		<Modal isOpen={isModalVisible} setIsOpen={setIsModalVisible}>
 			<form className={cl.root__form} onSubmit={handleSubmit(onSubmit)}>
-				<h2 className={cl.root__form__title}>Add Employee</h2>
+				<h2 className={cl.root__form__title}>Добавить пользователя</h2>
 				<Controller
 					name="email"
 					control={control}
