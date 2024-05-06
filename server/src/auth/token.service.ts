@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config'
 import { InjectRepository } from '@nestjs/typeorm'
 import { SessionEntity } from './entities'
 import { Repository } from 'typeorm'
+import { jwtConfig } from '@/configs'
 
 @Injectable()
 export class TokenService {
@@ -21,15 +22,16 @@ export class TokenService {
 		role
 	}: Omit<StaffEntity, 'createDate' | 'updateDate' | 'password'>) {
 		const payload = { email, id, role }
+		const { access, refresh } = jwtConfig
 
 		const accessToken = this.jwtService.sign(payload, {
 			secret: this.configService.get('ACCESS_JWT_SECRET'),
-			expiresIn: '30m'
+			...access
 		})
 
 		const refreshToken = this.jwtService.sign(payload, {
 			secret: this.configService.get('REFRESH_JWT_SECRET'),
-			expiresIn: '30d'
+			...refresh
 		})
 
 		return { accessToken, refreshToken }
