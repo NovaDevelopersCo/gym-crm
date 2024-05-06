@@ -1,6 +1,7 @@
 import { groupValidation } from '../validation'
 import { MaxLength, MinLength, IsString, IsInt } from 'class-validator'
 import { propertiesSwagger } from '@/core/utils'
+import { Trim } from '@/core/decorators'
 
 export class GroupPropertiesSwagger {
 	static name_(withValidation?: boolean) {
@@ -12,6 +13,7 @@ export class GroupPropertiesSwagger {
 			decorators: withValidation
 				? [
 						IsString({ message: 'Название группы должно быть строкой' }),
+						Trim(),
 						MaxLength(maxLength, {
 							message: `Максимальная длина названия группы ${maxLength} символов`
 						}),

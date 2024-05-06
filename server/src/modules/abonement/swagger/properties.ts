@@ -3,6 +3,7 @@ import { abonementValidation, userAbonementValidation } from '../validation'
 import { MaxLength, MinLength, Min, Max, IsOptional, IsString, IsInt } from 'class-validator'
 import { DurationValidate } from '../decorators'
 import { UserAbonementUser } from '@/modules/user/swagger'
+import { Trim } from '@/core/decorators'
 
 export class AbonementPropertiesSwagger {
 	static name_(withValidation?: boolean) {
@@ -14,6 +15,7 @@ export class AbonementPropertiesSwagger {
 			decorators: withValidation
 				? [
 						IsString({ message: 'Название абонемента должно быть строкой' }),
+						Trim(),
 						MinLength(minLength, {
 							message: `Минимальная длина названия абонемента ${minLength} символов`
 						}),
@@ -68,6 +70,7 @@ export class AbonementPropertiesSwagger {
 				? [
 						IsOptional(),
 						IsString({ message: 'Длительность абонемента должна быть строкой' }),
+						Trim(),
 						DurationValidate,
 						MinLength(minLength, {
 							message: `Минимальная длина длительности абонемента ${minLength} символов`

@@ -8,6 +8,7 @@ import {
 } from 'class-validator'
 import { userValidation } from '../validation'
 import { propertiesSwagger } from '@/core/utils'
+import { Trim } from '@/core/decorators'
 
 export class UserPropertiesSwagger {
 	static phone(withValidation?: boolean) {
@@ -26,13 +27,14 @@ export class UserPropertiesSwagger {
 			example: 'Иванов Иван Иванович',
 			decorators: withValidation
 				? [
+						IsString({ message: 'ФИО должно быть строкой' }),
+						Trim(),
 						MinLength(minLength, {
 							message: `Минимальная длина фио ${minLength} символа`
 						}),
 						MaxLength(maxLength, {
 							message: `Максимальная длина фио ${maxLength} символов`
-						}),
-						IsString({ message: 'ФИО должно быть строкой' })
+						})
 					]
 				: [],
 			validation: withValidation ? userValidation.fio : {}
@@ -82,6 +84,7 @@ export class UserPropertiesSwagger {
 				? [
 						IsOptional(),
 						IsString({ message: 'Аккаунт инстаграм должен быть строкой' }),
+						Trim(),
 						MinLength(minLength, {
 							message: `Минимальная длина аккаунта в инстаграм ${minLength} символов`
 						}),

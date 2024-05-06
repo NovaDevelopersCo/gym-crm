@@ -12,7 +12,7 @@ import {
 	Query
 } from '@nestjs/common'
 import { OrderService } from './order.service'
-import { CreateOrderDto } from './dto/create-order.dto'
+import { CreateOrderDto } from './dto/create.dto'
 import { GetByIdParamsDto } from '@/core/dto'
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 import { RolesAuthGuard } from '@/auth/guards'

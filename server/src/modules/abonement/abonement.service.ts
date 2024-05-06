@@ -48,7 +48,6 @@ export class AbonementService {
 
 	async create({ name, count, duration, price, clubs: clubIds }: CreateAbonementDto) {
 		const clubs = await this.clubService.checkClubs(clubIds)
-
 		await this.nameCheck(name)
 		const createdAbonement = this.abonementRepository.create({
 			name,
@@ -57,7 +56,6 @@ export class AbonementService {
 			duration: duration ?? null,
 			clubs
 		})
-
 		return this.abonementRepository.save(createdAbonement)
 	}
 

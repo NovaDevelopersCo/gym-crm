@@ -1,6 +1,7 @@
 import { clubValidation } from '../validation'
 import { IsString, MinLength, MaxLength, IsInt, ArrayMaxSize } from 'class-validator'
 import { propertiesSwagger } from '@/core/utils'
+import { Trim } from '@/core/decorators'
 
 export class ClubPropertiesSwagger {
 	static name_(withValidation?: boolean) {
@@ -12,6 +13,7 @@ export class ClubPropertiesSwagger {
 			decorators: withValidation
 				? [
 						IsString({ message: 'Название клуба должно быть строкой' }),
+						Trim(),
 						MinLength(minLength, {
 							message: `Минимальная длина названия клуба ${minLength} символа`
 						}),
