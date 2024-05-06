@@ -1,19 +1,12 @@
 import { FC } from 'react'
 
-import { Select, TSelectOption, TSelectProps } from '@/shared'
+import { Select, TSelectProps } from '@/shared'
 import { useGetClubsQuery } from '@/store'
+import { clubsToParams } from '../lib'
 
 const SelectClub: FC<Omit<TSelectProps, 'options'>> = props => {
 	const { data: clubs } = useGetClubsQuery()
-	const convertedClubsToParams: TSelectOption[] | undefined =
-		clubs?.items?.map(
-			club =>
-				({
-					label: club.name,
-					value: club.id
-				}) as TSelectOption
-		)
-	return <Select {...props} options={convertedClubsToParams} />
+	return <Select {...props} options={clubsToParams(clubs!)} />
 }
 
 export default SelectClub

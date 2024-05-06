@@ -1,18 +1,12 @@
 import { FC } from 'react'
 
-import { Select, TSelectOption, TSelectProps } from '@/shared'
+import { Select, TSelectProps } from '@/shared'
 import { useGetGroupsQuery } from '@/store'
+import { groupsToParams } from '../lib'
 
 const SelectGroup: FC<Omit<TSelectProps, 'options'>> = props => {
 	const { data: groups } = useGetGroupsQuery()
-	const convertedGroupsToParams: TSelectOption[] | undefined = groups?.items?.map(
-		group =>
-			({
-				label: group.name,
-				value: group.id
-			}) as TSelectOption
-	)
-	return <Select {...props} options={convertedGroupsToParams} />
+	return <Select {...props} options={groupsToParams(groups!)} />
 }
 
 export default SelectGroup
