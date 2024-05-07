@@ -1,28 +1,28 @@
-import { PropertyDecoratorsSwagger } from '@/core/swagger'
-import { UserPropertiesSwagger } from '../swagger/properties'
+import { CommonDtoSwagger } from '@/core/swagger'
+import { UserDtoSwagger } from '../swagger/dto'
 
 export class CreateUserDto {
-	@PropertyDecoratorsSwagger.email(true)
+	@CommonDtoSwagger.email()
 	email: string
 
-	@UserPropertiesSwagger.phone(true)
+	@UserDtoSwagger.phone()
 	phone: string
 
-	@UserPropertiesSwagger.fio(true)
+	@UserDtoSwagger.fio()
 	fio: string
 
-	@UserPropertiesSwagger.birthday(true)
+	@UserDtoSwagger.birthday()
 	birthday?: string
 
-	@UserPropertiesSwagger.howKnow(true)
+	@UserDtoSwagger.howKnow()
 	howKnow?: string
 
-	@PropertyDecoratorsSwagger.clubId(true)
+	@CommonDtoSwagger.clubId()
 	club: number
 
-	@PropertyDecoratorsSwagger.groupIds(true)
+	@CommonDtoSwagger.groupIds()
 	groups: number[]
 
-	@UserPropertiesSwagger.instagram(true)
+	@UserDtoSwagger.instagram()
 	instagram: string
 }

@@ -1,19 +1,19 @@
-import { PropertyDecoratorsSwagger } from '@/core/swagger'
-import { AbonementPropertiesSwagger } from '../swagger'
+import { CommonDtoSwagger } from '@/core/swagger'
+import { AbonementDtoSwagger } from '../swagger'
 
 export class CreateAbonementDto {
-	@AbonementPropertiesSwagger.price(true)
+	@AbonementDtoSwagger.price()
 	price: number
 
-	@AbonementPropertiesSwagger.name_(true)
+	@AbonementDtoSwagger.name_()
 	name: string
 
-	@AbonementPropertiesSwagger.count(true)
+	@AbonementDtoSwagger.count()
 	count?: number
 
-	@AbonementPropertiesSwagger.duration(true)
+	@AbonementDtoSwagger.duration()
 	duration?: string
 
-	@PropertyDecoratorsSwagger.clubIds(true)
+	@CommonDtoSwagger.clubIds()
 	clubs: number[]
 }

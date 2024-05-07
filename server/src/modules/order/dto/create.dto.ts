@@ -1,20 +1,18 @@
-import { PropertyDecoratorsSwagger } from '@/core/swagger'
-import { OrderDecoratorsSwagger } from '../swagger'
+import { CommonDtoSwagger } from '@/core/swagger'
+import { OrderDtoSwagger } from '../swagger'
 
 export class ProductWithCount {
-	@PropertyDecoratorsSwagger.id(true)
+	@CommonDtoSwagger.id()
 	id: number
 
-	@OrderDecoratorsSwagger.count(true)
+	@OrderDtoSwagger.count()
 	count: number
 }
 
 export class CreateOrderDto {
-	@PropertyDecoratorsSwagger.userId(true)
+	@CommonDtoSwagger.userId()
 	user: number
 
-	@OrderDecoratorsSwagger.productCountObject(true)
+	@OrderDtoSwagger.products()
 	products: ProductWithCount[]
 }
-
-// FIX: add validation

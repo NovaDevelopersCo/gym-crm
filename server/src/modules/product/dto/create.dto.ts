@@ -1,13 +1,13 @@
-import { PropertyDecoratorsSwagger } from '@/core/swagger'
-import { ProductDecoratorsSwagger } from '../swagger'
+import { CommonDtoSwagger } from '@/core/swagger'
+import { ProductDtoSwagger } from '../swagger'
 
 export class CreateProductDto {
-	@ProductDecoratorsSwagger.name_(true)
+	@ProductDtoSwagger.name_()
 	name: string
 
-	@ProductDecoratorsSwagger.price(true)
+	@ProductDtoSwagger.price()
 	price: number
 
-	@PropertyDecoratorsSwagger.clubId(true)
+	@CommonDtoSwagger.clubId()
 	club: number
 }
