@@ -1,19 +1,21 @@
 import { applyDecorators } from '@nestjs/common'
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger'
+import { IsOptional } from 'class-validator'
 
 export const propertiesSwagger = ({
-	validation = {},
-	example,
-	decorators = []
-}: {
-	validation?: ApiPropertyOptions
-	example?: any
-	decorators?: any[]
-}) =>
-	applyDecorators(
+	decorators = [],
+	...options
+}: ApiPropertyOptions & { decorators?: any[] }) => {
+	const decoratorsBody = [...decorators]
+
+	if (options.required === false) {
+		decoratorsBody.push(IsOptional())
+	}
+
+	return applyDecorators(
 		ApiProperty({
-			example,
-			...validation
+			...options
 		}),
-		...decorators.filter(Boolean)
+		...decoratorsBody
 	)
+}

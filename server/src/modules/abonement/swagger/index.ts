@@ -1,3 +1,3 @@
-export * from './properties'
+export * from './dto'
 export * from './docs'
 export * from './responses'

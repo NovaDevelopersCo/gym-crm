@@ -17,11 +17,9 @@ export const QuerySearch = (
 	}
 
 	return propertiesSwagger({
-		validation: {
-			required: false,
-			description,
-			enum: eList
-		},
+		required: false,
+		description,
+		enum: eList,
 		decorators
 	})
 }
