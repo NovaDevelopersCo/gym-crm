@@ -1,3 +1,4 @@
 import { IGroup } from './'
 
-export default interface CreateGroupDto extends Pick<IGroup, 'name' | 'direction' | 'club'> {}
+export default interface CreateGroupDto
+	extends Pick<IGroup, 'name' | 'direction' | 'club'> {}

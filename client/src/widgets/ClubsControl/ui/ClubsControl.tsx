@@ -16,7 +16,7 @@ export const ClubsControl = () => {
 			dataIndex: 'id',
 			key: 'id',
 			width: '10px',
-			sorter: (a: IClub, b: IClub) => (+a.id) - (+b.id)
+			sorter: (a: IClub, b: IClub) => +a.id - +b.id
 		},
 		{ title: 'Название', dataIndex: 'name', key: 'name', width: '300px' },
 		{
@@ -30,7 +30,7 @@ export const ClubsControl = () => {
 			dataIndex: 'admins',
 			key: 'admins',
 			render: (record: IStaff[]) => {
-				return (record?.map(admin => admin.email).join(', '))
+				return record?.map(admin => admin.email).join(', ')
 			}
 		},
 		{

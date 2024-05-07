@@ -47,8 +47,11 @@ export const clientApi = createApi({
 			}),
 			invalidatesTags: ['CLIENT']
 		}),
-		getAllClients: build.query<GetItemsResponse<IClient>, GetItemsParams<IClient>>({
-			query: (params) => ({
+		getAllClients: build.query<
+			GetItemsResponse<IClient>,
+			GetItemsParams<IClient>
+		>({
+			query: params => ({
 				url: '',
 				params: params
 			}),

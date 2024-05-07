@@ -2,9 +2,9 @@ import { FC, useState } from 'react'
 
 import { Button } from '@/shared'
 import { IClub } from '@/store'
+import { ButtonProps } from 'antd'
 
 import EditClubModal from './@EditClubModal/EditClubModal'
-import { ButtonProps } from 'antd'
 
 type EditClubBtnProps = {
 	clubId: IClub['id']
@@ -15,8 +15,14 @@ const EditClubBtn: FC<EditClubBtnProps> = ({ clubId, ...props }) => {
 
 	return (
 		<>
-			<Button onClick={() => setIsModalOpen(true)}
-				{...props} className='' type='dashed'>Изменить</Button>
+			<Button
+				onClick={() => setIsModalOpen(true)}
+				{...props}
+				className=''
+				type='dashed'
+			>
+				Изменить
+			</Button>
 			<EditClubModal
 				isModalOpen={isModalOpen}
 				setIsModalOpen={setIsModalOpen}

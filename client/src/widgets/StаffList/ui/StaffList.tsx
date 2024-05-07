@@ -3,10 +3,11 @@ import { useState } from 'react'
 import { IClub, IStaff, useGetStaffQuery } from '@/store'
 import { Radio, Table } from 'antd'
 
-import cl from './StaffList.module.scss'
-import { DeleteStaffBtn } from '@features/DeleteStaff'
 import { AddStaffBtn } from '@features/AddStaff'
-import { EditStaffBtn } from '@features/EditStaff';
+import { DeleteStaffBtn } from '@features/DeleteStaff'
+import { EditStaffBtn } from '@features/EditStaff'
+
+import cl from './StaffList.module.scss'
 
 export const StaffList = () => {
 	const { data: employees } = useGetStaffQuery()
@@ -22,7 +23,7 @@ export const StaffList = () => {
 			dataIndex: 'id',
 			key: 'id',
 			width: '10px',
-			sorter: (a: IStaff, b: IStaff) => (+a.id) - (+b.id)
+			sorter: (a: IStaff, b: IStaff) => +a.id - +b.id
 		},
 		{
 			title: 'Почта',

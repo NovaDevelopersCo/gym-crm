@@ -1,7 +1,9 @@
+import { FC, useState } from 'react'
+
 import { Button } from '@/shared'
 import { IStaff } from '@/store'
 import { ButtonProps } from 'antd'
-import { FC, useState } from 'react'
+
 import EditStaffModal from './@EditStaffModal/EditStaffModal'
 
 type EditStaffBtnProps = {
@@ -13,9 +15,19 @@ const EditStaffBtn: FC<EditStaffBtnProps> = ({ staffId, ...props }) => {
 
 	return (
 		<>
-			<Button onClick={() => setIsModal(true)} type="dashed" className=''
-				{...props}>Изменить</Button>
-			<EditStaffModal isModalVisible={isModal} setIsModalVisible={setIsModal} staffId={staffId} />
+			<Button
+				onClick={() => setIsModal(true)}
+				type='dashed'
+				className=''
+				{...props}
+			>
+				Изменить
+			</Button>
+			<EditStaffModal
+				isModalVisible={isModal}
+				setIsModalVisible={setIsModal}
+				staffId={staffId}
+			/>
 		</>
 	)
 }

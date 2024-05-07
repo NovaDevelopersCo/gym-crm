@@ -1,7 +1,8 @@
 import { FC } from 'react'
+
 import { Button } from '@/shared'
-import { ButtonProps } from 'antd'
 import { IGroup } from '@/store'
+import { ButtonProps } from 'antd'
 
 type EditGroupBtnProps = {
 	groupId: IGroup['id']
@@ -9,8 +10,13 @@ type EditGroupBtnProps = {
 
 const EditGroupBtn: FC<EditGroupBtnProps> = ({ groupId, ...props }) => {
 	return (
-		<Button onClick={() => console.log(`Edit group with id: ${groupId}`)} {...props} type="dashed"
-		>Изменить</Button>
+		<Button
+			onClick={() => console.log(`Edit group with id: ${groupId}`)}
+			{...props}
+			type='dashed'
+		>
+			Изменить
+		</Button>
 	)
 }
 
