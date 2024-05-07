@@ -17,7 +17,7 @@ export class DirectionEntity extends BaseEntity {
 
 	@ApiProperty({
 		description: 'Группы',
-		type: GroupEntity,
+		type: () => GroupEntity,
 		isArray: true
 	})
 	@OneToMany(() => GroupEntity, group => group.direction, { cascade: true })

@@ -26,7 +26,8 @@ export class StaffEntity extends BaseEntity {
 
 	@ApiProperty({
 		example: 'admin',
-		description: 'Роль персонала'
+		description: 'Роль персонала',
+		enum: EStaffRole
 	})
 	@Column({
 		type: 'enum',

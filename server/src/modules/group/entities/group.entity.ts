@@ -18,14 +18,14 @@ export class GroupEntity extends BaseEntity {
 
 	@ApiProperty({
 		description: 'Направление группы',
-		type: DirectionEntity
+		type: () => DirectionEntity
 	})
 	@ManyToOne(() => DirectionEntity, direction => direction.groups, { onDelete: 'SET NULL' })
 	direction: DirectionEntity
 
 	@ApiProperty({
 		description: 'Клуб, к которому относится группа',
-		type: ClubEntity
+		type: () => ClubEntity
 	})
 	@ManyToOne(() => ClubEntity, club => club.groups, { onDelete: 'SET NULL' })
 	club: ClubEntity
