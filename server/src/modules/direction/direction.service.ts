@@ -1,4 +1,4 @@
-import { ILike, Repository } from 'typeorm'
+import { ILike, In, Repository } from 'typeorm'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { DirectionEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
@@ -13,16 +13,16 @@ export class DirectionService {
 		private readonly directionRepository: Repository<DirectionEntity>
 	) {}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllDirectionDto) {
+	async getAll({ page, count, sortBy, sortOrder, ...dto }: FindAllDirectionDto) {
+		// ! проверить как работает
+		const where = {}
+		dto.name ? (where['name'] = ILike(`%${dto.name}%`)) : {}
+		dto.groups?.length ? (where['groups'] = { id: In(dto.groups) }) : {}
 		const [items, total] = await this.directionRepository.findAndCount({
 			order: {
-				[sortBy]: sortOrder
+				[sortBy]: [sortOrder]
 			},
-			where: q
-				? {
-						[searchBy]: ILike(`%${q}%`)
-					}
-				: {},
+			where,
 			take: count,
 			skip: skipCount(page, count),
 			relations: {

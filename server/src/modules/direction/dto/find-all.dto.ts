@@ -1,23 +1,27 @@
 import { FullQueryDto } from '@/core/dto'
 import { QuerySearch } from '@/core/decorators'
 import { directionValidation } from '../validation'
-
-enum ESearch {
-	NAME = 'name'
-}
+import { ArrayIdsQueryDecorator, StringQueryDecorator } from '@/core/query'
 
 enum ESort {
-	NAME = 'name'
+	NAME = 'name',
+	CREATE_DATE = 'createDate'
 }
 
 export class FindAllDirectionDto extends FullQueryDto {
 	@QuerySearch(ESort, 'Сортировка по', "Параметр 'Сортировка по' невалиден")
-	sortBy: ESort = ESort.NAME
+	sortBy: ESort = ESort.CREATE_DATE
 
-	@QuerySearch(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
-		name: {
-			maxLength: directionValidation.name.maxLength
-		}
+	@StringQueryDecorator({
+		description: '',
+		field: 'name',
+		maxLength: directionValidation.name.maxLength
 	})
-	searchBy: ESearch = ESearch.NAME
+	name?: string
+
+	@ArrayIdsQueryDecorator({
+		field: 'groups',
+		description: ''
+	})
+	groups?: number[]
 }
