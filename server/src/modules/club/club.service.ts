@@ -21,14 +21,18 @@ export class ClubService {
 		private readonly logger: LoggerService
 	) {}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllClubDto) {
+	async getAll({ page, count, sortBy, sortOrder, ...dto }: FindAllClubDto) {
+		// TODO: поменять
+		const where = {}
+		dto.address ? (where['address'] = ILike(`%${dto.address}%`)) : {}
+		dto.name ? (where['name'] = ILike(`%${dto.name}%`)) : {}
+		dto.admins?.length ? (where['admins'] = { id: In(dto.admins) }) : {}
+
 		const [items, total] = await this.clubRepository.findAndCount({
 			order: {
 				[sortBy]: sortOrder
 			},
-			where: {
-				[searchBy]: ILike(`%${q}%`)
-			},
+			where,
 			take: count,
 			skip: skipCount(page, count),
 			relations: {

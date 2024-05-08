@@ -24,7 +24,7 @@ import { CreateClubDto, UpdateClubDto, FindAllClubDto } from './dto'
 @ApiTags('Клубы')
 @ApiBearerAuth('access-auth')
 @UseInterceptors(ClassSerializerInterceptor)
-@UsePipes(new ValidationPipe({ whitelist: true }))
+@UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
 @RolesAuthGuard(EStaffRole.DIRECTOR)
 @Controller('club')
 export class ClubController {

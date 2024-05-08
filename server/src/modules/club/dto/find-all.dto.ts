@@ -1,28 +1,35 @@
+import { clubValidation } from '../validation'
+import { ArrayIdsQueryDecorator, StringQueryDecorator } from '@/core/query'
 import { FullQueryDto } from '@/core/dto'
 import { QuerySearch } from '@/core/decorators'
-import { clubValidation } from '../validation'
 
 enum ESort {
 	NAME = 'name',
-	ADDRESS = 'address'
-}
-
-enum ESearch {
-	NAME = 'name',
-	ADDRESS = 'address'
+	ADDRESS = 'address',
+	CREATE_DATE = 'createDate'
 }
 
 export class FindAllClubDto extends FullQueryDto {
 	@QuerySearch(ESort, 'Сортировка по', "Параметр 'Сортировка по' невалиден")
-	sortBy: ESort = ESort.NAME
+	sortBy: ESort = ESort.CREATE_DATE
 
-	@QuerySearch(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
-		name: {
-			maxLength: clubValidation.name.maxLength
-		},
-		address: {
-			maxLength: clubValidation.address.maxLength
-		}
+	@StringQueryDecorator({
+		field: 'name',
+		maxLength: clubValidation.name.maxLength,
+		description: ''
 	})
-	searchBy: ESearch = ESearch.NAME
+	name?: string
+
+	@StringQueryDecorator({
+		field: 'address',
+		maxLength: clubValidation.address.maxLength,
+		description: ''
+	})
+	address?: string
+
+	@ArrayIdsQueryDecorator({
+		field: 'admins',
+		description: ''
+	})
+	admins?: number[]
 }
