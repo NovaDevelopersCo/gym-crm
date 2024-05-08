@@ -1,6 +1,6 @@
 import { propertiesSwagger } from '../utils'
 import { Type } from 'class-transformer'
-import { PriceValidate } from '../decorators/price-validate.decorator'
+import { PriceValidate } from '../decorators'
 
 interface Parameters {
 	description?: string
