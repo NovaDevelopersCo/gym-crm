@@ -7,7 +7,7 @@ import {
 import { CreateUserDto, FindAllUserDto, UpdateUserDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { UserEntity } from './entities'
-import { ILike, Repository } from 'typeorm'
+import { ILike, In, Repository } from 'typeorm'
 import { GroupService } from '@modules/group/group.service'
 import { ClubService } from '@modules/club/club.service'
 import { Pagination } from '@/core/pagination'
@@ -90,16 +90,23 @@ export class UserService {
 		return user
 	}
 
-	async getAll(staffId: number, { count, page, q, searchBy, sortOrder, sortBy }: FindAllUserDto) {
+	async getAll(staffId: number, { count, page, sortBy, sortOrder, ...dto }: FindAllUserDto) {
 		const staff = await this.staffService.getById(staffId, true, { relations: { club: true } })
-
 		const isAdmin = staff.role === EStaffRole.ADMIN
 
+		const where = {}
+		dto.fio ? (where['fio'] = ILike(`%${dto.fio}%`)) : {}
+		dto.email ? (where['email'] = ILike(`%${dto.email}%`)) : {}
+		dto.howKnow ? (where['howKnow'] = ILike(`%${dto.howKnow}%`)) : {}
+		dto.instagram ? (where['instagram'] = ILike(`%${dto.instagram}%`)) : {}
+		dto.phone ? (where['phone'] = ILike(`%${dto.phone}%`)) : {}
+		dto.groups?.length ? (where['groups'] = { id: In(dto.groups) }) : {}
+		dto.clubs?.length ? (where['club'] = { id: In(dto.clubs) }) : {}
+
+		if (isAdmin) where['club'] = { id: staff.club.id }
+
 		const [users, total] = await this.userRepository.findAndCount({
-			where: {
-				[searchBy]: ILike(`%${q}%`),
-				club: isAdmin ? staff.club : undefined
-			},
+			where,
 			order: {
 				[sortBy]: sortOrder
 			},
