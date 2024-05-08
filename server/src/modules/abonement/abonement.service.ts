@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { AbonementEntity } from './entities'
-import { ILike, Repository } from 'typeorm'
+import { Between, ILike, In, Repository } from 'typeorm'
 import { CreateAbonementDto, UpdateAbonementDto, FindAllAbonementDto } from './dto'
 import { Pagination } from '@/core/pagination'
 import { ClubService } from '../club/club.service'
@@ -15,12 +15,26 @@ export class AbonementService {
 		private readonly clubService: ClubService
 	) {}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllAbonementDto) {
+	async getAll({ page, count, sortBy, sortOrder, ...dto }: FindAllAbonementDto) {
+		const where = {}
+		dto.name ? (where['name'] = ILike(`%${dto.name}%`)) : {}
+		dto.duration ? (where['duration'] = ILike(`%${dto.duration}%`)) : {}
+		dto.clubs?.length ? (where['clubs'] = { id: In(dto.clubs) }) : {}
+		if (dto.price) {
+			if (typeof dto.price === 'number') {
+				where['price'] = dto.price
+			}
+			if (Array.isArray(dto.price)) {
+				const sorted = dto.price.sort()
+				where['price'] = Between(sorted[0], sorted[1])
+			}
+		}
+
 		const [items, total] = await this.abonementRepository.findAndCount({
 			order: {
 				[sortBy]: sortOrder
 			},
-			where: q ? { [searchBy]: ILike(`%${q}%`) } : {},
+			where,
 			take: count,
 			skip: skipCount(page, count),
 			relations: {

@@ -1,9 +1,9 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { ILike, Repository } from 'typeorm'
+import { Between, In, Repository } from 'typeorm'
 import { UserAbonementEntity } from './entities'
 import { UserService } from '../user/user.service'
-import { CreateUserAbonementDto, ESearch, FindAllUserAbonementDto } from './dto'
+import { CreateUserAbonementDto, FindAllUserAbonementDto } from './dto'
 import { AbonementService } from './abonement.service'
 import { formatDate } from './utils'
 import { Pagination } from '@/core/pagination'
@@ -68,15 +68,20 @@ export class UserAbonementService {
 		return abonement
 	}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllUserAbonementDto) {
+	async getAll({ page, count, sortBy, sortOrder, ...dto }: FindAllUserAbonementDto) {
 		const where = {}
-		// ! мейби рефакторинг
-		if (searchBy === ESearch.USER || searchBy === ESearch.ABONEMENT) {
-			const isNumber = Number.isInteger(+q)
-			if (!isNumber) throw new BadRequestException('Id клуба должно быть числом ')
-			where[searchBy] = { id: +q }
-		} else {
-			q ? (where[searchBy] = ILike(`%${q}%`)) : {}
+		const isBoolean = ['true', 'false'].includes(dto.isFinish)
+		if (isBoolean) where['isFinish'] = dto.isFinish === 'true'
+		dto.abomenents?.length ? (where['abomenent'] = { id: In(dto.abomenents) }) : {}
+		dto.users?.length ? (where['user'] = { id: In(dto.users) }) : {}
+		if (dto.price) {
+			if (typeof dto.price === 'number') {
+				where['price'] = dto.price
+			}
+			if (Array.isArray(dto.price)) {
+				const sorted = dto.price.sort()
+				where['price'] = Between(sorted[0], sorted[1])
+			}
 		}
 
 		const [items, total] = await this.userAbonementRepository.findAndCount({
