@@ -11,7 +11,7 @@ export class GetAllAbonementsOk extends PaginationDto {
 	@ApiProperty({
 		isArray: true
 	})
-	items: AbonementDto
+	private readonly items: AbonementDto
 }
 
 class UserAbonementDto extends UserAbonementEntity {}
@@ -22,5 +22,5 @@ export class GetAllUserAbonementsOk extends PaginationDto {
 	@ApiProperty({
 		isArray: true
 	})
-	items: UserAbonementDto
+	private readonly items: UserAbonementDto
 }

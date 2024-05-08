@@ -3,11 +3,11 @@ import { ProductDtoSwagger } from '../swagger'
 
 export class CreateProductDto {
 	@ProductDtoSwagger.name_()
-	name: string
+	public readonly name: string
 
 	@ProductDtoSwagger.price()
-	price: number
+	public readonly price: number
 
 	@CommonDtoSwagger.clubId()
-	club: number
+	public readonly club: number
 }

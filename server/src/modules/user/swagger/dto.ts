@@ -4,14 +4,14 @@ import { propertiesSwagger } from '@/core/utils'
 import { Trim } from '@/core/decorators'
 
 export class UserDtoSwagger {
-	static phone() {
+	public static phone() {
 		return propertiesSwagger({
 			example: '79003001122',
 			decorators: [IsPhoneNumber('RU', { message: 'Некорректный номер' })]
 		})
 	}
 
-	static fio() {
+	public static fio() {
 		const { minLength, maxLength } = userValidation.fio
 
 		return propertiesSwagger({
@@ -30,7 +30,7 @@ export class UserDtoSwagger {
 		})
 	}
 
-	static birthday() {
+	public static birthday() {
 		return propertiesSwagger({
 			example: '2021-04-19',
 			decorators: [
@@ -39,7 +39,7 @@ export class UserDtoSwagger {
 		})
 	}
 
-	static howKnow() {
+	public static howKnow() {
 		const { maxLength } = userValidation.howKnow
 
 		return propertiesSwagger({
@@ -54,7 +54,7 @@ export class UserDtoSwagger {
 		})
 	}
 
-	static instagram() {
+	public static instagram() {
 		const { maxLength, minLength } = userValidation.instagram
 
 		return propertiesSwagger({
@@ -73,7 +73,7 @@ export class UserDtoSwagger {
 		})
 	}
 
-	static groups() {
+	public static groups() {
 		return propertiesSwagger({
 			example: [3, 5, 8],
 			decorators: [IsInt({ each: true, message: 'Id групп должны быть числом' })]

@@ -14,21 +14,21 @@ export class GroupEntity extends BaseEntity {
 	@Column({
 		unique: true
 	})
-	name: string
+	public readonly name: string
 
 	@ApiProperty({
 		description: 'Направление группы',
 		type: () => DirectionEntity
 	})
 	@ManyToOne(() => DirectionEntity, direction => direction.groups, { onDelete: 'SET NULL' })
-	direction: DirectionEntity
+	public readonly direction: DirectionEntity
 
 	@ApiProperty({
 		description: 'Клуб, к которому относится группа',
 		type: () => ClubEntity
 	})
 	@ManyToOne(() => ClubEntity, club => club.groups, { onDelete: 'SET NULL' })
-	club: ClubEntity
+	public readonly club: ClubEntity
 
 	@ApiProperty({
 		description: 'Посетители',
@@ -36,5 +36,5 @@ export class GroupEntity extends BaseEntity {
 		isArray: true
 	})
 	@ManyToMany(() => UserEntity, user => user.groups)
-	users: UserEntity[]
+	public readonly users: UserEntity[]
 }

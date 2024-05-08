@@ -36,33 +36,33 @@ export class AbonementController {
 
 	@AbonementDocSwagger.create()
 	@Post()
-	create(@Body() dto: CreateAbonementDto) {
+	public create(@Body() dto: CreateAbonementDto) {
 		new AbonementCheckFields(dto)
 		return this.abonementService.create(dto)
 	}
 
 	@AbonementDocSwagger.getAll()
 	@Get()
-	getAll(@Query() query: FindAllAbonementDto) {
+	public getAll(@Query() query: FindAllAbonementDto) {
 		return this.abonementService.getAll(query)
 	}
 
 	@AbonementDocSwagger.getById()
 	@Get(':id')
-	getById(@Param() { id }: GetByIdParamsDto) {
+	public getById(@Param() { id }: GetByIdParamsDto) {
 		return this.abonementService.getById(id)
 	}
 
 	@AbonementDocSwagger.update()
 	@Put(':id')
-	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateAbonementDto) {
+	public update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateAbonementDto) {
 		new AbonementCheckFields(dto)
 		return this.abonementService.update(id, dto)
 	}
 
 	@AbonementDocSwagger.delete()
 	@Delete(':id')
-	delete(@Param() { id }: GetByIdParamsDto) {
+	public delete(@Param() { id }: GetByIdParamsDto) {
 		return this.abonementService.delete(id)
 	}
 }

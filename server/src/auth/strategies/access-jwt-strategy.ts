@@ -12,5 +12,5 @@ export class AccessJwtStrategy extends PassportStrategy(Strategy, 'ACCESS_JWT_ST
 		})
 	}
 
-	validate = (payload: unknown) => payload
+	public validate = (payload: unknown) => payload
 }

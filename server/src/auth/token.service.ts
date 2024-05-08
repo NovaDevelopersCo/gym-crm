@@ -19,7 +19,7 @@ export class TokenService {
 		private readonly configService: ConfigService
 	) {}
 
-	generateTokens({
+	public generateTokens({
 		email,
 		id,
 		role
@@ -40,7 +40,7 @@ export class TokenService {
 		return { accessToken, refreshToken }
 	}
 
-	async saveTokenToDb(token: string, user: number) {
+	public async saveTokenToDb(token: string, user: number) {
 		const oldSession = await this.sessionRepository.findOne({ where: { user } })
 
 		if (oldSession) {
@@ -53,21 +53,21 @@ export class TokenService {
 		return this.sessionRepository.save({ token, user })
 	}
 
-	async validateAccessToken(access: string) {
+	public async validateAccessToken(access: string) {
 		return this.jwtService.verify(access, {
 			secret: this.configService.get('ACCESS_JWT_SECRET')
 		})
 	}
 
-	async findToken(token: string) {
+	public async findToken(token: string) {
 		return this.sessionRepository.findOne({ where: { token } })
 	}
 
-	async byToken(refresh: string) {
+	public async byToken(refresh: string) {
 		return this.sessionRepository.findOne({ where: { token: refresh } })
 	}
 
-	async removeTokenFromDb(refresh: string) {
+	public async removeTokenFromDb(refresh: string) {
 		return this.sessionRepository.delete({ token: refresh })
 	}
 }

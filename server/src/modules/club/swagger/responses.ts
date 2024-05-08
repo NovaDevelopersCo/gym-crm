@@ -11,12 +11,12 @@ export class GetAllClubsOk extends PaginationResponse {
 	@ApiProperty({
 		isArray: true
 	})
-	items: ClubDto
+	private readonly items: ClubDto
 }
 
 class ClubAdmin {
 	@CommonDtoSwagger.id()
-	id: number
+	private readonly id: number
 }
 
 export class CreateClubOk extends PickType(ClubDto, ['address', 'id', 'name']) {
@@ -24,7 +24,7 @@ export class CreateClubOk extends PickType(ClubDto, ['address', 'id', 'name']) {
 		type: () => ClubAdmin,
 		isArray: true
 	})
-	admins: ClubAdmin[]
+	private readonly admins: ClubAdmin[]
 }
 export class UpdateClubOk extends ClubDto {}
 export class GroupClub extends OmitType(ClubDto, ['groups', 'users', 'admins']) {}

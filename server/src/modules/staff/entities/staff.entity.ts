@@ -13,7 +13,7 @@ export class StaffEntity extends BaseEntity {
 	})
 	@Exclude()
 	@Column()
-	password: string
+	public password: string
 
 	@ApiProperty({
 		example: 'email@gmail.com',
@@ -22,7 +22,7 @@ export class StaffEntity extends BaseEntity {
 	@Column({
 		unique: true
 	})
-	email: string
+	public email: string
 
 	@ApiProperty({
 		example: 'admin',
@@ -33,12 +33,12 @@ export class StaffEntity extends BaseEntity {
 		type: 'enum',
 		enum: EStaffRole
 	})
-	role: EStaffRole
+	public role: EStaffRole
 
 	@ApiProperty({
 		description: 'Клуб',
 		type: () => ClubEntity
 	})
 	@ManyToOne(() => ClubEntity, club => club.admins, { onDelete: 'SET NULL' })
-	club: ClubEntity
+	public club: ClubEntity
 }

@@ -6,8 +6,8 @@ export class RefreshOk {
 		example:
 			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
 	})
-	accessToken: string
+	private readonly accessToken: string
 
 	@ApiProperty()
-	profile: JwtPayload
+	private readonly profile: JwtPayload
 }

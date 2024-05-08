@@ -4,5 +4,5 @@ import { CreateStaffDto } from './create.dto'
 
 export class UpdatePasswordStaffDto extends PickType(CreateStaffDto, ['password']) {
 	@CommonDtoSwagger.password()
-	newPassword: string
+	public readonly newPassword: string
 }

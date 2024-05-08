@@ -5,7 +5,7 @@ import { propertiesSwagger } from '@/core/utils'
 import { orderValidation } from '../validation'
 
 export class OrderDtoSwagger {
-	static products() {
+	public static products() {
 		const { minItems } = orderValidation.products
 
 		return propertiesSwagger({
@@ -23,7 +23,7 @@ export class OrderDtoSwagger {
 		})
 	}
 
-	static count() {
+	public static count() {
 		const { min } = orderValidation.count
 
 		return propertiesSwagger({
@@ -32,7 +32,7 @@ export class OrderDtoSwagger {
 		})
 	}
 
-	static user() {
+	public static user() {
 		return propertiesSwagger({
 			example: 6,
 			decorators: [IsInt({ message: 'Id пользователя должен быть числом' })]

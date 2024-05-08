@@ -13,12 +13,12 @@ enum ESort {
 
 export class FindAllAbonementDto extends FullQueryDto {
 	@QuerySearch(ESort, 'Сортировка по', "Параметр 'Сортировка по' невалиден")
-	sortBy: ESort = ESort.NAME
+	public readonly sortBy: ESort = ESort.NAME
 
 	@QuerySearch(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
 		name: {
 			maxLength: abonementValidation.name.maxLength
 		}
 	})
-	searchBy: ESearch = ESearch.NAME
+	public readonly searchBy: ESearch = ESearch.NAME
 }

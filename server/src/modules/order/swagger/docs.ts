@@ -5,7 +5,7 @@ import { ApiNotFoundResponse, ApiOkResponse, ApiOperation } from '@nestjs/swagge
 import { CreateOrderOk, GetAllOrdersOk, GetOrderByIdOk } from './responses'
 
 export class OrderDocSwagger {
-	static getAll() {
+	public static getAll() {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Получить список всех товаров',
@@ -20,7 +20,7 @@ export class OrderDocSwagger {
 		)
 	}
 
-	static getById() {
+	public static getById() {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Получить товар по id',
@@ -36,7 +36,7 @@ export class OrderDocSwagger {
 		)
 	}
 
-	static create() {
+	public static create() {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Создать новый товар',
@@ -52,7 +52,7 @@ export class OrderDocSwagger {
 		)
 	}
 
-	static delete() {
+	public static delete() {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Удалить товар',

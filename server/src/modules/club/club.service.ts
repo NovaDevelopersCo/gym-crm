@@ -21,7 +21,7 @@ export class ClubService {
 		private readonly logger: LoggerService
 	) {}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllClubDto) {
+	public async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllClubDto) {
 		const [items, total] = await this.clubRepository.findAndCount({
 			order: {
 				[sortBy]: sortOrder
@@ -41,7 +41,7 @@ export class ClubService {
 		return new Pagination(items, total)
 	}
 
-	async getById(id: number) {
+	public async getById(id: number) {
 		const club = await this.clubRepository.findOne({
 			where: { id },
 			relations: {
@@ -58,7 +58,7 @@ export class ClubService {
 		return club
 	}
 
-	async create(dto: CreateClubDto) {
+	public async create(dto: CreateClubDto) {
 		await this.nameCheck(dto.name)
 		await this.addressCheck(dto.address)
 		const admins = await this.adminsFreeCheck(dto.admins)
@@ -69,7 +69,7 @@ export class ClubService {
 		return this.clubRepository.save(createdClub)
 	}
 
-	async update(id: number, dto: UpdateClubDto) {
+	public async update(id: number, dto: UpdateClubDto) {
 		const club = await this.getById(id)
 
 		await this.nameCheck(dto.name, id)
@@ -91,7 +91,7 @@ export class ClubService {
 		return data
 	}
 
-	async delete(id: number) {
+	public async delete(id: number) {
 		await this.getById(id)
 
 		this.clubRepository.delete({ id })
@@ -154,7 +154,7 @@ export class ClubService {
 		})
 	}
 
-	async checkClubs(ids: number[]) {
+	public async checkClubs(ids: number[]) {
 		const clubs = await this.clubRepository.find({
 			where: {
 				id: In(ids)

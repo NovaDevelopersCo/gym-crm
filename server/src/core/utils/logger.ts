@@ -12,27 +12,27 @@ export class LoggerUtils {
 		this.isProduction = configService.get('NODE_ENV') === ENodeEnv.PRODUCTION
 	}
 
-	filterForDev = format(info => {
+	public filterForDev = format(info => {
 		if (!this.isProduction) {
 			return false
 		}
 		return info
 	})
 
-	filterByLevel = format(info => {
+	public filterByLevel = format(info => {
 		if (!this.expectedLevels.includes(info.level)) {
 			return false
 		}
 		return info
 	})
 
-	logFormat = printf(info => {
+	public logFormat = printf(info => {
 		const { level, timestamp } = info
 
 		return `${timestamp} ${level}: ${this.getFormattedMessage(info)}`
 	})
 
-	parseMessage = format(info => {
+	public parseMessage = format(info => {
 		Object.assign(info, JSON.parse(info.message))
 		return info
 	})

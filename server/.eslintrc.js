@@ -19,7 +19,14 @@ module.exports = {
 		'@typescript-eslint/explicit-module-boundary-types': 'off',
 		'@typescript-eslint/no-explicit-any': 'off',
 		'no-console': 'error',
-		'@typescript-eslint/explicit-member-accessibility': 'off'
+		'@typescript-eslint/explicit-member-accessibility': [
+			'error',
+			{
+				overrides: {
+					constructors: 'off'
+				}
+			}
+		]
 	},
 	overrides: [
 		{

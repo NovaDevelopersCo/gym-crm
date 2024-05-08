@@ -3,11 +3,11 @@ import { GroupDtoSwagger } from '../swagger'
 
 export class CreateGroupDto {
 	@GroupDtoSwagger.name_()
-	name: string
+	public readonly name: string
 
 	@GroupDtoSwagger.directionId()
-	direction: number
+	public readonly direction: number
 
 	@CommonDtoSwagger.clubId()
-	club: number
+	public readonly club: number
 }

@@ -7,14 +7,14 @@ export class UserDto extends UserEntity {}
 
 export class CreateUserOk extends OmitType(UserDto, ['groups']) {
 	@ApiProperty({ isArray: true, type: () => UserGroup })
-	groups: UserGroup
+	private readonly groups: UserGroup
 }
 
 export class GetUserByIdOk extends UserDto {}
 
 export class GetAllUsersOk extends PaginationResponse {
 	@ApiProperty({ isArray: true })
-	items: UserDto
+	private readonly items: UserDto
 }
 
 export class ClubUser extends OmitType(UserDto, ['groups', 'club']) {}

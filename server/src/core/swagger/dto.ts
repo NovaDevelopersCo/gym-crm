@@ -2,7 +2,7 @@ import { IsString, MinLength, MaxLength, IsEmail, IsInt } from 'class-validator'
 import { propertiesSwagger } from '../utils'
 
 export class CommonDtoSwagger {
-	static password() {
+	public static password() {
 		const minLength = 8
 		const maxLength = 32
 
@@ -22,7 +22,7 @@ export class CommonDtoSwagger {
 		})
 	}
 
-	static email() {
+	public static email() {
 		const maxLength = 200
 
 		return propertiesSwagger({
@@ -37,14 +37,14 @@ export class CommonDtoSwagger {
 		})
 	}
 
-	static id() {
+	public static id() {
 		return propertiesSwagger({
 			example: 1,
 			decorators: [IsInt({ message: 'Id должен быть числом' })]
 		})
 	}
 
-	static clubId() {
+	public static clubId() {
 		return propertiesSwagger({
 			example: 1,
 			decorators: [IsInt({ message: 'Id клуба должен быть числом' })]

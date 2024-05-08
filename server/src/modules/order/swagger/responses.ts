@@ -6,23 +6,23 @@ import { UserDto } from '@/modules/user/swagger'
 
 export class ProductWithId {
 	@ApiProperty({ type: () => PickType(ProductDto, ['id']) })
-	product: number
+	private readonly product: number
 }
 
 export class FullProduct {
 	@ApiProperty({ type: () => ProductDto })
-	product: ProductDto
+	private readonly product: ProductDto
 }
 
 export class OrderItemDto {
 	@CommonDtoSwagger.id()
-	id: number
+	private readonly id: number
 
 	@OrderDtoSwagger.count()
-	count: number
+	private readonly count: number
 
 	@ApiProperty()
-	price: number
+	private readonly price: number
 }
 
 export class OrderUserOnlyId extends PickType(UserDto, ['id']) {}
@@ -33,29 +33,29 @@ export class OrderItemDtoWithProductId extends IntersectionType(OrderItemDto, Pr
 
 export class OrderDto {
 	@CommonDtoSwagger.id()
-	id: number
+	private readonly id: number
 
 	@ApiProperty({ example: 3424 })
-	total: number
+	private readonly total: number
 }
 
 export class GetOrderByIdOk extends OrderDto {
 	@ApiProperty({ isArray: true })
-	items: OrderItemDtoWithProduct
+	private readonly items: OrderItemDtoWithProduct
 
 	@ApiProperty()
-	user: OrderUser
+	private readonly user: OrderUser
 }
 
 export class GetAllOrdersOk extends PaginationResponse {
 	@ApiProperty({ isArray: true })
-	items: GetOrderByIdOk
+	private readonly items: GetOrderByIdOk
 }
 
 export class CreateOrderOk extends OrderDto {
 	@ApiProperty({ isArray: true })
-	items: OrderItemDtoWithProductId
+	private readonly items: OrderItemDtoWithProductId
 
 	@ApiProperty({ example: { id: 2 } })
-	user: OrderUserOnlyId
+	private readonly user: OrderUserOnlyId
 }

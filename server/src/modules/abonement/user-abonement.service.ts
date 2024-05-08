@@ -18,7 +18,7 @@ export class UserAbonementService {
 		private readonly abonementService: AbonementService
 	) {}
 
-	async create({ userId, abonementId }: CreateUserAbonementDto) {
+	public async create({ userId, abonementId }: CreateUserAbonementDto) {
 		await this.userService.getOneById(userId)
 
 		const abonement = await this.userAbonementRepository.findOne({
@@ -52,7 +52,7 @@ export class UserAbonementService {
 		return this.userAbonementRepository.save(createdAbonement)
 	}
 
-	async getById(id: number) {
+	public async getById(id: number) {
 		const abonement = await this.userAbonementRepository.findOne({
 			where: { id },
 			relations: {
@@ -68,7 +68,7 @@ export class UserAbonementService {
 		return abonement
 	}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllUserAbonementDto) {
+	public async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllUserAbonementDto) {
 		const where = {}
 		// ! мейби рефакторинг
 		if (searchBy === ESearch.USER || searchBy === ESearch.ABONEMENT) {
@@ -102,13 +102,13 @@ export class UserAbonementService {
 		return new Pagination(items, total)
 	}
 
-	async delete(id: number) {
+	public async delete(id: number) {
 		await this.getById(id)
 		await this.userAbonementRepository.delete({ id })
 		return
 	}
 
-	async finish(id: number) {
+	public async finish(id: number) {
 		const abonement = await this.getById(id)
 
 		if (!abonement.isFinish) {

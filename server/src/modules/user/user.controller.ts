@@ -32,34 +32,34 @@ export class UserController {
 	// * K
 	@UserDocSwagger.create()
 	@Post()
-	createQuestionnaireUser(@Body() dto: CreateUserDto) {
+	public createQuestionnaireUser(@Body() dto: CreateUserDto) {
 		return this.userService.create(dto)
 	}
 
 	// * K
 	@UserDocSwagger.getById()
 	@Get(':id')
-	findOne(@Param() { id }: GetByIdParamsDto, @Staff('id') staffId: number) {
+	public findOne(@Param() { id }: GetByIdParamsDto, @Staff('id') staffId: number) {
 		return this.userService.getById(id, staffId)
 	}
 
 	// * K
 	@UserDocSwagger.update()
 	@Put(':id')
-	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateUserDto) {
+	public update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateUserDto) {
 		return this.userService.update(id, dto)
 	}
 	// * K
 	@UserDocSwagger.getAll()
 	@Get()
-	findAll(@Query() query: FindAllUserDto, @Staff('id') staffId: number) {
+	public findAll(@Query() query: FindAllUserDto, @Staff('id') staffId: number) {
 		return this.userService.getAll(staffId, query)
 	}
 
 	// * K
 	@UserDocSwagger.delete()
 	@Delete(':id')
-	delete(@Param() { id }: GetByIdParamsDto) {
+	public delete(@Param() { id }: GetByIdParamsDto) {
 		return this.userService.delete(id)
 	}
 }

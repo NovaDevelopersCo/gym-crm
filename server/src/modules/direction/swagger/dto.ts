@@ -4,7 +4,7 @@ import { propertiesSwagger } from '@/core/utils'
 import { Trim } from '@/core/decorators'
 
 export class DirectionDtoSwagger {
-	static name_() {
+	public static name_() {
 		const { minLength, maxLength } = directionValidation.name
 
 		return propertiesSwagger({

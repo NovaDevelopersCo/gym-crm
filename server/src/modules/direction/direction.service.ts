@@ -13,7 +13,7 @@ export class DirectionService {
 		private readonly directionRepository: Repository<DirectionEntity>
 	) {}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllDirectionDto) {
+	public async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllDirectionDto) {
 		const [items, total] = await this.directionRepository.findAndCount({
 			order: {
 				[sortBy]: sortOrder
@@ -33,7 +33,7 @@ export class DirectionService {
 		return new Pagination(items, total)
 	}
 
-	async getById(directionId: number) {
+	public async getById(directionId: number) {
 		const direction = await this.directionRepository.findOne({
 			where: { id: directionId },
 			relations: {
@@ -48,7 +48,7 @@ export class DirectionService {
 		return direction
 	}
 
-	async create({ name }: CreateDirectionDto) {
+	public async create({ name }: CreateDirectionDto) {
 		await this.nameCheck(name)
 
 		const createdDirection = this.directionRepository.create({ name })
@@ -56,7 +56,7 @@ export class DirectionService {
 		return this.directionRepository.save(createdDirection)
 	}
 
-	async update(id: number, dto: UpdateDirectionDto) {
+	public async update(id: number, dto: UpdateDirectionDto) {
 		const direction = await this.getById(id)
 
 		await this.nameCheck(dto.name, id)
@@ -70,7 +70,7 @@ export class DirectionService {
 		return data
 	}
 
-	async delete(id: number) {
+	public async delete(id: number) {
 		await this.getById(id)
 
 		await this.directionRepository.delete({ id })

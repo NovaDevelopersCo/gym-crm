@@ -21,7 +21,7 @@ export class OrderService {
 		private readonly userService: UserService
 	) {}
 
-	async create(dto: CreateOrderDto) {
+	public async create(dto: CreateOrderDto) {
 		const user = await this.userService.getOneById(dto.user)
 		const productIds = dto.products.map(prod => prod.id)
 		const products = await this.productService.getByIds(productIds)
@@ -46,7 +46,7 @@ export class OrderService {
 		return await this.orderRepository.save(order)
 	}
 
-	async getAll({ page, count, sortBy, sortOrder, user }: FindAllOrderDto) {
+	public async getAll({ page, count, sortBy, sortOrder, user }: FindAllOrderDto) {
 		const where = {}
 		if (user) {
 			where['user'] = { id: user }
@@ -78,7 +78,7 @@ export class OrderService {
 		return new Pagination(items, total)
 	}
 
-	async getById(id: number) {
+	public async getById(id: number) {
 		const order = await this.orderRepository.findOne({
 			where: { id },
 			relations: {
@@ -102,7 +102,7 @@ export class OrderService {
 		return order
 	}
 
-	async delete(id: number) {
+	public async delete(id: number) {
 		await this.getById(id)
 		await this.orderRepository.delete({ id })
 		return

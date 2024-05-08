@@ -3,16 +3,16 @@ import { OrderDtoSwagger } from '../swagger'
 
 export class ProductWithCount {
 	@CommonDtoSwagger.id()
-	id: number
+	public readonly id: number
 
 	@OrderDtoSwagger.count()
-	count: number
+	public readonly count: number
 }
 
 export class CreateOrderDto {
 	@OrderDtoSwagger.user()
-	user: number
+	public readonly user: number
 
 	@OrderDtoSwagger.products()
-	products: ProductWithCount[]
+	public readonly products: ProductWithCount[]
 }

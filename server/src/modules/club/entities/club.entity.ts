@@ -16,7 +16,7 @@ export class ClubEntity extends BaseEntity {
 	@Column({
 		unique: true
 	})
-	address: string
+	public readonly address: string
 
 	@ApiProperty({
 		example: 'Mass Club',
@@ -25,7 +25,7 @@ export class ClubEntity extends BaseEntity {
 	@Column({
 		unique: true
 	})
-	name: string
+	public readonly name: string
 
 	@ApiProperty({
 		description: 'Администраторы',
@@ -33,7 +33,7 @@ export class ClubEntity extends BaseEntity {
 		isArray: true
 	})
 	@OneToMany(() => StaffEntity, admin => admin.club, { cascade: true })
-	admins: StaffEntity[]
+	public readonly admins: StaffEntity[]
 
 	@ApiProperty({
 		description: 'Группы',
@@ -41,7 +41,7 @@ export class ClubEntity extends BaseEntity {
 		isArray: true
 	})
 	@OneToMany(() => GroupEntity, group => group.club, { cascade: true })
-	groups: GroupEntity[]
+	public readonly groups: GroupEntity[]
 
 	@ApiProperty({
 		description: 'Посетители',
@@ -49,7 +49,7 @@ export class ClubEntity extends BaseEntity {
 		isArray: true
 	})
 	@OneToMany(() => UserEntity, user => user.club, { cascade: true })
-	users: UserEntity[]
+	public readonly users: UserEntity[]
 
 	@ApiProperty({
 		description: 'Товары',
@@ -57,7 +57,7 @@ export class ClubEntity extends BaseEntity {
 		isArray: true
 	})
 	@OneToMany(() => ProductEntity, product => product.club, { cascade: true })
-	products: ProductEntity[]
+	public readonly products: ProductEntity[]
 
 	@ApiProperty({
 		description: 'Абонементы',
@@ -65,5 +65,5 @@ export class ClubEntity extends BaseEntity {
 		isArray: true
 	})
 	@ManyToMany(() => AbonementEntity)
-	abonements: AbonementEntity[]
+	public readonly abonements: AbonementEntity[]
 }

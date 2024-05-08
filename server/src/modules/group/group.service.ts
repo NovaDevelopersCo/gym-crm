@@ -16,7 +16,7 @@ export class GroupService {
 		private readonly directionService: DirectionService
 	) {}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllGroupDto) {
+	public async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllGroupDto) {
 		const [items, total] = await this.groupRepository.findAndCount({
 			order: {
 				[sortBy]: sortOrder
@@ -36,7 +36,7 @@ export class GroupService {
 		return new Pagination(items, total)
 	}
 
-	async getById(groupId: number) {
+	public async getById(groupId: number) {
 		const group = await this.groupRepository.findOne({
 			where: { id: groupId },
 			relations: {
@@ -53,7 +53,7 @@ export class GroupService {
 		return group
 	}
 
-	async create(dto: CreateGroupDto) {
+	public async create(dto: CreateGroupDto) {
 		await this.checkName(dto.name)
 
 		await this.clubService.getById(dto.club)
@@ -68,7 +68,7 @@ export class GroupService {
 		return this.groupRepository.save(createdGroup)
 	}
 
-	async update(groupId: number, dto: UpdateGroupDto) {
+	public async update(groupId: number, dto: UpdateGroupDto) {
 		const group = await this.getById(groupId)
 		await this.checkName(dto.name, groupId)
 		await this.clubService.getById(dto.club)
@@ -84,7 +84,7 @@ export class GroupService {
 		return data
 	}
 
-	async delete(id: number) {
+	public async delete(id: number) {
 		await this.getById(id)
 
 		await this.groupRepository.delete({ id })
@@ -103,7 +103,7 @@ export class GroupService {
 		}
 	}
 
-	async getByIds(ids: number[]) {
+	public async getByIds(ids: number[]) {
 		const groups = await this.groupRepository.find({
 			where: { id: In(ids) },
 			relations: {

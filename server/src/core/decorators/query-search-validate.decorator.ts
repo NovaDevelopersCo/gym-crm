@@ -72,7 +72,7 @@ class Validation {
 		}
 	}
 
-	execute() {
+	public execute() {
 		return this.result
 	}
 }

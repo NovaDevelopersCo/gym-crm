@@ -4,7 +4,7 @@ import { Trim } from '@/core/decorators'
 import { propertiesSwagger } from '@/core/utils'
 
 export class ProductDtoSwagger {
-	static name_() {
+	public static name_() {
 		const { minLength, maxLength } = productValidation.name
 
 		return propertiesSwagger({
@@ -23,7 +23,7 @@ export class ProductDtoSwagger {
 		})
 	}
 
-	static price() {
+	public static price() {
 		const { min, max } = productValidation.price
 
 		return propertiesSwagger({

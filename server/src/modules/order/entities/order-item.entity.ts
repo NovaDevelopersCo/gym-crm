@@ -11,26 +11,26 @@ export class OrderItemEntity extends BaseEntity {
 		description: 'Количество товара в заказе'
 	})
 	@Column()
-	count: number
+	public readonly count: number
 
 	@ApiProperty({
 		example: 500,
 		description: 'Стоимость товара'
 	})
 	@Column()
-	price: number
+	public readonly price: number
 
 	@ApiProperty({
 		description: 'Товар',
 		type: () => ProductEntity
 	})
 	@ManyToOne(() => ProductEntity, product => product.orders, { onDelete: 'SET NULL' })
-	product: ProductEntity
+	public readonly product: ProductEntity
 
 	@ApiProperty({
 		description: 'Заказ',
 		type: () => OrderEntity
 	})
 	@ManyToOne(() => OrderEntity, order => order.items, { onDelete: 'CASCADE' })
-	order: OrderEntity
+	public readonly order: OrderEntity
 }

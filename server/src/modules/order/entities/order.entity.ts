@@ -11,7 +11,7 @@ export class OrderEntity extends BaseEntity {
 		description: 'Итоговая сумма заказа'
 	})
 	@Column()
-	total: number
+	public readonly total: number
 
 	@ApiProperty({
 		description: 'Составляющие заказа',
@@ -19,12 +19,12 @@ export class OrderEntity extends BaseEntity {
 		isArray: true
 	})
 	@OneToMany(() => OrderItemEntity, item => item.order, { cascade: true })
-	items: OrderItemEntity[]
+	public readonly items: OrderItemEntity[]
 
 	@ApiProperty({
 		description: 'Посетитель, совершивший заказ',
 		type: () => UserEntity
 	})
 	@ManyToOne(() => UserEntity, user => user.orders, { onDelete: 'SET NULL' })
-	user: UserEntity
+	public readonly user: UserEntity
 }

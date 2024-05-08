@@ -11,21 +11,21 @@ export class ProductEntity extends BaseEntity {
 		description: 'Название продукта'
 	})
 	@Column()
-	name: string
+	public readonly name: string
 
 	@ApiProperty({
 		example: 400,
 		description: 'Стоимость товара 1шт.'
 	})
 	@Column()
-	price: number
+	public readonly price: number
 
 	@ApiProperty({
 		description: 'Клуб',
 		type: () => ClubEntity
 	})
 	@ManyToOne(() => ClubEntity, club => club.products, { onDelete: 'SET NULL' })
-	club: ClubEntity
+	public readonly club: ClubEntity
 
 	@ApiProperty({
 		description: 'Заказы',
@@ -33,5 +33,5 @@ export class ProductEntity extends BaseEntity {
 		isArray: true
 	})
 	@OneToMany(() => OrderItemEntity, item => item.product)
-	orders: OrderItemEntity[]
+	public readonly orders: OrderItemEntity[]
 }

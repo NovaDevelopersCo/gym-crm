@@ -31,25 +31,25 @@ export class OrderController {
 
 	@OrderDocSwagger.create()
 	@Post()
-	create(@Body() dto: CreateOrderDto) {
+	public create(@Body() dto: CreateOrderDto) {
 		return this.orderService.create(dto)
 	}
 
 	@OrderDocSwagger.getAll()
 	@Get()
-	getAll(@Query() query: FindAllOrderDto) {
+	public getAll(@Query() query: FindAllOrderDto) {
 		return this.orderService.getAll(query)
 	}
 
 	@OrderDocSwagger.getById()
 	@Get(':id')
-	getById(@Param() { id }: GetByIdParamsDto) {
+	public getById(@Param() { id }: GetByIdParamsDto) {
 		return this.orderService.getById(id)
 	}
 
 	@OrderDocSwagger.delete()
 	@Delete(':id')
-	delete(@Param() { id }: GetByIdParamsDto) {
+	public delete(@Param() { id }: GetByIdParamsDto) {
 		return this.orderService.delete(id)
 	}
 }

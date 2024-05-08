@@ -4,11 +4,11 @@ import { StaffDtoSwagger } from '../swagger/dto'
 
 export class CreateStaffDto {
 	@CommonDtoSwagger.password()
-	password: string
+	public readonly password: string
 
 	@CommonDtoSwagger.email()
-	email: string
+	public readonly email: string
 
 	@StaffDtoSwagger.role()
-	role: EStaffRole
+	public readonly role: EStaffRole
 }

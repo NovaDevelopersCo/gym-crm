@@ -8,13 +8,13 @@ export abstract class BaseEntity {
 		description: 'Id сущности'
 	})
 	@PrimaryGeneratedColumn()
-	id: number
+	public readonly id: number
 
 	@Exclude()
 	@CreateDateColumn()
-	createDate: Date
+	public readonly createDate: Date
 
 	@Exclude()
 	@UpdateDateColumn()
-	updateDate: Date
+	public readonly updateDate: Date
 }

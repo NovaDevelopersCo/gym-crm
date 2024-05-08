@@ -2,8 +2,8 @@ import { AbonementDtoSwagger } from '../swagger'
 
 export class CreateUserAbonementDto {
 	@AbonementDtoSwagger.abonementId()
-	abonementId: number
+	public readonly abonementId: number
 
 	@AbonementDtoSwagger.userId()
-	userId: number
+	public readonly userId: number
 }

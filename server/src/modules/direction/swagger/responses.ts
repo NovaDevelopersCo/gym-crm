@@ -12,7 +12,7 @@ export class GetAllDirectionsOk extends PaginationResponse {
 	@ApiProperty({
 		isArray: true
 	})
-	items: DirectionDto
+	public readonly items: DirectionDto
 }
 
 export class GroupDirection extends OmitType(DirectionDto, ['groups']) {}

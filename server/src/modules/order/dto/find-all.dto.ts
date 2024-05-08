@@ -10,10 +10,10 @@ enum ESort {
 
 export class FindAllOrderDto extends FullQueryDto {
 	@QuerySearch(ESort, 'Сортировка по', "Параметр 'Сортировка по' невалиден")
-	sortBy: ESort = ESort.CREATE_DATE
+	public readonly sortBy: ESort = ESort.CREATE_DATE
 
 	@IsOptional()
 	@Type(() => Number)
 	@IsInt()
-	user: number
+	public readonly user: number
 }

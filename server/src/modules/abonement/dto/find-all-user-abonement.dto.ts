@@ -14,7 +14,7 @@ enum ESort {
 
 export class FindAllUserAbonementDto extends FullQueryDto {
 	@QuerySearch(ESort, 'Сортировка по', "Параметр 'Сортировка по' невалиден")
-	sortBy: ESort = ESort.CREATE_DATE
+	public readonly sortBy: ESort = ESort.CREATE_DATE
 
 	@QuerySearch(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
 		count: {
@@ -27,5 +27,5 @@ export class FindAllUserAbonementDto extends FullQueryDto {
 		user: {},
 		abonement: {}
 	})
-	searchBy: ESearch = ESearch.IS_FINISH
+	public readonly searchBy: ESearch = ESearch.IS_FINISH
 }

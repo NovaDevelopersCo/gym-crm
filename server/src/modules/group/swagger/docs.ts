@@ -5,7 +5,7 @@ import { DocDecoratorsSwagger, ESwaggerMessages, BaseDocSwagger } from '@/core/s
 import { EStaffRole } from '@/core/enums'
 
 export class GroupDocSwagger {
-	static getAll() {
+	public static getAll() {
 		return applyDecorators(
 			DocDecoratorsSwagger.getAll([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
@@ -16,7 +16,7 @@ export class GroupDocSwagger {
 		)
 	}
 
-	static getById() {
+	public static getById() {
 		return applyDecorators(
 			DocDecoratorsSwagger.getById([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
@@ -28,7 +28,7 @@ export class GroupDocSwagger {
 		)
 	}
 
-	static create() {
+	public static create() {
 		return applyDecorators(
 			DocDecoratorsSwagger.create([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
@@ -40,7 +40,7 @@ export class GroupDocSwagger {
 		)
 	}
 
-	static update() {
+	public static update() {
 		return applyDecorators(
 			DocDecoratorsSwagger.update([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
@@ -52,7 +52,7 @@ export class GroupDocSwagger {
 		)
 	}
 
-	static delete() {
+	public static delete() {
 		return applyDecorators(
 			DocDecoratorsSwagger.delete([EStaffRole.DIRECTOR]),
 			BaseDocSwagger.delete()

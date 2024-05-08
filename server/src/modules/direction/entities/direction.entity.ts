@@ -13,7 +13,7 @@ export class DirectionEntity extends BaseEntity {
 	@Column({
 		unique: true
 	})
-	name: string
+	public readonly name: string
 
 	@ApiProperty({
 		description: 'Группы',
@@ -21,5 +21,5 @@ export class DirectionEntity extends BaseEntity {
 		isArray: true
 	})
 	@OneToMany(() => GroupEntity, group => group.direction, { cascade: true })
-	groups: GroupEntity[]
+	public readonly groups: GroupEntity[]
 }

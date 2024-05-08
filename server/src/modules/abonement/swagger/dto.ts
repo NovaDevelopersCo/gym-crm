@@ -5,7 +5,7 @@ import { DurationValidate } from '../decorators'
 import { Trim } from '@/core/decorators'
 
 export class AbonementDtoSwagger {
-	static name_() {
+	public static name_() {
 		const { minLength, maxLength } = abonementValidation.name
 
 		return propertiesSwagger({
@@ -25,7 +25,7 @@ export class AbonementDtoSwagger {
 		})
 	}
 
-	static price() {
+	public static price() {
 		const { minimum, maximum } = abonementValidation.price
 
 		return propertiesSwagger({
@@ -40,7 +40,7 @@ export class AbonementDtoSwagger {
 		})
 	}
 
-	static count() {
+	public static count() {
 		const { minimum, maximum } = abonementValidation.count
 
 		return propertiesSwagger({
@@ -55,7 +55,7 @@ export class AbonementDtoSwagger {
 		})
 	}
 
-	static duration() {
+	public static duration() {
 		const { minLength, maxLength } = abonementValidation.duration
 
 		return propertiesSwagger({
@@ -76,7 +76,7 @@ export class AbonementDtoSwagger {
 		})
 	}
 
-	static clubs() {
+	public static clubs() {
 		const { minItems } = abonementValidation.clubs
 
 		return propertiesSwagger({
@@ -91,7 +91,7 @@ export class AbonementDtoSwagger {
 		})
 	}
 
-	static abonementId() {
+	public static abonementId() {
 		return propertiesSwagger({
 			example: 9,
 			description: 'Id абонемента',
@@ -99,7 +99,7 @@ export class AbonementDtoSwagger {
 		})
 	}
 
-	static userId() {
+	public static userId() {
 		return propertiesSwagger({
 			example: 12,
 			description: 'Id посетителя',

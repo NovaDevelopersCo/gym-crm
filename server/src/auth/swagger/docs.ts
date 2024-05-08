@@ -11,7 +11,7 @@ import { RefreshOk } from './responses'
 import { ESwaggerMessages } from '@/core/swagger'
 
 export class AuthDocSwagger {
-	static login() {
+	public static login() {
 		return applyDecorators(
 			ApiOperation({ summary: 'Логин в профиле управляющего' }),
 			ApiNoContentResponse({ description: 'Успешный вход' }),
@@ -19,7 +19,7 @@ export class AuthDocSwagger {
 		)
 	}
 
-	static refresh() {
+	public static refresh() {
 		return applyDecorators(
 			ApiOperation({ summary: 'Обновление токенов' }),
 			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
@@ -27,7 +27,7 @@ export class AuthDocSwagger {
 		)
 	}
 
-	static logout() {
+	public static logout() {
 		return applyDecorators(
 			ApiOperation({ summary: 'Выход из профиля' }),
 			ApiOkResponse({ description: 'Успешный выход из профиля', status: 200 })

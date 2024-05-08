@@ -7,33 +7,33 @@ import { ENodeEnv } from '@/core/enums'
 export class EnvironmentVariables {
 	@Type(() => Number)
 	@IsInt()
-	PORT: number
+	private readonly PORT: number
 
 	@IsString()
-	POSTGRES_HOST: string
+	private readonly POSTGRES_HOST: string
 
 	@Type(() => Number)
 	@IsInt()
-	POSTGRES_PORT: number
+	private readonly POSTGRES_PORT: number
 
 	@IsString()
-	POSTGRES_USER: string
+	private readonly POSTGRES_USER: string
 
 	@IsString()
-	POSTGRES_PASSWORD: string
+	private readonly POSTGRES_PASSWORD: string
 
 	@IsString()
-	POSTGRES_DATABASE: string
+	private readonly POSTGRES_DATABASE: string
 
 	@IsString()
-	ACCESS_JWT_SECRET: string
+	private readonly ACCESS_JWT_SECRET: string
 
 	@IsString()
-	REFRESH_JWT_SECRET: string
+	private readonly REFRESH_JWT_SECRET: string
 
 	@IsOptional()
 	@IsEnum(ENodeEnv)
-	NODE_ENV: ENodeEnv
+	private readonly NODE_ENV: ENodeEnv
 }
 
 export const EnvConfigOptions: ConfigModuleOptions = {

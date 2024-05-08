@@ -11,7 +11,7 @@ export class CreateStaffOk extends OmitType(StaffDto, ['role']) {
 		enum: ECreateStaffRole,
 		description: 'Роль пользователя'
 	})
-	role: ECreateStaffRole
+	private readonly role: ECreateStaffRole
 }
 
 export class FullStaff extends OmitType(StaffDto, ['role']) {
@@ -19,17 +19,17 @@ export class FullStaff extends OmitType(StaffDto, ['role']) {
 		enum: ECreateStaffRole,
 		description: 'Роль пользователя'
 	})
-	role: ECreateStaffRole
+	private readonly role: ECreateStaffRole
 }
 
 export class UpdateStaffOk extends StaffDto {}
 
 export class GetStaffByIdOk extends OmitType(StaffDto, ['club']) {
 	@ApiProperty({ nullable: true })
-	club: StaffClub
+	private readonly club: StaffClub
 }
 
 export class GetAllStaffsOk extends PaginationResponse {
 	@ApiProperty({ isArray: true })
-	items: GetStaffByIdOk
+	private readonly items: GetStaffByIdOk
 }

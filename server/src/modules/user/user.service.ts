@@ -24,7 +24,7 @@ export class UserService {
 		private readonly staffService: StaffService
 	) {}
 
-	async create({ email, phone, instagram, ...dto }: CreateUserDto) {
+	public async create({ email, phone, instagram, ...dto }: CreateUserDto) {
 		const oldUser = await this.userRepository.findOne({
 			where: [{ email }, { phone }, { instagram }]
 		})
@@ -60,7 +60,7 @@ export class UserService {
 		return this.userRepository.save(createdUser)
 	}
 
-	async getById(id: number, staffId: number) {
+	public async getById(id: number, staffId: number) {
 		const staff = await this.staffService.getById(staffId, true, { relations: { club: true } })
 
 		const isAdmin = staff.role === EStaffRole.ADMIN
@@ -74,7 +74,7 @@ export class UserService {
 		return user
 	}
 
-	async getOneById(id: number) {
+	public async getOneById(id: number) {
 		const user = await this.userRepository.findOne({
 			where: { id },
 			relations: {
@@ -90,7 +90,10 @@ export class UserService {
 		return user
 	}
 
-	async getAll(staffId: number, { count, page, q, searchBy, sortOrder, sortBy }: FindAllUserDto) {
+	public async getAll(
+		staffId: number,
+		{ count, page, q, searchBy, sortOrder, sortBy }: FindAllUserDto
+	) {
 		const staff = await this.staffService.getById(staffId, true, { relations: { club: true } })
 
 		const isAdmin = staff.role === EStaffRole.ADMIN
@@ -114,7 +117,7 @@ export class UserService {
 		return new Pagination(users, total)
 	}
 
-	async update(id: number, dto: UpdateUserDto) {
+	public async update(id: number, dto: UpdateUserDto) {
 		const user = await this.getOneById(id)
 
 		await this.checkEmail(dto.email, id)
@@ -154,7 +157,7 @@ export class UserService {
 		}
 	}
 
-	async delete(id: number) {
+	public async delete(id: number) {
 		await this.getOneById(id)
 
 		await this.userRepository.delete({ id })

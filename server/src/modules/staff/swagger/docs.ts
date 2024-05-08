@@ -12,7 +12,7 @@ import { BaseDocSwagger } from '@/core/swagger/docs'
 import { EStaffRole } from '@/core/enums'
 
 export class StaffDocSwagger {
-	static create() {
+	public static create() {
 		return applyDecorators(
 			DocDecoratorsSwagger.create([EStaffRole.DIRECTOR]),
 			ApiCreatedResponse({
@@ -23,7 +23,7 @@ export class StaffDocSwagger {
 		)
 	}
 
-	static getById() {
+	public static getById() {
 		return applyDecorators(
 			DocDecoratorsSwagger.getById([EStaffRole.DIRECTOR]),
 			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
@@ -35,7 +35,7 @@ export class StaffDocSwagger {
 		)
 	}
 
-	static getAll() {
+	public static getAll() {
 		return applyDecorators(
 			DocDecoratorsSwagger.getAll([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
@@ -46,7 +46,7 @@ export class StaffDocSwagger {
 		)
 	}
 
-	static update() {
+	public static update() {
 		return applyDecorators(
 			DocDecoratorsSwagger.update([EStaffRole.DIRECTOR]),
 			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
@@ -58,14 +58,14 @@ export class StaffDocSwagger {
 		)
 	}
 
-	static delete() {
+	public static delete() {
 		return applyDecorators(
 			DocDecoratorsSwagger.delete([EStaffRole.DIRECTOR]),
 			BaseDocSwagger.delete()
 		)
 	}
 
-	static updatePassword() {
+	public static updatePassword() {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Изменить пароль профиля персонала',

@@ -10,11 +10,11 @@ import { ClientIo } from '@/ws/dto'
 export class OnlineGateway {
 	constructor(private readonly onlineService: OnlineService) {}
 
-	handleConnection(client: ClientIo) {
+	public handleConnection(client: ClientIo) {
 		this.onlineService.handleConnection(client)
 	}
 
-	handleDisconnect(client: ClientIo) {
+	public handleDisconnect(client: ClientIo) {
 		this.onlineService.handleDisconnect(client)
 	}
 }

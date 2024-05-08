@@ -13,7 +13,7 @@ export class SessionEntity extends BaseEntity {
 	@Column({
 		unique: true
 	})
-	token: string
+	public readonly token: string
 
 	@ApiProperty({
 		description: 'Пользователь',
@@ -21,5 +21,5 @@ export class SessionEntity extends BaseEntity {
 	})
 	@OneToOne(() => StaffEntity, { onDelete: 'CASCADE' })
 	@JoinColumn()
-	user: number
+	public readonly user: number
 }

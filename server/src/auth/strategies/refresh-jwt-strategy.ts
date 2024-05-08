@@ -13,9 +13,9 @@ export class RefreshJwtStrategy extends PassportStrategy(Strategy, 'REFRESH_JWT_
 		})
 	}
 
-	validate = (payload: unknown) => payload
+	public validate = (payload: unknown) => payload
 
-	static getRefreshFromCookie(req: Request) {
+	public static getRefreshFromCookie(req: Request) {
 		return req.cookies['refresh']
 	}
 }

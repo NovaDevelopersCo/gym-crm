@@ -15,7 +15,7 @@ export class AbonementService {
 		private readonly clubService: ClubService
 	) {}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllAbonementDto) {
+	public async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllAbonementDto) {
 		const [items, total] = await this.abonementRepository.findAndCount({
 			order: {
 				[sortBy]: sortOrder
@@ -31,7 +31,7 @@ export class AbonementService {
 		return new Pagination(items, total)
 	}
 
-	async getById(id: number) {
+	public async getById(id: number) {
 		const abonement = await this.abonementRepository.findOne({
 			where: { id },
 			relations: {
@@ -46,7 +46,7 @@ export class AbonementService {
 		return abonement
 	}
 
-	async create({ name, count, duration, price, clubs: clubIds }: CreateAbonementDto) {
+	public async create({ name, count, duration, price, clubs: clubIds }: CreateAbonementDto) {
 		const clubs = await this.clubService.checkClubs(clubIds)
 		await this.nameCheck(name)
 		const createdAbonement = this.abonementRepository.create({
@@ -59,7 +59,7 @@ export class AbonementService {
 		return this.abonementRepository.save(createdAbonement)
 	}
 
-	async update(id: number, { name, count, duration, price }: UpdateAbonementDto) {
+	public async update(id: number, { name, count, duration, price }: UpdateAbonementDto) {
 		const abonement = await this.getById(id)
 
 		await this.nameCheck(name, id)
@@ -76,14 +76,14 @@ export class AbonementService {
 		return data
 	}
 
-	async delete(id: number) {
+	public async delete(id: number) {
 		await this.getById(id)
 
 		this.abonementRepository.delete({ id })
 		return
 	}
 
-	async nameCheck(name: string, abonementId?: number) {
+	private async nameCheck(name: string, abonementId?: number) {
 		const abonement = await this.abonementRepository.findOne({ where: { name } })
 
 		if (!abonementId && abonement) {

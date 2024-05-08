@@ -13,7 +13,7 @@ enum ESearch {
 
 export class FindAllUserDto extends FullQueryDto {
 	@QuerySearch(ESort, 'Сортировка по', "Параметр 'Сортировка по' невалиден")
-	sortBy: ESort = ESort.FIO
+	public readonly sortBy: ESort = ESort.FIO
 
 	@QuerySearch(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
 		fio: {
@@ -23,5 +23,5 @@ export class FindAllUserDto extends FullQueryDto {
 			maxLength: userValidation.phone.maxLength
 		}
 	})
-	searchBy: ESearch = ESearch.FIO
+	public readonly searchBy: ESearch = ESearch.FIO
 }

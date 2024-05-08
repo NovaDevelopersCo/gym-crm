@@ -9,7 +9,7 @@ export class GetGroupByIdOk extends GroupDto {}
 
 export class GetAllGroupsOk extends PaginationResponse {
 	@ApiProperty({ isArray: true })
-	items: GroupDto
+	public readonly items: GroupDto
 }
 
 export class CreateGroupOk extends GroupDto {}
@@ -24,7 +24,7 @@ export class UserGroup extends OmitType(GroupDto, ['direction', 'club']) {
 	@ApiProperty({
 		type: () => UserClub
 	})
-	club: UserClub
+	public readonly club: UserClub
 }
 
 export class UserGroupSmall extends PickType(GroupDto, ['id', 'name']) {}

@@ -11,7 +11,7 @@ export class UserAbonementEntity extends BaseEntity {
 		description: 'Цена абонемента'
 	})
 	@Column()
-	price: number
+	public readonly price: number
 
 	@ApiProperty({
 		example: '2024-05-01',
@@ -21,7 +21,7 @@ export class UserAbonementEntity extends BaseEntity {
 	@Column({
 		nullable: true
 	})
-	start: string | null
+	public readonly start: string | null
 
 	@ApiProperty({
 		example: '2024-09-01',
@@ -31,7 +31,7 @@ export class UserAbonementEntity extends BaseEntity {
 	@Column({
 		nullable: true
 	})
-	end: string | null
+	public readonly end: string | null
 
 	@ApiProperty({
 		example: false,
@@ -40,21 +40,21 @@ export class UserAbonementEntity extends BaseEntity {
 	@Column({
 		default: false
 	})
-	isFinish: boolean
+	public readonly isFinish: boolean
 
 	@ApiProperty({
 		description: 'Абонемент',
 		type: () => AbonementEntity
 	})
 	@ManyToOne(() => AbonementEntity, abonement => abonement.userAbonements)
-	abonement: AbonementEntity
+	public readonly abonement: AbonementEntity
 
 	@ApiProperty({
 		description: 'Пользователь',
 		type: () => UserEntity
 	})
 	@ManyToOne(() => UserEntity, user => user.abonements)
-	user: UserEntity
+	public readonly user: UserEntity
 
 	@ApiProperty({
 		description: 'Количество оставшихся занятий',
@@ -64,5 +64,5 @@ export class UserAbonementEntity extends BaseEntity {
 	@Column({
 		nullable: true
 	})
-	count: number | null
+	public readonly count: number | null
 }

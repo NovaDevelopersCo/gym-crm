@@ -4,7 +4,7 @@ import { propertiesSwagger } from '@/core/utils'
 import { Trim } from '@/core/decorators'
 
 export class ClubDtoSwagger {
-	static name_() {
+	public static name_() {
 		const { minLength, maxLength } = clubValidation.name
 
 		return propertiesSwagger({
@@ -24,7 +24,7 @@ export class ClubDtoSwagger {
 		})
 	}
 
-	static address() {
+	public static address() {
 		const { minlength, maxLength } = clubValidation.address
 
 		return propertiesSwagger({
@@ -43,7 +43,7 @@ export class ClubDtoSwagger {
 		})
 	}
 
-	static admins() {
+	public static admins() {
 		const { maxItems } = clubValidation.admins
 
 		return propertiesSwagger({

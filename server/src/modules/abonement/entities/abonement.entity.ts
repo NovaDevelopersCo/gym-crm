@@ -11,7 +11,7 @@ export class AbonementEntity extends BaseEntity {
 		example: 1200
 	})
 	@Column()
-	price: number
+	public readonly price: number
 
 	@ApiProperty({
 		description: 'Название абонемента',
@@ -20,7 +20,7 @@ export class AbonementEntity extends BaseEntity {
 	@Column({
 		unique: true
 	})
-	name: string
+	public readonly name: string
 
 	@ApiProperty({
 		description: 'Количество занятий в абонементе',
@@ -30,7 +30,7 @@ export class AbonementEntity extends BaseEntity {
 	@Column({
 		nullable: true
 	})
-	count: number | null
+	public readonly count: number | null
 
 	@ApiProperty({
 		description: 'Длительность абонемента',
@@ -40,7 +40,7 @@ export class AbonementEntity extends BaseEntity {
 	@Column({
 		nullable: true
 	})
-	duration: string | null
+	public readonly duration: string | null
 
 	@ApiProperty({
 		description: 'Абонементы посетителей',
@@ -48,7 +48,7 @@ export class AbonementEntity extends BaseEntity {
 		isArray: true
 	})
 	@OneToMany(() => UserAbonementEntity, userAbonement => userAbonement.abonement)
-	userAbonements: UserAbonementEntity[]
+	public readonly userAbonements: UserAbonementEntity[]
 
 	@ApiProperty({
 		description: 'Клубы в которых действует абонемент',
@@ -57,5 +57,5 @@ export class AbonementEntity extends BaseEntity {
 	})
 	@ManyToMany(() => ClubEntity)
 	@JoinTable()
-	clubs: ClubEntity[]
+	public readonly clubs: ClubEntity[]
 }

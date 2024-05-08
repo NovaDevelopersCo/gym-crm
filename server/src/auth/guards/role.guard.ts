@@ -14,7 +14,7 @@ import { AccessGuard } from './access.guard'
 class RoleGuard implements CanActivate {
 	constructor(private reflector: Reflector) {}
 
-	canActivate(context: ExecutionContext): boolean {
+	public canActivate(context: ExecutionContext): boolean {
 		const roles = this.reflector.get<EStaffRole[]>('jwt_roles', context.getHandler())
 		if (!roles) return true
 

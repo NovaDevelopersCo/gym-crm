@@ -4,7 +4,7 @@ import { propertiesSwagger } from '@/core/utils'
 import { Trim } from '@/core/decorators'
 
 export class GroupDtoSwagger {
-	static name_() {
+	public static name_() {
 		const { minLength, maxLength } = groupValidation.name
 
 		return propertiesSwagger({
@@ -23,7 +23,7 @@ export class GroupDtoSwagger {
 		})
 	}
 
-	static directionId() {
+	public static directionId() {
 		return propertiesSwagger({
 			example: 3,
 			decorators: [IsInt({ message: 'Id направления должен быть числом' })]

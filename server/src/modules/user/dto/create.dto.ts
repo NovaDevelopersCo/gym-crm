@@ -3,26 +3,26 @@ import { UserDtoSwagger } from '../swagger/dto'
 
 export class CreateUserDto {
 	@CommonDtoSwagger.email()
-	email: string
+	public readonly email: string
 
 	@UserDtoSwagger.phone()
-	phone: string
+	public readonly phone: string
 
 	@UserDtoSwagger.fio()
-	fio: string
+	public readonly fio: string
 
 	@UserDtoSwagger.birthday()
-	birthday?: string
+	public readonly birthday?: string
 
 	@UserDtoSwagger.howKnow()
-	howKnow?: string
+	public readonly howKnow?: string
 
 	@CommonDtoSwagger.clubId()
-	club: number
+	public readonly club: number
 
 	@UserDtoSwagger.groups()
-	groups: number[]
+	public readonly groups: number[]
 
 	@UserDtoSwagger.instagram()
-	instagram: string
+	public readonly instagram: string
 }

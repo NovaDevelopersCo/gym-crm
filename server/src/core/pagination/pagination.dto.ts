@@ -1,6 +1,6 @@
 export class Pagination {
-	items: object[]
-	meta: { total: number }
+	private readonly items: object[]
+	private readonly meta: { total: number }
 	constructor(items: object[], totalCount: number) {
 		this.items = items
 		this.meta = {
