@@ -1,33 +1,38 @@
 import { FullQueryDto } from '@/core/dto'
 import { QuerySearch } from '@/core/decorators'
-import { ETypeSearch } from '@/core/types'
 import { productValidation } from '../validation'
-
-export enum ESearch {
-	NAME = 'name',
-	PRICE = 'price',
-	CLUB = 'club'
-}
+import { ArrayIdsQueryDecorator, StringQueryDecorator } from '@/core/query'
+import { PriceQueryDecorator } from '@/core/query'
 
 enum ESort {
 	NAME = 'name',
-	PRICE = 'price'
+	PRICE = 'price',
+	CREATE_DATE = 'createDate'
 }
 
 export class FindAllProductDto extends FullQueryDto {
 	@QuerySearch(ESort, 'Сортировка по', "Параметр 'Сортировка по' невалиден")
-	sortBy: ESort = ESort.NAME
+	sortBy: ESort = ESort.CREATE_DATE
 
-	@QuerySearch(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
-		name: {
-			maxLength: productValidation.name.maxLength
-		},
-		price: {
-			type: ETypeSearch.NUMBER,
-			max: productValidation.price.max,
-			min: productValidation.price.min
-		},
-		club: {}
+	@StringQueryDecorator({
+		maxLength: productValidation.name.maxLength,
+		description: '',
+		field: 'name'
 	})
-	searchBy: ESearch = ESearch.NAME
+	name?: string
+
+	@ArrayIdsQueryDecorator({
+		field: 'users',
+		description: ''
+	})
+	users?: number[]
+
+	@ArrayIdsQueryDecorator({
+		field: 'clubs',
+		description: ''
+	})
+	clubs?: number[]
+
+	@PriceQueryDecorator({ description: '', field: 'price' })
+	price?: number | number[]
 }
