@@ -16,13 +16,15 @@ export class GroupService {
 		private readonly directionService: DirectionService
 	) {}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllGroupDto) {
+	async getAll({ page, count, sortBy, sortOrder, ...dto }: FindAllGroupDto) {
+		const where = {}
+		dto.name ? (where['name'] = ILike(`%${dto.name}%`)) : {}
+		dto.directions?.length ? (where['direction'] = { id: In(dto.directions) }) : {}
+		dto.clubs?.length ? (where['club'] = { id: In(dto.clubs) }) : {}
 		const [items, total] = await this.groupRepository.findAndCount({
+			where,
 			order: {
 				[sortBy]: sortOrder
-			},
-			where: {
-				[searchBy]: ILike(`%${q}%`)
 			},
 			take: count,
 			skip: skipCount(page, count),

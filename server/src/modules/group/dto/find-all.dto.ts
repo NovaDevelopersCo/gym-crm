@@ -1,23 +1,33 @@
-import { FullQueryDto } from '@/core/dto'
 import { QuerySearch } from '@/core/decorators'
 import { groupValidation } from '../validation'
-
-enum ESearch {
-	NAME = 'name'
-}
+import { ArrayIdsQueryDecorator, StringQueryDecorator } from '@/core/query'
+import { FullQueryDto } from '@/core/dto'
 
 enum ESort {
-	NAME = 'name'
+	NAME = 'name',
+	CREATE_DATE = 'createDate'
 }
 
 export class FindAllGroupDto extends FullQueryDto {
 	@QuerySearch(ESort, 'Сортировка по', "Параметр 'Сортировка по' невалиден")
-	sortBy: ESort = ESort.NAME
+	sortBy: ESort = ESort.CREATE_DATE
 
-	@QuerySearch(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
-		name: {
-			maxLength: groupValidation.name.maxLength
-		}
+	@StringQueryDecorator({
+		field: 'name',
+		description: '',
+		maxLength: groupValidation.name.maxLength
 	})
-	searchBy: ESearch = ESearch.NAME
+	name?: string
+
+	@ArrayIdsQueryDecorator({
+		description: '',
+		field: 'clubs'
+	})
+	clubs: number[]
+
+	@ArrayIdsQueryDecorator({
+		description: '',
+		field: 'directions'
+	})
+	directions: number[]
 }
