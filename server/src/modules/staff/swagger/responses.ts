@@ -1,28 +1,30 @@
-import { ApiProperty, OmitType, IntersectionType } from '@nestjs/swagger'
-import { EStaffRole } from '@/core/enums'
+import { ApiProperty, OmitType } from '@nestjs/swagger'
 import { StaffClub } from '@/modules/club/swagger'
-import { CreateStaffDto } from '../dto'
-import { CommonDtoSwagger, PaginationResponse } from '@/core/swagger'
-import { StaffDtoSwagger } from './dto'
+import { PaginationResponse } from '@/core/swagger'
+import { StaffEntity } from '../entities'
+import { ECreateStaffRole } from '@/core/enums'
 
-export class StaffDto extends OmitType(CreateStaffDto, ['password', 'email']) {
-	@CommonDtoSwagger.id()
-	id: number
+export class StaffDto extends OmitType(StaffEntity, ['password', 'email']) {}
 
-	@CommonDtoSwagger.email()
-	email: string
+export class CreateStaffOk extends OmitType(StaffDto, ['role']) {
+	@ApiProperty({
+		enum: ECreateStaffRole,
+		description: 'Роль пользователя'
+	})
+	role: ECreateStaffRole
 }
 
 export class FullStaff extends OmitType(StaffDto, ['role']) {
-	@StaffDtoSwagger.role()
-	role: EStaffRole
+	@ApiProperty({
+		enum: ECreateStaffRole,
+		description: 'Роль пользователя'
+	})
+	role: ECreateStaffRole
 }
 
-export class CreateStaffOk extends StaffDto {}
+export class UpdateStaffOk extends StaffDto {}
 
-export class UpdateStaffOk extends IntersectionType(StaffDto, FullStaff) {}
-
-export class GetStaffByIdOk extends IntersectionType(StaffDto, FullStaff) {
+export class GetStaffByIdOk extends OmitType(StaffDto, ['club']) {
 	@ApiProperty({ nullable: true })
 	club: StaffClub
 }

@@ -1,4 +1,3 @@
-import { CommonDtoSwagger } from '@/core/swagger'
 import { AbonementDtoSwagger } from '../swagger'
 
 export class CreateAbonementDto {
@@ -14,6 +13,6 @@ export class CreateAbonementDto {
 	@AbonementDtoSwagger.duration()
 	duration?: string
 
-	@CommonDtoSwagger.clubIds()
+	@AbonementDtoSwagger.clubs()
 	clubs: number[]
 }

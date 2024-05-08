@@ -1,5 +1,5 @@
 import { Type } from 'class-transformer'
-import { ArrayMinSize, IsArray, Min, ValidateNested } from 'class-validator'
+import { ArrayMinSize, IsArray, Min, ValidateNested, IsInt } from 'class-validator'
 import { ProductWithCount } from '../dto'
 import { propertiesSwagger } from '@/core/utils'
 import { orderValidation } from '../validation'
@@ -29,6 +29,13 @@ export class OrderDtoSwagger {
 		return propertiesSwagger({
 			example: 2,
 			decorators: [Min(min, { message: `Минимальное количество товара ${min}` })]
+		})
+	}
+
+	static user() {
+		return propertiesSwagger({
+			example: 6,
+			decorators: [IsInt({ message: 'Id пользователя должен быть числом' })]
 		})
 	}
 }

@@ -50,32 +50,4 @@ export class CommonDtoSwagger {
 			decorators: [IsInt({ message: 'Id клуба должен быть числом' })]
 		})
 	}
-
-	static groupIds() {
-		return propertiesSwagger({
-			example: [3, 5, 8],
-			decorators: [IsInt({ each: true, message: 'Id групп должны быть числом' })]
-		})
-	}
-
-	static clubIds() {
-		return propertiesSwagger({
-			example: [1, 7, 10],
-			decorators: [IsInt({ each: true, message: 'Id клубов должны быть числом' })]
-		})
-	}
-
-	static userId() {
-		return propertiesSwagger({
-			example: 6,
-			decorators: [IsInt({ message: 'Id пользователя должен быть числом' })]
-		})
-	}
-
-	static abonementId() {
-		return propertiesSwagger({
-			example: 8,
-			decorators: [IsInt({ message: 'Id абонемента должно быть числом' })]
-		})
-	}
 }

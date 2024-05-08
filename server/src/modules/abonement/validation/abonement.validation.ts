@@ -16,5 +16,8 @@ export const abonementValidation = {
 		minLength: 2,
 		maxLength: 5,
 		nullable: true
+	},
+	clubs: {
+		minItems: 1
 	}
 }

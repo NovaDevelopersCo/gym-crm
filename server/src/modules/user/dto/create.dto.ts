@@ -20,7 +20,7 @@ export class CreateUserDto {
 	@CommonDtoSwagger.clubId()
 	club: number
 
-	@CommonDtoSwagger.groupIds()
+	@UserDtoSwagger.groups()
 	groups: number[]
 
 	@UserDtoSwagger.instagram()

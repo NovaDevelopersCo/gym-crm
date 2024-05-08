@@ -7,6 +7,8 @@ import { swaggerConfig } from '@configs'
 import * as cookieParser from 'cookie-parser'
 import { AuthAdapter } from './ws/adapters'
 
+// [] order
+
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule)
 	app.use(cookieParser())

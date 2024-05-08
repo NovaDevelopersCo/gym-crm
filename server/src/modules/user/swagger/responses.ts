@@ -1,42 +1,11 @@
-import { ApiProperty, OmitType, PickType } from '@nestjs/swagger'
-import { CreateUserDto as CUserDto } from '../dto'
-import { UserGroup, UserGroupSmall } from '@/modules/group/swagger'
-import { UserClub } from '@/modules/club/swagger'
-import { CommonDtoSwagger, PaginationResponse } from '@/core/swagger'
-import { UserDtoSwagger } from './dto'
+import { ApiProperty, OmitType } from '@nestjs/swagger'
+import { UserGroup } from '@/modules/group/swagger'
+import { PaginationResponse } from '@/core/swagger'
+import { UserEntity } from '../entities'
 
-export class UserDto extends PickType(CUserDto, ['birthday', 'phone']) {
-	@ApiProperty({
-		isArray: true,
-		type: () => UserGroupSmall
-	})
-	groups: UserGroupSmall
-
-	@ApiProperty({
-		type: () => UserClub
-	})
-	club: UserClub
-
-	@CommonDtoSwagger.id()
-	id: number
-
-	@CommonDtoSwagger.email()
-	email: string
-
-	@UserDtoSwagger.fio()
-	fio: string
-
-	@UserDtoSwagger.howKnow()
-	howKnow: string
-
-	@UserDtoSwagger.instagram()
-	instagram: string
-}
+export class UserDto extends UserEntity {}
 
 export class CreateUserOk extends OmitType(UserDto, ['groups']) {
-	@CommonDtoSwagger.id()
-	id: number
-
 	@ApiProperty({ isArray: true, type: () => UserGroup })
 	groups: UserGroup
 }

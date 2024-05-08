@@ -10,7 +10,7 @@ export class ProductWithCount {
 }
 
 export class CreateOrderDto {
-	@CommonDtoSwagger.userId()
+	@OrderDtoSwagger.user()
 	user: number
 
 	@OrderDtoSwagger.products()

@@ -1,26 +1,9 @@
 import { PickType, OmitType, ApiProperty } from '@nestjs/swagger'
-import { PaginationResponse, CommonDtoSwagger } from '@/core/swagger'
-import { GroupDirection } from '@/modules/direction/swagger'
-import { GroupClub, UserClub } from '@/modules/club/swagger'
-import { GroupUser } from '@/modules/user/swagger'
-import { GroupDtoSwagger } from './dto'
+import { PaginationResponse } from '@/core/swagger'
+import { UserClub } from '@/modules/club/swagger'
+import { GroupEntity } from '../entities'
 
-export class GroupDto {
-	@CommonDtoSwagger.id()
-	id: number
-
-	@ApiProperty()
-	direction: GroupDirection
-
-	@ApiProperty({ type: () => GroupClub })
-	club: GroupClub
-
-	@ApiProperty({ isArray: true })
-	users: GroupUser
-
-	@GroupDtoSwagger.name_()
-	name: string
-}
+export class GroupDto extends GroupEntity {}
 
 export class GetGroupByIdOk extends GroupDto {}
 

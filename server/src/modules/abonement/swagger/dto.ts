@@ -1,11 +1,8 @@
 import { propertiesSwagger } from '@/core/utils'
-import { abonementValidation, userAbonementValidation } from '../validation'
-import { MaxLength, MinLength, Min, Max, IsString, IsInt } from 'class-validator'
+import { abonementValidation } from '../validation'
+import { MaxLength, MinLength, Min, Max, IsString, IsInt, ArrayMinSize } from 'class-validator'
 import { DurationValidate } from '../decorators'
-import { UserAbonementUser } from '@/modules/user/swagger'
 import { Trim } from '@/core/decorators'
-import { ClubEntity } from '@/modules/club/entities'
-import { UserAbonementEntity } from '../entities'
 
 export class AbonementDtoSwagger {
 	static name_() {
@@ -79,43 +76,18 @@ export class AbonementDtoSwagger {
 		})
 	}
 
-	static start() {
-		return propertiesSwagger({
-			example: '2024-05-01',
-			...userAbonementValidation.start
-		})
-	}
-
-	static end() {
-		return propertiesSwagger({
-			example: '2025-06-09',
-			...userAbonementValidation.end
-		})
-	}
-
-	static isFinish() {
-		return propertiesSwagger({
-			example: false
-		})
-	}
-
-	static user() {
-		return propertiesSwagger({
-			type: UserAbonementUser
-		})
-	}
-
 	static clubs() {
-		return propertiesSwagger({
-			type: () => ClubEntity,
-			isArray: true
-		})
-	}
+		const { minItems } = abonementValidation.clubs
 
-	static userAbonements() {
 		return propertiesSwagger({
-			type: () => UserAbonementEntity,
-			isArray: true
+			example: [1, 7, 10],
+			...abonementValidation.clubs,
+			decorators: [
+				IsInt({ each: true, message: 'Id клубов должны быть числом' }),
+				ArrayMinSize(minItems, {
+					message: `Массив клубов должен содержать не меньше ${minItems} элементов`
+				})
+			]
 		})
 	}
 

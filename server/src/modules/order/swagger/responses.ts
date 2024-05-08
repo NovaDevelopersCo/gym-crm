@@ -4,11 +4,9 @@ import { ApiProperty, IntersectionType, PickType } from '@nestjs/swagger'
 import { ProductDto } from '@/modules/product/swagger'
 import { UserDto } from '@/modules/user/swagger'
 
-export class ProductId extends PickType(ProductDto, ['id']) {}
-
 export class ProductWithId {
-	@ApiProperty({ type: () => ProductId })
-	product: ProductId
+	@ApiProperty({ type: () => PickType(ProductDto, ['id']) })
+	product: number
 }
 
 export class FullProduct {

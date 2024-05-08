@@ -2,11 +2,6 @@ import { clubValidation } from '../validation'
 import { IsString, MinLength, MaxLength, IsInt, ArrayMaxSize } from 'class-validator'
 import { propertiesSwagger } from '@/core/utils'
 import { Trim } from '@/core/decorators'
-import { StaffEntity } from '@/modules/staff/entities'
-import { GroupEntity } from '@/modules/group/entities'
-import { UserEntity } from '@/modules/user/entities'
-import { ProductEntity } from '@/modules/product/entities'
-import { AbonementEntity } from '@/modules/abonement/entities'
 
 export class ClubDtoSwagger {
 	static name_() {
@@ -48,7 +43,7 @@ export class ClubDtoSwagger {
 		})
 	}
 
-	static adminIds() {
+	static admins() {
 		const { maxItems } = clubValidation.admins
 
 		return propertiesSwagger({
@@ -60,46 +55,6 @@ export class ClubDtoSwagger {
 				IsInt({ message: 'Id админа должно быть числом', each: true })
 			],
 			...clubValidation.admins
-		})
-	}
-
-	static admins() {
-		return propertiesSwagger({
-			isArray: true,
-			type: () => StaffEntity,
-			description: 'Список администраторов'
-		})
-	}
-
-	static groups() {
-		return propertiesSwagger({
-			isArray: true,
-			type: () => GroupEntity,
-			description: 'Список групп'
-		})
-	}
-
-	static users() {
-		return propertiesSwagger({
-			isArray: true,
-			type: () => UserEntity,
-			description: 'Список посетителей'
-		})
-	}
-
-	static products() {
-		return propertiesSwagger({
-			isArray: true,
-			type: () => ProductEntity,
-			description: 'Список товаров'
-		})
-	}
-
-	static abonements() {
-		return propertiesSwagger({
-			isArray: true,
-			type: () => AbonementEntity,
-			description: 'Список абонементов'
 		})
 	}
 }

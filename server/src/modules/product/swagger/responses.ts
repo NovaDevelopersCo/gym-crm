@@ -1,18 +1,9 @@
-import { CommonDtoSwagger, PaginationResponse } from '@/core/swagger'
+import { PaginationResponse } from '@/core/swagger'
 import { GroupClub } from '@/modules/club/swagger'
-import { ProductDtoSwagger } from './dto'
-import { ApiProperty, IntersectionType, PickType } from '@nestjs/swagger'
+import { ApiProperty, IntersectionType, PickType, OmitType } from '@nestjs/swagger'
+import { ProductEntity } from '../entities'
 
-export class ProductDto {
-	@CommonDtoSwagger.id()
-	id: number
-
-	@ProductDtoSwagger.name_()
-	name: string
-
-	@ProductDtoSwagger.price()
-	price: number
-}
+export class ProductDto extends OmitType(ProductEntity, ['orders']) {}
 export class FullClub {
 	@ApiProperty({ type: () => GroupClub })
 	club: GroupClub
@@ -26,7 +17,6 @@ export class ClubWithId {
 }
 
 export class GetProductByIdOk extends IntersectionType(ProductDto, FullClub) {}
-// TODO: update
 export class UpdateProductOk extends IntersectionType(ProductDto, ClubWithId) {}
 
 export class GetAllProductsOk extends PaginationResponse {

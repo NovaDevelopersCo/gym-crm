@@ -1,4 +1,4 @@
-import { IsPhoneNumber, MinLength, MaxLength, IsString, IsDateString } from 'class-validator'
+import { IsPhoneNumber, MinLength, MaxLength, IsString, IsDateString, IsInt } from 'class-validator'
 import { userValidation } from '../validation'
 import { propertiesSwagger } from '@/core/utils'
 import { Trim } from '@/core/decorators'
@@ -70,6 +70,13 @@ export class UserDtoSwagger {
 				})
 			],
 			...userValidation.instagram
+		})
+	}
+
+	static groups() {
+		return propertiesSwagger({
+			example: [3, 5, 8],
+			decorators: [IsInt({ each: true, message: 'Id групп должны быть числом' })]
 		})
 	}
 }
