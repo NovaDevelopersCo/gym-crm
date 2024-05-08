@@ -1,17 +1,20 @@
-import { Injectable } from '@nestjs/common'
+import { Inject, Injectable } from '@nestjs/common'
 import { StaffEntity } from '@/modules/staff/entities'
 import { JwtService } from '@nestjs/jwt'
 import { ConfigService } from '@nestjs/config'
 import { InjectRepository } from '@nestjs/typeorm'
 import { SessionEntity } from './entities'
 import { Repository } from 'typeorm'
-import { jwtConfig } from '@/configs'
+import { JWT_CONFIG_PROVIDE } from '@/core/constants'
+import { getJwtConfig } from '@/configs'
 
 @Injectable()
 export class TokenService {
 	constructor(
 		@InjectRepository(SessionEntity)
 		private readonly sessionRepository: Repository<SessionEntity>,
+		@Inject(JWT_CONFIG_PROVIDE)
+		private readonly jwtConfig: ReturnType<typeof getJwtConfig>,
 		private readonly jwtService: JwtService,
 		private readonly configService: ConfigService
 	) {}
@@ -22,7 +25,7 @@ export class TokenService {
 		role
 	}: Omit<StaffEntity, 'createDate' | 'updateDate' | 'password'>) {
 		const payload = { email, id, role }
-		const { access, refresh } = jwtConfig
+		const { access, refresh } = this.jwtConfig
 
 		const accessToken = this.jwtService.sign(payload, {
 			secret: this.configService.get('ACCESS_JWT_SECRET'),

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { FullStaff } from '@/modules/staff/swagger'
+import { JwtPayload } from '../dto'
 
 export class RefreshOk {
 	@ApiProperty({
@@ -9,5 +9,5 @@ export class RefreshOk {
 	accessToken: string
 
 	@ApiProperty()
-	profile: FullStaff
+	profile: JwtPayload
 }
