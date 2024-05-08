@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreateOrderDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { OrderEntity, OrderItemEntity } from './entities'
-import { Repository } from 'typeorm'
+import { Between, In, Repository } from 'typeorm'
 import { ProductService } from '../product/product.service'
 import { UserService } from '../user/user.service'
 import { FindAllOrderDto } from './dto/find-all.dto'
@@ -46,18 +46,24 @@ export class OrderService {
 		return await this.orderRepository.save(order)
 	}
 
-	async getAll({ page, count, sortBy, sortOrder, user }: FindAllOrderDto) {
+	async getAll({ page, count, sortBy, sortOrder, ...dto }: FindAllOrderDto) {
 		const where = {}
-		if (user) {
-			where['user'] = { id: user }
-		}
+		dto.users?.length ? (where['user'] = { id: In(dto.users) }) : {}
 
+		if (dto.total) {
+			if (typeof dto.total === 'number') {
+				where['total'] = dto.total
+			}
+			if (Array.isArray(dto.total)) {
+				const sorted = dto.total.sort()
+				where['total'] = Between(sorted[0], sorted[1])
+			}
+		}
 		const [items, total] = await this.orderRepository.findAndCount({
+			where,
 			order: {
 				[sortBy]: sortOrder
 			},
-
-			where,
 			take: count,
 			skip: skipCount(page, count),
 			relations: {

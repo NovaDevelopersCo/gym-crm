@@ -1,7 +1,7 @@
 import { FullQueryDto } from '@/core/dto'
 import { QuerySearch } from '@/core/decorators'
-import { IsInt, IsOptional } from 'class-validator'
-import { Type } from 'class-transformer'
+import { PriceQueryDecorator } from '@/core/query'
+import { ArrayIdsQueryDecorator } from '@/core/query'
 
 enum ESort {
 	CREATE_DATE = 'createDate',
@@ -12,8 +12,12 @@ export class FindAllOrderDto extends FullQueryDto {
 	@QuerySearch(ESort, 'Сортировка по', "Параметр 'Сортировка по' невалиден")
 	sortBy: ESort = ESort.CREATE_DATE
 
-	@IsOptional()
-	@Type(() => Number)
-	@IsInt()
-	user: number
+	@ArrayIdsQueryDecorator({
+		field: 'users',
+		description: ''
+	})
+	users?: number[]
+
+	@PriceQueryDecorator({ description: '', field: 'total' })
+	total?: number | number[]
 }
