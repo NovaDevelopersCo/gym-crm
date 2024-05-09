@@ -29,34 +29,30 @@ import { Staff } from '@/core/decorators'
 export class UserController {
 	constructor(private readonly userService: UserService) {}
 
-	// * K
 	@UserDocSwagger.create()
 	@Post()
 	public createQuestionnaireUser(@Body() dto: CreateUserDto) {
 		return this.userService.create(dto)
 	}
 
-	// * K
 	@UserDocSwagger.getById()
 	@Get(':id')
 	public findOne(@Param() { id }: GetByIdParamsDto, @Staff('id') staffId: number) {
 		return this.userService.getById(id, staffId)
 	}
 
-	// * K
 	@UserDocSwagger.update()
 	@Put(':id')
 	public update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateUserDto) {
 		return this.userService.update(id, dto)
 	}
-	// * K
+
 	@UserDocSwagger.getAll()
 	@Get()
-	public findAll(@Query() query: FindAllUserDto, @Staff('id') staffId: number) {
+	public findAll(@Query() query: FindAllUserDto, staffId: number = 1) {
 		return this.userService.getAll(staffId, query)
 	}
 
-	// * K
 	@UserDocSwagger.delete()
 	@Delete(':id')
 	public delete(@Param() { id }: GetByIdParamsDto) {

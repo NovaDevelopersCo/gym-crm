@@ -1,6 +1,8 @@
 import { FullQueryDto } from '@/core/dto'
 import { QuerySearch } from '@/core/decorators'
-import { IsInt, IsOptional } from 'class-validator'
+import { PriceQueryDecorator } from '@/core/query'
+import { ArrayIdsQueryDecorator } from '@/core/query'
+import { IsOptional, IsInt } from 'class-validator'
 import { Type } from 'class-transformer'
 
 enum ESort {
@@ -16,4 +18,12 @@ export class FindAllOrderDto extends FullQueryDto {
 	@Type(() => Number)
 	@IsInt()
 	public readonly user: number
+	@ArrayIdsQueryDecorator({
+		field: 'users',
+		description: ''
+	})
+	public readonly users?: number[]
+
+	@PriceQueryDecorator({ description: '', field: 'total' })
+	public readonly total?: number | number[]
 }

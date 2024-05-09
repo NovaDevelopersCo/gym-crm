@@ -2,8 +2,8 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreateProductDto, UpdateProductDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { ProductEntity } from './entities'
-import { ILike, In, Repository } from 'typeorm'
-import { ESearch, FindAllProductDto } from './dto/find-all.dto'
+import { Between, ILike, In, Repository } from 'typeorm'
+import { FindAllProductDto } from './dto/find-all.dto'
 import { Pagination } from '@/core/pagination'
 import { ClubService } from '../club/club.service'
 import { skipCount } from '@/core/utils'
@@ -27,21 +27,34 @@ export class ProductService {
 		return await this.productRepository.save(product)
 	}
 
-	public async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllProductDto) {
+	public async getAll({
+		page,
+		count,
+		sortBy,
+		sortOrder,
+		name,
+		users,
+		clubs,
+		price
+	}: FindAllProductDto) {
 		const where = {}
-		if (searchBy === ESearch.CLUB) {
-			const isNumber = Number.isInteger(+q)
-			if (!isNumber) throw new BadRequestException('Id клуба должно быть числом ')
-			where['club'] = { id: +q }
-		} else {
-			where[searchBy] = ILike(`%${q}%`)
+		name ? (where['name'] = ILike(`%${name}%`)) : {}
+		users?.length ? (where['users'] = { id: In(users) }) : {}
+		clubs?.length ? (where['club'] = { id: In(clubs) }) : {}
+		if (price) {
+			if (typeof price === 'number') {
+				where['price'] = price
+			}
+			if (Array.isArray(price)) {
+				const sorted = price.sort()
+				where['price'] = Between(sorted[0], sorted[1])
+			}
 		}
-
 		const [items, total] = await this.productRepository.findAndCount({
+			where,
 			order: {
 				[sortBy]: sortOrder
 			},
-			where,
 			take: count,
 			skip: skipCount(page, count),
 			relations: {

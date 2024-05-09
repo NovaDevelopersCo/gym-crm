@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreateOrderDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { OrderEntity, OrderItemEntity } from './entities'
-import { Repository } from 'typeorm'
+import { Between, In, Repository } from 'typeorm'
 import { ProductService } from '../product/product.service'
 import { UserService } from '../user/user.service'
 import { FindAllOrderDto } from './dto/find-all.dto'
@@ -46,18 +46,24 @@ export class OrderService {
 		return await this.orderRepository.save(order)
 	}
 
-	public async getAll({ page, count, sortBy, sortOrder, user }: FindAllOrderDto) {
+	public async getAll({ page, count, sortBy, sortOrder, users, total }: FindAllOrderDto) {
 		const where = {}
-		if (user) {
-			where['user'] = { id: user }
-		}
+		users?.length ? (where['user'] = { id: In(users) }) : {}
 
-		const [items, total] = await this.orderRepository.findAndCount({
+		if (total) {
+			if (typeof total === 'number') {
+				where['total'] = total
+			}
+			if (Array.isArray(total)) {
+				const sorted = total.sort()
+				where['total'] = Between(sorted[0], sorted[1])
+			}
+		}
+		const [items, total_] = await this.orderRepository.findAndCount({
+			where,
 			order: {
 				[sortBy]: sortOrder
 			},
-
-			where,
 			take: count,
 			skip: skipCount(page, count),
 			relations: {
@@ -75,7 +81,7 @@ export class OrderService {
 			}
 		})
 
-		return new Pagination(items, total)
+		return new Pagination(items, total_)
 	}
 
 	public async getById(id: number) {

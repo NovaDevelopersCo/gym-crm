@@ -62,13 +62,14 @@ export class StaffService {
 		return { id, email, role }
 	}
 
-	public async getAll({ sortBy, count, page, q, searchBy, sortOrder }: FindAllStaffDto) {
+	public async getAll({ count, page, sortBy, sortOrder, email, role }: FindAllStaffDto) {
+		const where = {}
+		email ? (where['email'] = ILike(`%${email}%`)) : {}
+		role ? (where['role'] = role) : {}
 		const [items, total] = await this.staffRepository.findAndCount({
+			where,
 			order: {
 				[sortBy]: sortOrder
-			},
-			where: {
-				[searchBy]: ILike(`%${q}%`)
 			},
 			take: count,
 			skip: skipCount(page, count),
