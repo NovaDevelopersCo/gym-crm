@@ -1,27 +1,23 @@
-import { PaginationResponse } from '@/core/swagger'
-import { GroupClub } from '@/modules/club/swagger'
-import { ApiProperty, IntersectionType, PickType, OmitType } from '@nestjs/swagger'
-import { ProductEntity } from '../entities'
+import { IdDto, PaginationResponse } from '@/core/swagger'
+import { ClubDto } from '@/modules/club/swagger'
+import { ApiProperty, OmitType } from '@nestjs/swagger'
+import { ProductDto } from './dto'
 
-export class ProductDto extends OmitType(ProductEntity, ['orders']) {}
-export class FullClub {
-	@ApiProperty({ type: () => GroupClub })
-	public readonly club: GroupClub
+export class Product extends ProductDto {
+	@ApiProperty({ type: () => ClubDto })
+	public readonly club: ClubDto
 }
 
-export class ClubId extends PickType(GroupClub, ['id']) {}
-
-export class ClubWithId {
-	@ApiProperty({ type: () => ClubId })
-	public club: ClubId
-}
-
-export class GetProductByIdOk extends IntersectionType(ProductDto, FullClub) {}
-export class UpdateProductOk extends IntersectionType(ProductDto, ClubWithId) {}
-
+export class GetProductByIdOk extends Product {}
 export class GetAllProductsOk extends PaginationResponse {
 	@ApiProperty({ isArray: true })
 	public items: GetProductByIdOk
 }
 
-export class CreateProductOk extends IntersectionType(ProductDto, ClubWithId) {}
+export class CreateProductOk extends OmitType(Product, ['club']) {
+	@ApiProperty({
+		type: () => IdDto
+	})
+	public readonly club: IdDto
+}
+export class UpdateProductOk extends CreateProductOk {}

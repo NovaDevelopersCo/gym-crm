@@ -1,30 +1,45 @@
-import { PickType, OmitType, ApiProperty } from '@nestjs/swagger'
-import { PaginationResponse } from '@/core/swagger'
-import { UserClub } from '@/modules/club/swagger'
-import { GroupEntity } from '../entities'
+import { OmitType, ApiProperty } from '@nestjs/swagger'
+import { IdDto, PaginationResponse } from '@/core/swagger'
+import { GroupDto } from './dto'
+import { ClubDto } from '@/modules/club/swagger'
+import { DirectionDto } from '@/modules/direction/swagger'
+import { UserDto } from '@/modules/user/swagger'
 
-export class GroupDto extends GroupEntity {}
+class Group extends GroupDto {
+	@ApiProperty({
+		type: () => ClubDto
+	})
+	public readonly club: ClubDto
 
-export class GetGroupByIdOk extends GroupDto {}
+	@ApiProperty({
+		type: () => DirectionDto
+	})
+	public readonly direction: DirectionDto
+
+	@ApiProperty({
+		type: () => UserDto,
+		isArray: true
+	})
+	public readonly users: UserDto
+}
+
+export class GetGroupByIdOk extends Group {}
 
 export class GetAllGroupsOk extends PaginationResponse {
 	@ApiProperty({ isArray: true })
-	public readonly items: GroupDto
+	public readonly items: Group
 }
 
-export class CreateGroupOk extends GroupDto {}
-
-export class UpdateGroupOk extends GroupDto {}
-
-export class ClubGroup extends PickType(GroupDto, ['id', 'name']) {}
-
-export class DirectionGroup extends PickType(GroupDto, ['id', 'name']) {}
-
-export class UserGroup extends OmitType(GroupDto, ['direction', 'club']) {
+export class CreateGroupOk extends OmitType(Group, ['club', 'direction', 'users']) {
 	@ApiProperty({
-		type: () => UserClub
+		type: () => IdDto
 	})
-	public readonly club: UserClub
+	public readonly direction: IdDto
+
+	@ApiProperty({
+		type: () => IdDto
+	})
+	public readonly club: IdDto
 }
 
-export class UserGroupSmall extends PickType(GroupDto, ['id', 'name']) {}
+export class UpdateGroupOk extends CreateGroupOk {}

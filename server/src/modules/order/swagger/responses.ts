@@ -1,50 +1,34 @@
-import { CommonPropertiesSwagger, PaginationResponse } from '@/core/swagger'
-import { OrderPropertiesSwagger } from './properties'
-import { ApiProperty, IntersectionType, PickType } from '@nestjs/swagger'
-import { ProductDto } from '@/modules/product/swagger'
+import { IdDto, PaginationResponse } from '@/core/swagger'
+import { ApiProperty } from '@nestjs/swagger'
 import { UserDto } from '@/modules/user/swagger'
+import { OrderItemDto, OrderDto } from './dto'
+import { ProductDto } from '@/modules/product/swagger'
 
-export class ProductWithId {
-	@ApiProperty({ type: () => PickType(ProductDto, ['id']) })
-	private readonly product: number
+class OrderItem extends OrderItemDto {
+	@ApiProperty({
+		type: () => IdDto
+	})
+	public readonly product: IdDto
 }
 
-export class FullProduct {
-	@ApiProperty({ type: () => ProductDto })
-	private readonly product: ProductDto
-}
-
-export class OrderItemDto {
-	@CommonPropertiesSwagger.id()
-	private readonly id: number
-
-	@OrderPropertiesSwagger.count()
-	private readonly count: number
-
-	@ApiProperty()
-	private readonly price: number
-}
-
-export class OrderUserOnlyId extends PickType(UserDto, ['id']) {}
-export class OrderUser extends PickType(UserDto, ['id', 'fio', 'email']) {}
-
-export class OrderItemDtoWithProduct extends IntersectionType(OrderItemDto, FullProduct) {}
-export class OrderItemDtoWithProductId extends IntersectionType(OrderItemDto, ProductWithId) {}
-
-export class OrderDto {
-	@CommonPropertiesSwagger.id()
-	private readonly id: number
-
-	@ApiProperty({ example: 3424 })
-	private readonly total: number
+class OrderProductItem extends OrderItemDto {
+	@ApiProperty({
+		type: () => ProductDto
+	})
+	public readonly product: ProductDto
 }
 
 export class GetOrderByIdOk extends OrderDto {
-	@ApiProperty({ isArray: true })
-	private readonly items: OrderItemDtoWithProduct
+	@ApiProperty({
+		type: () => UserDto
+	})
+	public readonly user: UserDto
 
-	@ApiProperty()
-	private readonly user: OrderUser
+	@ApiProperty({
+		type: () => OrderProductItem,
+		isArray: true
+	})
+	public readonly items: OrderProductItem[]
 }
 
 export class GetAllOrdersOk extends PaginationResponse {
@@ -53,9 +37,14 @@ export class GetAllOrdersOk extends PaginationResponse {
 }
 
 export class CreateOrderOk extends OrderDto {
-	@ApiProperty({ isArray: true })
-	private readonly items: OrderItemDtoWithProductId
+	@ApiProperty({
+		type: () => IdDto
+	})
+	public readonly user: IdDto
 
-	@ApiProperty({ example: { id: 2 } })
-	private readonly user: OrderUserOnlyId
+	@ApiProperty({
+		type: () => OrderItem,
+		isArray: true
+	})
+	public readonly items: OrderItem[]
 }

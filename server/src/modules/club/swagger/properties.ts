@@ -48,6 +48,7 @@ export class ClubPropertiesSwagger {
 
 		return propertiesSwagger({
 			example: [111, 222],
+			description: 'Id админов',
 			decorators: [
 				ArrayMaxSize(maxItems, {
 					message: `У клуба может быть не более ${maxItems} админов`

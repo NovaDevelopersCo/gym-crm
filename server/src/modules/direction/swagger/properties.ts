@@ -9,6 +9,7 @@ export class DirectionPropertiesSwagger {
 
 		return propertiesSwagger({
 			example: 'Кикбоксинг',
+			description: 'Название направления',
 			decorators: [
 				IsString({ message: 'Направление должно быть строкой' }),
 				Trim(),

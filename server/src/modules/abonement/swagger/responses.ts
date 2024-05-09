@@ -1,26 +1,55 @@
 import { PaginationQueryDto } from '@/core/pagination'
-import { ApiProperty, OmitType } from '@nestjs/swagger'
-import { AbonementEntity, UserAbonementEntity } from '../entities'
+import { ApiProperty } from '@nestjs/swagger'
+import { AbonementDto, UserAbonementDto } from './dto'
+import { ClubDto } from '@/modules/club/swagger'
+import { IdDto } from '@/core/swagger'
+import { UserDto } from '@/modules/user/swagger'
 
-class AbonementDto extends AbonementEntity {}
+class Abonement extends AbonementDto {
+	@ApiProperty({
+		isArray: true,
+		type: () => ClubDto
+	})
+	public readonly clubs: ClubDto
+}
 
-export class GetAbonementByIdOk extends AbonementDto {}
-export class CreateAbonementOk extends AbonementDto {}
-export class UpdateAbonementOk extends AbonementDto {}
+export class GetAbonementByIdOk extends Abonement {}
+export class CreateAbonementOk extends Abonement {}
+export class UpdateAbonementOk extends Abonement {}
 export class GetAllAbonementsOk extends PaginationQueryDto {
 	@ApiProperty({
 		isArray: true
 	})
-	private readonly items: AbonementDto
+	private readonly items: Abonement
 }
 
-class UserAbonementDto extends UserAbonementEntity {}
+class UserAbonement extends UserAbonementDto {
+	@ApiProperty({
+		type: () => AbonementDto
+	})
+	public readonly abonement: AbonementDto
 
-export class GetUserAbonementByIdOk extends UserAbonementDto {}
-export class CreateUserAbonementOk extends OmitType(UserAbonementDto, ['user', 'abonement']) {}
+	@ApiProperty({
+		type: () => UserDto
+	})
+	public readonly user: UserDto
+}
+
+export class GetUserAbonementByIdOk extends UserAbonement {}
+export class CreateUserAbonementOk extends UserAbonementDto {
+	@ApiProperty({
+		type: () => IdDto
+	})
+	public readonly abonement: IdDto
+
+	@ApiProperty({
+		type: () => IdDto
+	})
+	public readonly user: IdDto
+}
 export class GetAllUserAbonementsOk extends PaginationQueryDto {
 	@ApiProperty({
 		isArray: true
 	})
-	private readonly items: UserAbonementDto
+	private readonly items: UserAbonement
 }

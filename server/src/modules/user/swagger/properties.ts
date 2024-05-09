@@ -7,6 +7,7 @@ export class UserPropertiesSwagger {
 	public static phone() {
 		return propertiesSwagger({
 			example: '79003001122',
+			description: 'Телефон',
 			decorators: [IsPhoneNumber('RU', { message: 'Некорректный номер' })]
 		})
 	}
@@ -26,6 +27,7 @@ export class UserPropertiesSwagger {
 					message: `Максимальная длина фио ${maxLength} символов`
 				})
 			],
+			description: 'Ф.И.О.',
 			...userValidation.fio
 		})
 	}
@@ -33,6 +35,7 @@ export class UserPropertiesSwagger {
 	public static birthday() {
 		return propertiesSwagger({
 			example: '2021-04-19',
+			description: 'Дата рождения',
 			decorators: [
 				IsDateString({}, { message: 'День рождение должен быть ISO формата (yyyy-mm-dd)' })
 			]
@@ -45,6 +48,7 @@ export class UserPropertiesSwagger {
 		return propertiesSwagger({
 			example: 'Посоветовал друг, увидел в интернете',
 			...userValidation.howKnow,
+			description: 'Как вы узнали о нас?',
 			decorators: [
 				IsString({ message: 'howKnow должно быть строкой' }),
 				MaxLength(maxLength, {
@@ -59,6 +63,7 @@ export class UserPropertiesSwagger {
 
 		return propertiesSwagger({
 			example: 'my_account',
+			description: 'Инстаграм',
 			decorators: [
 				IsString({ message: 'Аккаунт инстаграм должен быть строкой' }),
 				Trim(),
@@ -76,6 +81,7 @@ export class UserPropertiesSwagger {
 	public static groups() {
 		return propertiesSwagger({
 			example: [3, 5, 8],
+			description: 'Группы',
 			decorators: [IsInt({ each: true, message: 'Id групп должны быть числом' })]
 		})
 	}

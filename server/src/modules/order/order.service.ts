@@ -71,13 +71,6 @@ export class OrderService {
 				items: {
 					product: true
 				}
-			},
-			select: {
-				user: {
-					id: true,
-					fio: true,
-					email: true
-				}
 			}
 		})
 
@@ -92,13 +85,6 @@ export class OrderService {
 					product: true
 				},
 				user: true
-			},
-			select: {
-				user: {
-					id: true,
-					fio: true,
-					email: true
-				}
 			}
 		})
 

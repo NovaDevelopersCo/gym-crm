@@ -1,25 +1,18 @@
-import { ApiProperty, OmitType, PickType } from '@nestjs/swagger'
-import { ClubEntity } from '@/modules/club/entities'
+import { ApiProperty, OmitType } from '@nestjs/swagger'
 import { PaginationResponse } from '@/core/swagger'
-import { StaffEntity } from '../entities'
-import { ECreateStaffRole } from '@/core/enums'
+import { StaffDto, StaffAdminDto } from './dto'
+import { ClubDto } from '@/modules/club/swagger'
 
-class StaffDto extends OmitType(StaffEntity, ['password', 'club']) {
-	@ApiProperty({ nullable: true, type: () => PickType(ClubEntity, ['id', 'address', 'name']) })
-	public readonly club: unknown
+class Staff extends StaffDto {
+	@ApiProperty({ nullable: true, type: () => ClubDto })
+	public readonly club: ClubDto[]
 }
 
-export class CreateStaffOk extends PickType(StaffDto, ['id', 'email']) {
-	@ApiProperty({
-		enum: ECreateStaffRole,
-		description: 'Роль пользователя'
-	})
-	private readonly role: ECreateStaffRole
-}
+export class CreateStaffOk extends StaffAdminDto {}
 
-export class UpdateStaffOk extends OmitType(StaffDto, ['club']) {}
+export class UpdateStaffOk extends OmitType(Staff, ['club']) {}
 
-export class GetStaffByIdOk extends StaffDto {}
+export class GetStaffByIdOk extends Staff {}
 
 export class GetAllStaffsOk extends PaginationResponse {
 	@ApiProperty({ isArray: true })

@@ -7,7 +7,8 @@ export class StaffPropertiesSwagger {
 		return propertiesSwagger({
 			example: 'admin',
 			decorators: [IsEnum(ECreateStaffRole, { message: 'Невалидная роль' })],
-			enum: ECreateStaffRole
+			enum: ECreateStaffRole,
+			description: 'Роль пользователя'
 		})
 	}
 }

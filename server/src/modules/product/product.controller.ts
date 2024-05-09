@@ -25,11 +25,11 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 @ApiBearerAuth('access-token')
 @UsePipes(new ValidationPipe({ whitelist: true }))
 @UseInterceptors(ClassSerializerInterceptor)
+@RolesAuthGuard(EStaffRole.DIRECTOR)
 @Controller('product')
 export class ProductController {
 	constructor(private readonly productService: ProductService) {}
 
-	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	@ProductDocSwagger.create()
 	@Post()
 	public create(@Body() createProductDto: CreateProductDto) {
@@ -50,14 +50,12 @@ export class ProductController {
 		return this.productService.getById(id)
 	}
 
-	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	@ProductDocSwagger.update()
 	@Put(':id')
 	public update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateProductDto) {
 		return this.productService.update(id, dto)
 	}
 
-	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	@ProductDocSwagger.delete()
 	@Delete(':id')
 	public delete(@Param() { id }: GetByIdParamsDto) {

@@ -78,8 +78,12 @@ export class UserService {
 		const user = await this.userRepository.findOne({
 			where: { id },
 			relations: {
-				groups: true,
-				club: true
+				groups: {
+					club: true
+				},
+				club: true,
+				abonements: true,
+				orders: true
 			}
 		})
 

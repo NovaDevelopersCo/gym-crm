@@ -10,6 +10,7 @@ export class ProductPropertiesSwagger {
 		return propertiesSwagger({
 			example: 'Шлем',
 			...productValidation.name,
+			description: 'Название продукта',
 			decorators: [
 				IsString({ message: 'Название продукта должно быть строкой' }),
 				Trim(),
@@ -28,6 +29,7 @@ export class ProductPropertiesSwagger {
 
 		return propertiesSwagger({
 			example: 35,
+			description: 'Стоимость товара 1шт.',
 			...productValidation.price,
 			decorators: [
 				Min(min, { message: `Минимальная цена продукта ${min}` }),

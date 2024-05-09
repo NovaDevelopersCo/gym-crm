@@ -17,7 +17,7 @@ export class StaffEntity extends BaseEntity {
 
 	@ApiProperty({
 		example: 'email@gmail.com',
-		description: 'Почтовый адрес профиля персонала'
+		description: 'Почтовый адрес'
 	})
 	@Column({
 		unique: true

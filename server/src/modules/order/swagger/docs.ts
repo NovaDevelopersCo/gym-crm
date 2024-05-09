@@ -8,7 +8,7 @@ export class OrderDocSwagger {
 	public static getAll() {
 		return applyDecorators(
 			ApiOperation({
-				summary: 'Получить список всех товаров',
+				summary: 'Получить список всех заказов',
 				// ! ==
 				description: 'Только с ролью director'
 			}),
@@ -23,7 +23,7 @@ export class OrderDocSwagger {
 	public static getById() {
 		return applyDecorators(
 			ApiOperation({
-				summary: 'Получить товар по id',
+				summary: 'Получить заказ по id',
 				// ! ==
 				description: 'Только с ролью director'
 			}),
@@ -39,7 +39,7 @@ export class OrderDocSwagger {
 	public static create() {
 		return applyDecorators(
 			ApiOperation({
-				summary: 'Создать новый товар',
+				summary: 'Создать новый заказ',
 				// ! ==
 				description: 'Только с ролью director'
 			}),
@@ -55,7 +55,7 @@ export class OrderDocSwagger {
 	public static delete() {
 		return applyDecorators(
 			ApiOperation({
-				summary: 'Удалить товар',
+				summary: 'Удалить заказ',
 				// ! ===
 				description: 'Только с ролью direction'
 			}),

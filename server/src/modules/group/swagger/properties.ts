@@ -10,6 +10,7 @@ export class GroupPropertiesSwagger {
 		return propertiesSwagger({
 			example: 'Группа 2',
 			...groupValidation.name,
+			description: 'Название группы',
 			decorators: [
 				IsString({ message: 'Название группы должно быть строкой' }),
 				Trim(),
@@ -26,6 +27,7 @@ export class GroupPropertiesSwagger {
 	public static directionId() {
 		return propertiesSwagger({
 			example: 3,
+			description: 'Id направления',
 			decorators: [IsInt({ message: 'Id направления должен быть числом' })]
 		})
 	}

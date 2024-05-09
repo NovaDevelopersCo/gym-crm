@@ -82,6 +82,7 @@ export class AbonementPropertiesSwagger {
 		return propertiesSwagger({
 			example: [1, 7, 10],
 			...abonementValidation.clubs,
+			description: 'Клубы в которых действует абонемент',
 			decorators: [
 				IsInt({ each: true, message: 'Id клубов должны быть числом' }),
 				ArrayMinSize(minItems, {

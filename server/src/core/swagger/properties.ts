@@ -8,6 +8,7 @@ export class CommonPropertiesSwagger {
 
 		return propertiesSwagger({
 			example: 'password',
+			description: 'Пароль',
 			decorators: [
 				IsString({ message: 'Пароль должен быть строкой' }),
 				MinLength(minLength, {
@@ -27,6 +28,7 @@ export class CommonPropertiesSwagger {
 
 		return propertiesSwagger({
 			example: 'email@email.com',
+			description: 'Почтовый адрес',
 			decorators: [
 				IsEmail({}, { message: 'Невалидная почта' }),
 				MaxLength(maxLength, {
@@ -40,6 +42,7 @@ export class CommonPropertiesSwagger {
 	public static id() {
 		return propertiesSwagger({
 			example: 1,
+			description: 'Id сущности',
 			decorators: [IsInt({ message: 'Id должен быть числом' })]
 		})
 	}
@@ -47,6 +50,7 @@ export class CommonPropertiesSwagger {
 	public static clubId() {
 		return propertiesSwagger({
 			example: 1,
+			description: 'Id клуба',
 			decorators: [IsInt({ message: 'Id клуба должен быть числом' })]
 		})
 	}

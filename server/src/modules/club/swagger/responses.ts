@@ -1,45 +1,44 @@
-import { ApiProperty, PickType, OmitType } from '@nestjs/swagger'
-import { PaginationResponse, CommonPropertiesSwagger } from '@/core/swagger'
-import { ClubEntity } from '../entities'
-import { StaffEntity } from '@/modules/staff/entities'
-import { GroupEntity } from '@/modules/group/entities'
+import { ApiProperty } from '@nestjs/swagger'
+import { PaginationResponse } from '@/core/swagger'
+import { ClubDto } from './dto'
+import { StaffAdminDto } from '@/modules/staff/swagger'
+import { GroupDto } from '@/modules/group/swagger'
+import { UserDto } from '@/modules/user/swagger'
 
-export class ClubDto extends OmitType(ClubEntity, ['admins', 'groups']) {
+class Club extends ClubDto {
 	@ApiProperty({
-		type: () => PickType(StaffEntity, ['id', 'email', 'role']),
+		type: () => StaffAdminDto,
 		isArray: true
 	})
-	public readonly admins: unknown
+	public readonly admins: StaffAdminDto[]
 
 	@ApiProperty({
-		type: () => PickType(GroupEntity, ['id', 'name']),
+		type: () => GroupDto,
 		isArray: true
 	})
-	public readonly groups: unknown
+	public readonly groups: GroupDto[]
+
+	@ApiProperty({
+		type: () => UserDto,
+		isArray: true
+	})
+	public readonly users: UserDto[]
 }
 
-export class GetClubByIdOk extends ClubDto {}
+export class GetClubByIdOk extends Club {}
 
 export class GetAllClubsOk extends PaginationResponse {
 	@ApiProperty({
 		isArray: true
 	})
-	private readonly items: ClubDto
+	private readonly items: Club
 }
 
-class ClubAdmin {
-	@CommonPropertiesSwagger.id()
-	private readonly id: number
-}
-
-export class CreateClubOk extends PickType(ClubDto, ['address', 'id', 'name']) {
+export class CreateClubOk extends ClubDto {
 	@ApiProperty({
-		type: () => ClubAdmin,
+		type: () => StaffAdminDto,
 		isArray: true
 	})
-	private readonly admins: unknown
+	public readonly admins: StaffAdminDto[]
 }
-export class UpdateClubOk extends ClubDto {}
-export class GroupClub extends OmitType(ClubDto, ['groups', 'users', 'admins']) {}
-export class UserClub extends PickType(ClubDto, ['id', 'address', 'name']) {}
-export class StaffClub extends OmitType(GetClubByIdOk, ['groups', 'users', 'admins']) {}
+export class UpdateClubOk extends Club {}

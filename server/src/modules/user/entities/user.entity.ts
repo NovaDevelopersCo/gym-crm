@@ -10,7 +10,7 @@ import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typ
 export class UserEntity extends BaseEntity {
 	@ApiProperty({
 		example: 'email@gmail.com',
-		description: 'Почтовый адрес посетителя'
+		description: 'Почтовый адрес'
 	})
 	@Column({
 		unique: true
@@ -19,7 +19,7 @@ export class UserEntity extends BaseEntity {
 
 	@ApiProperty({
 		example: '7999999999',
-		description: 'Телефон посетителя'
+		description: 'Телефон'
 	})
 	@Column({
 		unique: true
@@ -28,14 +28,14 @@ export class UserEntity extends BaseEntity {
 
 	@ApiProperty({
 		example: 'Васина Екатерина Петровна',
-		description: 'Ф.И.О. посетителя'
+		description: 'Ф.И.О.'
 	})
 	@Column()
 	public fio: string
 
 	@ApiProperty({
 		example: '2024-07-11',
-		description: 'Дата рождения посетителя'
+		description: 'Дата рождения'
 	})
 	@Column({ type: 'date', nullable: true })
 	public birthday: string | null
@@ -49,7 +49,7 @@ export class UserEntity extends BaseEntity {
 
 	@ApiProperty({
 		example: 'my_account',
-		description: 'Инстаграм пользователя'
+		description: 'Инстаграм'
 	})
 	@Column({
 		unique: true,

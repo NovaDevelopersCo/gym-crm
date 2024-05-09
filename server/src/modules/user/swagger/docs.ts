@@ -1,6 +1,6 @@
 import { applyDecorators } from '@nestjs/common'
 import { ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse } from '@nestjs/swagger'
-import { GetAllUsersOk, GetUserByIdOk, CreateUserOk } from './responses'
+import { GetAllUsersOk, GetUserByIdOk, CreateUserOk, UpdateUserOk } from './responses'
 import { DocDecoratorsSwagger, ESwaggerMessages } from '@/core/swagger'
 import { BaseDocSwagger } from '@/core/swagger/docs'
 import { EStaffRole } from '@/core/enums'
@@ -47,7 +47,7 @@ export class UserDocSwagger {
 			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
 			ApiOkResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_UPDATE,
-				type: GetUserByIdOk
+				type: UpdateUserOk
 			}),
 			BaseDocSwagger.authWithRole()
 		)
