@@ -1,12 +1,12 @@
-import { ClubDtoSwagger } from '../swagger/dto'
+import { ClubPropertiesSwagger } from '../swagger/properties'
 
 export class CreateClubDto {
-	@ClubDtoSwagger.name_()
+	@ClubPropertiesSwagger.name_()
 	public readonly name: string
 
-	@ClubDtoSwagger.address()
+	@ClubPropertiesSwagger.address()
 	public readonly address: string
 
-	@ClubDtoSwagger.admins()
+	@ClubPropertiesSwagger.admins()
 	public readonly admins: number[]
 }

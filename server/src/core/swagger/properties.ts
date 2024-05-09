@@ -1,7 +1,7 @@
 import { IsString, MinLength, MaxLength, IsEmail, IsInt } from 'class-validator'
 import { propertiesSwagger } from '../utils'
 
-export class CommonDtoSwagger {
+export class CommonPropertiesSwagger {
 	public static password() {
 		const minLength = 8
 		const maxLength = 32

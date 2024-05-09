@@ -3,7 +3,7 @@ import { IsString, MinLength, MaxLength, IsInt, ArrayMaxSize } from 'class-valid
 import { propertiesSwagger } from '@/core/utils'
 import { Trim } from '@/core/decorators'
 
-export class ClubDtoSwagger {
+export class ClubPropertiesSwagger {
 	public static name_() {
 		const { minLength, maxLength } = clubValidation.name
 

@@ -4,7 +4,7 @@ import { MaxLength, MinLength, Min, Max, IsString, IsInt, ArrayMinSize } from 'c
 import { DurationValidate } from '../decorators'
 import { Trim } from '@/core/decorators'
 
-export class AbonementDtoSwagger {
+export class AbonementPropertiesSwagger {
 	public static name_() {
 		const { minLength, maxLength } = abonementValidation.name
 

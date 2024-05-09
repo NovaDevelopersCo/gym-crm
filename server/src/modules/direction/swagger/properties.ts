@@ -3,7 +3,7 @@ import { IsString, MaxLength, MinLength } from 'class-validator'
 import { propertiesSwagger } from '@/core/utils'
 import { Trim } from '@/core/decorators'
 
-export class DirectionDtoSwagger {
+export class DirectionPropertiesSwagger {
 	public static name_() {
 		const { minLength, maxLength } = directionValidation.name
 

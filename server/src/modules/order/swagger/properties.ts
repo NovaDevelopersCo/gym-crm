@@ -4,7 +4,7 @@ import { ProductWithCount } from '../dto'
 import { propertiesSwagger } from '@/core/utils'
 import { orderValidation } from '../validation'
 
-export class OrderDtoSwagger {
+export class OrderPropertiesSwagger {
 	public static products() {
 		const { minItems } = orderValidation.products
 

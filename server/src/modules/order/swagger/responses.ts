@@ -1,5 +1,5 @@
-import { CommonDtoSwagger, PaginationResponse } from '@/core/swagger'
-import { OrderDtoSwagger } from './dto'
+import { CommonPropertiesSwagger, PaginationResponse } from '@/core/swagger'
+import { OrderPropertiesSwagger } from './properties'
 import { ApiProperty, IntersectionType, PickType } from '@nestjs/swagger'
 import { ProductDto } from '@/modules/product/swagger'
 import { UserDto } from '@/modules/user/swagger'
@@ -15,10 +15,10 @@ export class FullProduct {
 }
 
 export class OrderItemDto {
-	@CommonDtoSwagger.id()
+	@CommonPropertiesSwagger.id()
 	private readonly id: number
 
-	@OrderDtoSwagger.count()
+	@OrderPropertiesSwagger.count()
 	private readonly count: number
 
 	@ApiProperty()
@@ -32,7 +32,7 @@ export class OrderItemDtoWithProduct extends IntersectionType(OrderItemDto, Full
 export class OrderItemDtoWithProductId extends IntersectionType(OrderItemDto, ProductWithId) {}
 
 export class OrderDto {
-	@CommonDtoSwagger.id()
+	@CommonPropertiesSwagger.id()
 	private readonly id: number
 
 	@ApiProperty({ example: 3424 })

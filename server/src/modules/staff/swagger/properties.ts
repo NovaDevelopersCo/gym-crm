@@ -2,7 +2,7 @@ import { IsEnum } from 'class-validator'
 import { ECreateStaffRole } from '@/core/enums'
 import { propertiesSwagger } from '@/core/utils'
 
-export class StaffDtoSwagger {
+export class StaffPropertiesSwagger {
 	public static role() {
 		return propertiesSwagger({
 			example: 'admin',

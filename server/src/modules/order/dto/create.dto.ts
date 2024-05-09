@@ -1,18 +1,18 @@
-import { CommonDtoSwagger } from '@/core/swagger'
-import { OrderDtoSwagger } from '../swagger'
+import { CommonPropertiesSwagger } from '@/core/swagger'
+import { OrderPropertiesSwagger } from '../swagger'
 
 export class ProductWithCount {
-	@CommonDtoSwagger.id()
+	@CommonPropertiesSwagger.id()
 	public readonly id: number
 
-	@OrderDtoSwagger.count()
+	@OrderPropertiesSwagger.count()
 	public readonly count: number
 }
 
 export class CreateOrderDto {
-	@OrderDtoSwagger.user()
+	@OrderPropertiesSwagger.user()
 	public readonly user: number
 
-	@OrderDtoSwagger.products()
+	@OrderPropertiesSwagger.products()
 	public readonly products: ProductWithCount[]
 }

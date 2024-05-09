@@ -3,7 +3,7 @@ import { MaxLength, MinLength, IsString, Min, Max } from 'class-validator'
 import { Trim } from '@/core/decorators'
 import { propertiesSwagger } from '@/core/utils'
 
-export class ProductDtoSwagger {
+export class ProductPropertiesSwagger {
 	public static name_() {
 		const { minLength, maxLength } = productValidation.name
 

@@ -3,7 +3,7 @@ import { MaxLength, MinLength, IsString, IsInt } from 'class-validator'
 import { propertiesSwagger } from '@/core/utils'
 import { Trim } from '@/core/decorators'
 
-export class GroupDtoSwagger {
+export class GroupPropertiesSwagger {
 	public static name_() {
 		const { minLength, maxLength } = groupValidation.name
 

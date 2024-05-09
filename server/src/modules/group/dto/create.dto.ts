@@ -1,13 +1,13 @@
-import { CommonDtoSwagger } from '@/core/swagger'
-import { GroupDtoSwagger } from '../swagger'
+import { CommonPropertiesSwagger } from '@/core/swagger'
+import { GroupPropertiesSwagger } from '../swagger'
 
 export class CreateGroupDto {
-	@GroupDtoSwagger.name_()
+	@GroupPropertiesSwagger.name_()
 	public readonly name: string
 
-	@GroupDtoSwagger.directionId()
+	@GroupPropertiesSwagger.directionId()
 	public readonly direction: number
 
-	@CommonDtoSwagger.clubId()
+	@CommonPropertiesSwagger.clubId()
 	public readonly club: number
 }

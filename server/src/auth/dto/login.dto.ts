@@ -1,9 +1,9 @@
-import { CommonDtoSwagger } from '@/core/swagger'
+import { CommonPropertiesSwagger } from '@/core/swagger'
 
 export class LoginDto {
-	@CommonDtoSwagger.email()
+	@CommonPropertiesSwagger.email()
 	public email: string
 
-	@CommonDtoSwagger.password()
+	@CommonPropertiesSwagger.password()
 	public password: string
 }

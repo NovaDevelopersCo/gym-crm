@@ -1,8 +1,8 @@
 import { PickType } from '@nestjs/swagger'
-import { CommonDtoSwagger } from '@/core/swagger'
+import { CommonPropertiesSwagger } from '@/core/swagger'
 import { CreateStaffDto } from './create.dto'
 
 export class UpdatePasswordStaffDto extends PickType(CreateStaffDto, ['password']) {
-	@CommonDtoSwagger.password()
+	@CommonPropertiesSwagger.password()
 	public readonly newPassword: string
 }

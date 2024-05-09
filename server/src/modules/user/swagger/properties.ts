@@ -3,7 +3,7 @@ import { userValidation } from '../validation'
 import { propertiesSwagger } from '@/core/utils'
 import { Trim } from '@/core/decorators'
 
-export class UserDtoSwagger {
+export class UserPropertiesSwagger {
 	public static phone() {
 		return propertiesSwagger({
 			example: '79003001122',

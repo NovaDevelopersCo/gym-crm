@@ -14,7 +14,7 @@ import { ProductModule } from './modules/product/product.module'
 import { OrderModule } from './modules/order/order.module'
 import { APP_FILTER } from '@nestjs/core'
 import { HttpExceptionFilter } from './core/exceptions'
-import { OnlineModule } from './modules/online/online.module'
+import { OnlineModule } from './ws/online/online.module'
 
 @Module({
 	imports: [
