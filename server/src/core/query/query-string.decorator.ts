@@ -1,5 +1,5 @@
 import { IsString, MaxLength } from 'class-validator'
-import { propertiesSwagger } from '../utils'
+import { Property } from '../utils'
 
 interface Parameters {
 	description?: string
@@ -8,7 +8,7 @@ interface Parameters {
 }
 
 export const StringQueryDecorator = ({ field, maxLength, description }: Parameters) => {
-	return propertiesSwagger({
+	return new Property({
 		example: 'Dock',
 		description,
 		maxLength,
@@ -18,6 +18,7 @@ export const StringQueryDecorator = ({ field, maxLength, description }: Paramete
 			MaxLength(maxLength, {
 				message: `Максимальная длина параметра ${field} должна быть ${maxLength}`
 			})
-		]
-	})
+		],
+		validation: true
+	}).exec()
 }

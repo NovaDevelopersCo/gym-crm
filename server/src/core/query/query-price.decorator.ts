@@ -1,4 +1,4 @@
-import { propertiesSwagger } from '../utils'
+import { Property } from '../utils'
 import { Type } from 'class-transformer'
 import { PriceValidate } from '../decorators'
 
@@ -9,10 +9,11 @@ interface Parameters {
 
 // TODO: написать example
 export const PriceQueryDecorator = ({ description }: Parameters) => {
-	return propertiesSwagger({
+	return new Property({
 		example: '',
 		description,
 		required: false,
-		decorators: [Type(() => Number), PriceValidate()]
-	})
+		decorators: [Type(() => Number), PriceValidate()],
+		validation: true
+	}).exec()
 }

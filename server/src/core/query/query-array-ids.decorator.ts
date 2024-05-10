@@ -1,5 +1,5 @@
 import { IsArray, IsInt } from 'class-validator'
-import { propertiesSwagger } from '../utils'
+import { Property } from '../utils'
 import { Type } from 'class-transformer'
 
 interface Parameters {
@@ -9,7 +9,7 @@ interface Parameters {
 
 // TODO: написать example
 export const ArrayIdsQueryDecorator = ({ description }: Parameters) => {
-	return propertiesSwagger({
+	return new Property({
 		example: '',
 		description,
 		required: false,
@@ -17,6 +17,7 @@ export const ArrayIdsQueryDecorator = ({ description }: Parameters) => {
 			Type(() => Number),
 			IsArray(),
 			IsInt({ each: true, message: `Элементы массива должны быть числом` })
-		]
-	})
+		],
+		validation: true
+	}).exec()
 }

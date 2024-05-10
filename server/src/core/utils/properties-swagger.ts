@@ -21,17 +21,17 @@ export const propertiesSwagger = ({
 }
 
 export class Property {
-	private readonly DEFAULT_OPTIONS_MAP = new Map<string, string>([
-		['description', '1'],
-		['default', '1'],
-		['enum', '1'],
-		['example', '1'],
-		['isArray', '1'],
-		['nullable', '1'],
-		['readOnly', '1'],
-		['required', '1'],
-		['type', '1']
-	])
+	private readonly DEFAULT_OPTIONS_MAP = {
+		description: 1,
+		default: 1,
+		enum: 1,
+		example: 1,
+		isArray: 1,
+		nullable: 1,
+		readOnly: 1,
+		required: 1,
+		type: 1
+	}
 
 	private decorators = []
 	private options: ApiPropertyOptions = {}
@@ -43,21 +43,19 @@ export class Property {
 		...options
 	}: ApiPropertyOptions & { decorators?: any[]; validation?: boolean }) {
 		this.validation = validation
-		if (validation) {
-			this.filterOptions(options)
-			this.assignDecoratorsByOptions(options, decorators)
-		} else {
-			this.options = options
-		}
+		this.filterOptions(options)
+		this.assignDecoratorsByOptions(options, decorators)
 	}
 
 	private filterOptions(options: ApiPropertyOptions) {
-		this.options = Object.keys(options)
-			.filter(i => !!this.DEFAULT_OPTIONS_MAP.get(i))
-			.reduce((acc, item) => {
-				acc[item] = options[item]
-				return acc
-			}, {})
+		this.options = !this.validation
+			? Object.keys(options)
+					.filter(i => !!this.DEFAULT_OPTIONS_MAP[i])
+					.reduce((acc, item) => {
+						acc[item] = options[item]
+						return acc
+					}, {})
+			: options
 	}
 
 	private assignDecoratorsByOptions(options: ApiPropertyOptions, decorators: any[]) {
@@ -67,7 +65,7 @@ export class Property {
 			assignedDecorators.push(IsOptional())
 		}
 
-		this.decorators = [assignedDecorators, ...(this.validation ? decorators : [])]
+		this.decorators = [...assignedDecorators, ...(this.validation ? decorators : [])]
 	}
 
 	public exec() {

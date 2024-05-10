@@ -3,38 +3,25 @@ import { Column, Entity, ManyToMany, ManyToOne } from 'typeorm'
 import { DirectionEntity } from '@/modules/direction/entities'
 import { ClubEntity } from '@/modules/club/entities'
 import { UserEntity } from '@/modules/user/entities'
-import { ApiProperty } from '@nestjs/swagger'
+import { GroupPropertiesSwagger } from '../swagger/properties'
 
 @Entity('Group')
 export class GroupEntity extends BaseEntity {
-	@ApiProperty({
-		example: 'Группа 1',
-		description: 'Название группы'
-	})
+	@GroupPropertiesSwagger.name_()
 	@Column({
 		unique: true
 	})
 	public readonly name: string
 
-	@ApiProperty({
-		description: 'Направление группы',
-		type: () => DirectionEntity
-	})
+	@GroupPropertiesSwagger.direction()
 	@ManyToOne(() => DirectionEntity, direction => direction.groups, { onDelete: 'SET NULL' })
 	public readonly direction: DirectionEntity
 
-	@ApiProperty({
-		description: 'Клуб, к которому относится группа',
-		type: () => ClubEntity
-	})
+	@GroupPropertiesSwagger.club()
 	@ManyToOne(() => ClubEntity, club => club.groups, { onDelete: 'SET NULL' })
 	public readonly club: ClubEntity
 
-	@ApiProperty({
-		description: 'Посетители',
-		type: () => UserEntity,
-		isArray: true
-	})
+	@GroupPropertiesSwagger.users()
 	@ManyToMany(() => UserEntity, user => user.groups)
 	public readonly users: UserEntity[]
 }

@@ -1,16 +1,18 @@
 import { CommonPropertiesSwagger } from '@/core/swagger'
 import { OrderPropertiesSwagger } from '../swagger'
 
-export class ProductItem {
+export type TProductItem = new () => ProductItem
+
+class ProductItem {
 	@CommonPropertiesSwagger.id()
 	public readonly id: number
 
-	@OrderPropertiesSwagger.count()
+	@OrderPropertiesSwagger.count(true)
 	public readonly count: number
 }
 
 export class CreateOrderDto {
-	@OrderPropertiesSwagger.user()
+	@OrderPropertiesSwagger.userId()
 	public readonly user: number
 
 	@OrderPropertiesSwagger.products(ProductItem)

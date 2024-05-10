@@ -2,7 +2,7 @@ import { CommonPropertiesSwagger } from '@/core/swagger'
 import { GroupPropertiesSwagger } from '../swagger'
 
 export class CreateGroupDto {
-	@GroupPropertiesSwagger.name_()
+	@GroupPropertiesSwagger.name_(true)
 	public readonly name: string
 
 	@GroupPropertiesSwagger.directionId()

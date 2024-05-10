@@ -3,42 +3,30 @@ import { Column, Entity, ManyToOne } from 'typeorm'
 import { EStaffRole } from '@/core/enums'
 import { ClubEntity } from '@/modules/club/entities'
 import { Exclude } from 'class-transformer'
-import { ApiProperty } from '@nestjs/swagger'
+import { CommonPropertiesSwagger } from '@/core/swagger'
+import { StaffPropertiesSwagger } from '../swagger/properties'
 
 @Entity('Staff')
 export class StaffEntity extends BaseEntity {
-	@ApiProperty({
-		example: '12345678',
-		description: 'Пароль профиля персонала'
-	})
+	@CommonPropertiesSwagger.password()
 	@Exclude()
 	@Column()
 	public password: string
 
-	@ApiProperty({
-		example: 'email@gmail.com',
-		description: 'Почтовый адрес'
-	})
+	@CommonPropertiesSwagger.email()
 	@Column({
 		unique: true
 	})
 	public email: string
 
-	@ApiProperty({
-		example: 'admin',
-		description: 'Роль персонала',
-		enum: EStaffRole
-	})
+	@StaffPropertiesSwagger.role()
 	@Column({
 		type: 'enum',
 		enum: EStaffRole
 	})
 	public role: EStaffRole
 
-	@ApiProperty({
-		description: 'Клуб',
-		type: () => ClubEntity
-	})
+	@StaffPropertiesSwagger.club()
 	@ManyToOne(() => ClubEntity, club => club.admins, { onDelete: 'SET NULL' })
 	public club: ClubEntity
 }

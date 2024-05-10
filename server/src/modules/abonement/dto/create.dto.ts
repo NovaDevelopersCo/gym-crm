@@ -1,18 +1,18 @@
 import { AbonementPropertiesSwagger } from '../swagger'
 
 export class CreateAbonementDto {
-	@AbonementPropertiesSwagger.price()
+	@AbonementPropertiesSwagger.price(true)
 	public readonly price: number
 
-	@AbonementPropertiesSwagger.name_()
+	@AbonementPropertiesSwagger.name_(true)
 	public readonly name: string
 
-	@AbonementPropertiesSwagger.count()
+	@AbonementPropertiesSwagger.count(true)
 	public readonly count?: number
 
-	@AbonementPropertiesSwagger.duration()
+	@AbonementPropertiesSwagger.duration(true)
 	public readonly duration?: string
 
-	@AbonementPropertiesSwagger.clubs()
+	@AbonementPropertiesSwagger.clubIds(true)
 	public readonly clubs: number[]
 }

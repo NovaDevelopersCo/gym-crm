@@ -2,35 +2,23 @@ import { BaseEntity } from '@/core/database/entity'
 import { ProductEntity } from '@/modules/product/entities'
 import { Column, Entity, ManyToOne } from 'typeorm'
 import { OrderEntity } from './order.entity'
-import { ApiProperty } from '@nestjs/swagger'
+import { OrderPropertiesSwagger } from '../swagger/properties'
 
 @Entity('OrderItem')
 export class OrderItemEntity extends BaseEntity {
-	@ApiProperty({
-		example: 5,
-		description: 'Количество товара в заказе'
-	})
+	@OrderPropertiesSwagger.count()
 	@Column()
 	public readonly count: number
 
-	@ApiProperty({
-		example: 500,
-		description: 'Стоимость товара'
-	})
+	@OrderPropertiesSwagger.price()
 	@Column()
 	public readonly price: number
 
-	@ApiProperty({
-		description: 'Товар',
-		type: () => ProductEntity
-	})
+	@OrderPropertiesSwagger.product()
 	@ManyToOne(() => ProductEntity, product => product.orders, { onDelete: 'SET NULL' })
 	public readonly product: ProductEntity
 
-	@ApiProperty({
-		description: 'Заказ',
-		type: () => OrderEntity
-	})
+	@OrderPropertiesSwagger.order()
 	@ManyToOne(() => OrderEntity, order => order.items, { onDelete: 'CASCADE' })
 	public readonly order: OrderEntity
 }

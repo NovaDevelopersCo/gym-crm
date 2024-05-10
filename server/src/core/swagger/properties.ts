@@ -1,12 +1,13 @@
 import { IsString, MinLength, MaxLength, IsEmail, IsInt } from 'class-validator'
-import { propertiesSwagger } from '../utils'
+import { Property } from '../utils'
 
 export class CommonPropertiesSwagger {
-	public static password() {
+	public static password(validation?: boolean) {
 		const minLength = 8
 		const maxLength = 32
 
-		return propertiesSwagger({
+		return new Property({
+			validation,
 			example: 'password',
 			description: 'Пароль',
 			decorators: [
@@ -20,38 +21,41 @@ export class CommonPropertiesSwagger {
 			],
 			maxLength,
 			minLength
-		})
+		}).exec()
 	}
 
-	public static email() {
+	public static email(validation?: boolean) {
 		const maxLength = 200
 
-		return propertiesSwagger({
-			example: 'email@email.com',
+		return new Property({
+			validation,
+			example: 'email@gmail.com',
 			description: 'Почтовый адрес',
+			maxLength,
 			decorators: [
 				IsEmail({}, { message: 'Невалидная почта' }),
 				MaxLength(maxLength, {
 					message: `Максимальная длина почты ${maxLength} символов`
 				})
-			],
-			maxLength
-		})
+			]
+		}).exec()
 	}
 
-	public static id() {
-		return propertiesSwagger({
+	public static id(validation?: boolean) {
+		return new Property({
 			example: 1,
 			description: 'Id сущности',
-			decorators: [IsInt({ message: 'Id должен быть числом' })]
-		})
+			decorators: [IsInt({ message: 'Id должен быть числом' })],
+			validation
+		}).exec()
 	}
 
 	public static clubId() {
-		return propertiesSwagger({
+		return new Property({
 			example: 1,
 			description: 'Id клуба',
-			decorators: [IsInt({ message: 'Id клуба должен быть числом' })]
-		})
+			decorators: [IsInt({ message: 'Id клуба должен быть числом' })],
+			validation: true
+		}).exec()
 	}
 }

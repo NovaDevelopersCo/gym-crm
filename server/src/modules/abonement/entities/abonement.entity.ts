@@ -2,59 +2,37 @@ import { BaseEntity } from '@/core/database/entity'
 import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm'
 import { UserAbonementEntity } from './user-abonement.entity'
 import { ClubEntity } from '@/modules/club/entities'
-import { ApiProperty } from '@nestjs/swagger'
+import { AbonementPropertiesSwagger } from '../swagger/properties'
 
 @Entity('Abonement')
 export class AbonementEntity extends BaseEntity {
-	@ApiProperty({
-		description: 'Цена абонемента',
-		example: 1200
-	})
+	@AbonementPropertiesSwagger.price()
 	@Column()
 	public readonly price: number
 
-	@ApiProperty({
-		description: 'Название абонемента',
-		example: 'Групповой'
-	})
+	@AbonementPropertiesSwagger.name_()
 	@Column({
 		unique: true
 	})
 	public readonly name: string
 
-	@ApiProperty({
-		description: 'Количество занятий в абонементе',
-		example: 8,
-		nullable: true
-	})
+	@AbonementPropertiesSwagger.count()
 	@Column({
 		nullable: true
 	})
 	public readonly count: number | null
 
-	@ApiProperty({
-		description: 'Длительность абонемента',
-		example: '10d.',
-		nullable: true
-	})
+	@AbonementPropertiesSwagger.duration()
 	@Column({
 		nullable: true
 	})
 	public readonly duration: string | null
 
-	@ApiProperty({
-		description: 'Абонементы посетителей',
-		type: () => UserAbonementEntity,
-		isArray: true
-	})
+	@AbonementPropertiesSwagger.userAbonements()
 	@OneToMany(() => UserAbonementEntity, userAbonement => userAbonement.abonement)
 	public readonly userAbonements: UserAbonementEntity[]
 
-	@ApiProperty({
-		description: 'Клубы в которых действует абонемент',
-		type: () => ClubEntity,
-		isArray: true
-	})
+	@AbonementPropertiesSwagger.clubs()
 	@ManyToMany(() => ClubEntity)
 	@JoinTable()
 	public readonly clubs: ClubEntity[]

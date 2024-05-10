@@ -1,12 +1,9 @@
 import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { Exclude } from 'class-transformer'
-import { ApiProperty } from '@nestjs/swagger'
+import { CommonPropertiesSwagger } from '@/core/swagger'
 
 export abstract class BaseEntity {
-	@ApiProperty({
-		example: 1,
-		description: 'Id сущности'
-	})
+	@CommonPropertiesSwagger.id()
 	@PrimaryGeneratedColumn()
 	public readonly id: number
 

@@ -4,66 +4,40 @@ import { GroupEntity } from '@/modules/group/entities'
 import { ProductEntity } from '@/modules/product/entities'
 import { StaffEntity } from '@/modules/staff/entities'
 import { UserEntity } from '@/modules/user/entities'
-import { ApiProperty } from '@nestjs/swagger'
 import { Column, Entity, OneToMany, ManyToMany } from 'typeorm'
+import { ClubPropertiesSwagger } from '../swagger/properties'
 
 @Entity('Club')
 export class ClubEntity extends BaseEntity {
-	@ApiProperty({
-		example: 'г. Москва, ул. Колотушкина',
-		description: 'Адрес клуба'
-	})
+	@ClubPropertiesSwagger.address()
 	@Column({
 		unique: true
 	})
 	public readonly address: string
 
-	@ApiProperty({
-		example: 'Mass Club',
-		description: 'Название клуба'
-	})
+	@ClubPropertiesSwagger.name_()
 	@Column({
 		unique: true
 	})
 	public readonly name: string
 
-	@ApiProperty({
-		description: 'Администраторы',
-		type: () => StaffEntity,
-		isArray: true
-	})
+	@ClubPropertiesSwagger.admins()
 	@OneToMany(() => StaffEntity, admin => admin.club, { cascade: true })
 	public readonly admins: StaffEntity[]
 
-	@ApiProperty({
-		description: 'Группы',
-		type: () => GroupEntity,
-		isArray: true
-	})
+	@ClubPropertiesSwagger.groups()
 	@OneToMany(() => GroupEntity, group => group.club, { cascade: true })
 	public readonly groups: GroupEntity[]
 
-	@ApiProperty({
-		description: 'Посетители',
-		type: () => UserEntity,
-		isArray: true
-	})
+	@ClubPropertiesSwagger.users()
 	@OneToMany(() => UserEntity, user => user.club, { cascade: true })
 	public readonly users: UserEntity[]
 
-	@ApiProperty({
-		description: 'Товары',
-		type: () => ProductEntity,
-		isArray: true
-	})
+	@ClubPropertiesSwagger.products()
 	@OneToMany(() => ProductEntity, product => product.club, { cascade: true })
 	public readonly products: ProductEntity[]
 
-	@ApiProperty({
-		description: 'Абонементы',
-		type: () => AbonementEntity,
-		isArray: true
-	})
+	@ClubPropertiesSwagger.abonements()
 	@ManyToMany(() => AbonementEntity)
 	public readonly abonements: AbonementEntity[]
 }

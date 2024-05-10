@@ -1,6 +1,6 @@
-import { IsEnum, IsOptional } from 'class-validator'
+import { IsEnum } from 'class-validator'
 import { QuerySearchValidate } from './query-search-validate.decorator'
-import { propertiesSwagger } from '../utils'
+import { Property } from '../utils'
 import type { TQuerySearchValidatorObj } from '@/core/types'
 
 // * for swagger
@@ -10,16 +10,17 @@ export const QuerySearch = (
 	message: string,
 	validator?: TQuerySearchValidatorObj
 ) => {
-	const decorators = [IsOptional(), IsEnum(eList, { message })]
+	const decorators = [IsEnum(eList, { message })]
 
 	if (validator) {
 		decorators.push(QuerySearchValidate(validator))
 	}
 
-	return propertiesSwagger({
+	return new Property({
 		required: false,
 		description,
 		enum: eList,
-		decorators
-	})
+		decorators,
+		validation: true
+	}).exec()
 }

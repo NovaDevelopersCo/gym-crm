@@ -1,37 +1,24 @@
 import { BaseEntity } from '@/core/database/entity'
 import { ClubEntity } from '@/modules/club/entities'
 import { OrderItemEntity } from '@/modules/order/entities'
-import { ApiProperty } from '@nestjs/swagger'
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm'
+import { ProductPropertiesSwagger } from '../swagger/properties'
 
 @Entity('Product')
 export class ProductEntity extends BaseEntity {
-	@ApiProperty({
-		example: 'Кроссовки Nike Air Jordan 1, 1шт.',
-		description: 'Название продукта'
-	})
+	@ProductPropertiesSwagger.name_()
 	@Column()
 	public readonly name: string
 
-	@ApiProperty({
-		example: 400,
-		description: 'Стоимость товара 1шт.'
-	})
+	@ProductPropertiesSwagger.price()
 	@Column()
 	public readonly price: number
 
-	@ApiProperty({
-		description: 'Клуб',
-		type: () => ClubEntity
-	})
+	@ProductPropertiesSwagger.club()
 	@ManyToOne(() => ClubEntity, club => club.products, { onDelete: 'SET NULL' })
 	public readonly club: ClubEntity
 
-	@ApiProperty({
-		description: 'Заказы',
-		type: () => OrderItemEntity,
-		isArray: true
-	})
+	@ProductPropertiesSwagger.orders()
 	@OneToMany(() => OrderItemEntity, item => item.product)
 	public readonly orders: OrderItemEntity[]
 }
