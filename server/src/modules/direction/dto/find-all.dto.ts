@@ -13,15 +13,16 @@ export class FindAllDirectionDto extends FullQueryDto {
 	public readonly sortBy: ESort = ESort.CREATE_DATE
 
 	@StringQueryDecorator({
-		description: '',
+		description: 'Название направление',
 		field: 'name',
-		maxLength: directionValidation.name.maxLength
+		maxLength: directionValidation.name.maxLength,
+		example: 'Бокс'
 	})
 	public readonly name?: string
 
 	@ArrayIdsQueryDecorator({
 		field: 'groups',
-		description: ''
+		description: 'Массив id групп'
 	})
 	public readonly groups?: number[]
 }

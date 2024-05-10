@@ -14,19 +14,19 @@ export class FindAllGroupDto extends FullQueryDto {
 
 	@StringQueryDecorator({
 		field: 'name',
-		description: '',
+		description: 'Название группы',
 		maxLength: groupValidation.name.maxLength
 	})
 	public readonly name?: string
 
 	@ArrayIdsQueryDecorator({
-		description: '',
+		description: 'Массив id клубов',
 		field: 'clubs'
 	})
 	public readonly clubs: number[]
 
 	@ArrayIdsQueryDecorator({
-		description: '',
+		description: 'Массив id направлений',
 		field: 'directions'
 	})
 	public readonly directions: number[]

@@ -16,20 +16,22 @@ export class FindAllClubDto extends FullQueryDto {
 	@StringQueryDecorator({
 		field: 'name',
 		maxLength: clubValidation.name.maxLength,
-		description: ''
+		description: 'Название клуба',
+		example: 'Mack Club'
 	})
 	public readonly name?: string
 
 	@StringQueryDecorator({
 		field: 'address',
 		maxLength: clubValidation.address.maxLength,
-		description: ''
+		description: 'Адрес',
+		example: 'г. Москва ул. Шишкина д. 45'
 	})
 	public readonly address?: string
 
 	@ArrayIdsQueryDecorator({
 		field: 'admins',
-		description: ''
+		description: 'Массив id админов'
 	})
 	public readonly admins?: number[]
 }

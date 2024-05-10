@@ -1,9 +1,9 @@
 import { FullQueryDto } from '@/core/dto'
 import { QuerySearch } from '@/core/decorators'
 import { staffValidation } from '../validation'
-import { IsEnum, IsOptional } from 'class-validator'
 import { EStaffRole } from '@/core/enums'
 import { StringQueryDecorator } from '@/core/query'
+import { StaffPropertiesSwagger } from '../swagger'
 
 enum ESort {
 	EMAIL = 'email',
@@ -16,12 +16,12 @@ export class FindAllStaffDto extends FullQueryDto {
 
 	@StringQueryDecorator({
 		maxLength: staffValidation.email.maxLength,
-		description: '',
+		description: 'Почтовый адрес',
+		example: 'email@gmail.com',
 		field: 'email'
 	})
 	public readonly email?: string
 
-	@IsOptional()
-	@IsEnum(EStaffRole)
+	@StaffPropertiesSwagger.queryRole()
 	public readonly role?: EStaffRole
 }

@@ -1,7 +1,16 @@
 import { ClubEntity } from '@/modules/club/entities'
 import { Property } from '@/core/utils'
 import { abonementValidation } from '../validation'
-import { MaxLength, MinLength, Min, Max, IsString, IsInt, ArrayMinSize } from 'class-validator'
+import {
+	MaxLength,
+	MinLength,
+	Min,
+	Max,
+	IsString,
+	IsInt,
+	ArrayMinSize,
+	IsBooleanString
+} from 'class-validator'
 import { DurationValidate } from '../decorators'
 import { Trim } from '@/core/decorators'
 import { AbonementEntity, UserAbonementEntity } from '../entities'
@@ -97,6 +106,19 @@ export class AbonementPropertiesSwagger {
 				})
 			],
 			validation
+		}).exec()
+	}
+
+	public static isFinishQuery() {
+		return new Property({
+			required: false,
+			example: false,
+			decorators: [
+				IsBooleanString({
+					message: 'Статус окончание абонемента должен быть булевой строкой'
+				})
+			],
+			description: 'Статус окончания абонемента'
 		}).exec()
 	}
 

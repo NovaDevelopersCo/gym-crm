@@ -8,9 +8,19 @@ export class StaffPropertiesSwagger {
 		return new Property({
 			example: 'admin',
 			decorators: [IsEnum(ECreateStaffRole, { message: 'Невалидная роль' })],
+			validation: true,
 			enum: ECreateStaffRole,
-			description: 'Роль пользователя',
-			validation: true
+			description: 'Роль пользователя'
+		}).exec()
+	}
+
+	public static queryRole() {
+		return new Property({
+			required: false,
+			example: 'admin',
+			validation: true,
+			decorators: [IsEnum(EStaffRole, { message: 'Невалидная роль' })],
+			description: 'Роль пользователя'
 		}).exec()
 	}
 

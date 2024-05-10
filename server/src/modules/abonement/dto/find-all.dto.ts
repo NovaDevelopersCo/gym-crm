@@ -19,15 +19,15 @@ export class FindAllAbonementDto extends FullQueryDto {
 	@StringQueryDecorator({
 		field: 'name',
 		maxLength: abonementValidation.name.maxLength,
-		description: ''
+		description: 'Название абонемента'
 	})
 	public readonly name?: string
 
-	// ! Мейби заменить на массив
 	@StringQueryDecorator({
-		description: '',
+		description: 'Длительность абонемента',
+		example: '1m.',
 		field: 'duration',
-		maxLength: 5
+		maxLength: abonementValidation.duration.maxLength
 	})
 	public readonly duration: string
 
@@ -36,7 +36,7 @@ export class FindAllAbonementDto extends FullQueryDto {
 
 	@ArrayIdsQueryDecorator({
 		field: 'clubs',
-		description: ''
+		description: 'Массив id клубов'
 	})
 	public readonly clubs?: number[]
 }

@@ -10,7 +10,7 @@ interface Parameters {
 // TODO: написать example
 export const PriceQueryDecorator = ({ description }: Parameters) => {
 	return new Property({
-		example: '',
+		example: 'price=1213 | price[0]=13&price[1]=1000 ',
 		description,
 		required: false,
 		decorators: [Type(() => Number), PriceValidate()],

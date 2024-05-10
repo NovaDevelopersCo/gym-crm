@@ -16,23 +16,27 @@ export class FindAllProductDto extends FullQueryDto {
 
 	@StringQueryDecorator({
 		maxLength: productValidation.name.maxLength,
-		description: '',
-		field: 'name'
+		description: 'Название товара или услуги',
+		field: 'name',
+		example: 'Шлем'
 	})
 	public readonly name?: string
 
 	@ArrayIdsQueryDecorator({
 		field: 'users',
-		description: ''
+		description: 'Массив id пользователя'
 	})
 	public readonly users?: number[]
 
 	@ArrayIdsQueryDecorator({
 		field: 'clubs',
-		description: ''
+		description: 'Массив id клубов'
 	})
 	public readonly clubs?: number[]
 
-	@PriceQueryDecorator({ description: '', field: 'price' })
+	@PriceQueryDecorator({
+		description: 'Интервал цены или конкретная цена продукта',
+		field: 'price'
+	})
 	public readonly price?: number | number[]
 }
