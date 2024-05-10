@@ -9,6 +9,9 @@ import { OrderDto } from '@/modules/order/swagger'
 class User extends UserDto {
 	@ApiProperty({ isArray: true, type: () => GroupClubDto })
 	private readonly groups: GroupClubDto[]
+
+	@ApiProperty()
+	public readonly createDate: Date
 }
 
 export class CreateUserOk extends User {

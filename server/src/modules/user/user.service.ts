@@ -138,7 +138,8 @@ export class UserService {
 			skip: count * page - count,
 			relations: {
 				groups: true,
-				club: true
+				club: true,
+				abonements: true
 			}
 		})
 
