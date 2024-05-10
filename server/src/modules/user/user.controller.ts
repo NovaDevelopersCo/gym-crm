@@ -49,7 +49,7 @@ export class UserController {
 
 	@UserDocSwagger.getAll()
 	@Get()
-	public findAll(@Query() query: FindAllUserDto, staffId: number = 1) {
+	public findAll(@Query() query: FindAllUserDto, @Staff('id') staffId: number) {
 		return this.userService.getAll(staffId, query)
 	}
 
