@@ -5,18 +5,18 @@ import { Type } from 'class-transformer'
 interface Parameters {
 	description?: string
 	field?: string
+	example?: string
 }
 
-// TODO: написать example
-export const ArrayIdsQueryDecorator = ({ description }: Parameters) => {
+export const ArrayIdsQueryDecorator = ({ description, example, field }: Parameters) => {
 	return new Property({
-		example: '',
+		example: example || `${field}[0]=1&${field}[1]=2`,
 		description,
 		required: false,
 		decorators: [
-			Type(() => Number),
 			IsArray(),
-			IsInt({ each: true, message: `Элементы массива должны быть числом` })
+			IsInt({ each: true, message: `Элементы массива должны быть числом` }),
+			Type(() => Number)
 		],
 		validation: true
 	}).exec()

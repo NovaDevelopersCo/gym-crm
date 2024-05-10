@@ -5,11 +5,17 @@ interface Parameters {
 	description?: string
 	maxLength?: number
 	field?: string
+	example?: string
 }
 
-export const StringQueryDecorator = ({ field, maxLength, description }: Parameters) => {
+export const StringQueryDecorator = ({
+	field,
+	maxLength,
+	description,
+	example = 'Dock'
+}: Parameters) => {
 	return new Property({
-		example: 'Dock',
+		example,
 		description,
 		maxLength,
 		required: false,
