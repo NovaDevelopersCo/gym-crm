@@ -1,4 +1,12 @@
-import { IsPhoneNumber, MinLength, MaxLength, IsString, IsDateString, IsInt } from 'class-validator'
+import {
+	IsPhoneNumber,
+	MinLength,
+	MaxLength,
+	IsString,
+	IsDateString,
+	IsInt,
+	Max
+} from 'class-validator'
 import { userValidation } from '../validation'
 import { Property } from '@/core/utils'
 import { Trim } from '@/core/decorators'
@@ -6,6 +14,7 @@ import { UserAbonementEntity } from '@/modules/abonement/entities'
 import { OrderEntity } from '@/modules/order/entities'
 import { ClubEntity } from '@/modules/club/entities'
 import { GroupEntity } from '@/modules/group/entities'
+import { Type } from 'class-transformer'
 
 export class UserPropertiesSwagger {
 	public static phone(validation?: boolean) {
@@ -84,6 +93,36 @@ export class UserPropertiesSwagger {
 			],
 			validation,
 			...userValidation.instagram
+		}).exec()
+	}
+
+	public static fromBirthday() {
+		return new Property({
+			example: '1990-05-01',
+			description: 'Фильтрация по дате рождения, от какой даты',
+			required: false,
+			decorators: [IsDateString({}, { message: 'должен быть ISO формата (yyyy-mm-dd)' })],
+			validation: true
+		}).exec()
+	}
+
+	public static fromDateRegistration() {
+		return new Property({
+			example: '1990-05-01',
+			description: 'Фильтрация по дате регистрации, от какой даты',
+			required: false,
+			decorators: [IsDateString({}, { message: 'должен быть ISO формата (yyyy-mm-dd)' })],
+			validation: true
+		}).exec()
+	}
+
+	public static queryPhone() {
+		return new Property({
+			example: '79003001122',
+			description: 'Номер телефона',
+			required: false,
+			decorators: [IsInt(), Max(userValidation.phone.max), Type(() => Number)],
+			validation: true
 		}).exec()
 	}
 

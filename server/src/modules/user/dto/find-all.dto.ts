@@ -1,14 +1,16 @@
 import { userValidation } from '../validation'
-import { IsInt, IsOptional, MaxLength } from 'class-validator'
-import { Type } from 'class-transformer'
 import { ArrayIdsQueryDecorator, StringQueryDecorator } from '@/core/query'
 import { QuerySearch } from '@/core/decorators'
 import { FullQueryDto } from '@/core/dto'
+import { UserPropertiesSwagger } from '../swagger'
 
 // TODO: дополнить
 enum ESort {
 	FIO = 'fio',
-	CREATE_DATE = 'createDate'
+	CREATE_DATE = 'createDate',
+	PHONE = 'phone',
+	INSTAGRAM = 'instagram',
+	HOW_KNOW = 'howKnow'
 }
 
 export class FindAllUserDto extends FullQueryDto {
@@ -18,49 +20,62 @@ export class FindAllUserDto extends FullQueryDto {
 	@StringQueryDecorator({
 		field: 'fio',
 		maxLength: userValidation.fio.maxLength,
-		description: ''
+		description: 'ФИО пользователя',
+		example: 'Иванов Иван Иванович'
 	})
 	public readonly fio?: string
 
 	@StringQueryDecorator({
 		field: 'email',
 		maxLength: userValidation.fio.maxLength,
-		description: ''
+		description: 'Email пользователя',
+		example: 'randomenail@gmail.com'
 	})
 	public readonly email?: string
 
 	@StringQueryDecorator({
 		field: 'instagram',
 		maxLength: userValidation.fio.maxLength,
-		description: ''
+		description: 'Инстаграм пользователя',
+		example: 'my_account'
 	})
 	public readonly instagram?: string
 
-	// TODO: ?
-	@IsOptional()
-	@IsInt()
-	@Type(() => Number)
-	@MaxLength(userValidation.phone.maxLength)
+	@UserPropertiesSwagger.queryPhone()
 	public readonly phone?: number
+
+	@UserPropertiesSwagger.fromDateRegistration()
+	public fromDateRegistration: string
+
+	@UserPropertiesSwagger.fromBirthday()
+	public fromBirthday: string
 
 	@StringQueryDecorator({
 		field: 'howKnow',
 		maxLength: userValidation.howKnow.maxLength,
-		description: ''
+		description: 'Как вы узнали о нас?',
+		example: 'посоветовал друг'
 	})
 	public readonly howKnow?: string
 
 	@ArrayIdsQueryDecorator({
 		field: 'groups',
-		description: ''
+		description: 'Массив id групп'
 	})
 	public readonly groups?: number[]
 
 	@ArrayIdsQueryDecorator({
 		field: 'clubs',
-		description: ''
+		description: 'Массив id клубов'
 	})
 	public readonly clubs?: number[]
+
+	// TODO: Доделать когда будут посещения
+	//* @ApiProperty({ example: 23, description: 'Количество дней с момента помещения' })
+	//* @IsOptional()
+	//* @IsInt()
+	//* @Type(() => Number)
+	//* public countDateVisit: number
 
 	// TODO future:
 	// TODO status: Enum

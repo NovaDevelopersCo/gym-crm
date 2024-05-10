@@ -13,7 +13,8 @@ export const userValidation = {
 		required: false
 	},
 	phone: {
-		maxLength: 100
+		maxLength: 100,
+		max: 99999999999
 	},
 	birthday: {
 		required: false
