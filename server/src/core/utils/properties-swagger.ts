@@ -2,8 +2,6 @@ import { applyDecorators } from '@nestjs/common'
 import { ApiProperty, ApiPropertyOptions } from '@nestjs/swagger'
 import { IsOptional } from 'class-validator'
 
-type TDefaultOptionsItem = keyof ApiPropertyOptions
-
 export const propertiesSwagger = ({
 	decorators = [],
 	...options
@@ -22,27 +20,29 @@ export const propertiesSwagger = ({
 	)
 }
 
-class Property {
-	private readonly DEFAULT_OPTIONS: TDefaultOptionsItem[] = [
-		'description',
-		'default',
-		'enum',
-		'example',
-		'isArray',
-		'nullable',
-		'readOnly',
-		'required',
-		'type'
-	]
+export class Property {
+	private readonly DEFAULT_OPTIONS_MAP = new Map<string, string>([
+		['description', '1'],
+		['default', '1'],
+		['enum', '1'],
+		['example', '1'],
+		['isArray', '1'],
+		['nullable', '1'],
+		['readOnly', '1'],
+		['required', '1'],
+		['type', '1']
+	])
 
 	private decorators = []
 	private options: ApiPropertyOptions = {}
+	private validation: boolean
 
 	constructor({
 		decorators,
 		validation,
 		...options
 	}: ApiPropertyOptions & { decorators?: any[]; validation?: boolean }) {
+		this.validation = validation
 		if (validation) {
 			this.filterOptions(options)
 			this.assignDecoratorsByOptions(options, decorators)
@@ -52,25 +52,22 @@ class Property {
 	}
 
 	private filterOptions(options: ApiPropertyOptions) {
-		const optionsMap = new Map<string, ApiPropertyOptions>()
-
-		Object.keys(options).forEach(i => {
-			if (this.DEFAULT_OPTIONS.includes(options[i])) {
-				optionsMap.set(i, options[i])
-			}
-		})
-
-		this.options = Object.fromEntries(optionsMap)
+		this.options = Object.keys(options)
+			.filter(i => !!this.DEFAULT_OPTIONS_MAP.get(i))
+			.reduce((acc, item) => {
+				acc[item] = options[item]
+				return acc
+			}, {})
 	}
 
 	private assignDecoratorsByOptions(options: ApiPropertyOptions, decorators: any[]) {
-		const assignedDecorators = [...decorators]
+		const assignedDecorators = []
 
 		if (options.required === false) {
 			assignedDecorators.push(IsOptional())
 		}
 
-		this.decorators = assignedDecorators
+		this.decorators = [assignedDecorators, ...(this.validation ? decorators : [])]
 	}
 
 	public exec() {
@@ -82,10 +79,3 @@ class Property {
 		)
 	}
 }
-
-new Property({
-	decorators: [IsOptional()],
-	validation: true,
-	example: 3,
-	description: 'Тест'
-}) // пример использования
