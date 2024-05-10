@@ -7,7 +7,7 @@ import {
 import { CreateUserDto, FindAllUserDto, UpdateUserDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { UserEntity } from './entities'
-import { ILike, In, Repository } from 'typeorm'
+import { ILike, In, MoreThanOrEqual, Repository } from 'typeorm'
 import { GroupService } from '@modules/group/group.service'
 import { ClubService } from '@modules/club/club.service'
 import { Pagination } from '@/core/pagination'
@@ -107,7 +107,9 @@ export class UserService {
 			instagram,
 			groups,
 			clubs,
-			phone
+			phone,
+			fromDateRegistration,
+			fromBirthday
 		}: FindAllUserDto
 	) {
 		const staff = await this.staffService.getById(staffId, true, { relations: { club: true } })
@@ -119,10 +121,13 @@ export class UserService {
 		howKnow ? (where['howKnow'] = ILike(`%${howKnow}%`)) : {}
 		instagram ? (where['instagram'] = ILike(`%${instagram}%`)) : {}
 		phone ? (where['phone'] = ILike(`%${phone}%`)) : {}
+		fromDateRegistration ? (where['createDate'] = MoreThanOrEqual(fromDateRegistration)) : {}
+		fromBirthday ? (where['birthday'] = MoreThanOrEqual(fromBirthday)) : {}
 		groups?.length ? (where['groups'] = { id: In(groups) }) : {}
 		clubs?.length ? (where['club'] = { id: In(clubs) }) : {}
 
-		if (isAdmin) where['club'] = { id: staff.club.id }
+		// TODO: если клуба нет?
+		if (isAdmin) where['club'] = { id: staff.club?.id }
 
 		const [users, total] = await this.userRepository.findAndCount({
 			where,
