@@ -8,6 +8,7 @@ import {
 	Post,
 	Put,
 	Query,
+	SerializeOptions,
 	UseInterceptors,
 	UsePipes,
 	ValidationPipe
@@ -35,6 +36,9 @@ export class UserController {
 		return this.userService.create(dto)
 	}
 
+	@SerializeOptions({
+		ignoreDecorators: true
+	})
 	@UserDocSwagger.getById()
 	@Get(':id')
 	public findOne(@Param() { id }: GetByIdParamsDto, @Staff('id') staffId: number) {
@@ -47,6 +51,9 @@ export class UserController {
 		return this.userService.update(id, dto)
 	}
 
+	@SerializeOptions({
+		ignoreDecorators: true
+	})
 	@UserDocSwagger.getAll()
 	@Get()
 	public findAll(@Query() query: FindAllUserDto, @Staff('id') staffId: number) {
