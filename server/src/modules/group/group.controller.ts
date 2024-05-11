@@ -1,6 +1,5 @@
 import {
 	Body,
-	ClassSerializerInterceptor,
 	Controller,
 	Delete,
 	Get,
@@ -9,7 +8,6 @@ import {
 	Post,
 	Put,
 	Query,
-	UseInterceptors,
 	UsePipes,
 	ValidationPipe
 } from '@nestjs/common'
@@ -25,7 +23,6 @@ import { GroupDocSwagger } from './swagger'
 @ApiBearerAuth('access-token')
 @UsePipes(new ValidationPipe({ whitelist: true }))
 @RolesAuthGuard(EStaffRole.DIRECTOR)
-@UseInterceptors(ClassSerializerInterceptor)
 @Controller('group')
 export class GroupController {
 	constructor(private readonly groupService: GroupService) {}

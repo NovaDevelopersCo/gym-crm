@@ -8,9 +8,7 @@ import {
 	UsePipes,
 	ValidationPipe,
 	Query,
-	Put,
-	UseInterceptors,
-	ClassSerializerInterceptor
+	Put
 } from '@nestjs/common'
 import { ProductService } from './product.service'
 import { CreateProductDto, UpdateProductDto } from './dto'
@@ -24,7 +22,6 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 @ApiTags('Товары')
 @ApiBearerAuth('access-token')
 @UsePipes(new ValidationPipe({ whitelist: true }))
-@UseInterceptors(ClassSerializerInterceptor)
 @RolesAuthGuard(EStaffRole.DIRECTOR)
 @Controller('product')
 export class ProductController {

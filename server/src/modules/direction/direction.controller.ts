@@ -1,6 +1,5 @@
 import {
 	Body,
-	ClassSerializerInterceptor,
 	Controller,
 	Delete,
 	Get,
@@ -9,7 +8,6 @@ import {
 	Post,
 	Put,
 	Query,
-	UseInterceptors,
 	UsePipes,
 	ValidationPipe
 } from '@nestjs/common'
@@ -23,7 +21,6 @@ import { EStaffRole } from '@/core/enums'
 
 @ApiTags('Направления')
 @ApiBearerAuth('access-token')
-@UseInterceptors(ClassSerializerInterceptor)
 @UsePipes(new ValidationPipe({ whitelist: true }))
 @RolesAuthGuard(EStaffRole.DIRECTOR)
 @Controller('direction')
