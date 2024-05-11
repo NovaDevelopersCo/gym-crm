@@ -10,6 +10,7 @@ export abstract class BaseEntity {
 	@CreateDateColumn()
 	public readonly createDate: Date
 
+	@CommonPropertiesSwagger.updateDate()
 	@UpdateDateColumn()
 	public readonly updateDate: Date
 }

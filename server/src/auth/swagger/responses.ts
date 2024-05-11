@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { JwtPayload } from '../dto'
+import { StaffDto } from '@/modules/staff/swagger'
 
 export class RefreshOk {
 	@ApiProperty({
@@ -10,5 +10,5 @@ export class RefreshOk {
 	private readonly accessToken: string
 
 	@ApiProperty()
-	private readonly profile: JwtPayload
+	private readonly profile: StaffDto
 }

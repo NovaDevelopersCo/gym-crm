@@ -87,16 +87,13 @@ export class AbonementService {
 
 		await this.nameCheck(name, id)
 
-		// eslint-disable-next-line
-		const { createDate, updateDate, ...data } = await this.abonementRepository.save({
+		return this.abonementRepository.save({
 			...abonement,
 			price,
 			duration,
 			count,
 			name
 		})
-
-		return data
 	}
 
 	public async delete(id: number) {

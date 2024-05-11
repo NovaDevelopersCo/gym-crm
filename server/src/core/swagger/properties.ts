@@ -65,4 +65,11 @@ export class CommonPropertiesSwagger {
 			description: 'Дата создания'
 		}).exec()
 	}
+
+	public static updateDate() {
+		return new Property({
+			example: '2024-05-01T09:47:08.253Z',
+			description: 'Дата изменения'
+		}).exec()
+	}
 }

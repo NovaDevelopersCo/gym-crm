@@ -83,13 +83,11 @@ export class ProductService {
 	public async update(id: number, dto: UpdateProductDto) {
 		const product = await this.getById(id)
 		await this.clubService.getById(dto.club)
-		// eslint-disable-next-line
-		const { createDate, updateDate, ...data } = await this.productRepository.save({
+		return this.productRepository.save({
 			...product,
 			...dto,
 			club: { id: dto.club }
 		})
-		return data
 	}
 
 	public async delete(id: number) {

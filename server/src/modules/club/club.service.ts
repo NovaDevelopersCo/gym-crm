@@ -90,10 +90,7 @@ export class ClubService {
 			throw new BadRequestException('Ошибка при изменении клуба')
 		}
 
-		// eslint-disable-next-line
-		const { updateDate, createDate, ...data } = updatedClub
-
-		return data
+		return updatedClub
 	}
 
 	public async delete(id: number) {

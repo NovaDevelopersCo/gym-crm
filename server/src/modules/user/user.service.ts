@@ -165,12 +165,7 @@ export class UserService {
 			this.checkAllGroupInClub(groups, dto.club)
 		}
 
-		// eslint-disable-next-line
 		const {
-			// eslint-disable-next-line
-			createDate,
-			// eslint-disable-next-line
-			updateDate,
 			// eslint-disable-next-line
 			club: { users, createDate: c, updateDate: u, groups: cg, ...clubData },
 			...data

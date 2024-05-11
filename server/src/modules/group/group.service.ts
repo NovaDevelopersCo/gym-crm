@@ -84,14 +84,12 @@ export class GroupService {
 		await this.clubService.getById(dto.club)
 		await this.directionService.getById(dto.direction)
 
-		// eslint-disable-next-line
-		const { createDate, updateDate, ...data } = await this.groupRepository.save({
+		return this.groupRepository.save({
 			...group,
 			...dto,
 			direction: { id: dto.direction },
 			club: { id: dto.club }
 		})
-		return data
 	}
 
 	public async delete(id: number) {
