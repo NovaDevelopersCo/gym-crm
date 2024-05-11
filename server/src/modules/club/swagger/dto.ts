@@ -1,4 +1,10 @@
-import { PickType } from '@nestjs/swagger'
+import { OmitType } from '@nestjs/swagger'
 import { ClubEntity } from '../entities'
 
-export class ClubDto extends PickType(ClubEntity, ['id', 'address', 'name']) {}
+export class ClubDto extends OmitType(ClubEntity, [
+	'admins',
+	'abonements',
+	'groups',
+	'users',
+	'products'
+]) {}

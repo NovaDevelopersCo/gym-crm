@@ -58,4 +58,11 @@ export class CommonPropertiesSwagger {
 			validation: true
 		}).exec()
 	}
+
+	public static createDate() {
+		return new Property({
+			example: '2024-05-01T09:47:08.253Z',
+			description: 'Дата создания'
+		}).exec()
+	}
 }

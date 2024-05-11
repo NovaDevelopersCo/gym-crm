@@ -1,10 +1,10 @@
-import { ApiProperty, PickType } from '@nestjs/swagger'
+import { ApiProperty, OmitType } from '@nestjs/swagger'
 import { StaffEntity } from '../entities'
 import { ECreateStaffRole } from '@/core/enums'
 
-export class StaffDto extends PickType(StaffEntity, ['id', 'email', 'role']) {}
+export class StaffDto extends OmitType(StaffEntity, ['club', 'password']) {}
 
-export class StaffAdminDto extends PickType(StaffEntity, ['id', 'email']) {
+export class StaffAdminDto extends OmitType(StaffEntity, ['club', 'password', 'role']) {
 	@ApiProperty({
 		enum: ECreateStaffRole,
 		description: 'Роль пользователя'

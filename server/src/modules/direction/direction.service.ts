@@ -61,13 +61,10 @@ export class DirectionService {
 
 		await this.nameCheck(dto.name, id)
 
-		// eslint-disable-next-line
-		const { createDate, updateDate, ...data } = await this.directionRepository.save({
+		return this.directionRepository.save({
 			...direction,
 			...dto
 		})
-
-		return data
 	}
 
 	public async delete(id: number) {

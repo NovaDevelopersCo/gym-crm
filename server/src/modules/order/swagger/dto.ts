@@ -1,5 +1,5 @@
-import { PickType } from '@nestjs/swagger'
+import { OmitType } from '@nestjs/swagger'
 import { OrderEntity, OrderItemEntity } from '../entities'
 
-export class OrderItemDto extends PickType(OrderItemEntity, ['id', 'count', 'price']) {}
-export class OrderDto extends PickType(OrderEntity, ['id', 'total']) {}
+export class OrderItemDto extends OmitType(OrderItemEntity, ['product', 'order']) {}
+export class OrderDto extends OmitType(OrderEntity, ['items', 'user']) {}

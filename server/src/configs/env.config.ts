@@ -1,6 +1,6 @@
 import { ConfigModuleOptions } from '@nestjs/config'
 import { IsEnum, IsInt, IsOptional, IsString } from 'class-validator'
-import { envValidate } from '@core/utils'
+import { envValidate } from '@/core/utils'
 import { Type } from 'class-transformer'
 import { ENodeEnv } from '@/core/enums'
 

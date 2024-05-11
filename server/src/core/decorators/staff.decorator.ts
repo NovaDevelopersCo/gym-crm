@@ -1,4 +1,4 @@
-import { JwtPayload } from '@auth/dto'
+import { JwtPayload } from '@/auth/dto'
 import { ExecutionContext, createParamDecorator } from '@nestjs/common'
 import { Request } from 'express'
 
