@@ -9,6 +9,7 @@ import { FindAllOrderDto } from './dto/find-all.dto'
 import { Pagination } from '@/core/pagination'
 import { ProductEntity } from '../product/entities'
 import { skipCount } from '@/core/utils'
+import { returnSelectUser } from '../user/dto'
 
 @Injectable()
 export class OrderService {
@@ -71,6 +72,9 @@ export class OrderService {
 				items: {
 					product: true
 				}
+			},
+			select: {
+				user: returnSelectUser
 			}
 		})
 
@@ -85,6 +89,9 @@ export class OrderService {
 					product: true
 				},
 				user: true
+			},
+			select: {
+				user: returnSelectUser
 			}
 		})
 
