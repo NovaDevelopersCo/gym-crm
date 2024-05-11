@@ -3,7 +3,7 @@ import { IdDto, PaginationResponse } from '@/core/swagger'
 import { GroupDto } from './dto'
 import { ClubDto } from '@/modules/club/swagger'
 import { DirectionDto } from '@/modules/direction/swagger'
-import { UserDto } from '@/modules/user/swagger'
+import { UserReturnSelect } from '@/modules/user/swagger'
 
 class Group extends GroupDto {
 	@ApiProperty({
@@ -17,10 +17,10 @@ class Group extends GroupDto {
 	public readonly direction: DirectionDto
 
 	@ApiProperty({
-		type: () => UserDto,
+		type: () => UserReturnSelect,
 		isArray: true
 	})
-	public readonly users: UserDto
+	public readonly users: UserReturnSelect
 }
 
 export class GetGroupByIdOk extends Group {}

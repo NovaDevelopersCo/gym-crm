@@ -1,6 +1,6 @@
 import { IdDto, PaginationResponse } from '@/core/swagger'
 import { ApiProperty } from '@nestjs/swagger'
-import { UserDto } from '@/modules/user/swagger'
+import { UserReturnSelect } from '@/modules/user/swagger'
 import { OrderItemDto, OrderDto } from './dto'
 import { ProductDto } from '@/modules/product/swagger'
 
@@ -20,9 +20,9 @@ class OrderProductItem extends OrderItemDto {
 
 export class GetOrderByIdOk extends OrderDto {
 	@ApiProperty({
-		type: () => UserDto
+		type: () => UserReturnSelect
 	})
-	public readonly user: UserDto
+	public readonly user: UserReturnSelect
 
 	@ApiProperty({
 		type: () => OrderProductItem,

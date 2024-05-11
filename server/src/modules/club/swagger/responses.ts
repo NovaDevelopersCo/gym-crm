@@ -3,8 +3,7 @@ import { PaginationResponse } from '@/core/swagger'
 import { ClubDto } from './dto'
 import { StaffAdminDto } from '@/modules/staff/swagger'
 import { GroupDto } from '@/modules/group/swagger'
-import { UserDto } from '@/modules/user/swagger'
-
+import { UserReturnSelect } from '@/modules/user/swagger'
 class Club extends ClubDto {
 	@ApiProperty({
 		type: () => StaffAdminDto,
@@ -19,10 +18,10 @@ class Club extends ClubDto {
 	public readonly groups: GroupDto[]
 
 	@ApiProperty({
-		type: () => UserDto,
+		type: () => UserReturnSelect,
 		isArray: true
 	})
-	public readonly users: UserDto[]
+	public readonly users: UserReturnSelect[]
 }
 
 export class GetClubByIdOk extends Club {}
