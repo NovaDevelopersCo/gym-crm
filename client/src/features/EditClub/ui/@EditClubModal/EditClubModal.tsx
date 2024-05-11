@@ -20,7 +20,12 @@ const EditClubModal: FC<EditClubModalProps> = ({
 	setIsModalOpen,
 	clubId
 }) => {
-	const { handleSubmit, control, reset } = useForm<CreateClubDto>()
+	const {
+		handleSubmit,
+		control,
+		reset,
+		formState: { isSubmitSuccessful }
+	} = useForm<CreateClubDto>()
 
 	const [editClub] = useEditClubMutation()
 
@@ -35,6 +40,13 @@ const EditClubModal: FC<EditClubModalProps> = ({
 			...data
 		})
 		setIsModalOpen(false)
+		reset()
+	}
+
+	const handleSuccess = () => {
+		if (isSubmitSuccessful) {
+			setIsModalOpen(false)
+		}
 		reset()
 	}
 
@@ -77,7 +89,11 @@ const EditClubModal: FC<EditClubModalProps> = ({
 						)
 					}}
 				/>
-				<Button htmlType='submit' type='primary'>
+				<Button
+					onClick={handleSuccess}
+					htmlType='submit'
+					type='primary'
+				>
 					Сохранить
 				</Button>
 				<Button

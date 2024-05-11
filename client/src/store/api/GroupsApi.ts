@@ -1,6 +1,7 @@
 import {
 	CreateGroupDto,
 	DeleteGroupDto,
+	EditGroupDto,
 	GetItemsResponse,
 	IGroup,
 	RootState
@@ -53,6 +54,17 @@ export const groupsApi = createApi({
 				url: `${groupId}`
 			}),
 			invalidatesTags: ['GROUP']
+		}),
+		editGroup: build.mutation<IGroup, EditGroupDto>({
+			query: dto => {
+				const { id, ...dtoBody } = dto
+				return {
+					method: 'PUT',
+					url: `${id}`,
+					body: dtoBody
+				}
+			},
+			invalidatesTags: ['GROUP']
 		})
 	})
 })
@@ -61,5 +73,6 @@ export const {
 	useCreateGroupMutation,
 	useGetGroupInfoQuery,
 	useGetGroupsQuery,
-	useDeleteGroupMutation
+	useDeleteGroupMutation,
+	useEditGroupMutation
 } = groupsApi
