@@ -1,9 +1,9 @@
-import { PropertyDecoratorsSwagger } from '@/core/swagger'
+import { AbonementPropertiesSwagger } from '../swagger'
 
 export class CreateUserAbonementDto {
-	@PropertyDecoratorsSwagger.abonementId(true)
-	abonementId: number
+	@AbonementPropertiesSwagger.abonementId()
+	public readonly abonementId: number
 
-	@PropertyDecoratorsSwagger.userId(true)
-	userId: number
+	@AbonementPropertiesSwagger.userId()
+	public readonly userId: number
 }

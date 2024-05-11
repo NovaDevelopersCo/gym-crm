@@ -8,6 +8,7 @@ import {
 	Post,
 	Put,
 	Query,
+	SerializeOptions,
 	UseInterceptors,
 	UsePipes,
 	ValidationPipe
@@ -29,37 +30,39 @@ import { Staff } from '@/core/decorators'
 export class UserController {
 	constructor(private readonly userService: UserService) {}
 
-	// * K
 	@UserDocSwagger.create()
 	@Post()
-	createQuestionnaireUser(@Body() dto: CreateUserDto) {
+	public createQuestionnaireUser(@Body() dto: CreateUserDto) {
 		return this.userService.create(dto)
 	}
 
-	// * K
+	@SerializeOptions({
+		ignoreDecorators: true
+	})
 	@UserDocSwagger.getById()
 	@Get(':id')
-	findOne(@Param() { id }: GetByIdParamsDto, @Staff('id') staffId: number) {
+	public findOne(@Param() { id }: GetByIdParamsDto, @Staff('id') staffId: number) {
 		return this.userService.getById(id, staffId)
 	}
 
-	// * K
 	@UserDocSwagger.update()
 	@Put(':id')
-	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateUserDto) {
+	public update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateUserDto) {
 		return this.userService.update(id, dto)
 	}
-	// * K
+
+	@SerializeOptions({
+		ignoreDecorators: true
+	})
 	@UserDocSwagger.getAll()
 	@Get()
-	findAll(@Query() query: FindAllUserDto, @Staff('id') staffId: number) {
+	public findAll(@Query() query: FindAllUserDto, @Staff('id') staffId: number) {
 		return this.userService.getAll(staffId, query)
 	}
 
-	// * K
 	@UserDocSwagger.delete()
 	@Delete(':id')
-	delete(@Param() { id }: GetByIdParamsDto) {
+	public delete(@Param() { id }: GetByIdParamsDto) {
 		return this.userService.delete(id)
 	}
 }

@@ -10,10 +10,7 @@ const AddClubBtn: FC<ButtonProps> = props => {
 
 	return (
 		<>
-			<Button
-				{...props}
-				onClick={() => setIsModalOpen(true)}
-			>
+			<Button {...props} onClick={() => setIsModalOpen(true)}>
 				Добавить клуб
 			</Button>
 			<AddClubModal

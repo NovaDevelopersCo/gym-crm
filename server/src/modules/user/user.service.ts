@@ -7,10 +7,10 @@ import {
 import { CreateUserDto, FindAllUserDto, UpdateUserDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { UserEntity } from './entities'
-import { ILike, Repository } from 'typeorm'
-import { GroupService } from '@modules/group/group.service'
-import { ClubService } from '@modules/club/club.service'
-import { PaginationDto } from '@/core/pagination'
+import { ILike, In, MoreThanOrEqual, Repository } from 'typeorm'
+import { GroupService } from '@/modules/group/group.service'
+import { ClubService } from '@/modules/club/club.service'
+import { Pagination } from '@/core/pagination'
 import { GroupEntity } from '../group/entities'
 import { StaffService } from '../staff/staff.service'
 import { EStaffRole } from '@/core/enums'
@@ -24,7 +24,7 @@ export class UserService {
 		private readonly staffService: StaffService
 	) {}
 
-	async create({ email, phone, instagram, ...dto }: CreateUserDto) {
+	public async create({ email, phone, instagram, ...dto }: CreateUserDto) {
 		const oldUser = await this.userRepository.findOne({
 			where: [{ email }, { phone }, { instagram }]
 		})
@@ -60,7 +60,7 @@ export class UserService {
 		return this.userRepository.save(createdUser)
 	}
 
-	async getById(id: number, staffId: number) {
+	public async getById(id: number, staffId: number) {
 		const staff = await this.staffService.getById(staffId, true, { relations: { club: true } })
 
 		const isAdmin = staff.role === EStaffRole.ADMIN
@@ -74,12 +74,16 @@ export class UserService {
 		return user
 	}
 
-	async getOneById(id: number) {
+	public async getOneById(id: number) {
 		const user = await this.userRepository.findOne({
 			where: { id },
 			relations: {
-				groups: true,
-				club: true
+				groups: {
+					club: true
+				},
+				club: true,
+				abonements: true,
+				orders: true
 			}
 		})
 
@@ -90,16 +94,43 @@ export class UserService {
 		return user
 	}
 
-	async getAll(staffId: number, { count, page, q, searchBy, sortOrder, sortBy }: FindAllUserDto) {
+	public async getAll(
+		staffId: number,
+		{
+			count,
+			page,
+			sortBy,
+			sortOrder,
+			fio,
+			email,
+			howKnow,
+			instagram,
+			groups,
+			clubs,
+			phone,
+			fromDateRegistration,
+			fromBirthday
+		}: FindAllUserDto
+	) {
 		const staff = await this.staffService.getById(staffId, true, { relations: { club: true } })
-
 		const isAdmin = staff.role === EStaffRole.ADMIN
 
+		const where = {}
+		fio ? (where['fio'] = ILike(`%${fio}%`)) : {}
+		email ? (where['email'] = ILike(`%${email}%`)) : {}
+		howKnow ? (where['howKnow'] = ILike(`%${howKnow}%`)) : {}
+		instagram ? (where['instagram'] = ILike(`%${instagram}%`)) : {}
+		phone ? (where['phone'] = ILike(`%${phone}%`)) : {}
+		fromDateRegistration ? (where['createDate'] = MoreThanOrEqual(fromDateRegistration)) : {}
+		fromBirthday ? (where['birthday'] = MoreThanOrEqual(fromBirthday)) : {}
+		groups?.length ? (where['groups'] = { id: In(groups) }) : {}
+		clubs?.length ? (where['club'] = { id: In(clubs) }) : {}
+
+		// TODO: если клуба нет?
+		if (isAdmin) where['club'] = { id: staff.club?.id }
+
 		const [users, total] = await this.userRepository.findAndCount({
-			where: {
-				[searchBy]: ILike(`%${q}%`),
-				club: isAdmin ? staff.club : undefined
-			},
+			where,
 			order: {
 				[sortBy]: sortOrder
 			},
@@ -107,14 +138,15 @@ export class UserService {
 			skip: count * page - count,
 			relations: {
 				groups: true,
-				club: true
+				club: true,
+				abonements: true
 			}
 		})
 
-		return new PaginationDto(users, total)
+		return new Pagination(users, total)
 	}
 
-	async update(id: number, dto: UpdateUserDto) {
+	public async update(id: number, dto: UpdateUserDto) {
 		const user = await this.getOneById(id)
 
 		await this.checkEmail(dto.email, id)
@@ -133,12 +165,7 @@ export class UserService {
 			this.checkAllGroupInClub(groups, dto.club)
 		}
 
-		// eslint-disable-next-line
 		const {
-			// eslint-disable-next-line
-			createDate,
-			// eslint-disable-next-line
-			updateDate,
 			// eslint-disable-next-line
 			club: { users, createDate: c, updateDate: u, groups: cg, ...clubData },
 			...data
@@ -154,7 +181,7 @@ export class UserService {
 		}
 	}
 
-	async delete(id: number) {
+	public async delete(id: number) {
 		await this.getOneById(id)
 
 		await this.userRepository.delete({ id })
@@ -167,7 +194,6 @@ export class UserService {
 		return uniqueFirstArray.toString() === uniqueSecondArray.toString()
 	}
 
-	// * For checking
 	private async checkEmail(email: string, userId?: number) {
 		const user = await this.userRepository.findOne({ where: { email } })
 

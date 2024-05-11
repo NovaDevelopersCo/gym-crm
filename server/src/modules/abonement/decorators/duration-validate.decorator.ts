@@ -1,11 +1,12 @@
 import { registerDecorator } from 'class-validator'
 import { formatDate } from '../utils'
 
-export const DurationValidate = () => (object: object, propertyName: string) => {
-	return registerDecorator({
+export const DurationValidate = () => (object: object, propertyName: string) =>
+	registerDecorator({
 		name: 'durationValidate',
 		target: object.constructor,
 		propertyName,
+		constraints: [],
 		options: {},
 		validator: {
 			// 12y. / 1m. / 16d.
@@ -30,4 +31,3 @@ export const DurationValidate = () => (object: object, propertyName: string) => 
 			defaultMessage: () => 'Длительность абонемента невалидна'
 		}
 	})
-}

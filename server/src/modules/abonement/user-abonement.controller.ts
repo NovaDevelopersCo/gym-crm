@@ -30,25 +30,25 @@ export class UserAbonementController {
 
 	@AbonementDocSwagger.createUserAbonement()
 	@Post()
-	create(@Body() dto: CreateUserAbonementDto) {
+	public create(@Body() dto: CreateUserAbonementDto) {
 		return this.userAbonementService.create(dto)
 	}
 
 	@AbonementDocSwagger.getAllUserAbonement()
 	@Get()
-	getAll(@Query() query: FindAllUserAbonementDto) {
+	public getAll(@Query() query: FindAllUserAbonementDto) {
 		return this.userAbonementService.getAll(query)
 	}
 
 	@AbonementDocSwagger.getByIdUserAbonement()
 	@Get(':id')
-	getById(@Param() { id }: GetByIdParamsDto) {
+	public getById(@Param() { id }: GetByIdParamsDto) {
 		return this.userAbonementService.getById(id)
 	}
 
 	@AbonementDocSwagger.deleteUserAbonement()
 	@Delete(':id')
-	delete(@Param() { id }: GetByIdParamsDto) {
+	public delete(@Param() { id }: GetByIdParamsDto) {
 		return this.userAbonementService.delete(id)
 	}
 }

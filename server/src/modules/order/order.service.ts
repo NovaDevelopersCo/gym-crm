@@ -2,12 +2,13 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreateOrderDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { OrderEntity, OrderItemEntity } from './entities'
-import { Repository } from 'typeorm'
+import { Between, In, Repository } from 'typeorm'
 import { ProductService } from '../product/product.service'
 import { UserService } from '../user/user.service'
 import { FindAllOrderDto } from './dto/find-all.dto'
-import { PaginationDto } from '@/core/pagination'
+import { Pagination } from '@/core/pagination'
 import { ProductEntity } from '../product/entities'
+import { skipCount } from '@/core/utils'
 
 @Injectable()
 export class OrderService {
@@ -20,7 +21,7 @@ export class OrderService {
 		private readonly userService: UserService
 	) {}
 
-	async create(dto: CreateOrderDto) {
+	public async create(dto: CreateOrderDto) {
 		const user = await this.userService.getOneById(dto.user)
 		const productIds = dto.products.map(prod => prod.id)
 		const products = await this.productService.getByIds(productIds)
@@ -45,38 +46,38 @@ export class OrderService {
 		return await this.orderRepository.save(order)
 	}
 
-	async getAll({ page, count, sortBy, sortOrder, user }: FindAllOrderDto) {
+	public async getAll({ page, count, sortBy, sortOrder, users, total }: FindAllOrderDto) {
 		const where = {}
-		if (user) {
-			where['user'] = { id: user }
-		}
+		users?.length ? (where['user'] = { id: In(users) }) : {}
 
-		const [items, total] = await this.orderRepository.findAndCount({
+		if (total) {
+			if (typeof total === 'number') {
+				where['total'] = total
+			}
+			if (Array.isArray(total)) {
+				const sorted = total.sort()
+				where['total'] = Between(sorted[0], sorted[1])
+			}
+		}
+		const [items, total_] = await this.orderRepository.findAndCount({
+			where,
 			order: {
 				[sortBy]: sortOrder
 			},
-			where,
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			relations: {
 				user: true,
 				items: {
 					product: true
 				}
-			},
-			select: {
-				user: {
-					id: true,
-					fio: true,
-					email: true
-				}
 			}
 		})
 
-		return new PaginationDto(items, total)
+		return new Pagination(items, total_)
 	}
 
-	async getById(id: number) {
+	public async getById(id: number) {
 		const order = await this.orderRepository.findOne({
 			where: { id },
 			relations: {
@@ -84,13 +85,6 @@ export class OrderService {
 					product: true
 				},
 				user: true
-			},
-			select: {
-				user: {
-					id: true,
-					fio: true,
-					email: true
-				}
 			}
 		})
 
@@ -100,7 +94,7 @@ export class OrderService {
 		return order
 	}
 
-	async delete(id: number) {
+	public async delete(id: number) {
 		await this.getById(id)
 		await this.orderRepository.delete({ id })
 		return
@@ -108,7 +102,6 @@ export class OrderService {
 
 	private checkAllProductInClub(products: ProductEntity[], clubId: number) {
 		products.forEach(product => {
-			// ! Если клуб null
 			if (!product.club) return
 			if (product.club.id !== clubId) {
 				throw new BadRequestException(

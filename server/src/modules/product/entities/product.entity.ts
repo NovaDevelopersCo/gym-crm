@@ -2,18 +2,23 @@ import { BaseEntity } from '@/core/database/entity'
 import { ClubEntity } from '@/modules/club/entities'
 import { OrderItemEntity } from '@/modules/order/entities'
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm'
+import { ProductPropertiesSwagger } from '../swagger/properties'
 
 @Entity('Product')
 export class ProductEntity extends BaseEntity {
+	@ProductPropertiesSwagger.name_()
 	@Column()
-	name: string
+	public readonly name: string
 
+	@ProductPropertiesSwagger.price()
 	@Column()
-	price: number
+	public readonly price: number
 
+	@ProductPropertiesSwagger.club()
 	@ManyToOne(() => ClubEntity, club => club.products, { onDelete: 'SET NULL' })
-	club: ClubEntity
+	public readonly club: ClubEntity
 
+	@ProductPropertiesSwagger.orders()
 	@OneToMany(() => OrderItemEntity, item => item.product)
-	orders: OrderItemEntity[]
+	public readonly orders: OrderItemEntity[]
 }

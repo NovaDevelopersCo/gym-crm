@@ -9,5 +9,5 @@ export class GetByIdParamsDto {
 	})
 	@Type(() => Number)
 	@IsInt({ message: 'Параметр id должен быть числом' })
-	id: number
+	public readonly id: number
 }

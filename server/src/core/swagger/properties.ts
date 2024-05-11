@@ -1,92 +1,75 @@
 import { IsString, MinLength, MaxLength, IsEmail, IsInt } from 'class-validator'
-import { propertiesSwagger } from '../utils'
+import { Property } from '../utils'
 
-export class PropertyDecoratorsSwagger {
-	static password(withValidation?: boolean) {
+export class CommonPropertiesSwagger {
+	public static password(validation?: boolean) {
 		const minLength = 8
 		const maxLength = 32
 
-		return propertiesSwagger({
+		return new Property({
+			validation,
 			example: 'password',
-			decorators: withValidation
-				? [
-						IsString({ message: 'Пароль должен быть строкой' }),
-						MinLength(minLength, {
-							message: `Минимальная длина пароля ${minLength} символов`
-						}),
-						MaxLength(maxLength, {
-							message: `Максимальная длина пароля ${maxLength} символа`
-						})
-					]
-				: [],
-			validation: withValidation ? { maxLength, minLength } : {}
-		})
+			description: 'Пароль',
+			decorators: [
+				IsString({ message: 'Пароль должен быть строкой' }),
+				MinLength(minLength, {
+					message: `Минимальная длина пароля ${minLength} символов`
+				}),
+				MaxLength(maxLength, {
+					message: `Максимальная длина пароля ${maxLength} символа`
+				})
+			],
+			maxLength,
+			minLength
+		}).exec()
 	}
 
-	static email(withValidation?: boolean) {
+	public static email(validation?: boolean) {
 		const maxLength = 200
 
-		return propertiesSwagger({
-			example: 'email@email.com',
-			decorators: withValidation
-				? [
-						IsEmail({}, { message: 'Невалидная почта' }),
-						MaxLength(maxLength, {
-							message: `Максимальная длина почты ${maxLength} символов`
-						})
-					]
-				: [],
-			validation: withValidation ? { maxLength } : {}
-		})
+		return new Property({
+			validation,
+			example: 'email@gmail.com',
+			description: 'Почтовый адрес',
+			maxLength,
+			decorators: [
+				IsEmail({}, { message: 'Невалидная почта' }),
+				MaxLength(maxLength, {
+					message: `Максимальная длина почты ${maxLength} символов`
+				})
+			]
+		}).exec()
 	}
 
-	static id(withValidation?: boolean) {
-		return propertiesSwagger({
+	public static id(validation?: boolean) {
+		return new Property({
 			example: 1,
-			decorators: withValidation ? [IsInt({ message: 'Id должен быть числом' })] : []
-		})
+			description: 'Id сущности',
+			decorators: [IsInt({ message: 'Id должен быть числом' })],
+			validation
+		}).exec()
 	}
 
-	static clubId(withValidation?: boolean) {
-		return propertiesSwagger({
+	public static clubId() {
+		return new Property({
 			example: 1,
-			decorators: withValidation ? [IsInt({ message: 'Id клуба должен быть числом' })] : []
-		})
+			description: 'Id клуба',
+			decorators: [IsInt({ message: 'Id клуба должен быть числом' })],
+			validation: true
+		}).exec()
 	}
 
-	static groupIds(withValidation?: boolean) {
-		return propertiesSwagger({
-			example: [3, 5, 8],
-			decorators: withValidation
-				? [IsInt({ each: true, message: 'Id групп должны быть числом' })]
-				: []
-		})
+	public static createDate() {
+		return new Property({
+			example: '2024-05-01T09:47:08.253Z',
+			description: 'Дата создания'
+		}).exec()
 	}
 
-	static clubIds(withValidation?: boolean) {
-		return propertiesSwagger({
-			example: [1, 7, 10],
-			decorators: withValidation
-				? [IsInt({ each: true, message: 'Id клубов должны быть числом' })]
-				: []
-		})
-	}
-
-	static userId(withValidation?: boolean) {
-		return propertiesSwagger({
-			example: 6,
-			decorators: withValidation
-				? [IsInt({ message: 'Id пользователя должен быть числом' })]
-				: []
-		})
-	}
-
-	static abonementId(withValidation?: boolean) {
-		return propertiesSwagger({
-			example: 8,
-			decorators: withValidation
-				? [IsInt({ message: 'Id абонемента должно быть числом' })]
-				: []
-		})
+	public static updateDate() {
+		return new Property({
+			example: '2024-05-01T09:47:08.253Z',
+			description: 'Дата изменения'
+		}).exec()
 	}
 }

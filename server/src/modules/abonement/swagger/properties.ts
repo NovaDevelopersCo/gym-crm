@@ -1,110 +1,194 @@
-import { propertiesSwagger } from '@/core/utils'
-import { abonementValidation, userAbonementValidation } from '../validation'
-import { MaxLength, MinLength, Min, Max, IsOptional, IsString, IsInt } from 'class-validator'
+import { ClubEntity } from '@/modules/club/entities'
+import { Property } from '@/core/utils'
+import { abonementValidation } from '../validation'
+import {
+	MaxLength,
+	MinLength,
+	Min,
+	Max,
+	IsString,
+	IsInt,
+	ArrayMinSize,
+	IsBooleanString
+} from 'class-validator'
 import { DurationValidate } from '../decorators'
-import { UserAbonementUser } from '@/modules/user/swagger'
+import { Trim } from '@/core/decorators'
+import { AbonementEntity, UserAbonementEntity } from '../entities'
+import { UserEntity } from '@/modules/user/entities'
 
 export class AbonementPropertiesSwagger {
-	static name_(withValidation?: boolean) {
+	public static name_(validation?: boolean) {
 		const { minLength, maxLength } = abonementValidation.name
 
-		return propertiesSwagger({
+		return new Property({
 			example: 'Групповой',
-			validation: withValidation ? abonementValidation.name : {},
-			decorators: withValidation
-				? [
-						IsString({ message: 'Название абонемента должно быть строкой' }),
-						MinLength(minLength, {
-							message: `Минимальная длина названия абонемента ${minLength} символов`
-						}),
-						MaxLength(maxLength, {
-							message: `Максимальная длина названия абонемента ${maxLength} символов`
-						})
-					]
-				: []
-		})
+			description: 'Название абонемента',
+			...abonementValidation.name,
+			decorators: [
+				IsString({ message: 'Название абонемента должно быть строкой' }),
+				Trim(),
+				MinLength(minLength, {
+					message: `Минимальная длина названия абонемента ${minLength} символов`
+				}),
+				MaxLength(maxLength, {
+					message: `Максимальная длина названия абонемента ${maxLength} символов`
+				})
+			],
+			validation
+		}).exec()
 	}
 
-	static price(withValidation?: boolean) {
+	public static price(validation?: boolean) {
 		const { minimum, maximum } = abonementValidation.price
 
-		return propertiesSwagger({
+		return new Property({
 			example: 1200,
-			validation: withValidation ? abonementValidation.price : {},
-			decorators: withValidation
-				? [
-						IsInt({ message: 'Цена абонемента должна быть числом' }),
-						Min(minimum, { message: `Минимальная цена абонемента ${minimum}` }),
-						Max(maximum, { message: `Максимальная цена абонемента ${maximum}` })
-					]
-				: []
-		})
+			description: 'Цена абонемента',
+			...abonementValidation.price,
+			decorators: [
+				IsInt({ message: 'Цена абонемента должна быть числом' }),
+				Min(minimum, { message: `Минимальная цена абонемента ${minimum}` }),
+				Max(maximum, { message: `Максимальная цена абонемента ${maximum}` })
+			],
+			validation
+		}).exec()
 	}
 
-	static count(withValidation?: boolean) {
-		const { minimum, maximum, nullable } = abonementValidation.count
+	public static count(validation?: boolean) {
+		const { minimum, maximum } = abonementValidation.count
 
-		return propertiesSwagger({
+		return new Property({
 			example: 8,
-			validation: withValidation ? abonementValidation.count : { nullable },
-			decorators: withValidation
-				? [
-						IsOptional(),
-						IsInt({ message: 'Количество занятий должно быть числом' }),
-						Min(minimum, { message: `Минимальное количество занятий ${minimum}` }),
-						Max(maximum, { message: `Максимальное количество занятий ${maximum}` })
-					]
-				: []
-		})
+			description: 'Количество занятий в абонементе',
+			...abonementValidation.count,
+			decorators: [
+				IsInt({ message: 'Количество занятий должно быть числом' }),
+				Min(minimum, { message: `Минимальное количество занятий ${minimum}` }),
+				Max(maximum, { message: `Максимальное количество занятий ${maximum}` })
+			],
+			validation
+		}).exec()
 	}
 
-	static duration(withValidation?: boolean) {
-		const { minLength, maxLength, nullable } = abonementValidation.duration
+	public static duration(validation?: boolean) {
+		const { minLength, maxLength } = abonementValidation.duration
 
-		return propertiesSwagger({
+		return new Property({
 			example: '1m.',
-			validation: withValidation ? abonementValidation.duration : { nullable },
-			decorators: withValidation
-				? [
-						IsOptional(),
-						IsString({ message: 'Длительность абонемента должна быть строкой' }),
-						DurationValidate(),
-						MinLength(minLength, {
-							message: `Минимальная длина длительности абонемента ${minLength} символов`
-						}),
-						MaxLength(maxLength, {
-							message: `Максимальная длина длительности абонемента ${maxLength} символов`
-						})
-					]
-				: []
-		})
+			description: 'Длительность абонемента',
+			...abonementValidation.duration,
+			decorators: [
+				IsString({ message: 'Длительность абонемента должна быть строкой' }),
+				Trim(),
+				DurationValidate,
+				MinLength(minLength, {
+					message: `Минимальная длина длительности абонемента ${minLength} символов`
+				}),
+				MaxLength(maxLength, {
+					message: `Максимальная длина длительности абонемента ${maxLength} символов`
+				})
+			],
+			validation
+		}).exec()
 	}
 
-	static start() {
-		return propertiesSwagger({
+	public static clubIds(validation?: boolean) {
+		const { minItems } = abonementValidation.clubs
+
+		return new Property({
+			example: [1, 7, 10],
+			...abonementValidation.clubs,
+			description: 'Клубы в которых действует абонемент',
+			decorators: [
+				IsInt({ each: true, message: 'Id клубов должны быть числом' }),
+				ArrayMinSize(minItems, {
+					message: `Массив клубов должен содержать не меньше ${minItems} элементов`
+				})
+			],
+			validation
+		}).exec()
+	}
+
+	public static isFinishQuery() {
+		return new Property({
+			required: false,
+			example: false,
+			decorators: [
+				IsBooleanString({
+					message: 'Статус окончание абонемента должен быть булевой строкой'
+				})
+			],
+			description: 'Статус окончания абонемента'
+		}).exec()
+	}
+
+	public static abonementId() {
+		return new Property({
+			example: 9,
+			description: 'Id абонемента',
+			decorators: [IsInt({ message: 'Id абонемента должен быть числом' })],
+			validation: true
+		}).exec()
+	}
+
+	public static userId() {
+		return new Property({
+			example: 12,
+			description: 'Id посетителя',
+			decorators: [IsInt({ message: 'Id посетителя должен быть числом' })],
+			validation: true
+		}).exec()
+	}
+
+	public static userAbonements() {
+		return new Property({
+			description: 'Абонементы посетителей',
+			type: () => UserAbonementEntity,
+			isArray: true
+		}).exec()
+	}
+
+	public static clubs() {
+		return new Property({
+			description: 'Клубы в которых действует абонемент',
+			type: () => ClubEntity,
+			isArray: true
+		}).exec()
+	}
+	public static start() {
+		return new Property({
 			example: '2024-05-01',
-			validation: userAbonementValidation.start
-		})
+			description: 'Дата начала действия абонемента',
+			nullable: true
+		}).exec()
 	}
 
-	static end() {
-		return propertiesSwagger({
-			example: '2025-06-09',
-			validation: userAbonementValidation.end
-		})
+	public static end() {
+		return new Property({
+			example: '2024-09-01',
+			description: 'Дата окончания действия абонемента',
+			nullable: true
+		}).exec()
 	}
 
-	static isFinish() {
-		return propertiesSwagger({
-			example: false
-		})
+	public static isFinish() {
+		return new Property({
+			example: false,
+			description: 'Статус окончания абонемента'
+		}).exec()
 	}
 
-	static user() {
-		return propertiesSwagger({
-			validation: {
-				type: UserAbonementUser
-			}
-		})
+	public static abonement() {
+		return new Property({
+			description: 'Абонемент',
+			type: () => AbonementEntity
+		}).exec()
+	}
+
+	public static user() {
+		return new Property({
+			description: 'Пользователь',
+			type: () => UserEntity
+		}).exec()
 	}
 }

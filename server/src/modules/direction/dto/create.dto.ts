@@ -1,6 +1,6 @@
-import { DirectionPropertiesSwagger } from '../swagger/properties'
+import { DirectionPropertiesSwagger } from '../swagger'
 
 export class CreateDirectionDto {
 	@DirectionPropertiesSwagger.name_(true)
-	name: string
+	public readonly name: string
 }

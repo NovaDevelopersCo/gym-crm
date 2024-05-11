@@ -1,4 +1,4 @@
 export class RefreshDto {
-	accessToken: string
-	refreshToken: string
+	public readonly accessToken: string
+	public readonly refreshToken: string
 }

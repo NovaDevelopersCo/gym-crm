@@ -3,24 +3,30 @@ import { Column, Entity, ManyToOne } from 'typeorm'
 import { EStaffRole } from '@/core/enums'
 import { ClubEntity } from '@/modules/club/entities'
 import { Exclude } from 'class-transformer'
+import { CommonPropertiesSwagger } from '@/core/swagger'
+import { StaffPropertiesSwagger } from '../swagger/properties'
 
 @Entity('Staff')
 export class StaffEntity extends BaseEntity {
+	@CommonPropertiesSwagger.password()
 	@Exclude()
 	@Column()
-	password: string
+	public password: string
 
+	@CommonPropertiesSwagger.email()
 	@Column({
 		unique: true
 	})
-	email: string
+	public email: string
 
+	@StaffPropertiesSwagger.role()
 	@Column({
 		type: 'enum',
 		enum: EStaffRole
 	})
-	role: EStaffRole
+	public role: EStaffRole
 
+	@StaffPropertiesSwagger.club()
 	@ManyToOne(() => ClubEntity, club => club.admins, { onDelete: 'SET NULL' })
-	club: ClubEntity
+	public club: ClubEntity
 }

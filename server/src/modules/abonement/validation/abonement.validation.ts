@@ -10,11 +10,16 @@ export const abonementValidation = {
 	count: {
 		minimum: 1,
 		maximum: 999,
-		nullable: true
+		nullable: true,
+		required: false
 	},
 	duration: {
 		minLength: 2,
 		maxLength: 5,
-		nullable: true
+		nullable: true,
+		required: false
+	},
+	clubs: {
+		minItems: 1
 	}
 }

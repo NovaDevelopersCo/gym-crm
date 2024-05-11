@@ -1,6 +1,6 @@
-export class PaginationDto {
-	items: object[]
-	meta: { total: number }
+export class Pagination {
+	private readonly items: object[]
+	private readonly meta: { total: number }
 	constructor(items: object[], totalCount: number) {
 		this.items = items
 		this.meta = {

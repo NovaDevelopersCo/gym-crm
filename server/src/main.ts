@@ -3,7 +3,7 @@ import { NestFactory } from '@nestjs/core'
 import { ENodeEnv } from './core/enums'
 import { SwaggerModule } from '@nestjs/swagger'
 import { AppModule } from './app.module'
-import { swaggerConfig } from '@configs'
+import { swaggerConfig } from '@/configs'
 import * as cookieParser from 'cookie-parser'
 import { AuthAdapter } from './ws/adapters'
 

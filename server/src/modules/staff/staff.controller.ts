@@ -32,38 +32,38 @@ export class StaffController {
 
 	@StaffDocSwagger.create()
 	@Post()
-	create(@Body() dto: CreateStaffDto) {
+	public create(@Body() dto: CreateStaffDto) {
 		return this.staffService.create(dto)
 	}
 
 	@StaffDocSwagger.getAll()
 	@Get()
-	getAll(@Query() query: FindAllStaffDto) {
+	public getAll(@Query() query: FindAllStaffDto) {
 		return this.staffService.getAll(query)
 	}
 
 	@StaffDocSwagger.getById()
 	@Get(':id')
-	getOne(@Param() { id }: GetByIdParamsDto) {
+	public getOne(@Param() { id }: GetByIdParamsDto) {
 		return this.staffService.getById(id, true, { relations: { club: true } })
 	}
 
 	@StaffDocSwagger.update()
 	@Put(':id')
-	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateStaffDto) {
+	public update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateStaffDto) {
 		return this.staffService.update(id, dto)
 	}
 
 	@StaffDocSwagger.delete()
 	@Delete(':id')
-	delete(@Param() { id }: GetByIdParamsDto) {
+	public delete(@Param() { id }: GetByIdParamsDto) {
 		return this.staffService.delete(id)
 	}
 
 	@StaffDocSwagger.updatePassword()
 	@HttpCode(204)
 	@Patch('/password/:id')
-	updatePassword(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdatePasswordStaffDto) {
+	public updatePassword(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdatePasswordStaffDto) {
 		return this.staffService.updatePassword(id, dto)
 	}
 }

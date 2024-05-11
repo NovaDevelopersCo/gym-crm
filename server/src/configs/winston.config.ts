@@ -3,7 +3,6 @@ import { ELoggerLevels } from '@/core/enums'
 import { ConfigService } from '@nestjs/config'
 import type { WinstonModuleOptions } from 'nest-winston'
 import * as path from 'path'
-
 import * as winston from 'winston'
 
 export const getWinstonConfig = (configService: ConfigService): WinstonModuleOptions => {

@@ -6,14 +6,14 @@ import { WsException } from '@nestjs/websockets'
 import { TokenService } from '@/auth/token.service'
 
 export class AuthAdapter extends IoAdapter {
-	tokenService: TokenService
+	private tokenService: TokenService
 
 	constructor(private readonly app: INestApplication) {
 		super(app)
 		this.tokenService = app.get(TokenService)
 	}
 
-	createIOServer(port: number, options?: any) {
+	public createIOServer(port: number, options?: any) {
 		const server = super.createIOServer(port, options)
 		server.use(async (socket: ClientIo, next: NextFunction) => {
 			try {

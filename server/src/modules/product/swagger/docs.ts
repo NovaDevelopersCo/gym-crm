@@ -5,7 +5,7 @@ import { BaseDocSwagger } from '@/core/swagger/docs'
 import { CreateProductOk, GetAllProductsOk, GetProductByIdOk, UpdateProductOk } from './responses'
 
 export class ProductDocSwagger {
-	static getAll() {
+	public static getAll() {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Получить список всех товаров',
@@ -19,7 +19,7 @@ export class ProductDocSwagger {
 		)
 	}
 
-	static getById() {
+	public static getById() {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Получить товар по id',
@@ -34,7 +34,7 @@ export class ProductDocSwagger {
 		)
 	}
 
-	static create() {
+	public static create() {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Создать новый товар',
@@ -49,7 +49,7 @@ export class ProductDocSwagger {
 		)
 	}
 
-	static update() {
+	public static update() {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Изменить товар',
@@ -64,7 +64,7 @@ export class ProductDocSwagger {
 		)
 	}
 
-	static delete() {
+	public static delete() {
 		return applyDecorators(
 			ApiOperation({
 				summary: 'Удалить товар',

@@ -1,34 +1,61 @@
 import { groupValidation } from '../validation'
 import { MaxLength, MinLength, IsString, IsInt } from 'class-validator'
-import { propertiesSwagger } from '@/core/utils'
+import { Property } from '@/core/utils'
+import { Trim } from '@/core/decorators'
+import { DirectionEntity } from '@/modules/direction/entities'
+import { ClubEntity } from '@/modules/club/entities'
+import { UserEntity } from '@/modules/user/entities'
 
 export class GroupPropertiesSwagger {
-	static name_(withValidation?: boolean) {
+	public static name_(validation?: boolean) {
 		const { minLength, maxLength } = groupValidation.name
 
-		return propertiesSwagger({
+		return new Property({
 			example: 'Группа 2',
-			validation: withValidation ? groupValidation.name : {},
-			decorators: withValidation
-				? [
-						IsString({ message: 'Название группы должно быть строкой' }),
-						MaxLength(maxLength, {
-							message: `Максимальная длина названия группы ${maxLength} символов`
-						}),
-						MinLength(minLength, {
-							message: `Минимальная длина названия группы ${minLength} символа`
-						})
-					]
-				: []
-		})
+			...groupValidation.name,
+			description: 'Название группы',
+			decorators: [
+				IsString({ message: 'Название группы должно быть строкой' }),
+				Trim(),
+				MaxLength(maxLength, {
+					message: `Максимальная длина названия группы ${maxLength} символов`
+				}),
+				MinLength(minLength, {
+					message: `Минимальная длина названия группы ${minLength} символа`
+				})
+			],
+			validation
+		}).exec()
 	}
 
-	static directionId(withValidation?: boolean) {
-		return propertiesSwagger({
+	public static directionId() {
+		return new Property({
+			validation: true,
 			example: 3,
-			decorators: withValidation
-				? [IsInt({ message: 'Id направления должен быть числом ' })]
-				: []
-		})
+			description: 'Id направления',
+			decorators: [IsInt({ message: 'Id направления должен быть числом' })]
+		}).exec()
+	}
+
+	public static direction() {
+		return new Property({
+			description: 'Направление группы',
+			type: () => DirectionEntity
+		}).exec()
+	}
+
+	public static club() {
+		return new Property({
+			description: 'Клуб, к которому относится группа',
+			type: () => ClubEntity
+		}).exec()
+	}
+
+	public static users() {
+		return new Property({
+			description: 'Посетители',
+			type: () => UserEntity,
+			isArray: true
+		}).exec()
 	}
 }

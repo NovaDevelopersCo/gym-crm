@@ -1,5 +1,10 @@
 import { type FC, useId } from 'react'
-import type { ControllerRenderProps, FieldError, FieldErrorsImpl, Merge } from 'react-hook-form'
+import type {
+	ControllerRenderProps,
+	FieldError,
+	FieldErrorsImpl,
+	Merge
+} from 'react-hook-form'
 
 import { Input } from 'antd'
 import { TextAreaProps } from 'antd/es/input'

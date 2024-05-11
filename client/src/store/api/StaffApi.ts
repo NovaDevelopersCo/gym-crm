@@ -61,4 +61,9 @@ export const staffApi = createApi({
 	})
 })
 
-export const { useGetStaffQuery, useCreateStaffMutation, useDeleteStaffMutation, useEditStaffMutation } = staffApi
+export const {
+	useGetStaffQuery,
+	useCreateStaffMutation,
+	useDeleteStaffMutation,
+	useEditStaffMutation
+} = staffApi

@@ -11,7 +11,7 @@ import { BaseDocSwagger } from '@/core/swagger/docs'
 import { EStaffRole } from '@/core/enums'
 
 export class DirectionDocSwagger {
-	static getAll() {
+	public static getAll() {
 		return applyDecorators(
 			DocDecoratorsSwagger.getAll([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
@@ -22,7 +22,7 @@ export class DirectionDocSwagger {
 		)
 	}
 
-	static getById() {
+	public static getById() {
 		return applyDecorators(
 			DocDecoratorsSwagger.getById([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
@@ -34,7 +34,7 @@ export class DirectionDocSwagger {
 		)
 	}
 
-	static create() {
+	public static create() {
 		return applyDecorators(
 			DocDecoratorsSwagger.create([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
@@ -45,7 +45,7 @@ export class DirectionDocSwagger {
 		)
 	}
 
-	static update() {
+	public static update() {
 		return applyDecorators(
 			DocDecoratorsSwagger.update([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
@@ -57,7 +57,7 @@ export class DirectionDocSwagger {
 		)
 	}
 
-	static delete() {
+	public static delete() {
 		return applyDecorators(
 			DocDecoratorsSwagger.delete([EStaffRole.DIRECTOR]),
 			BaseDocSwagger.delete()

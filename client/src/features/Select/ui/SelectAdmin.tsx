@@ -2,6 +2,7 @@ import { FC } from 'react'
 
 import { Select, TSelectProps } from '@/shared'
 import { useGetStaffQuery } from '@/store'
+
 import { staffsToParams } from '../lib'
 
 const SelectAdmin: FC<Omit<TSelectProps, 'options'>> = props => {

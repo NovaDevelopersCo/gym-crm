@@ -2,35 +2,43 @@ import { BaseEntity } from '@/core/database/entity'
 import { Column, Entity, ManyToOne } from 'typeorm'
 import { AbonementEntity } from './abonement.entity'
 import { UserEntity } from '@/modules/user/entities'
+import { AbonementPropertiesSwagger } from '../swagger/properties'
 
 @Entity('UserAbonement')
 export class UserAbonementEntity extends BaseEntity {
+	@AbonementPropertiesSwagger.price()
 	@Column()
-	price: number
+	public readonly price: number
 
+	@AbonementPropertiesSwagger.start()
 	@Column({
 		nullable: true
 	})
-	start: string | null
+	public readonly start: string | null
 
+	@AbonementPropertiesSwagger.end()
 	@Column({
 		nullable: true
 	})
-	end: string | null
+	public readonly end: string | null
 
+	@AbonementPropertiesSwagger.isFinish()
 	@Column({
 		default: false
 	})
-	isFinish: boolean
+	public readonly isFinish: boolean
 
+	@AbonementPropertiesSwagger.abonement()
 	@ManyToOne(() => AbonementEntity, abonement => abonement.userAbonements)
-	abonement: AbonementEntity
+	public readonly abonement: AbonementEntity
 
+	@AbonementPropertiesSwagger.user()
 	@ManyToOne(() => UserEntity, user => user.abonements)
-	user: UserEntity
+	public readonly user: UserEntity
 
+	@AbonementPropertiesSwagger.count()
 	@Column({
 		nullable: true
 	})
-	count: number | null
+	public readonly count: number | null
 }

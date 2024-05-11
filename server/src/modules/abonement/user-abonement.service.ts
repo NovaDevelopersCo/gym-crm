@@ -1,12 +1,13 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
-import { ILike, Repository } from 'typeorm'
+import { Between, In, Repository } from 'typeorm'
 import { UserAbonementEntity } from './entities'
 import { UserService } from '../user/user.service'
-import { CreateUserAbonementDto, ESearch, FindAllUserAbonementDto } from './dto'
+import { CreateUserAbonementDto, FindAllUserAbonementDto } from './dto'
 import { AbonementService } from './abonement.service'
 import { formatDate } from './utils'
-import { PaginationDto } from '@/core/pagination'
+import { Pagination } from '@/core/pagination'
+import { skipCount } from '@/core/utils'
 
 @Injectable()
 export class UserAbonementService {
@@ -17,7 +18,7 @@ export class UserAbonementService {
 		private readonly abonementService: AbonementService
 	) {}
 
-	async create({ userId, abonementId }: CreateUserAbonementDto) {
+	public async create({ userId, abonementId }: CreateUserAbonementDto) {
 		await this.userService.getOneById(userId)
 
 		const abonement = await this.userAbonementRepository.findOne({
@@ -51,7 +52,7 @@ export class UserAbonementService {
 		return this.userAbonementRepository.save(createdAbonement)
 	}
 
-	async getById(id: number) {
+	public async getById(id: number) {
 		const abonement = await this.userAbonementRepository.findOne({
 			where: { id },
 			relations: {
@@ -67,15 +68,29 @@ export class UserAbonementService {
 		return abonement
 	}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllUserAbonementDto) {
+	public async getAll({
+		page,
+		count,
+		sortBy,
+		sortOrder,
+		isFinish,
+		abomenents,
+		users,
+		price
+	}: FindAllUserAbonementDto) {
 		const where = {}
-		// ! мейби рефакторинг
-		if (searchBy === ESearch.USER || searchBy === ESearch.ABONEMENT) {
-			const isNumber = Number.isInteger(+q)
-			if (!isNumber) throw new BadRequestException('Id клуба должно быть числом ')
-			where[searchBy] = { id: +q }
-		} else {
-			q ? (where[searchBy] = ILike(`%${q}%`)) : {}
+		const isBoolean = ['true', 'false'].includes(isFinish)
+		if (isBoolean) where['isFinish'] = isFinish === 'true'
+		abomenents?.length ? (where['abomenent'] = { id: In(abomenents) }) : {}
+		users?.length ? (where['user'] = { id: In(users) }) : {}
+		if (price) {
+			if (typeof price === 'number') {
+				where['price'] = price
+			}
+			if (Array.isArray(price)) {
+				const sorted = price.sort()
+				where['price'] = Between(sorted[0], sorted[1])
+			}
 		}
 
 		const [items, total] = await this.userAbonementRepository.findAndCount({
@@ -83,7 +98,7 @@ export class UserAbonementService {
 				[sortBy]: sortOrder
 			},
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			where,
 			relations: {
 				user: true,
@@ -98,16 +113,16 @@ export class UserAbonementService {
 			}
 		})
 
-		return new PaginationDto(items, total)
+		return new Pagination(items, total)
 	}
 
-	async delete(id: number) {
+	public async delete(id: number) {
 		await this.getById(id)
 		await this.userAbonementRepository.delete({ id })
 		return
 	}
 
-	async finish(id: number) {
+	public async finish(id: number) {
 		const abonement = await this.getById(id)
 
 		if (!abonement.isFinish) {

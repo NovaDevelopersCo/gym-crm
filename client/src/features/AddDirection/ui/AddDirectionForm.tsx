@@ -44,7 +44,7 @@ const AddDirectionForm = () => {
 					{ required: true, message: 'Введите название направления!' }
 				]}
 			>
-				<Input placeholder='Название'/>
+				<Input placeholder='Название' />
 			</Form.Item>
 
 			<Form.Item>

@@ -1,53 +1,46 @@
-import { ApiProperty, OmitType, PickType } from '@nestjs/swagger'
-import { CreateUserDto as CUserDto } from '../dto'
-import { UserGroup, UserGroupSmall } from '@/modules/group/swagger'
-import { UserClub } from '@/modules/club/swagger'
-import { PropertyDecoratorsSwagger, PaginationResponse } from '@/core/swagger'
-import { UserPropertiesSwagger } from './properties'
+import { ApiProperty } from '@nestjs/swagger'
+import { PaginationResponse, IdDto } from '@/core/swagger'
+import { ClubDto } from '@/modules/club/swagger'
+import { UserDto } from './dto'
+import { GroupClubDto } from '@/modules/group/swagger'
+import { AbonementDto } from '@/modules/abonement/swagger'
+import { OrderDto } from '@/modules/order/swagger'
 
-export class UserDto extends PickType(CUserDto, ['birthday', 'phone']) {
-	@ApiProperty({
-		isArray: true,
-		type: () => UserGroupSmall
-	})
-	groups: UserGroupSmall
+class User extends UserDto {
+	@ApiProperty({ isArray: true, type: () => GroupClubDto })
+	private readonly groups: GroupClubDto[]
 
-	@ApiProperty({
-		type: () => UserClub
-	})
-	club: UserClub
-
-	@PropertyDecoratorsSwagger.id()
-	id: number
-
-	@PropertyDecoratorsSwagger.email()
-	email: string
-
-	@UserPropertiesSwagger.fio()
-	fio: string
-
-	@UserPropertiesSwagger.howKnow()
-	howKnow: string
-
-	@UserPropertiesSwagger.instagram()
-	instagram: string
+	@ApiProperty()
+	public readonly createDate: Date
 }
 
-export class CreateUserOk extends OmitType(UserDto, ['groups']) {
-	@PropertyDecoratorsSwagger.id()
-	id: number
-
-	@ApiProperty({ isArray: true, type: () => UserGroup })
-	groups: UserGroup
+export class CreateUserOk extends User {
+	@ApiProperty({
+		type: () => IdDto
+	})
+	private readonly club: IdDto
 }
 
-export class GetUserByIdOk extends UserDto {}
+export class GetUserByIdOk extends User {
+	@ApiProperty({
+		type: () => ClubDto
+	})
+	public readonly club: ClubDto
 
+	@ApiProperty({
+		type: () => AbonementDto,
+		isArray: true
+	})
+	public readonly abonements: AbonementDto[]
+
+	@ApiProperty({
+		type: () => OrderDto,
+		isArray: true
+	})
+	public readonly orders: OrderDto
+}
+export class UpdateUserOk extends User {}
 export class GetAllUsersOk extends PaginationResponse {
 	@ApiProperty({ isArray: true })
-	items: UserDto
+	private readonly items: GetUserByIdOk
 }
-
-export class ClubUser extends OmitType(UserDto, ['groups', 'club']) {}
-export class GroupUser extends OmitType(UserDto, ['groups', 'club']) {}
-export class UserAbonementUser extends OmitType(UserDto, ['groups', 'club']) {}

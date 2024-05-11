@@ -13,7 +13,7 @@ import {
 } from './responses'
 
 export class AbonementDocSwagger {
-	static getAll() {
+	public static getAll() {
 		return applyDecorators(
 			DocDecoratorsSwagger.getAll([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
@@ -24,7 +24,7 @@ export class AbonementDocSwagger {
 		)
 	}
 
-	static getById() {
+	public static getById() {
 		return applyDecorators(
 			DocDecoratorsSwagger.getById([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
@@ -36,7 +36,7 @@ export class AbonementDocSwagger {
 		)
 	}
 
-	static update() {
+	public static update() {
 		return applyDecorators(
 			DocDecoratorsSwagger.update(
 				[EStaffRole.DIRECTOR],
@@ -53,7 +53,7 @@ export class AbonementDocSwagger {
 		)
 	}
 
-	static create() {
+	public static create() {
 		return applyDecorators(
 			DocDecoratorsSwagger.create(
 				[EStaffRole.DIRECTOR],
@@ -67,14 +67,14 @@ export class AbonementDocSwagger {
 		)
 	}
 
-	static delete() {
+	public static delete() {
 		return applyDecorators(
 			DocDecoratorsSwagger.delete([EStaffRole.DIRECTOR]),
 			BaseDocSwagger.delete()
 		)
 	}
 
-	static createUserAbonement() {
+	public static createUserAbonement() {
 		return applyDecorators(
 			DocDecoratorsSwagger.create([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
@@ -85,7 +85,7 @@ export class AbonementDocSwagger {
 		)
 	}
 
-	static getByIdUserAbonement() {
+	public static getByIdUserAbonement() {
 		return applyDecorators(
 			DocDecoratorsSwagger.getById([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
@@ -96,14 +96,14 @@ export class AbonementDocSwagger {
 		)
 	}
 
-	static deleteUserAbonement() {
+	public static deleteUserAbonement() {
 		return applyDecorators(
 			DocDecoratorsSwagger.delete([EStaffRole.DIRECTOR]),
 			BaseDocSwagger.authWithRole()
 		)
 	}
 
-	static getAllUserAbonement() {
+	public static getAllUserAbonement() {
 		return applyDecorators(
 			DocDecoratorsSwagger.getAll([EStaffRole.DIRECTOR]),
 			ApiOkResponse({

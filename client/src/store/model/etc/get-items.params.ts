@@ -1,4 +1,4 @@
-import ESortOrder from "./sort-order.enum"
+import ESortOrder from './sort-order.enum'
 
 interface GetItemsParams<T = unknown> {
 	page?: number

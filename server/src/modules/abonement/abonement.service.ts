@@ -1,10 +1,11 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { AbonementEntity } from './entities'
-import { ILike, Repository } from 'typeorm'
+import { Between, ILike, In, Repository } from 'typeorm'
 import { CreateAbonementDto, UpdateAbonementDto, FindAllAbonementDto } from './dto'
-import { PaginationDto } from '@/core/pagination'
+import { Pagination } from '@/core/pagination'
 import { ClubService } from '../club/club.service'
+import { skipCount } from '@/core/utils'
 
 @Injectable()
 export class AbonementService {
@@ -14,23 +15,46 @@ export class AbonementService {
 		private readonly clubService: ClubService
 	) {}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllAbonementDto) {
+	public async getAll({
+		page,
+		count,
+		sortBy,
+		sortOrder,
+		name,
+		duration,
+		clubs,
+		price
+	}: FindAllAbonementDto) {
+		const where = {}
+		name ? (where['name'] = ILike(`%${name}%`)) : {}
+		duration ? (where['duration'] = ILike(`%${duration}%`)) : {}
+		clubs?.length ? (where['clubs'] = { id: In(clubs) }) : {}
+		if (price) {
+			if (typeof price === 'number') {
+				where['price'] = price
+			}
+			if (Array.isArray(price)) {
+				const sorted = price.sort()
+				where['price'] = Between(sorted[0], sorted[1])
+			}
+		}
+
 		const [items, total] = await this.abonementRepository.findAndCount({
 			order: {
 				[sortBy]: sortOrder
 			},
-			where: q ? { [searchBy]: ILike(`%${q}%`) } : {},
+			where,
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			relations: {
 				clubs: true
 			}
 		})
 
-		return new PaginationDto(items, total)
+		return new Pagination(items, total)
 	}
 
-	async getById(id: number) {
+	public async getById(id: number) {
 		const abonement = await this.abonementRepository.findOne({
 			where: { id },
 			relations: {
@@ -45,18 +69,8 @@ export class AbonementService {
 		return abonement
 	}
 
-	async create({ name, count, duration, price, clubs: clubIds }: CreateAbonementDto) {
-		// ! [FOR REFACTOR]: Вынести в слой валидации с помощью декоратора
-		// ! [FOR REFACTOR]: Максимальная цена больше
-		if (count && duration) {
-			throw new BadRequestException('Абонемент должен быть одного типа')
-		}
-		if (!count && !duration) {
-			throw new BadRequestException('Абонемент должен быть хотя бы одного типа')
-		}
-
+	public async create({ name, count, duration, price, clubs: clubIds }: CreateAbonementDto) {
 		const clubs = await this.clubService.checkClubs(clubIds)
-
 		await this.nameCheck(name)
 		const createdAbonement = this.abonementRepository.create({
 			name,
@@ -65,39 +79,31 @@ export class AbonementService {
 			duration: duration ?? null,
 			clubs
 		})
-
 		return this.abonementRepository.save(createdAbonement)
 	}
 
-	async update(id: number, { name, count, duration, price }: UpdateAbonementDto) {
+	public async update(id: number, { name, count, duration, price }: UpdateAbonementDto) {
 		const abonement = await this.getById(id)
 
 		await this.nameCheck(name, id)
 
-		if (count && duration) {
-			throw new BadRequestException('Абонемент должен быть одного типа')
-		}
-
-		// eslint-disable-next-line
-		const { createDate, updateDate, ...data } = await this.abonementRepository.save({
+		return this.abonementRepository.save({
 			...abonement,
 			price,
 			duration,
 			count,
 			name
 		})
-
-		return data
 	}
 
-	async delete(id: number) {
+	public async delete(id: number) {
 		await this.getById(id)
 
 		this.abonementRepository.delete({ id })
 		return
 	}
 
-	async nameCheck(name: string, abonementId?: number) {
+	private async nameCheck(name: string, abonementId?: number) {
 		const abonement = await this.abonementRepository.findOne({ where: { name } })
 
 		if (!abonementId && abonement) {

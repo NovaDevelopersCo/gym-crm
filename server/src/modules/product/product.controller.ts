@@ -25,42 +25,40 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'
 @ApiBearerAuth('access-token')
 @UsePipes(new ValidationPipe({ whitelist: true }))
 @UseInterceptors(ClassSerializerInterceptor)
+@RolesAuthGuard(EStaffRole.DIRECTOR)
 @Controller('product')
 export class ProductController {
 	constructor(private readonly productService: ProductService) {}
 
-	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	@ProductDocSwagger.create()
 	@Post()
-	create(@Body() createProductDto: CreateProductDto) {
+	public create(@Body() createProductDto: CreateProductDto) {
 		return this.productService.create(createProductDto)
 	}
 
 	@RolesAuthGuard(EStaffRole.DIRECTOR, EStaffRole.ADMIN)
 	@ProductDocSwagger.getAll()
 	@Get()
-	getAll(@Query() query: FindAllProductDto) {
+	public getAll(@Query() query: FindAllProductDto) {
 		return this.productService.getAll(query)
 	}
 
 	@RolesAuthGuard(EStaffRole.DIRECTOR, EStaffRole.ADMIN)
 	@ProductDocSwagger.getById()
 	@Get(':id')
-	getById(@Param() { id }: GetByIdParamsDto) {
+	public getById(@Param() { id }: GetByIdParamsDto) {
 		return this.productService.getById(id)
 	}
 
-	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	@ProductDocSwagger.update()
 	@Put(':id')
-	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateProductDto) {
+	public update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateProductDto) {
 		return this.productService.update(id, dto)
 	}
 
-	@RolesAuthGuard(EStaffRole.DIRECTOR)
 	@ProductDocSwagger.delete()
 	@Delete(':id')
-	delete(@Param() { id }: GetByIdParamsDto) {
+	public delete(@Param() { id }: GetByIdParamsDto) {
 		return this.productService.delete(id)
 	}
 }

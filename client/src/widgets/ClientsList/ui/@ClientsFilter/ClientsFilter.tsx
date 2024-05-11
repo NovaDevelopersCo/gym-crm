@@ -1,13 +1,13 @@
+import { Dispatch, FC, SetStateAction } from 'react'
 import { Controller, FieldValues, useForm } from 'react-hook-form'
 
+import { Button } from '@/shared'
+import { GetItemsParams, IClient } from '@/store'
 import { Checkbox, Input } from 'antd'
 
 import { SelectClub } from '@features/Select'
 
 import cl from './ClientsFilter.module.scss'
-import { Button } from '@/shared';
-import { GetItemsParams, IClient } from '@/store';
-import { Dispatch, FC, SetStateAction } from 'react';
 
 type ClientsFilterProps = {
 	setParams: Dispatch<SetStateAction<GetItemsParams<IClient>>>
@@ -163,7 +163,7 @@ const ClientsFilter: FC<ClientsFilterProps> = ({ setParams }) => {
 					)}
 				/>
 			</div>
-			<Button type="default">Найти</Button>
+			<Button type='default'>Найти</Button>
 		</form>
 	)
 }

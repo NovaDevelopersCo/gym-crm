@@ -1,10 +1,10 @@
-import { ILike, Repository } from 'typeorm'
+import { ILike, In, Repository } from 'typeorm'
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
 import { DirectionEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
-import { CreateDirectionDto, UpdateDirectionDto } from './dto'
-import { FindAllDirectionDto } from './dto'
-import { PaginationDto } from '@/core/pagination'
+import { CreateDirectionDto, UpdateDirectionDto, FindAllDirectionDto } from './dto'
+import { Pagination } from '@/core/pagination'
+import { skipCount } from '@/core/utils'
 
 @Injectable()
 export class DirectionService {
@@ -13,27 +13,27 @@ export class DirectionService {
 		private readonly directionRepository: Repository<DirectionEntity>
 	) {}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllDirectionDto) {
+	public async getAll({ page, count, sortBy, sortOrder, name, groups }: FindAllDirectionDto) {
+		// ! проверить как работает
+		const where = {}
+		name ? (where['name'] = ILike(`%${name}%`)) : {}
+		groups?.length ? (where['groups'] = { id: In(groups) }) : {}
 		const [items, total] = await this.directionRepository.findAndCount({
 			order: {
-				[sortBy]: sortOrder
+				[sortBy]: [sortOrder]
 			},
-			where: q
-				? {
-						[searchBy]: ILike(`%${q}%`)
-					}
-				: {},
+			where,
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			relations: {
 				groups: true
 			}
 		})
 
-		return new PaginationDto(items, total)
+		return new Pagination(items, total)
 	}
 
-	async getById(directionId: number) {
+	public async getById(directionId: number) {
 		const direction = await this.directionRepository.findOne({
 			where: { id: directionId },
 			relations: {
@@ -48,7 +48,7 @@ export class DirectionService {
 		return direction
 	}
 
-	async create({ name }: CreateDirectionDto) {
+	public async create({ name }: CreateDirectionDto) {
 		await this.nameCheck(name)
 
 		const createdDirection = this.directionRepository.create({ name })
@@ -56,21 +56,18 @@ export class DirectionService {
 		return this.directionRepository.save(createdDirection)
 	}
 
-	async update(id: number, dto: UpdateDirectionDto) {
+	public async update(id: number, dto: UpdateDirectionDto) {
 		const direction = await this.getById(id)
 
 		await this.nameCheck(dto.name, id)
 
-		// eslint-disable-next-line
-		const { createDate, updateDate, ...data } = await this.directionRepository.save({
+		return this.directionRepository.save({
 			...direction,
 			...dto
 		})
-
-		return data
 	}
 
-	async delete(id: number) {
+	public async delete(id: number) {
 		await this.getById(id)
 
 		await this.directionRepository.delete({ id })

@@ -5,7 +5,8 @@ import { Repository, ILike, In } from 'typeorm'
 import { CreateGroupDto, UpdateGroupDto, FindAllGroupDto } from './dto'
 import { ClubService } from '../club/club.service'
 import { DirectionService } from '../direction/direction.service'
-import { PaginationDto } from '@/core/pagination'
+import { Pagination } from '@/core/pagination'
+import { skipCount } from '@/core/utils'
 
 @Injectable()
 export class GroupService {
@@ -15,16 +16,26 @@ export class GroupService {
 		private readonly directionService: DirectionService
 	) {}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllGroupDto) {
+	public async getAll({
+		page,
+		count,
+		sortBy,
+		sortOrder,
+		name,
+		directions,
+		clubs
+	}: FindAllGroupDto) {
+		const where = {}
+		name ? (where['name'] = ILike(`%${name}%`)) : {}
+		directions?.length ? (where['direction'] = { id: In(directions) }) : {}
+		clubs?.length ? (where['club'] = { id: In(clubs) }) : {}
 		const [items, total] = await this.groupRepository.findAndCount({
+			where,
 			order: {
 				[sortBy]: sortOrder
 			},
-			where: {
-				[searchBy]: ILike(`%${q}%`)
-			},
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			relations: {
 				direction: true,
 				club: true,
@@ -32,10 +43,10 @@ export class GroupService {
 			}
 		})
 
-		return new PaginationDto(items, total)
+		return new Pagination(items, total)
 	}
 
-	async getById(groupId: number) {
+	public async getById(groupId: number) {
 		const group = await this.groupRepository.findOne({
 			where: { id: groupId },
 			relations: {
@@ -52,7 +63,7 @@ export class GroupService {
 		return group
 	}
 
-	async create(dto: CreateGroupDto) {
+	public async create(dto: CreateGroupDto) {
 		await this.checkName(dto.name)
 
 		await this.clubService.getById(dto.club)
@@ -67,23 +78,21 @@ export class GroupService {
 		return this.groupRepository.save(createdGroup)
 	}
 
-	async update(groupId: number, dto: UpdateGroupDto) {
+	public async update(groupId: number, dto: UpdateGroupDto) {
 		const group = await this.getById(groupId)
 		await this.checkName(dto.name, groupId)
 		await this.clubService.getById(dto.club)
 		await this.directionService.getById(dto.direction)
 
-		// eslint-disable-next-line
-		const { createDate, updateDate, ...data } = await this.groupRepository.save({
+		return this.groupRepository.save({
 			...group,
 			...dto,
 			direction: { id: dto.direction },
 			club: { id: dto.club }
 		})
-		return data
 	}
 
-	async delete(id: number) {
+	public async delete(id: number) {
 		await this.getById(id)
 
 		await this.groupRepository.delete({ id })
@@ -102,7 +111,7 @@ export class GroupService {
 		}
 	}
 
-	async getByIds(ids: number[]) {
+	public async getByIds(ids: number[]) {
 		const groups = await this.groupRepository.find({
 			where: { id: In(ids) },
 			relations: {

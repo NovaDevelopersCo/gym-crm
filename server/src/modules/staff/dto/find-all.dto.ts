@@ -1,22 +1,27 @@
 import { FullQueryDto } from '@/core/dto'
 import { QuerySearch } from '@/core/decorators'
-
-enum ESearch {
-	EMAIL = 'email'
-}
+import { staffValidation } from '../validation'
+import { EStaffRole } from '@/core/enums'
+import { StringQueryDecorator } from '@/core/query'
+import { StaffPropertiesSwagger } from '../swagger'
 
 enum ESort {
-	EMAIL = 'email'
+	EMAIL = 'email',
+	CREATE_DATE = 'createDate'
 }
 
 export class FindAllStaffDto extends FullQueryDto {
 	@QuerySearch(ESort, 'Сортировка по', "Параметр 'Сортировка по' невалиден")
-	sortBy: ESort = ESort.EMAIL
+	public readonly sortBy: ESort = ESort.CREATE_DATE
 
-	@QuerySearch<ESearch>(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
-		email: {
-			maxLength: 200
-		}
+	@StringQueryDecorator({
+		maxLength: staffValidation.email.maxLength,
+		description: 'Почтовый адрес',
+		example: 'email@gmail.com',
+		field: 'email'
 	})
-	searchBy: ESearch = ESearch.EMAIL
+	public readonly email?: string
+
+	@StaffPropertiesSwagger.queryRole()
+	public readonly role?: EStaffRole
 }

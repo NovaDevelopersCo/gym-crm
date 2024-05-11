@@ -1,16 +1,16 @@
 import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
-
-import { Exclude } from 'class-transformer'
+import { CommonPropertiesSwagger } from '@/core/swagger'
 
 export abstract class BaseEntity {
+	@CommonPropertiesSwagger.id()
 	@PrimaryGeneratedColumn()
-	id: number
+	public readonly id: number
 
-	@Exclude()
+	@CommonPropertiesSwagger.createDate()
 	@CreateDateColumn()
-	createDate: Date
+	public readonly createDate: Date
 
-	@Exclude()
+	@CommonPropertiesSwagger.updateDate()
 	@UpdateDateColumn()
-	updateDate: Date
+	public readonly updateDate: Date
 }

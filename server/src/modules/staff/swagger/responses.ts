@@ -1,33 +1,20 @@
-import { ApiProperty, OmitType, IntersectionType } from '@nestjs/swagger'
-import { EStaffRole } from '@/core/enums'
-import { StaffClub } from '@/modules/club/swagger'
-import { CreateStaffDto } from '../dto'
-import { PropertyDecoratorsSwagger, PaginationResponse } from '@/core/swagger'
-import { StaffPropertiesSwagger } from './properties'
+import { ApiProperty, OmitType } from '@nestjs/swagger'
+import { PaginationResponse } from '@/core/swagger'
+import { StaffDto, StaffAdminDto } from './dto'
+import { ClubDto } from '@/modules/club/swagger'
 
-export class StaffDto extends OmitType(CreateStaffDto, ['password', 'email']) {
-	@PropertyDecoratorsSwagger.id()
-	id: number
-
-	@PropertyDecoratorsSwagger.email()
-	email: string
+class Staff extends StaffDto {
+	@ApiProperty({ nullable: true, type: () => ClubDto })
+	public readonly club: ClubDto[]
 }
 
-export class FullStaff extends OmitType(StaffDto, ['role']) {
-	@StaffPropertiesSwagger.role()
-	role: EStaffRole
-}
+export class CreateStaffOk extends StaffAdminDto {}
 
-export class CreateStaffOk extends StaffDto {}
+export class UpdateStaffOk extends OmitType(Staff, ['club']) {}
 
-export class UpdateStaffOk extends IntersectionType(StaffDto, FullStaff) {}
-
-export class GetStaffByIdOk extends IntersectionType(StaffDto, FullStaff) {
-	@ApiProperty({ nullable: true })
-	club: StaffClub
-}
+export class GetStaffByIdOk extends Staff {}
 
 export class GetAllStaffsOk extends PaginationResponse {
 	@ApiProperty({ isArray: true })
-	items: GetStaffByIdOk
+	private readonly items: GetStaffByIdOk
 }

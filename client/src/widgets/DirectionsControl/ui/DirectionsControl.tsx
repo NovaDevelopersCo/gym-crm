@@ -12,16 +12,15 @@ const DirectionsControl = () => {
 			dataIndex: 'id',
 			key: 'id',
 			width: '10px',
-			sorter: (a: IDirection, b: IDirection) => (+a.id) - (+b.id)
+			sorter: (a: IDirection, b: IDirection) => +a.id - +b.id
 		},
 		{ title: 'Название', dataIndex: 'name', key: 'name', width: '300px' },
 		{
 			title: 'Группы',
 			dataIndex: 'groups',
 			key: 'groups',
-			render: (groups: IGroup[]) => (
+			render: (groups: IGroup[]) =>
 				groups.map(group => group.name).join(', ')
-			)
 		},
 		{
 			title: 'Действия',
@@ -35,7 +34,11 @@ const DirectionsControl = () => {
 		<>
 			<AddDirectionForm />
 			{directions?.meta.total != 0 ? (
-				<Table columns={columns} dataSource={directions?.items} rowKey={(record) => record.id} />
+				<Table
+					columns={columns}
+					dataSource={directions?.items}
+					rowKey={record => record.id}
+				/>
 			) : (
 				<h1>Направлений нет</h1>
 			)}

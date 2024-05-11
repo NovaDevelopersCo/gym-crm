@@ -2,10 +2,11 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { CreateProductDto, UpdateProductDto } from './dto'
 import { InjectRepository } from '@nestjs/typeorm'
 import { ProductEntity } from './entities'
-import { ILike, In, Repository } from 'typeorm'
-import { ESearch, FindAllProductDto } from './dto/find-all.dto'
-import { PaginationDto } from '@/core/pagination'
+import { Between, ILike, In, Repository } from 'typeorm'
+import { FindAllProductDto } from './dto/find-all.dto'
+import { Pagination } from '@/core/pagination'
 import { ClubService } from '../club/club.service'
+import { skipCount } from '@/core/utils'
 
 // TODO: продумать логику
 @Injectable()
@@ -16,7 +17,7 @@ export class ProductService {
 		private readonly clubService: ClubService
 	) {}
 
-	async create(dto: CreateProductDto) {
+	public async create(dto: CreateProductDto) {
 		const product = this.productRepository.create({
 			...dto,
 			club: {
@@ -26,32 +27,45 @@ export class ProductService {
 		return await this.productRepository.save(product)
 	}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllProductDto) {
+	public async getAll({
+		page,
+		count,
+		sortBy,
+		sortOrder,
+		name,
+		users,
+		clubs,
+		price
+	}: FindAllProductDto) {
 		const where = {}
-		if (searchBy === ESearch.CLUB) {
-			const isNumber = Number.isInteger(+q)
-			if (!isNumber) throw new BadRequestException('Id клуба должно быть числом ')
-			where['club'] = { id: +q }
-		} else {
-			where[searchBy] = ILike(`%${q}%`)
+		name ? (where['name'] = ILike(`%${name}%`)) : {}
+		users?.length ? (where['users'] = { id: In(users) }) : {}
+		clubs?.length ? (where['club'] = { id: In(clubs) }) : {}
+		if (price) {
+			if (typeof price === 'number') {
+				where['price'] = price
+			}
+			if (Array.isArray(price)) {
+				const sorted = price.sort()
+				where['price'] = Between(sorted[0], sorted[1])
+			}
 		}
-
 		const [items, total] = await this.productRepository.findAndCount({
+			where,
 			order: {
 				[sortBy]: sortOrder
 			},
-			where,
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			relations: {
 				club: true
 			}
 		})
 
-		return new PaginationDto(items, total)
+		return new Pagination(items, total)
 	}
 
-	async getById(id: number) {
+	public async getById(id: number) {
 		const product = await this.productRepository.findOne({
 			where: { id },
 			relations: {
@@ -66,25 +80,23 @@ export class ProductService {
 		return product
 	}
 
-	async update(id: number, dto: UpdateProductDto) {
+	public async update(id: number, dto: UpdateProductDto) {
 		const product = await this.getById(id)
 		await this.clubService.getById(dto.club)
-		// eslint-disable-next-line
-		const { createDate, updateDate, ...data } = await this.productRepository.save({
+		return this.productRepository.save({
 			...product,
 			...dto,
 			club: { id: dto.club }
 		})
-		return data
 	}
 
-	async delete(id: number) {
+	public async delete(id: number) {
 		await this.getById(id)
 		await this.productRepository.delete({ id })
 		return
 	}
 
-	async getByIds(ids: number[]) {
+	public async getByIds(ids: number[]) {
 		const products = await this.productRepository.find({
 			where: { id: In(ids) },
 			relations: {

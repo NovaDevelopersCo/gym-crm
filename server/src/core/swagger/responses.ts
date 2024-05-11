@@ -4,10 +4,10 @@ class MetaDto {
 	@ApiProperty({
 		example: 15
 	})
-	total: number
+	public readonly total: number
 }
 
 export class PaginationResponse {
 	@ApiProperty()
-	meta: MetaDto
+	public readonly meta: MetaDto
 }

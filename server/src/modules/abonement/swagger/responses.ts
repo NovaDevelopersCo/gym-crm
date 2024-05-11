@@ -1,69 +1,55 @@
-import { PropertyDecoratorsSwagger } from '@/core/swagger'
-import { AbonementPropertiesSwagger } from './properties'
-import { PaginationDto } from '@/core/dto'
-import { ApiProperty, OmitType } from '@nestjs/swagger'
-import { UserAbonementUser } from '@/modules/user/swagger'
+import { PaginationQueryDto } from '@/core/pagination'
+import { ApiProperty } from '@nestjs/swagger'
+import { AbonementDto, UserAbonementDto } from './dto'
+import { ClubDto } from '@/modules/club/swagger'
+import { IdDto } from '@/core/swagger'
+import { UserDto } from '@/modules/user/swagger'
 
-class AbonementDto {
-	@PropertyDecoratorsSwagger.id()
-	id: number
-
-	@AbonementPropertiesSwagger.count()
-	count: number
-
-	@AbonementPropertiesSwagger.duration()
-	duration: string
-
-	@AbonementPropertiesSwagger.name_()
-	name: string
-
-	@AbonementPropertiesSwagger.price()
-	price: number
+class Abonement extends AbonementDto {
+	@ApiProperty({
+		isArray: true,
+		type: () => ClubDto
+	})
+	public readonly clubs: ClubDto
 }
 
-export class GetAbonementByIdOk extends AbonementDto {}
-export class CreateAbonementOk extends AbonementDto {}
-export class UpdateAbonementOk extends AbonementDto {}
-export class GetAllAbonementsOk extends PaginationDto {
+export class GetAbonementByIdOk extends Abonement {}
+export class CreateAbonementOk extends Abonement {}
+export class UpdateAbonementOk extends Abonement {}
+export class GetAllAbonementsOk extends PaginationQueryDto {
 	@ApiProperty({
 		isArray: true
 	})
-	items: AbonementDto
+	private readonly items: Abonement
 }
 
-class UserAbonementDto {
-	@AbonementPropertiesSwagger.isFinish()
-	isFinish: boolean
-
-	@AbonementPropertiesSwagger.start()
-	start: string
-
-	@AbonementPropertiesSwagger.end()
-	end: string
-
-	@AbonementPropertiesSwagger.user()
-	user: UserAbonementUser
+class UserAbonement extends UserAbonementDto {
+	@ApiProperty({
+		type: () => AbonementDto
+	})
+	public readonly abonement: AbonementDto
 
 	@ApiProperty({
-		type: AbonementDto
+		type: () => UserDto
 	})
-	abonement: AbonementDto
-
-	@PropertyDecoratorsSwagger.id()
-	id: number
-
-	@AbonementPropertiesSwagger.price()
-	price: number
-
-	@AbonementPropertiesSwagger.count()
-	count: number
+	public readonly user: UserDto
 }
 
-export class GetUserAbonementByIdOk extends UserAbonementDto {}
-export class CreateUserAbonementOk extends OmitType(UserAbonementDto, ['user', 'abonement']) {}
-export class GetAllUserAbonementsOk extends PaginationDto {
+export class GetUserAbonementByIdOk extends UserAbonement {}
+export class CreateUserAbonementOk extends UserAbonementDto {
+	@ApiProperty({
+		type: () => IdDto
+	})
+	public readonly abonement: IdDto
+
+	@ApiProperty({
+		type: () => IdDto
+	})
+	public readonly user: IdDto
+}
+export class GetAllUserAbonementsOk extends PaginationQueryDto {
 	@ApiProperty({
 		isArray: true
 	})
-	items: UserAbonementDto
+	private readonly items: UserAbonement
 }

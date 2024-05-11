@@ -1,33 +1,37 @@
 import { QuerySearch } from '@/core/decorators'
 import { FullQueryDto } from '@/core/dto'
-
-export enum ESearch {
-	IS_FINISH = 'isFinish',
-	COUNT = 'count',
-	USER = 'user',
-	ABONEMENT = 'abonement'
-}
+import { ArrayIdsQueryDecorator } from '@/core/query'
+import { PriceQueryDecorator } from '@/core/query'
+import { AbonementPropertiesSwagger } from '../swagger'
 
 enum ESort {
-	CREATE_DATE = 'createDate'
+	CREATE_DATE = 'createDate',
+	PRICE = 'price'
 }
 
+// TODO: сделать более сложную фильтрацию
 export class FindAllUserAbonementDto extends FullQueryDto {
 	@QuerySearch(ESort, 'Сортировка по', "Параметр 'Сортировка по' невалиден")
-	sortBy: ESort = ESort.CREATE_DATE
+	public readonly sortBy: ESort = ESort.CREATE_DATE
 
-	@QuerySearch<ESearch>(ESearch, 'Поиск по', "Параметр 'Поиск по' невалиден", {
-		count: {
-			minLength: 1,
-			maxLength: 3
-		},
-		isFinish: {
-			minLength: 4,
-			maxLength: 5
-		},
-		// ! пофиксить в рефакторинге
-		user: {},
-		abonement: {}
+	@PriceQueryDecorator({
+		description: 'Интервал цены или конкретная цена абонемента пользователя',
+		field: 'count'
 	})
-	searchBy: ESearch = ESearch.IS_FINISH
+	public readonly price?: number | number[]
+
+	@AbonementPropertiesSwagger.isFinishQuery()
+	public readonly isFinish?: string
+
+	@ArrayIdsQueryDecorator({
+		field: 'users',
+		description: 'Массив id пользователей'
+	})
+	public readonly users?: number[]
+
+	@ArrayIdsQueryDecorator({
+		field: 'abomenents',
+		description: 'Массив id абонементов'
+	})
+	public readonly abomenents?: number[]
 }

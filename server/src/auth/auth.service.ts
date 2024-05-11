@@ -1,10 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common'
-
 import { LoginDto, RefreshDto } from './dto'
-
 import { compare } from 'bcrypt'
 import { TokenService } from './token.service'
-
 import { StaffService } from '@/modules/staff/staff.service'
 import { StaffEntity } from '@/modules/staff/entities'
 
@@ -15,7 +12,7 @@ export class AuthService {
 		private readonly staffService: StaffService
 	) {}
 
-	async login({ email, password }: LoginDto) {
+	public async login({ email, password }: LoginDto) {
 		const candidate = await this.staffService.getByEmail(email)
 
 		if (!candidate) {
@@ -35,7 +32,7 @@ export class AuthService {
 		return tokens
 	}
 
-	async refresh(
+	public async refresh(
 		refresh: string,
 		userId: number
 	): Promise<{
@@ -56,7 +53,7 @@ export class AuthService {
 		return { tokens, profile }
 	}
 
-	async logout(refresh: string) {
+	public async logout(refresh: string) {
 		const candidate = await this.tokenService.byToken(refresh)
 
 		if (candidate) {

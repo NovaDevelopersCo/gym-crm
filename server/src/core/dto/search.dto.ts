@@ -2,7 +2,7 @@ import { IsOptional, IsString } from 'class-validator'
 import { ApiProperty } from '@nestjs/swagger'
 
 class ASearchDto {
-	searchBy: string
+	public readonly searchBy: string
 }
 
 export class SearchDto extends ASearchDto {
@@ -14,5 +14,5 @@ export class SearchDto extends ASearchDto {
 	})
 	@IsOptional()
 	@IsString({ message: "Параметр 'Поиск' должен быть строкой" })
-	q: string = ''
+	public readonly q: string = ''
 }
