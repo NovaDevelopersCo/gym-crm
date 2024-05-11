@@ -1,23 +1,12 @@
 import { FC } from 'react'
 
-import { Button } from '@/shared'
-import { IGroup } from '@/store'
-import { ButtonProps } from 'antd'
+import { Select, TSelectProps } from '@/shared'
+import { useGetGroupsQuery } from '@/store'
+import { groupsToParams } from '../lib'
 
-type EditGroupBtnProps = {
-	groupId: IGroup['id']
-} & ButtonProps
-
-const EditGroupBtn: FC<EditGroupBtnProps> = ({ groupId, ...props }) => {
-	return (
-		<Button
-			onClick={() => console.log(`Edit group with id: ${groupId}`)}
-			{...props}
-			type='dashed'
-		>
-			Изменить
-		</Button>
-	)
+const SelectGroup: FC<Omit<TSelectProps, 'options'>> = props => {
+	const { data: groups } = useGetGroupsQuery()
+	return <Select {...props} options={groupsToParams(groups!)} />
 }
 
-export default EditGroupBtn
+export default SelectGroup

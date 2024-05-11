@@ -18,6 +18,7 @@ const AddGroupForm = () => {
 	const {
 		handleSubmit,
 		control,
+		reset,
 		formState: { errors }
 	} = useForm<CreateGroupDto>()
 
@@ -25,6 +26,7 @@ const AddGroupForm = () => {
 
 	const onSubmit = (data: CreateGroupDto) => {
 		createGroup(data)
+		reset()
 	}
 
 	const { role, club } = useAppSelector(state => state['auth/slice'].user!)
