@@ -1,5 +1,4 @@
-import { IAbonement } from '@/store'
-import { useGetSubscriptionsQuery } from '@/store/api/SubscriptionsApi'
+import { IAbonement, useGetSubscriptionsQuery } from '@/store'
 import { Table } from 'antd'
 
 const Subscriptions = () => {
