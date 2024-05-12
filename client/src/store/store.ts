@@ -8,7 +8,8 @@ import {
 	clubsApi,
 	directionsApi,
 	groupsApi,
-	staffApi
+	staffApi,
+	subscriptionsApi
 } from '.'
 
 const rootReducer = combineSlices(
@@ -19,7 +20,8 @@ const rootReducer = combineSlices(
 	clubsApi,
 	directionsApi,
 	groupsApi,
-	staffApi
+	staffApi,
+	subscriptionsApi
 )
 
 export const setupStore = () => {
@@ -32,7 +34,8 @@ export const setupStore = () => {
 				directionsApi.middleware,
 				groupsApi.middleware,
 				staffApi.middleware,
-				clientApi.middleware
+				clientApi.middleware,
+				subscriptionsApi.middleware
 			])
 	})
 }
