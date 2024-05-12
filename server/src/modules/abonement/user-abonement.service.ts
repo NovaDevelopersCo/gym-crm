@@ -8,6 +8,7 @@ import { AbonementService } from './abonement.service'
 import { formatDate } from './utils'
 import { Pagination } from '@/core/pagination'
 import { skipCount } from '@/core/utils'
+import { returnSelectUser } from '../user/dto'
 
 @Injectable()
 export class UserAbonementService {
@@ -58,6 +59,9 @@ export class UserAbonementService {
 			relations: {
 				abonement: true,
 				user: true
+			},
+			select: {
+				user: returnSelectUser
 			}
 		})
 
@@ -105,11 +109,7 @@ export class UserAbonementService {
 				abonement: true
 			},
 			select: {
-				user: {
-					id: true,
-					fio: true,
-					email: true
-				}
+				user: returnSelectUser
 			}
 		})
 

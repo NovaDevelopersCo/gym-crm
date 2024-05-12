@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger'
 import { AbonementDto, UserAbonementDto } from './dto'
 import { ClubDto } from '@/modules/club/swagger'
 import { IdDto } from '@/core/swagger'
-import { UserDto } from '@/modules/user/swagger'
+import { UserReturnSelect } from '@/modules/user/swagger'
 
 class Abonement extends AbonementDto {
 	@ApiProperty({
@@ -30,9 +30,9 @@ class UserAbonement extends UserAbonementDto {
 	public readonly abonement: AbonementDto
 
 	@ApiProperty({
-		type: () => UserDto
+		type: () => UserReturnSelect
 	})
-	public readonly user: UserDto
+	public readonly user: UserReturnSelect
 }
 
 export class GetUserAbonementByIdOk extends UserAbonement {}

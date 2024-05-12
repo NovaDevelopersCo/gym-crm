@@ -7,8 +7,6 @@ import {
 	Delete,
 	UsePipes,
 	ValidationPipe,
-	UseInterceptors,
-	ClassSerializerInterceptor,
 	Query
 } from '@nestjs/common'
 import { OrderService } from './order.service'
@@ -23,7 +21,6 @@ import { OrderDocSwagger } from './swagger'
 @ApiTags('Заказы')
 @ApiBearerAuth('access-token')
 @UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
-@UseInterceptors(ClassSerializerInterceptor)
 @RolesAuthGuard(EStaffRole.DIRECTOR)
 @Controller('order')
 export class OrderController {
