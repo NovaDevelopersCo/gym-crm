@@ -35,6 +35,7 @@ const DirectionsControl = () => {
 			<AddDirectionForm />
 			{directions?.meta.total != 0 ? (
 				<Table
+					scroll={{ x: 'min-content' }}
 					columns={columns}
 					dataSource={directions?.items}
 					rowKey={record => record.id}

@@ -48,7 +48,12 @@ export const ClubsControl = () => {
 	return (
 		<div className={cl.root}>
 			<AddClubBtn className={cl.root__button} />
-			<Table columns={columns} dataSource={clubs?.items} rowKey={'id'} />
+			<Table
+				columns={columns}
+				dataSource={clubs?.items}
+				rowKey={'id'}
+				scroll={{ x: 'min-content' }}
+			/>
 		</div>
 	)
 }
