@@ -3,6 +3,7 @@ import { Suspense, lazy } from 'react'
 import { Outlet, createBrowserRouter } from 'react-router-dom'
 
 import { FullPageSpinner, ProtectedRoute } from '@/shared'
+import { EStaffRoles } from '@/store'
 
 import Layout from '@pages/Layout'
 
@@ -59,7 +60,9 @@ export const router = createBrowserRouter([
 					{
 						path: '/dashboard',
 						element: (
-							<ProtectedRoute allowedRoles={['director']}>
+							<ProtectedRoute
+								allowedRoles={[EStaffRoles.DIRECTOR]}
+							>
 								<Dashboard />
 							</ProtectedRoute>
 						)
@@ -67,7 +70,9 @@ export const router = createBrowserRouter([
 					{
 						path: '/staff',
 						element: (
-							<ProtectedRoute allowedRoles={['director']}>
+							<ProtectedRoute
+								allowedRoles={[EStaffRoles.DIRECTOR]}
+							>
 								<Staff />
 							</ProtectedRoute>
 						)
@@ -75,7 +80,9 @@ export const router = createBrowserRouter([
 					{
 						path: '/clubs',
 						element: (
-							<ProtectedRoute allowedRoles={['director']}>
+							<ProtectedRoute
+								allowedRoles={[EStaffRoles.DIRECTOR]}
+							>
 								<Clubs />
 							</ProtectedRoute>
 						)
@@ -83,9 +90,7 @@ export const router = createBrowserRouter([
 					{
 						path: '/groups',
 						element: (
-							<ProtectedRoute
-								allowedRoles={['director', 'admin']}
-							>
+							<ProtectedRoute allowedRoles={['*']}>
 								<Groups />
 							</ProtectedRoute>
 						)
@@ -93,9 +98,7 @@ export const router = createBrowserRouter([
 					{
 						path: '/directions',
 						element: (
-							<ProtectedRoute
-								allowedRoles={['director', 'admin']}
-							>
+							<ProtectedRoute allowedRoles={['*']}>
 								<Directions />
 							</ProtectedRoute>
 						)
