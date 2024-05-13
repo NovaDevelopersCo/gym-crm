@@ -57,7 +57,7 @@ export const GroupsList = () => {
 			<Table
 				pagination={{ pageSize: 5 }}
 				columns={columns}
-				scroll={{ x: 1200 }}
+				scroll={{ x: 'max-content' }}
 				bordered
 				dataSource={groups?.items}
 			/>
