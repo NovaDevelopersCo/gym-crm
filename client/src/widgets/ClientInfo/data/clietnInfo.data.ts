@@ -1,33 +1,16 @@
+import { HTMLInputTypeAttribute } from 'react'
 import type { RegisterOptions } from 'react-hook-form'
 
-import { TOption } from '@/shared'
+import { TInputProps, TOption } from '@/shared'
+import { IClient } from '@/store'
 
-type TClientsInfoFileds =
-	| 'phone'
-	| 'birthday'
-	| 'groups'
-	| 'club'
-	| 'email'
-	| 'fio'
-	| 'date'
-	| 'card'
-	| 'abonement'
-	| 'level'
-	| 'when_purchased'
-	| 'trainer'
-	| 'when_expires'
-	| 'clients_notes'
-	| 'discipline'
-	| 'administration_notes'
-	| 'status'
-	| 'instagram'
-	| 'telegram'
+type TClientsInfoFields = keyof IClient
 
-type clientInfoItem = {
+type clientInfoItem = TInputProps & {
 	label: string
-	name: TClientsInfoFileds
+	name: TClientsInfoFields
+	type?: HTMLInputTypeAttribute | 'select'
 	options?: TOption[]
-	type?: 'text' | 'date' | 'tel' | 'email' | 'number'
 	required?: boolean
 	rules?: RegisterOptions
 }
@@ -46,18 +29,18 @@ export const clientInfo: clientInfoItem[] = [
 			}
 		}
 	},
-	{
-		label: 'Номер карты',
-		name: 'card',
-		type: 'number',
-		required: false,
-		rules: {
-			pattern: {
-				value: /^[0-9]{13,16}/,
-				message: 'номер карты должен быть в формате XXXX-XXXX-XXXX-XXXX'
-			}
-		}
-	},
+	// {
+	// 	label: 'Номер карты',
+	// 	name: 'card',
+	// 	type: 'number',
+	// 	required: false,
+	// 	rules: {
+	// 		pattern: {
+	// 			value: /^[0-9]{13,16}/,
+	// 			message: 'номер карты должен быть в формате XXXX-XXXX-XXXX-XXXX'
+	// 		}
+	// 	}
+	// },
 	{
 		name: 'birthday',
 		label: 'Дата рождения:',
@@ -86,30 +69,30 @@ export const clientInfo: clientInfoItem[] = [
 			}
 		}
 	},
-	{
-		label: 'Абонемент',
-		name: 'abonement',
-		type: 'text',
-		required: true,
-		options: [
-			{
-				value: 'not_present',
-				label: 'Не куплен'
-			},
-			{
-				value: 'present',
-				label: 'Куплен'
-			},
-			{
-				value: 'expires',
-				label: 'Истекает'
-			},
-			{
-				value: 'expired',
-				label: 'Истёк'
-			}
-		]
-	},
+	// {
+	// 	label: 'Абонемент',
+	// 	name: 'abonement',
+	// 	type: 'text',
+	// 	required: true,
+	// 	options: [
+	// 		{
+	// 			value: 'not_present',
+	// 			label: 'Не куплен'
+	// 		},
+	// 		{
+	// 			value: 'present',
+	// 			label: 'Куплен'
+	// 		},
+	// 		{
+	// 			value: 'expires',
+	// 			label: 'Истекает'
+	// 		},
+	// 		{
+	// 			value: 'expired',
+	// 			label: 'Истёк'
+	// 		}
+	// 	]
+	// },
 	{
 		label: 'Инстаграм',
 		name: 'instagram',
@@ -122,34 +105,34 @@ export const clientInfo: clientInfoItem[] = [
 			}
 		}
 	},
-	{
-		label: 'Телеграм',
-		name: 'telegram',
-		type: 'text',
-		required: true,
-		rules: {
-			pattern: {
-				value: /^@[a-z0-9]+$/i,
-				message: 'Аккаунт должен быть в формате: @профиль'
-			}
-		}
-	},
-	{
-		name: 'when_purchased',
-		label: 'Куплен:',
-		type: 'date',
-		required: false,
-		rules: {
-			pattern: {
-				value: /^(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/i,
-				message: 'Введён некорректный формат даты'
-			},
-			maxLength: {
-				value: 10,
-				message: 'Это поле не может быть длиннее'
-			}
-		}
-	},
+	// {
+	// 	label: 'Телеграм',
+	// 	name: 'telegram',
+	// 	type: 'text',
+	// 	required: true,
+	// 	rules: {
+	// 		pattern: {
+	// 			value: /^@[a-z0-9]+$/i,
+	// 			message: 'Аккаунт должен быть в формате: @профиль'
+	// 		}
+	// 	}
+	// },
+	// {
+	// 	name: 'when_purchased',
+	// 	label: 'Куплен:',
+	// 	type: 'date',
+	// 	required: false,
+	// 	rules: {
+	// 		pattern: {
+	// 			value: /^(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/i,
+	// 			message: 'Введён некорректный формат даты'
+	// 		},
+	// 		maxLength: {
+	// 			value: 10,
+	// 			message: 'Это поле не может быть длиннее'
+	// 		}
+	// 	}
+	// },
 	{
 		label: 'Почта',
 		name: 'email',
@@ -162,120 +145,65 @@ export const clientInfo: clientInfoItem[] = [
 			}
 		}
 	},
-	{
-		label: 'Тренер',
-		name: 'trainer',
-		type: 'text',
-		required: false,
-		options: [
-			{
-				value: 'NaN',
-				label: 'Занимается без тренера'
-			},
-			{
-				value: 'sergey',
-				label: 'Тренер Сергей'
-			},
-			{
-				value: 'danil',
-				label: 'Тренер Данил'
-			},
-			{
-				value: 'konstantin',
-				label: 'Тренер Константин'
-			}
-		]
-	},
-	{
-		name: 'when_expires',
-		label: 'Истечёт:',
-		type: 'date',
-		required: false,
-		rules: {
-			pattern: {
-				value: /^(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/i,
-				message: 'Введён некорректный формат даты'
-			},
-			maxLength: {
-				value: 10,
-				message: 'Это поле не может быть длиннее'
-			}
-		}
-	},
+	// {
+	// 	label: 'Тренер',
+	// 	name: 'trainer',
+	// 	type: 'select',
+	// 	required: false
+	// },
+	// {
+	// 	name: 'when_expires',
+	// 	label: 'Истечёт:',
+	// 	type: 'date',
+	// 	required: false,
+	// 	rules: {
+	// 		pattern: {
+	// 			value: /^(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))/i,
+	// 			message: 'Введён некорректный формат даты'
+	// 		},
+	// 		maxLength: {
+	// 			value: 10,
+	// 			message: 'Это поле не может быть длиннее'
+	// 		}
+	// 	}
+	// },
 	{
 		label: 'Группа',
 		name: 'groups',
-		type: 'text',
-		required: false,
-		options: [
-			{
-				value: 'NaN',
-				label: 'Занимается без группы'
-			},
-			{
-				value: 'donuts',
-				label: 'Занимается в группе "Пончики"'
-			},
-			{
-				value: 'hamsters',
-				label: 'Занимается в группе "Хомячки"'
-			}
-		]
-	},
-	{
-		name: 'status',
-		label: 'Статус',
-		type: 'text',
-		required: true
-	},
-	{
-		label: '*Примечания клиентов',
-		name: 'clients_notes',
-		type: 'text',
+		type: 'select',
 		required: false
 	},
+	// {
+	// 	name: 'status',
+	// 	label: 'Статус',
+	// 	type: 'text',
+	// 	required: true
+	// },
+	// {
+	// 	label: '*Примечания клиентов',
+	// 	name: 'clients_notes',
+	// 	type: 'text',
+	// 	required: false
+	// },
 	{
-		label: 'Клуб',
+		label: 'Клубы',
 		name: 'club',
-		type: 'text',
-		options: [
-			{
-				value: 'Strength Club',
-				label: 'Strength Club г. Москва, ул. Колымыкинская д. 54'
-			},
-			{
-				value: 'Mass Club',
-				label: 'Mass Club г. Москва, ул. Шишинская д. 12'
-			}
-		]
+		type: 'select'
 	},
+	// {
+	// 	label: 'Дисциплина',
+	// 	name: 'discipline',
+	// 	type: 'select'
+	// },
+	// {
+	// 	label: '*Примечания администрации',
+	// 	name: 'administration_notes',
+	// 	type: 'text',
+	// 	required: false
+	// },
 	{
-		label: 'Дисциплина',
-		name: 'discipline',
-		type: 'text',
-		options: [
-			{
-				value: 'NaN',
-				label: 'Нет особого критерия'
-			},
-			{
-				value: 'fitness',
-				label: 'Фитнесс'
-			},
-			{
-				value: 'karate',
-				label: 'Карате'
-			},
-			{
-				value: 'nenormal`niy',
-				label: 'Хоббихорсинг'
-			}
-		]
-	},
-	{
-		label: '*Примечания администрации',
-		name: 'administration_notes',
-		type: 'text',
-		required: false
+		label: 'Как узнали',
+		name: 'howKnow',
+		type: 'text'
 	}
 ]

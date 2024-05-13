@@ -1,39 +1,25 @@
-'use client'
-
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
 
-import { Input, Select } from '@/shared'
+import { Input, Select, Spinner, anyToString } from '@/shared'
+import { IClient, useGetClientByIdQuery } from '@/store'
 import { EditFilled } from '@ant-design/icons'
+
+import {
+	SelectClub,
+	SelectGroup,
+	clubsToParams,
+	groupsToParams
+} from '@features/Select'
 
 // eslint-disable-next-line import/no-internal-modules
 import { clientInfo } from '../data/clietnInfo.data'
 import cl from './ClientInfo.module.scss'
 
 const ClientInfo = () => {
-	type TClientInfo = {
-		fio: string
-		phone: number
-		email: string
-		birthdayDate: number
-		club: string[]
-		date: number
-		card: number
-		level: string[]
-		trainer: string[]
-		groups: string[]
-		discipline: string[]
-		abonement: string[]
-		when_purchased: number
-		when_expires: number
-		clients_notes: string
-		administration_notes: string
-		status: string
-		birthday: string
-		instagram: string
-		telegram: string
-	}
-
+	const { clientId } = useParams()
+	const { data: client, isLoading } = useGetClientByIdQuery(clientId!)
 	const [isDisabled, setIsDisabled] = useState<boolean>(true)
 
 	const handleEdit = () => {
@@ -44,12 +30,12 @@ const ClientInfo = () => {
 		handleSubmit,
 		control,
 		formState: { errors }
-	} = useForm<TClientInfo>()
+	} = useForm<IClient>()
 
-	const onSubmit = (data: TClientInfo) => {
+	const onSubmit = (data: IClient) => {
 		console.log(data)
 	}
-
+	if (isLoading) return <Spinner />
 	return (
 		<form onSubmit={handleSubmit(onSubmit)} className={cl.root}>
 			<span
@@ -88,45 +74,73 @@ const ClientInfo = () => {
 					</button>
 				</div>
 				<div className={cl.root__container_infoBlock}>
-					{clientInfo.map(({ rules, ...i }) =>
-						i.options ? (
-							<Controller
-								name={i.name}
-								control={control}
-								key={i.name}
-								render={({ field }) => (
-									<Select
-										style={{ zIndex: 2 }}
-										disabled={isDisabled}
-										field={field}
-										placeholder={i.name}
-										bodyClassName={
-											cl.root__container_infoBlock_info
-										}
-										{...i}
-									/>
-								)}
-							/>
-						) : (
-							<Controller
-								name={i.name}
-								control={control}
-								key={i.name}
-								rules={rules}
-								render={({ field }) => (
+					{clientInfo.map(({ rules, name, ...i }) => (
+						<Controller
+							name={name}
+							control={control}
+							key={name}
+							rules={rules}
+							render={({ field }) => {
+								if (i.type == 'select') {
+									if (name == 'club') {
+										return (
+											<>
+												<SelectClub
+													field={field}
+													defaultValue={
+														clubsToParams([
+															client!.club
+														])[0]
+													}
+													// {...i}
+												/>
+											</>
+										)
+									} else if (name == 'groups') {
+										return (
+											<>
+												<SelectGroup
+													field={field}
+													mode='multiple'
+													defaultValue={groupsToParams(
+														client!.groups
+													)}
+													// {...i}
+												/>
+											</>
+										)
+									}
+									return (
+										<Select
+											style={{ zIndex: 2 }}
+											disabled={isDisabled}
+											field={field}
+											placeholder={name}
+											bodyClassName={
+												cl.root__container_infoBlock_info
+											}
+											// {...i}
+										/>
+									)
+								}
+								return (
 									<Input
 										disabled={isDisabled}
 										field={field}
+										defaultValue={
+											anyToString(client![name]) ||
+											undefined
+										}
 										bodyClassName={
 											cl.root__container_infoBlock_info
 										}
-										error={errors[i.name]?.message}
+										error={errors[name]?.message}
 										{...i}
 									/>
-								)}
-							/>
-						)
-					)}
+								)
+							}}
+						/>
+					))}
 				</div>
 			</div>
 		</form>

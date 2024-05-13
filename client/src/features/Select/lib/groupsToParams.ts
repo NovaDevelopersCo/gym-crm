@@ -1,8 +1,8 @@
 import { TSelectOption } from '@/shared'
-import { GetItemsResponse, IGroup } from '@/store'
+import { IGroup } from '@/store'
 
-const groupsToParams = (groups: GetItemsResponse<IGroup>) =>
-	groups?.items?.map(
+const groupsToParams = (groups: IGroup[]) =>
+	groups?.map(
 		group =>
 			({
 				label: group.name,

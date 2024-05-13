@@ -5,7 +5,7 @@ import type { TOption } from '@/shared'
 import type { SelectProps } from 'antd/es/select'
 
 type TSelectOption = Omit<TOption, 'value'> & {
-	value: string | number
+	value: unknown
 }
 
 type TSelectControl = {

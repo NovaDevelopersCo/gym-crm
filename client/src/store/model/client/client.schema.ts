@@ -11,7 +11,7 @@ export default interface IClient {
 	birthday?: string
 	howKnow?: string
 	instagram: string | null
-	groups: IGroup['id'][]
-	club: IClub['id']
-	[key: string]: string | undefined | null | string[]
+	groups: IGroup[]
+	club: IClub
+	[key: string]: unknown
 }

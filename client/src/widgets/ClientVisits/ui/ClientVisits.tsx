@@ -62,7 +62,7 @@ export const ClientVisits = () => {
 				columns={columns}
 				rowKey={visitsDataArr => visitsDataArr.id}
 				dataSource={visitsDataArr}
-				scroll={{ x: 1000 }}
+				scroll={{ x: 'max-content' }}
 			/>
 		</div>
 	)

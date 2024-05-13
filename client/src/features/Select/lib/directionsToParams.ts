@@ -1,8 +1,8 @@
 import { TSelectOption } from '@/shared'
-import { GetItemsResponse, IDirection } from '@/store'
+import { IDirection } from '@/store'
 
-const directionsToParams = (directions: GetItemsResponse<IDirection>) =>
-	directions?.items?.map(
+const directionsToParams = (directions: IDirection[]) =>
+	directions?.map(
 		direction =>
 			({
 				label: direction.name,
