@@ -1,8 +1,8 @@
 import { TSelectOption } from '@/shared'
-import { GetItemsResponse, IStaff } from '@/store'
+import { IStaff } from '@/store'
 
-const staffsToParams = (staffs: GetItemsResponse<IStaff>) =>
-	staffs?.items?.map(
+const staffsToParams = (staffs: IStaff[]) =>
+	staffs?.map(
 		staff =>
 			({
 				label: staff.email,

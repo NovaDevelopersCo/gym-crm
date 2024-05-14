@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 import {
 	GetItemsParams,
@@ -26,7 +27,15 @@ const ClientsList = () => {
 	const liimitSizeOptions = [20, 50, 100]
 
 	const columns: TableColumnsType<IClient> = [
-		{ title: 'ФИО', key: 'fio', dataIndex: 'fio', fixed: 'left' },
+		{
+			title: 'ФИО',
+			key: 'fio',
+			dataIndex: 'fio',
+			fixed: 'left',
+			render: (fio: IClient['fio'], record: IClient) => (
+				<Link to={`${record.id}`}>{fio}</Link>
+			)
+		},
 		{ title: 'Почта', key: 'email', dataIndex: 'email' },
 		{ title: 'Телефон', key: 'phone', dataIndex: 'phone' },
 		{

@@ -4,8 +4,6 @@ import {
 	Get,
 	Post,
 	Put,
-	UseInterceptors,
-	ClassSerializerInterceptor,
 	UsePipes,
 	ValidationPipe,
 	Param,
@@ -27,7 +25,6 @@ import { RolesAuthGuard } from '@/auth/guards'
 
 @ApiTags('Абонементы')
 @ApiBearerAuth('access-auth')
-@UseInterceptors(ClassSerializerInterceptor)
 @UsePipes(new ValidationPipe({ whitelist: true }))
 @RolesAuthGuard(EStaffRole.DIRECTOR)
 @Controller('abonement')

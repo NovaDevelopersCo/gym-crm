@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger'
+import { ApiProperty, PickType } from '@nestjs/swagger'
 import { PaginationResponse, IdDto } from '@/core/swagger'
 import { ClubDto } from '@/modules/club/swagger'
 import { UserDto } from './dto'
@@ -6,6 +6,7 @@ import { GroupClubDto } from '@/modules/group/swagger'
 import { AbonementDto } from '@/modules/abonement/swagger'
 import { OrderDto } from '@/modules/order/swagger'
 
+export class UserReturnSelect extends PickType(UserDto, ['id', 'email', 'fio']) {}
 class User extends UserDto {
 	@ApiProperty({ isArray: true, type: () => GroupClubDto })
 	private readonly groups: GroupClubDto[]

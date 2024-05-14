@@ -5,7 +5,7 @@ import { Button } from '@/shared'
 import { GetItemsParams, IClient } from '@/store'
 import { Checkbox, Input } from 'antd'
 
-import { SelectClub } from '@features/Select'
+import { SelectClub, SelectDirection } from '@features/Select'
 
 import cl from './ClientsFilter.module.scss'
 
@@ -53,11 +53,18 @@ const ClientsFilter: FC<ClientsFilterProps> = ({ setParams }) => {
 				/>
 			</div>
 			<div className={cl.root__cell}>
-				<label htmlFor='segment'>Сегмент</label>
+				<label htmlFor='direction'>Направления</label>
 				<Controller
-					name='segment'
+					name='direction'
 					control={control}
-					render={({ field }) => <Input id='segment' {...field} />}
+					render={({ field }) => (
+						<SelectDirection
+							field={field}
+							placeholder='Все направления'
+							id='direction'
+							showSearch={false}
+						/>
+					)}
 				/>
 			</div>
 			<div className={cl.root__cell}>

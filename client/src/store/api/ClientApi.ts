@@ -56,6 +56,11 @@ export const clientApi = createApi({
 				params: params
 			}),
 			providesTags: ['CLIENT']
+		}),
+		getClientById: build.query<IClient, IClient['id']>({
+			query: clientId => ({
+				url: `${clientId}`
+			})
 		})
 	})
 })
@@ -63,5 +68,6 @@ export const clientApi = createApi({
 export const {
 	useCreateClientMutation,
 	useDeleteClientMutation,
-	useGetAllClientsQuery
+	useGetAllClientsQuery,
+	useGetClientByIdQuery
 } = clientApi

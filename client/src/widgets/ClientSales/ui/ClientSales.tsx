@@ -59,7 +59,7 @@ export const ClientSales = () => {
 	return (
 		<div className={cl.root}>
 			<div className={cl.root__head}>
-				<div className={cl.root__head__title}>Посещения</div>
+				<div className={cl.root__head__title}>Покупки</div>
 				<Button>Добавить</Button>
 			</div>
 			<Table

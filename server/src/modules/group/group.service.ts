@@ -7,6 +7,7 @@ import { ClubService } from '../club/club.service'
 import { DirectionService } from '../direction/direction.service'
 import { Pagination } from '@/core/pagination'
 import { skipCount } from '@/core/utils'
+import { returnSelectUser } from '../user/dto'
 
 @Injectable()
 export class GroupService {
@@ -40,6 +41,9 @@ export class GroupService {
 				direction: true,
 				club: true,
 				users: true
+			},
+			select: {
+				users: returnSelectUser
 			}
 		})
 
@@ -53,6 +57,9 @@ export class GroupService {
 				direction: true,
 				club: true,
 				users: true
+			},
+			select: {
+				users: returnSelectUser
 			}
 		})
 

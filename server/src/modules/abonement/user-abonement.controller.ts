@@ -7,8 +7,6 @@ import {
 	Get,
 	Param,
 	Delete,
-	UseInterceptors,
-	ClassSerializerInterceptor,
 	UsePipes,
 	ValidationPipe,
 	Query
@@ -21,7 +19,6 @@ import { EStaffRole } from '@/core/enums'
 
 @ApiTags('Абонементы')
 @ApiBearerAuth('access-auth')
-@UseInterceptors(ClassSerializerInterceptor)
 @UsePipes(new ValidationPipe({ whitelist: true }))
 @RolesAuthGuard(EStaffRole.DIRECTOR)
 @Controller('abonement/user')

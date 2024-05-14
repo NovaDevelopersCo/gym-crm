@@ -1,4 +1,4 @@
-import { IClient, IGroup, useGetGroupsQuery } from '@/store'
+import { IClub, IDirection, IGroup, useGetGroupsQuery } from '@/store'
 import { Table } from 'antd'
 
 import { DeleteGroupBtn } from '@features/DeleteGroup'
@@ -27,62 +27,17 @@ export const GroupsList = () => {
 		},
 		{
 			title: 'Направления',
-			children: [
-				{
-					title: 'id направления',
-					dataIndex: ['direction', 'id'],
-					key: ['direction', 'id'],
-					align: 'center' as const
-				},
-				{
-					title: 'название направления',
-					dataIndex: ['direction', 'name'],
-					key: ['direction', 'name'],
-					align: 'center' as const
-				}
-			]
-		},
-		{
-			title: 'участники',
-			dataIndex: 'users',
-			render: (users: IClient[]) => (
-				<div className={cl.root__users}>
-					{users.map(user => (
-						<div
-							className={`${cl.root__users_item} ${users.length > 1 && cl.root__users_item_borderBottom}`}
-							key={user.id}
-						>
-							{user.fio}
-						</div>
-					))}
-				</div>
-			),
-			key: 'users',
+			dataIndex: 'direction',
+			key: 'direction',
 			align: 'center' as const,
-			sorter: (a: IGroup, b: IGroup) => b.users.length - a.users.length
+			render: (direction: IDirection) => direction.name
 		},
 		{
 			title: 'клуб',
-			children: [
-				{
-					title: 'id клуба',
-					dataIndex: ['club', 'id'],
-					key: ['club', 'id'],
-					align: 'center' as const
-				},
-				{
-					title: 'название клуба',
-					dataIndex: ['club', 'name'],
-					key: ['club', 'name'],
-					align: 'center' as const
-				},
-				{
-					title: 'адрес клуба',
-					dataIndex: ['club', 'address'],
-					key: ['club', 'address'],
-					align: 'center' as const
-				}
-			]
+			dataIndex: 'club',
+			key: 'club',
+			align: 'center' as const,
+			render: (club: IClub) => club.name
 		},
 		{
 			title: 'action',
@@ -102,7 +57,7 @@ export const GroupsList = () => {
 			<Table
 				pagination={{ pageSize: 5 }}
 				columns={columns}
-				scroll={{ x: 1200 }}
+				scroll={{ x: 'max-content' }}
 				bordered
 				dataSource={groups?.items}
 			/>

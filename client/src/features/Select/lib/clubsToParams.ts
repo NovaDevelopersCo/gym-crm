@@ -1,12 +1,12 @@
 import { TSelectOption } from '@/shared'
-import { GetItemsResponse, IClub } from '@/store'
+import { IClub } from '@/store'
 
-const clubsToParams = (clubs: GetItemsResponse<IClub>) =>
-	clubs?.items?.map(
+const clubsToParams = (clubs: IClub[]) =>
+	clubs?.map(
 		club =>
 			({
-				label: club.name,
-				value: club.id
+				label: club?.name,
+				value: club?.id
 			}) as TSelectOption
 	)
 export default clubsToParams

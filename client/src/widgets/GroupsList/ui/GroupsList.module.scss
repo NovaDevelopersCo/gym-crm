@@ -3,22 +3,7 @@
 
 	&__action {
 		display: flex;
-		flex-direction: column;
+		flex-direction: row;
 		gap: 10px;
-		// justify-content: space-around;
-	}
-
-	&__users {
-		display: flex;
-		flex-direction: column;
-
-		&_item {
-			padding: 7px 0;
-
-			&_borderBottom:nth-child(odd) {
-				width: 100%;
-				border-bottom: 2px solid #f0f0f0;
-			}
-		}
 	}
 }
