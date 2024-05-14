@@ -1,7 +1,7 @@
-import { IAbonement, useGetSubscriptionsQuery } from '@/store'
+import { IAbonement, useGetAbonementsQuery } from '@/store'
 import { Table } from 'antd'
 
-const Subscriptions = () => {
+const Abonements = () => {
 	const columns = [
 		{
 			title: 'ID',
@@ -38,7 +38,7 @@ const Subscriptions = () => {
 		}
 	]
 
-	const { data } = useGetSubscriptionsQuery()
+	const { data } = useGetAbonementsQuery()
 
 	return (
 		<div>
@@ -47,4 +47,4 @@ const Subscriptions = () => {
 	)
 }
 
-export default Subscriptions
+export default Abonements

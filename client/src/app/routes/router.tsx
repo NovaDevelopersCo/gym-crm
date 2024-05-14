@@ -5,8 +5,8 @@ import { Outlet, createBrowserRouter } from 'react-router-dom'
 import { FullPageSpinner, ProtectedRoute } from '@/shared'
 import { EStaffRoles } from '@/store'
 
+import AbonementsPage from '@pages/Abonements'
 import Layout from '@pages/Layout'
-import SubscriptionsPage from '@pages/Subscriptions'
 
 const Login = lazy(() => import('@pages/Login'))
 
@@ -105,10 +105,10 @@ export const router = createBrowserRouter([
 						)
 					},
 					{
-						path: '/subscriptions',
+						path: '/abonements',
 						element: (
 							<ProtectedRoute allowedRoles={['director']}>
-								<SubscriptionsPage />
+								<AbonementsPage />
 							</ProtectedRoute>
 						)
 					},

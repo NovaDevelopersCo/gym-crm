@@ -62,7 +62,7 @@ export const sidebarItemsArr: {
 	},
 	{
 		title: 'Абонементы',
-		path: '/subscriptions',
+		path: '/abonements',
 		icon: <TicketPercent />,
 		allowedRoles: [EStaffRoles.DIRECTOR]
 	}

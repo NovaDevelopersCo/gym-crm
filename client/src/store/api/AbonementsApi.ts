@@ -16,12 +16,12 @@ const baseQuery = fetchBaseQuery({
 	}
 })
 
-export const subscriptionsApi = createApi({
-	reducerPath: 'subscriptions/api',
+export const abonementsApi = createApi({
+	reducerPath: 'abonements/api',
 	baseQuery: baseQuery,
 	tagTypes: ['SUBSCRIPTION'],
 	endpoints: build => ({
-		getSubscriptions: build.query<GetItemsResponse<IAbonement>, void>({
+		getAbonements: build.query<GetItemsResponse<IAbonement>, void>({
 			query: () => ({
 				url: ''
 			}),
@@ -30,4 +30,4 @@ export const subscriptionsApi = createApi({
 	})
 })
 
-export const { useGetSubscriptionsQuery } = subscriptionsApi
+export const { useGetAbonementsQuery } = abonementsApi
