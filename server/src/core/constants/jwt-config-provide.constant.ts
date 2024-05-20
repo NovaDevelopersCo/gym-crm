@@ -1,0 +1,1 @@
+export const JWT_CONFIG_PROVIDE = 'JWT_CONFIG_PROVIDE'

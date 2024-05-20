@@ -1,9 +1,7 @@
 import { PassportStrategy } from '@nestjs/passport'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-
 import { Strategy } from 'passport-jwt'
-
 import type { Request } from 'express'
 
 @Injectable()
@@ -15,9 +13,9 @@ export class RefreshJwtStrategy extends PassportStrategy(Strategy, 'REFRESH_JWT_
 		})
 	}
 
-	validate = (payload: unknown) => payload
+	public validate = (payload: unknown) => payload
 
-	static getRefreshFromCookie(req: Request) {
+	public static getRefreshFromCookie(req: Request) {
 		return req.cookies['refresh']
 	}
 }

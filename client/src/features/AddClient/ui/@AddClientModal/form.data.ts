@@ -12,7 +12,7 @@ type TNewClientFormItem = {
 	name: TNewClientFormFields
 	options?: TOption[]
 	required?: boolean
-	isMulti?: boolean
+	ismulti?: 'true' | 'false'
 	isTextArea?: boolean
 	rules?: RegisterOptions
 	format?: string
@@ -98,28 +98,13 @@ export const newClientFormFields: TNewClientFormItem[] = [
 				value: true,
 				message: 'Пожалуйста, выберите вариант!'
 			}
-		},
-		options: [
-			{
-				value: 'Strength Club',
-				label: 'Strength Club г. Москва, ул. Колымыкинская д. 54'
-			},
-			{
-				value: 'Mass Club',
-				label: 'Mass Club г. Москва, ул. Шишинская д. 12'
-			}
-		]
+		}
 	},
 	{
 		name: 'groups',
 		label: 'Группы',
-		options: [
-			{ value: '345', label: 'Группа 345' },
-			{ value: '987', label: 'Группа 987' },
-			{ value: '433', label: 'Группа 433' }
-		],
 		required: true,
-		isMulti: true
+		ismulti: 'true'
 	}
 	// {
 	// 	label: 'Комментарий',

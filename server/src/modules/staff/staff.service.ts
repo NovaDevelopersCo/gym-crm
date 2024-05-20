@@ -5,7 +5,8 @@ import { hash, compare } from 'bcrypt'
 import { ILike, Repository, FindOneOptions, In } from 'typeorm'
 import { CreateStaffDto, FindAllStaffDto, UpdateStaffDto, UpdatePasswordStaffDto } from './dto'
 import { EStaffRole } from '@/core/enums'
-import { PaginationDto } from '@/core/pagination'
+import { Pagination } from '@/core/pagination'
+import { skipCount } from '@/core/utils'
 
 @Injectable()
 export class StaffService {
@@ -13,7 +14,11 @@ export class StaffService {
 		@InjectRepository(StaffEntity) private readonly staffRepository: Repository<StaffEntity>
 	) {}
 
-	async getById(id: number, withError?: boolean, findOptions?: FindOneOptions<StaffEntity>) {
+	public async getById(
+		id: number,
+		withError?: boolean,
+		findOptions?: FindOneOptions<StaffEntity>
+	) {
 		const staff = await this.staffRepository.findOne({
 			where: { id },
 			...findOptions
@@ -27,7 +32,7 @@ export class StaffService {
 	}
 
 	// ! ???
-	async getByEmail(email: string) {
+	public async getByEmail(email: string) {
 		const staff = await this.staffRepository.findOne({ where: { email } })
 
 		if (!staff) {
@@ -37,7 +42,7 @@ export class StaffService {
 		return staff
 	}
 
-	async create({ password, ...data }: CreateStaffDto) {
+	public async create({ password, ...data }: CreateStaffDto) {
 		if (data.role === 'director') {
 			throw new BadRequestException(
 				'Нельзя создать более одного аккаунта управляющего директора'
@@ -57,24 +62,26 @@ export class StaffService {
 		return { id, email, role }
 	}
 
-	async getAll({ sortBy, count, page, q, searchBy, sortOrder }: FindAllStaffDto) {
+	public async getAll({ count, page, sortBy, sortOrder, email, role }: FindAllStaffDto) {
+		const where = {}
+		email ? (where['email'] = ILike(`%${email}%`)) : {}
+		role ? (where['role'] = role) : {}
 		const [items, total] = await this.staffRepository.findAndCount({
+			where,
 			order: {
 				[sortBy]: sortOrder
 			},
-			where: {
-				[searchBy]: ILike(`%${q}%`)
-			},
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			relations: {
 				club: true
 			}
 		})
-		return new PaginationDto(items, total)
+		return new Pagination(items, total)
 	}
 
-	async update(id: number, dto: UpdateStaffDto) {
+	public async update(id: number, dto: UpdateStaffDto) {
+		// ! replace logic
 		// if (staffId !== id && role !== EStaffRole.DIRECTOR) {
 		// 	throw new BadRequestException('Вы не можете менять данные чужого пользователя')
 		// }
@@ -94,8 +101,7 @@ export class StaffService {
 		return { id, email, role: staffRole }
 	}
 
-	//! Обсудить
-	async delete(id: number) {
+	public async delete(id: number) {
 		const staff = await this.getById(id, true)
 		if (staff.role === EStaffRole.DIRECTOR) {
 			throw new BadRequestException('Нельзя удалить персонал с ролью director')
@@ -103,24 +109,7 @@ export class StaffService {
 		await this.staffRepository.delete({ id })
 	}
 
-	async checkRole(id: number, role: EStaffRole) {
-		const admin = await this.staffRepository.findOne({
-			where: { id },
-			relations: {
-				club: true
-			}
-		})
-		if (!admin) {
-			throw new NotFoundException(`Управляющий с id: ${id} не найден`)
-		}
-		if (admin.role !== role) {
-			throw new BadRequestException(`Профиль с id: ${id} не является ${role}`)
-		}
-
-		return admin
-	}
-
-	async getByIds(ids: number[]) {
+	public async getByIds(ids: number[]) {
 		const staffs = await this.staffRepository.find({
 			where: { id: In(ids) },
 			relations: {
@@ -144,11 +133,8 @@ export class StaffService {
 		return staffs
 	}
 
-	async updatePassword(id: number, dto: UpdatePasswordStaffDto) {
+	public async updatePassword(id: number, dto: UpdatePasswordStaffDto) {
 		const { password: oldPassword, newPassword } = dto
-		// if (oldPassword === newPassword) {
-		// 	throw new BadRequestException('Новый и старый пароль должны отличаться')
-		// }
 
 		const user = await this.getById(id)
 
@@ -162,7 +148,7 @@ export class StaffService {
 		return this.staffRepository.save({ ...user, password: hashPassword })
 	}
 
-	async clearAdminsClub(ids: number[]) {
+	public async clearAdminsClub(ids: number[]) {
 		const admins = await this.getByIds(ids)
 		admins.forEach(admin => {
 			admin.club = null

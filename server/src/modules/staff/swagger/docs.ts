@@ -1,22 +1,20 @@
 import { applyDecorators } from '@nestjs/common'
 import {
-	ApiOperation,
 	ApiOkResponse,
 	ApiNotFoundResponse,
 	ApiCreatedResponse,
-	ApiNoContentResponse
+	ApiNoContentResponse,
+	ApiOperation
 } from '@nestjs/swagger'
 import { GetStaffByIdOk, GetAllStaffsOk, CreateStaffOk, UpdateStaffOk } from './responses'
-import { ESwaggerMessages } from '@/core/swagger'
+import { DocDecoratorsSwagger, ESwaggerMessages } from '@/core/swagger'
 import { BaseDocSwagger } from '@/core/swagger/docs'
+import { EStaffRole } from '@/core/enums'
 
 export class StaffDocSwagger {
-	static create() {
+	public static create() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Создание нового профиля персонала',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.create([EStaffRole.DIRECTOR]),
 			ApiCreatedResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_CREATE,
 				type: CreateStaffOk
@@ -25,12 +23,9 @@ export class StaffDocSwagger {
 		)
 	}
 
-	static getById() {
+	public static getById() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Получить профиль персонала по id',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.getById([EStaffRole.DIRECTOR]),
 			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
 			ApiOkResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_GET_ONE,
@@ -40,12 +35,9 @@ export class StaffDocSwagger {
 		)
 	}
 
-	static getAll() {
+	public static getAll() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Получить список всех профилей персонала',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.getAll([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_GET_ALL,
 				type: GetAllStaffsOk
@@ -54,12 +46,9 @@ export class StaffDocSwagger {
 		)
 	}
 
-	static update() {
+	public static update() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Изменить профиль персонала',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.update([EStaffRole.DIRECTOR]),
 			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
 			ApiOkResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_UPDATE,
@@ -69,21 +58,18 @@ export class StaffDocSwagger {
 		)
 	}
 
-	static delete() {
+	public static delete() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Удалить профиль персонала',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.delete([EStaffRole.DIRECTOR]),
 			BaseDocSwagger.delete()
 		)
 	}
 
-	static updatePassword() {
+	public static updatePassword() {
 		return applyDecorators(
 			ApiOperation({
-				summary: 'Обновить пароль профиля персонала',
-				description: 'Только с ролью director'
+				summary: 'Изменить пароль профиля персонала',
+				description: `Только с ролью ${EStaffRole.DIRECTOR}`
 			}),
 			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),
 			ApiNoContentResponse({ description: ESwaggerMessages.SUCCESSFULLY_UPDATE }),

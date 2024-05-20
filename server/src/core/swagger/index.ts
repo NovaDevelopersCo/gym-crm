@@ -1,3 +1,6 @@
 export * from './messages.enum'
 export * from './responses'
+export * from './properties'
+export * from './docs'
 export * from './decorators'
+export * from './dto'

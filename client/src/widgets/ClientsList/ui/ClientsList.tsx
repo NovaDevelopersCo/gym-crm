@@ -1,9 +1,19 @@
 import { useState } from 'react'
-import { GetItemsParams, IClient, IClub, IGroup, useGetAllClientsQuery } from '@/store'
+import { Link } from 'react-router-dom'
+
+import {
+	GetItemsParams,
+	IClient,
+	IClub,
+	IGroup,
+	useGetAllClientsQuery
+} from '@/store'
+import { Radio, Table, TableColumnsType } from 'antd'
+
 import { AddClientBtn } from '@features/AddClient'
+
 import ClientsFilter from './@ClientsFilter/ClientsFilter'
 import styles from './ClientsList.module.scss'
-import { Table, Radio, TableColumnsType } from 'antd';
 
 const ClientsList = () => {
 	const [params, setParams] = useState<GetItemsParams<IClient>>({
@@ -17,19 +27,42 @@ const ClientsList = () => {
 	const liimitSizeOptions = [20, 50, 100]
 
 	const columns: TableColumnsType<IClient> = [
-		{ title: 'ФИО', key: 'fio', dataIndex: 'fio', fixed: 'left' },
+		{
+			title: 'ФИО',
+			key: 'fio',
+			dataIndex: 'fio',
+			fixed: 'left',
+			render: (fio: IClient['fio'], record: IClient) => (
+				<Link to={`${record.id}`}>{fio}</Link>
+			)
+		},
 		{ title: 'Почта', key: 'email', dataIndex: 'email' },
 		{ title: 'Телефон', key: 'phone', dataIndex: 'phone' },
-		{ title: 'Группы', key: 'groups', dataIndex: 'groups', render: (groups: IGroup[]) => (groups.map(group => group.name).join(', ')) },
-		{ title: 'Клуб', key: 'club', dataIndex: 'club', render: (club: IClub) => (club?.name) },
+		{
+			title: 'Группы',
+			key: 'groups',
+			dataIndex: 'groups',
+			render: (groups: IGroup[]) =>
+				groups.map(group => group.name).join(', ')
+		},
+		{
+			title: 'Клуб',
+			key: 'club',
+			dataIndex: 'club',
+			render: (club: IClub) => club?.name
+		},
 		{ title: 'Статус', key: 'status', dataIndex: 'status' },
 		{ title: 'Направление', key: 'direction', dataIndex: 'direction' },
-		{ title: 'Кол-во дней с визита', key: 'lastVisitDays', dataIndex: 'lastVisitDays' }
+		{
+			title: 'Кол-во дней с визита',
+			key: 'lastVisitDays',
+			dataIndex: 'lastVisitDays'
+		}
 	]
 
 	return (
 		<>
-			<ClientsFilter setParams={setParams}/>
+			<ClientsFilter setParams={setParams} />
 			<AddClientBtn />
 			<div className={styles.table}>
 				<div className={styles.table__info}>
@@ -39,7 +72,12 @@ const ClientsList = () => {
 					<div className={styles.table__info__pagination}>
 						<p>Отображать по:</p>
 						<Radio.Group
-							onChange={e => setParams(prev => ({ ...prev, count: e.target.value }))}
+							onChange={e =>
+								setParams(prev => ({
+									...prev,
+									count: e.target.value
+								}))
+							}
 						>
 							{liimitSizeOptions.map(size => (
 								<Radio.Button key={size} value={size}>
@@ -53,7 +91,7 @@ const ClientsList = () => {
 					columns={columns}
 					dataSource={clients?.items}
 					scroll={{ x: 1500, y: '70vh' }}
-
+					rowKey={record => record.id}
 					pagination={{
 						pageSize: params.count,
 						current: params.page,

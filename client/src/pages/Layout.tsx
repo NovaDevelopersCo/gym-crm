@@ -1,11 +1,12 @@
 import { Suspense } from 'react'
 import { Outlet } from 'react-router-dom'
 
+import { FullPageSpinner } from '@/shared'
+
 import { Sidebar } from '@widgets/Sidebar'
 import { Topbar } from '@widgets/Topbar'
 
 import styles from './Layout.module.scss'
-import { FullPageSpinner } from '@/shared'
 
 const Layout = () => {
 	return (

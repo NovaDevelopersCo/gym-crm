@@ -9,9 +9,18 @@ type DeleteClubBtnProps = {
 } & ButtonProps
 
 const DeleteClubBtn: FC<DeleteClubBtnProps> = ({ clubId, ...props }) => {
-	const [deleteClub,] = useDeleteClubMutation()
+	const [deleteClub] = useDeleteClubMutation()
 
-	return <Button onClick={() => deleteClub(clubId)} {...props} danger type="primary">Удалить</Button>
+	return (
+		<Button
+			onClick={() => deleteClub(clubId)}
+			{...props}
+			danger
+			type='primary'
+		>
+			Удалить
+		</Button>
+	)
 }
 
 export default DeleteClubBtn

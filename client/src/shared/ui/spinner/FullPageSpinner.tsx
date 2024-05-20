@@ -1,6 +1,5 @@
-import Spinner from './Spinner'
-
 import styles from './FullPageSpinner.module.scss'
+import Spinner from './Spinner'
 
 const FullPageSpinner = () => {
 	return (

@@ -89,6 +89,14 @@ module.exports = {
 			rules: {
 				'no-unused-vars': 'off'
 			}
+		},
+		{
+			files: [
+				'./src/features/EditGroup/ui/@EditGroupModal/EditGroupModal.tsx'
+			],
+			rules: {
+				'boundaries/element-types': 'off'
+			}
 		}
 	],
 	reportUnusedDisableDirectives: true,

@@ -6,7 +6,7 @@ import { LoggerService } from '../logger/logger.service'
 export class HttpExceptionFilter implements ExceptionFilter {
 	constructor(private readonly logger: LoggerService) {}
 
-	catch(exception: HttpException, host: ArgumentsHost) {
+	public catch(exception: HttpException, host: ArgumentsHost) {
 		const ctx = host.switchToHttp()
 		const res = ctx.getResponse<Response>()
 		const req = ctx.getRequest<Request>()

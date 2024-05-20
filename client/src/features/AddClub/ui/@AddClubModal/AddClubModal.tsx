@@ -4,13 +4,14 @@ import { Controller, useForm } from 'react-hook-form'
 import { Button, Input, Modal } from '@/shared'
 import { CreateClubDto, useCreateClubMutation } from '@/store'
 
-import styles from './AddClubModal.module.scss'
 // eslint-disable-next-line
 import { SelectAdmin } from '@features/Select'
 
+import styles from './AddClubModal.module.scss'
+
 type AddClubModalProps = {
 	isModalOpen: boolean
-	setIsModalOpen: Dispatch<SetStateAction<boolean>>,
+	setIsModalOpen: Dispatch<SetStateAction<boolean>>
 }
 
 const AddClubModal: FC<AddClubModalProps> = ({
@@ -19,7 +20,7 @@ const AddClubModal: FC<AddClubModalProps> = ({
 }) => {
 	const { handleSubmit, control, reset } = useForm<CreateClubDto>()
 
-	const [createClub,] = useCreateClubMutation()
+	const [createClub] = useCreateClubMutation()
 
 	const handleCancel = () => {
 		setIsModalOpen(false)
@@ -35,9 +36,7 @@ const AddClubModal: FC<AddClubModalProps> = ({
 	return (
 		<Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
 			<form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-				<h2 className={styles.form__title}>
-					Добавить клуб
-				</h2>
+				<h2 className={styles.form__title}>Добавить клуб</h2>
 				<label htmlFor='name'>Имя</label>
 				<Controller
 					name='name'
@@ -64,7 +63,12 @@ const AddClubModal: FC<AddClubModalProps> = ({
 					rules={{ required: true }}
 					render={({ field }) => {
 						return (
-							<SelectAdmin field={field} id='admins' placeholder="Администраторы" mode="multiple" />
+							<SelectAdmin
+								field={field}
+								id='admins'
+								placeholder='Администраторы'
+								mode='multiple'
+							/>
 						)
 					}}
 				/>

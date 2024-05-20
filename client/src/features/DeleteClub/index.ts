@@ -1,3 +1,3 @@
-import DeleteClubBtn from "./ui/DeleteClubBtn"
+import DeleteClubBtn from './ui/DeleteClubBtn'
 
-export {DeleteClubBtn}
+export { DeleteClubBtn }

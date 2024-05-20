@@ -1,6 +1,6 @@
-import { DirectionDecoratorsSwagger } from '../swagger/decorators'
+import { DirectionPropertiesSwagger } from '../swagger'
 
 export class CreateDirectionDto {
-	@DirectionDecoratorsSwagger.name_(true)
-	name: string
+	@DirectionPropertiesSwagger.name_(true)
+	public readonly name: string
 }

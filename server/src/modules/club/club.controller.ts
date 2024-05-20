@@ -24,7 +24,7 @@ import { CreateClubDto, UpdateClubDto, FindAllClubDto } from './dto'
 @ApiTags('Клубы')
 @ApiBearerAuth('access-auth')
 @UseInterceptors(ClassSerializerInterceptor)
-@UsePipes(new ValidationPipe({ whitelist: true }))
+@UsePipes(new ValidationPipe({ whitelist: true, transform: true }))
 @RolesAuthGuard(EStaffRole.DIRECTOR)
 @Controller('club')
 export class ClubController {
@@ -32,32 +32,32 @@ export class ClubController {
 
 	@ClubDocSwagger.getAll()
 	@Get()
-	getAll(@Query() query: FindAllClubDto) {
+	public getAll(@Query() query: FindAllClubDto) {
 		return this.clubService.getAll(query)
 	}
 
 	@ClubDocSwagger.getById()
 	@Get(':id')
-	getById(@Param() { id }: GetByIdParamsDto) {
+	public getById(@Param() { id }: GetByIdParamsDto) {
 		return this.clubService.getById(id)
 	}
 
 	@ClubDocSwagger.create()
 	@Post()
-	create(@Body() dto: CreateClubDto) {
+	public create(@Body() dto: CreateClubDto) {
 		return this.clubService.create(dto)
 	}
 
 	@ClubDocSwagger.update()
 	@Put(':id')
-	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateClubDto) {
+	public update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateClubDto) {
 		return this.clubService.update(id, dto)
 	}
 
 	@ClubDocSwagger.delete()
 	@HttpCode(204)
 	@Delete(':id')
-	delete(@Param() { id }: GetByIdParamsDto) {
+	public delete(@Param() { id }: GetByIdParamsDto) {
 		return this.clubService.delete(id)
 	}
 }

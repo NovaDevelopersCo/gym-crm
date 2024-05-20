@@ -1,6 +1,5 @@
 import {
 	Body,
-	ClassSerializerInterceptor,
 	Controller,
 	Delete,
 	Get,
@@ -9,7 +8,6 @@ import {
 	Post,
 	Put,
 	Query,
-	UseInterceptors,
 	UsePipes,
 	ValidationPipe
 } from '@nestjs/common'
@@ -25,39 +23,38 @@ import { GroupDocSwagger } from './swagger'
 @ApiBearerAuth('access-token')
 @UsePipes(new ValidationPipe({ whitelist: true }))
 @RolesAuthGuard(EStaffRole.DIRECTOR)
-@UseInterceptors(ClassSerializerInterceptor)
 @Controller('group')
 export class GroupController {
 	constructor(private readonly groupService: GroupService) {}
 
 	@GroupDocSwagger.getAll()
 	@Get()
-	getAll(@Query() query: FindAllGroupDto) {
+	public getAll(@Query() query: FindAllGroupDto) {
 		return this.groupService.getAll(query)
 	}
 
 	@GroupDocSwagger.getById()
 	@Get(':id')
-	getById(@Param() { id }: GetByIdParamsDto) {
+	public getById(@Param() { id }: GetByIdParamsDto) {
 		return this.groupService.getById(id)
 	}
 
 	@GroupDocSwagger.create()
 	@Post()
-	create(@Body() dto: CreateGroupDto) {
+	public create(@Body() dto: CreateGroupDto) {
 		return this.groupService.create(dto)
 	}
 
 	@GroupDocSwagger.update()
 	@Put(':id')
-	update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateGroupDto) {
+	public update(@Param() { id }: GetByIdParamsDto, @Body() dto: UpdateGroupDto) {
 		return this.groupService.update(id, dto)
 	}
 
 	@GroupDocSwagger.delete()
 	@HttpCode(204)
 	@Delete(':id')
-	delete(@Param() { id }: GetByIdParamsDto) {
+	public delete(@Param() { id }: GetByIdParamsDto) {
 		return this.groupService.delete(id)
 	}
 }

@@ -1,16 +1,13 @@
 import { applyDecorators } from '@nestjs/common'
-import { ApiOperation, ApiOkResponse, ApiNotFoundResponse } from '@nestjs/swagger'
+import { ApiOkResponse, ApiNotFoundResponse } from '@nestjs/swagger'
 import { GetAllGroupsOk, GetGroupByIdOk, CreateGroupOk, UpdateGroupOk } from './responses'
-import { ESwaggerMessages } from '@/core/swagger'
-import { BaseDocSwagger } from '@/core/swagger/docs'
+import { DocDecoratorsSwagger, ESwaggerMessages, BaseDocSwagger } from '@/core/swagger'
+import { EStaffRole } from '@/core/enums'
 
 export class GroupDocSwagger {
-	static getAll() {
+	public static getAll() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Получить список всех групп',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.getAll([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
 				type: GetAllGroupsOk,
 				description: ESwaggerMessages.SUCCESSFULLY_GET_ALL
@@ -19,12 +16,9 @@ export class GroupDocSwagger {
 		)
 	}
 
-	static getById() {
+	public static getById() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Получить группу по id',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.getById([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_GET_ONE,
 				type: GetGroupByIdOk
@@ -34,12 +28,9 @@ export class GroupDocSwagger {
 		)
 	}
 
-	static create() {
+	public static create() {
 		return applyDecorators(
-			ApiOperation({
-				summary: 'Создать новую группу',
-				description: 'Только с ролью director'
-			}),
+			DocDecoratorsSwagger.create([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_CREATE,
 				type: CreateGroupOk
@@ -49,9 +40,9 @@ export class GroupDocSwagger {
 		)
 	}
 
-	static update() {
+	public static update() {
 		return applyDecorators(
-			ApiOperation({ summary: 'Изменить группу', description: 'Только с ролью director' }),
+			DocDecoratorsSwagger.update([EStaffRole.DIRECTOR]),
 			ApiOkResponse({
 				description: ESwaggerMessages.SUCCESSFULLY_UPDATE,
 				type: UpdateGroupOk
@@ -61,9 +52,9 @@ export class GroupDocSwagger {
 		)
 	}
 
-	static delete() {
+	public static delete() {
 		return applyDecorators(
-			ApiOperation({ summary: 'Удалить группу', description: 'Только с ролью direction' }),
+			DocDecoratorsSwagger.delete([EStaffRole.DIRECTOR]),
 			BaseDocSwagger.delete()
 		)
 	}

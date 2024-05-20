@@ -8,10 +8,22 @@ type DeleteDirectionBtnProps = {
 	directionId: IDirection['id']
 } & ButtonProps
 
-const DeleteDirectionBtn: FC<DeleteDirectionBtnProps> = ({ directionId, ...props }) => {
+const DeleteDirectionBtn: FC<DeleteDirectionBtnProps> = ({
+	directionId,
+	...props
+}) => {
 	const [deleteDirection] = useDeleteDirectionMutation()
 
-	return <Button onClick={() => deleteDirection(directionId)} {...props} danger type="primary">Удалить</Button>
+	return (
+		<Button
+			onClick={() => deleteDirection(directionId)}
+			{...props}
+			danger
+			type='primary'
+		>
+			Удалить
+		</Button>
+	)
 }
 
 export default DeleteDirectionBtn

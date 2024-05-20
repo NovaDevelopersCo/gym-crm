@@ -35,7 +35,7 @@ export class AuthController {
 	@AuthDocSwagger.login()
 	@HttpCode(204)
 	@Post('login')
-	async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
+	public async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
 		const { refreshToken } = await this.authService.login(dto)
 		res.cookie('refresh', refreshToken, this.refreshCookieOptions)
 		return
@@ -44,7 +44,7 @@ export class AuthController {
 	@AuthDocSwagger.refresh()
 	@RefreshGuard()
 	@Get('refresh')
-	async refresh(
+	public async refresh(
 		@Staff('id') user: number,
 		@Cookie('refresh') refresh: string,
 		@Res({ passthrough: true }) res: Response
@@ -69,7 +69,10 @@ export class AuthController {
 	@AuthDocSwagger.logout()
 	@HttpCode(200)
 	@Get('logout')
-	async logout(@Cookie('refresh') refresh: string, @Res({ passthrough: true }) res: Response) {
+	public async logout(
+		@Cookie('refresh') refresh: string,
+		@Res({ passthrough: true }) res: Response
+	) {
 		this.authService.logout(refresh)
 		res.clearCookie('refresh', { path: this.refreshCookieOptions.path })
 		return

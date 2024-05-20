@@ -10,7 +10,7 @@ import {
 } from '@nestjs/swagger'
 
 export class BaseDocSwagger {
-	static auth() {
+	public static auth() {
 		return applyDecorators(
 			ApiBearerAuth('access-token'),
 			ApiUnauthorizedResponse({ description: ESwaggerMessages.UNAUTHORIZED }),
@@ -18,14 +18,14 @@ export class BaseDocSwagger {
 		)
 	}
 
-	static authWithRole() {
+	public static authWithRole() {
 		return applyDecorators(
 			BaseDocSwagger.auth(),
 			ApiForbiddenResponse({ description: ESwaggerMessages.FORBIDDEN })
 		)
 	}
 
-	static delete() {
+	public static delete() {
 		return applyDecorators(
 			BaseDocSwagger.authWithRole(),
 			ApiNotFoundResponse({ description: ESwaggerMessages.NOT_FOUND }),

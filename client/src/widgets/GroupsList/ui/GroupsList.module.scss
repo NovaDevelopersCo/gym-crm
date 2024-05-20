@@ -1,0 +1,9 @@
+.root {
+	padding: 10px 0;
+
+	&__action {
+		display: flex;
+		flex-direction: row;
+		gap: 10px;
+	}
+}

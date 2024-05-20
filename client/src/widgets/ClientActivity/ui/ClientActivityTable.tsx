@@ -1,4 +1,5 @@
 import { Table } from 'antd'
+
 import { TClientActivity } from '../model'
 
 const ClientActivityTable = ({ data }: TClientActivity) => {

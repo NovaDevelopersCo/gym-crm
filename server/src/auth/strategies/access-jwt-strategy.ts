@@ -1,7 +1,6 @@
 import { ExtractJwt, Strategy } from 'passport-jwt'
 import { Injectable } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
-
 import { PassportStrategy } from '@nestjs/passport'
 
 @Injectable()
@@ -13,5 +12,5 @@ export class AccessJwtStrategy extends PassportStrategy(Strategy, 'ACCESS_JWT_ST
 		})
 	}
 
-	validate = (payload: unknown) => payload
+	public validate = (payload: unknown) => payload
 }

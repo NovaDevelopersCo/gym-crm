@@ -1,9 +1,9 @@
 import { useAppSelector } from '@/store'
 import { Typography } from 'antd'
 
-const { Title } = Typography
-
 import styles from './Home.module.scss'
+
+const { Title } = Typography
 
 const Home = () => {
 	const user = useAppSelector(state => state['auth/slice'].user!)
@@ -19,7 +19,6 @@ const Home = () => {
 					<Title level={2}>Ваши задачи</Title>
 				</div>
 			</div>
-
 		</div>
 	)
 }

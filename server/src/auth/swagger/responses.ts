@@ -1,13 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { FullStaff } from '@/modules/staff/swagger'
+import { StaffDto } from '@/modules/staff/swagger'
 
 export class RefreshOk {
 	@ApiProperty({
 		example:
-			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
+			'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+		description: 'Access токен'
 	})
-	accessToken: string
+	private readonly accessToken: string
 
 	@ApiProperty()
-	profile: FullStaff
+	private readonly profile: StaffDto
 }

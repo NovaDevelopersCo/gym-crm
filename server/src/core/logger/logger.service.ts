@@ -10,11 +10,11 @@ export class LoggerService {
 		private readonly logger: Logger
 	) {}
 
-	error(event: string, message: string, status: HttpStatus) {
+	public error(event: string, message: string, status: HttpStatus) {
 		this.logger.log(ELoggerLevels.ERROR, JSON.stringify({ message, status, event }))
 	}
 
-	event(event: string, message: string) {
+	public event(event: string, message: string) {
 		this.logger.log(ELoggerLevels.EVENT, JSON.stringify({ message, event }))
 	}
 }

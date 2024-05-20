@@ -1,39 +1,59 @@
 import { BaseEntity } from '@/core/database/entity'
+import { CommonPropertiesSwagger } from '@/core/swagger'
+import { UserAbonementEntity } from '@/modules/abonement/entities'
 import { ClubEntity } from '@/modules/club/entities'
 import { GroupEntity } from '@/modules/group/entities'
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne } from 'typeorm'
+import { OrderEntity } from '@/modules/order/entities'
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm'
+import { UserPropertiesSwagger } from '../swagger/properties'
 
 @Entity('Users')
 export class UserEntity extends BaseEntity {
+	@CommonPropertiesSwagger.email()
 	@Column({
 		unique: true
 	})
-	email: string
+	public email: string
 
+	@UserPropertiesSwagger.phone()
 	@Column({
 		unique: true
 	})
-	phone: string
+	public phone: string
 
+	@UserPropertiesSwagger.fio()
 	@Column()
-	fio: string
+	public fio: string
 
+	@UserPropertiesSwagger.birthday()
 	@Column({ type: 'date', nullable: true })
-	birthday?: string
+	public birthday: string | null
 
+	@UserPropertiesSwagger.howKnow()
 	@Column({ nullable: true })
-	howKnow?: string
+	public howKnow: string | null
 
+	@UserPropertiesSwagger.instagram()
 	@Column({
 		unique: true,
 		nullable: true
 	})
-	instagram: string
+	public instagram: string | null
 
+	@UserPropertiesSwagger.groups()
 	@ManyToMany(() => GroupEntity, group => group.users)
 	@JoinTable()
-	groups: GroupEntity[]
+	public groups: GroupEntity[]
 
+	@UserPropertiesSwagger.club()
 	@ManyToOne(() => ClubEntity, club => club.users, { onDelete: 'SET NULL' })
-	club: ClubEntity
+	public club: ClubEntity
+
+	@UserPropertiesSwagger.orders()
+	@OneToMany(() => OrderEntity, order => order.user, { cascade: true })
+	public orders: OrderEntity
+
+	@UserPropertiesSwagger.abonements()
+	@OneToMany(() => UserAbonementEntity, abonements => abonements.user)
+	public abonements: UserAbonementEntity[]
 }

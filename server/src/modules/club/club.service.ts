@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common'
-import { ILike, Repository } from 'typeorm'
+import { ILike, In, Repository } from 'typeorm'
 import { ClubEntity } from './entities'
 import { InjectRepository } from '@nestjs/typeorm'
 import { CreateClubDto, UpdateClubDto, FindAllClubDto } from './dto'
@@ -7,8 +7,9 @@ import { StaffService } from '../staff/staff.service'
 import { EStaffRole } from '@/core/enums'
 import { StaffEntity } from '../staff/entities'
 import { DataBaseService } from '@/core/database/database.service'
-import { PaginationDto } from '@/core/pagination'
+import { Pagination } from '@/core/pagination'
 import { LoggerService } from '@/core/logger/logger.service'
+import { skipCount } from '@/core/utils'
 
 @Injectable()
 export class ClubService {
@@ -20,16 +21,20 @@ export class ClubService {
 		private readonly logger: LoggerService
 	) {}
 
-	async getAll({ page, count, q, searchBy, sortBy, sortOrder }: FindAllClubDto) {
+	public async getAll({ page, count, sortBy, sortOrder, address, name, admins }: FindAllClubDto) {
+		// TODO: поменять
+		const where = {}
+		address ? (where['address'] = ILike(`%${address}%`)) : {}
+		name ? (where['name'] = ILike(`%${name}%`)) : {}
+		admins?.length ? (where['admins'] = { id: In(admins) }) : {}
+
 		const [items, total] = await this.clubRepository.findAndCount({
 			order: {
 				[sortBy]: sortOrder
 			},
-			where: {
-				[searchBy]: ILike(`%${q}%`)
-			},
+			where,
 			take: count,
-			skip: page * count - count,
+			skip: skipCount(page, count),
 			relations: {
 				admins: true,
 				groups: true,
@@ -37,10 +42,10 @@ export class ClubService {
 			}
 		})
 
-		return new PaginationDto(items, total)
+		return new Pagination(items, total)
 	}
 
-	async getById(id: number) {
+	public async getById(id: number) {
 		const club = await this.clubRepository.findOne({
 			where: { id },
 			relations: {
@@ -51,25 +56,25 @@ export class ClubService {
 		})
 
 		if (!club) {
-			this.logger.event('Получение клуба по id', `Клуб с id: ${id} не найден`)
 			throw new NotFoundException(`Клуб с id: ${id} не найден`)
 		}
 
 		return club
 	}
 
-	async create(dto: CreateClubDto) {
-		await this.nameCheck(dto.name)
-		await this.addressCheck(dto.address)
-		const admins = await this.adminsFreeCheck(dto.admins)
-		const createClub = this.clubRepository.create({
-			...dto,
-			admins
+	public async create({ name, address, admins }: CreateClubDto) {
+		await this.nameCheck(name)
+		await this.addressCheck(address)
+		const adminsList = await this.adminsFreeCheck(admins)
+		const createdClub = this.clubRepository.create({
+			name,
+			address,
+			admins: adminsList
 		})
-		return this.clubRepository.save(createClub)
+		return this.clubRepository.save(createdClub)
 	}
 
-	async update(id: number, dto: UpdateClubDto) {
+	public async update(id: number, dto: UpdateClubDto) {
 		const club = await this.getById(id)
 
 		await this.nameCheck(dto.name, id)
@@ -85,13 +90,10 @@ export class ClubService {
 			throw new BadRequestException('Ошибка при изменении клуба')
 		}
 
-		// eslint-disable-next-line
-		const { updateDate, createDate, ...data } = updatedClub
-
-		return data
+		return updatedClub
 	}
 
-	async delete(id: number) {
+	public async delete(id: number) {
 		await this.getById(id)
 
 		this.clubRepository.delete({ id })
@@ -152,5 +154,19 @@ export class ClubService {
 			const club = await queryRunner.manager.save(ClubEntity, updatedClub)
 			return club
 		})
+	}
+
+	public async checkClubs(ids: number[]) {
+		const clubs = await this.clubRepository.find({
+			where: {
+				id: In(ids)
+			}
+		})
+
+		if (clubs.length !== ids.length) {
+			throw new BadRequestException('Указан несуществующий клуб')
+		}
+
+		return clubs
 	}
 }

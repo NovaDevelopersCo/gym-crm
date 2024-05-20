@@ -34,7 +34,7 @@ const Pagination: FC<TPaginationProps> = ({ page, limit, total, setPage }) => (
 		current={page}
 		showSizeChanger={false}
 		hideOnSinglePage
-		onChange={(page,) => {
+		onChange={page => {
 			setPage(page)
 		}}
 	/>

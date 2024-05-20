@@ -1,7 +1,7 @@
 import { Navigate, useLocation } from 'react-router-dom'
 
-import { useAppSelector, useRefreshTokenQuery } from '@/store'
 import { FullPageSpinner } from '@/shared'
+import { useAppSelector, useRefreshTokenQuery } from '@/store'
 
 const ProtectedRoute = ({
 	children,

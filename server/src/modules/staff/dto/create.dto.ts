@@ -1,14 +1,14 @@
 import { EStaffRole } from '@/core/enums'
-import { CommonDecoratorsSwagger } from '@/core/swagger'
-import { StaffDecoratorsSwagger } from '../swagger/decorators'
+import { CommonPropertiesSwagger } from '@/core/swagger'
+import { StaffPropertiesSwagger } from '../swagger/properties'
 
 export class CreateStaffDto {
-	@CommonDecoratorsSwagger.password(true)
-	password: string
+	@CommonPropertiesSwagger.password(true)
+	public readonly password: string
 
-	@CommonDecoratorsSwagger.email(true)
-	email: string
+	@CommonPropertiesSwagger.email(true)
+	public readonly email: string
 
-	@StaffDecoratorsSwagger.role(true, true)
-	role: EStaffRole
+	@StaffPropertiesSwagger.roleCreate()
+	public readonly role: EStaffRole
 }

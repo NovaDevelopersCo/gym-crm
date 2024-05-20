@@ -3,7 +3,7 @@ import { IsEnum, IsOptional } from 'class-validator'
 import { ESortOrder } from '../enums'
 
 class ASortDto {
-	sortBy: string
+	public readonly sortBy: string
 }
 
 export class SortDto extends ASortDto {
@@ -15,5 +15,5 @@ export class SortDto extends ASortDto {
 	})
 	@IsOptional()
 	@IsEnum(ESortOrder, { message: "Параметр 'Порядок сортировки' невалиден" })
-	sortOrder: 'ASC' | 'DESC' = ESortOrder.ASC
+	public readonly sortOrder: 'ASC' | 'DESC' = ESortOrder.ASC
 }

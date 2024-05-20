@@ -1,18 +1,39 @@
 import { BaseEntity } from '@/core/database/entity'
-import { EAbonementStatus } from '@/core/enums'
-import { UserEntity } from '@/modules/user/entities'
-import { Column, Entity, JoinColumn, OneToOne } from 'typeorm'
+import { Column, Entity, JoinTable, ManyToMany, OneToMany } from 'typeorm'
+import { UserAbonementEntity } from './user-abonement.entity'
+import { ClubEntity } from '@/modules/club/entities'
+import { AbonementPropertiesSwagger } from '../swagger/properties'
 
 @Entity('Abonement')
 export class AbonementEntity extends BaseEntity {
-	@OneToOne(() => UserEntity)
-	@JoinColumn()
-	user: UserEntity
+	@AbonementPropertiesSwagger.price()
+	@Column()
+	public readonly price: number
 
+	@AbonementPropertiesSwagger.name_()
 	@Column({
-		type: 'enum',
-		enum: EAbonementStatus,
-		default: EAbonementStatus.NOT_BUY
+		unique: true
 	})
-	status: EAbonementStatus
+	public readonly name: string
+
+	@AbonementPropertiesSwagger.count()
+	@Column({
+		nullable: true
+	})
+	public readonly count: number | null
+
+	@AbonementPropertiesSwagger.duration()
+	@Column({
+		nullable: true
+	})
+	public readonly duration: string | null
+
+	@AbonementPropertiesSwagger.userAbonements()
+	@OneToMany(() => UserAbonementEntity, userAbonement => userAbonement.abonement)
+	public readonly userAbonements: UserAbonementEntity[]
+
+	@AbonementPropertiesSwagger.clubs()
+	@ManyToMany(() => ClubEntity)
+	@JoinTable()
+	public readonly clubs: ClubEntity[]
 }

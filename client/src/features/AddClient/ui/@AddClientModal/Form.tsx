@@ -1,13 +1,14 @@
 import { Controller, useForm } from 'react-hook-form'
 
 import { Button, Input, TextArea } from '@/shared'
+import { CreateClientDto, useCreateClientMutation } from '@/store'
 import { Typography } from 'antd'
+
+// eslint-disable-next-line
+import { SelectClub, SelectGroup } from '@features/Select'
 
 import cl from './Form.module.scss'
 import { newClientFormFields } from './form.data'
-import { CreateClientDto, useCreateClientMutation } from '@/store'
-// eslint-disable-next-line
-import { SelectClub, SelectGroup } from '@features/Select'
 
 const { Title } = Typography
 
@@ -48,8 +49,15 @@ const Form = () => {
 							}
 							return (
 								<>
-									{field.name == 'club' && <SelectClub {...props} />}
-									{field.name == 'groups' && <SelectGroup {...props} mode="multiple" />}
+									{field.name == 'club' && (
+										<SelectClub {...props} />
+									)}
+									{field.name == 'groups' && (
+										<SelectGroup
+											{...props}
+											mode='multiple'
+										/>
+									)}
 									{/* <Select
 										field={field}
 										placeholder={i.label}
