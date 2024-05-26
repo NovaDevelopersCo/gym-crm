@@ -1,6 +1,7 @@
 import { combineSlices, configureStore } from '@reduxjs/toolkit'
 
 import {
+	abonementsApi,
 	authApi,
 	authSlice,
 	clientApi,
@@ -19,7 +20,8 @@ const rootReducer = combineSlices(
 	clubsApi,
 	directionsApi,
 	groupsApi,
-	staffApi
+	staffApi,
+	abonementsApi
 )
 
 export const setupStore = () => {
@@ -32,7 +34,8 @@ export const setupStore = () => {
 				directionsApi.middleware,
 				groupsApi.middleware,
 				staffApi.middleware,
-				clientApi.middleware
+				clientApi.middleware,
+				abonementsApi.middleware
 			])
 	})
 }
