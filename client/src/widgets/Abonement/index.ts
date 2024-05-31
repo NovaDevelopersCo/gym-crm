@@ -1,1 +1,1 @@
-export * from './ui/AbonementForm'
+export { default as AbonementForm } from './ui/AbonementForm'
