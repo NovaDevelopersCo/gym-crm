@@ -1,4 +1,5 @@
 import abonementsToParams from './abonementsToParams'
+import clientsToParams from './clientsToParams'
 import clubsToParams from './clubsToParams'
 import directionsToParams from './directionsToParams'
 import groupsToParams from './groupsToParams'
@@ -9,5 +10,6 @@ export {
 	staffsToParams,
 	directionsToParams,
 	groupsToParams,
-	abonementsToParams
+	abonementsToParams,
+	clientsToParams
 }
