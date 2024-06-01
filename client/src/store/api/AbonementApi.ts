@@ -1,4 +1,9 @@
-import { CreateAbonementDto, IAbonement, RootState } from '@/store'
+import {
+	CreateAbonementDto,
+	GetItemsResponse,
+	IAbonement,
+	RootState
+} from '@/store'
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 const baseQuery = fetchBaseQuery({
@@ -29,8 +34,15 @@ export const abonementApi = createApi({
 				body: abonementDto
 			}),
 			invalidatesTags: ['ABONEMENT']
+		}),
+		getAbonements: build.query<GetItemsResponse<IAbonement>, void>({
+			query: () => ({
+				url: ''
+			}),
+			providesTags: ['ABONEMENT']
 		})
 	})
 })
 
-export const { useCreateAbonementMutation } = abonementApi
+export const { useCreateAbonementMutation, useGetAbonementsQuery } =
+	abonementApi
