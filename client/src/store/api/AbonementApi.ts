@@ -1,4 +1,6 @@
 import {
+	BuyAbonementDto,
+	BuyAbonementResponse,
 	CreateAbonementDto,
 	GetItemsResponse,
 	IAbonement,
@@ -40,9 +42,20 @@ export const abonementApi = createApi({
 				url: ''
 			}),
 			providesTags: ['ABONEMENT']
+		}),
+		buyAbonement: build.mutation<BuyAbonementResponse, BuyAbonementDto>({
+			query: abonementDto => ({
+				method: 'POST',
+				url: '/user',
+				body: abonementDto
+			}),
+			invalidatesTags: ['ABONEMENT']
 		})
 	})
 })
 
-export const { useCreateAbonementMutation, useGetAbonementsQuery } =
-	abonementApi
+export const {
+	useCreateAbonementMutation,
+	useGetAbonementsQuery,
+	useBuyAbonementMutation
+} = abonementApi

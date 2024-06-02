@@ -4,6 +4,7 @@ import { Button, Input } from '@/shared'
 import { CreateAbonementDto, useCreateAbonementMutation } from '@/store'
 import { Form } from 'antd'
 
+// eslint-disable-next-line
 import { SelectClub } from '@features/Select'
 
 import { abonementFieldsArr } from './AbonementForm.data'
@@ -35,7 +36,6 @@ const AbonementForm = () => {
 
 	const onFinishFailed = (errorInfo: unknown) => {
 		console.log('Failed:', errorInfo)
-		console.log(result)
 	}
 
 	return (
